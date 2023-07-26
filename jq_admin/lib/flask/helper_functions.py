@@ -213,7 +213,7 @@ def generate_response(prompt, string_json):
     conversation_str = ''.join([f'{item["role"]}: {item["content"]}\n' for item in conversation])
 
     response = openai.ChatCompletion.create(
-      model="gpt-4",
+      model="gpt-3.5-turbo",
       messages=conversation,
       temperature=1,
       max_tokens=1000,

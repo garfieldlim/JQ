@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -16,6 +17,8 @@ class _LoginPageState extends State<LoginPage> {
   final _formKey = GlobalKey<FormState>();
   String _email = '';
   String _password = '';
+
+  final _auth = FirebaseAuth.instance;
 
   @override
   Widget build(BuildContext context) {
@@ -44,16 +47,17 @@ class _LoginPageState extends State<LoginPage> {
                   alignment: Alignment.bottomCenter,
                   border: 2,
                   linearGradient: LinearGradient(
-                      begin: Alignment.topLeft,
-                      end: Alignment.bottomRight,
-                      colors: [
-                        Color(0xFFeeeeee).withOpacity(0.1),
-                        Color(0xFFeeeeee).withOpacity(0.01),
-                      ],
-                      stops: [
-                        0.1,
-                        1,
-                      ]),
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                    colors: [
+                      Color(0xFFeeeeee).withOpacity(0.1),
+                      Color(0xFFeeeeee).withOpacity(0.01),
+                    ],
+                    stops: [
+                      0.1,
+                      1,
+                    ],
+                  ),
                   borderGradient: LinearGradient(
                     begin: Alignment.topLeft,
                     end: Alignment.bottomRight,
@@ -144,17 +148,35 @@ class _LoginPageState extends State<LoginPage> {
                         child: Text('Login',
                             style: TextStyle(
                                 color: Color.fromARGB(255, 255, 223, 107))),
-                        onPressed: () {
+                        onPressed: () async {
                           if (_formKey.currentState!.validate()) {
                             // If the form is valid, proceed with login
-                            // You would call Firebase authentication methods here
-                            print('Email: $_email');
-                            print('Password: $_password');
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => UpsertingPage()),
-                            );
+                            try {
+                              // Sign in the user with Firebase Authentication
+                              final userCredentials =
+                                  await _auth.signInWithEmailAndPassword(
+                                email: _email,
+                                password: _password,
+                              );
+
+                              if (userCredentials.user != null) {
+                                // Login successful, navigate to the home page or any other desired page
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => UpsertingPage()),
+                                );
+                              } else {
+                                // Handle login failure, show an error message if necessary
+                                // For example: Show a snackbar or a dialog box with an error message
+                                print(
+                                    'Login failed. User credentials are null.');
+                              }
+                            } catch (e) {
+                              // Handle login failure, show an error message if necessary
+                              // For example: Show a snackbar or a dialog box with an error message
+                              print('Login failed: $e');
+                            }
                           }
                         },
                       ),
