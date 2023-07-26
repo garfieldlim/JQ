@@ -9,7 +9,8 @@ from openai.embeddings_utils import get_embedding
 import time
 from tqdm import tqdm
 import fasttext
-openai.api_key = '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'
+import joblib
+openai.api_key = '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'
 collections_list = [
     'text_collection',
     'author_collection',
@@ -229,6 +230,41 @@ def generate_response(prompt, string_json):
     return generated_text
 def ranking_partitions(vectors):
     return ['social_posts_partition', 'documents_partition', 'people_partition', "contacts_partition"]
+clf_attribute = joblib.load('jq_admin/lib/models/clf_attribute.pkl')
+clf_partition = joblib.load('jq_admin/lib/models/clf_partition.pkl')
+
+# load encoders
+le_attribute = joblib.load('jq_admin/lib/models/le_attribute.pkl')
+le_partition = joblib.load('jq_admin/lib/models/le_partition.pkl')
+
+def predict_attribute(embeds):
+    # transform input to the right format
+    X = np.stack([embeds])
+
+    # predict probabilities across all possible labels
+    probas = clf_attribute.predict_proba(X)[0]
+
+    # get class labels in descending order of probability
+    classes = clf_attribute.classes_
+    ranked_classes = [x for _, x in sorted(zip(probas, classes), reverse=True)]
+
+    # return the names instead of the encoded labels
+    return le_attribute.inverse_transform(ranked_classes)
+
+def predict_partition(embeds):
+    # transform input to the right format
+    X = np.stack([embeds])
+
+    # predict probabilities across all possible labels
+    probas = clf_partition.predict_proba(X)[0]
+
+    # get class labels in descending order of probability
+    classes = clf_partition.classes_
+    ranked_classes = [x for _, x in sorted(zip(probas, classes), reverse=True)]
+
+    # return the names instead of the encoded labels
+    return le_partition.inverse_transform(ranked_classes)
+
 def question_answer():
     while True:
         try:
@@ -246,7 +282,6 @@ def question_answer():
                 continue
             partition = 0
             correct = 0
-            display(ranked_partitions[partition])
             while correct != 1:
                 results_dict = search_collections(vectors, [ranked_partitions[partition]])
                 if results_dict is None:
