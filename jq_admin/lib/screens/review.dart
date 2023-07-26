@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:jq_admin/screens/homepage.dart';
+import 'package:jq_admin/screens/query.dart';
 
 class ReviewPage extends StatefulWidget {
   final String schema;
@@ -69,7 +70,7 @@ class _ReviewPageState extends State<ReviewPage> {
                   onPressed: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => UpsertingPage()),
+                      MaterialPageRoute(builder: (context) => HomePage()),
                     );
                     print('Schema: ${widget.schema}');
                     print('Data: ${_dataController.text}');

@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
@@ -18,8 +19,7 @@ class _HomePageState extends State<HomePage> {
       messages.add(ChatMessage(text: message, isUserMessage: true));
     });
 
-    final url = Uri.parse(
-        'http://192.168.68.110:7999/query'); // Endpoint changed to match Flask setup
+    final url = Uri.parse('http://192.168.68.112:7999/query');
     final headers = {'Content-Type': 'application/json'};
     final body = jsonEncode({'question': message});
 
@@ -27,10 +27,23 @@ class _HomePageState extends State<HomePage> {
       final response = await http.post(url, headers: headers, body: body);
       if (response.statusCode == 200) {
         final data = jsonDecode(response.body);
-        print(data);
         final responseData = data['response'] as String;
         setState(() {
           messages.add(ChatMessage(text: responseData, isUserMessage: false));
+        });
+
+        // Save the chat messages in Cloud Firestore
+        final collection =
+            FirebaseFirestore.instance.collection('chat_messages');
+        collection.add({
+          'text': message,
+          'isUserMessage': true,
+          'timestamp': DateTime.now().toUtc(),
+        });
+        collection.add({
+          'text': responseData,
+          'isUserMessage': false,
+          'timestamp': DateTime.now().toUtc(),
         });
       } else {
         print('Error: ${response.statusCode}');
