@@ -3,11 +3,11 @@ import 'package:josenian_quiri/screens/query.dart';
 
 class ReviewPage extends StatefulWidget {
   final String schema;
-  final String data;
+  final String? data; // data can now be nullable
 
   ReviewPage(
       {required this.schema,
-      required this.data,
+      this.data, // remove 'required' keyword here
       Key? key,
       required String filePath})
       : super(key: key);
@@ -17,12 +17,16 @@ class ReviewPage extends StatefulWidget {
 }
 
 class _ReviewPageState extends State<ReviewPage> {
-  TextEditingController _dataController = TextEditingController();
+  late TextEditingController
+      _dataController; // declare the controller without initializing
 
   @override
   void initState() {
     super.initState();
-    _dataController.text = widget.data;
+    // only initialize the controller if widget.data is not null
+    if (widget.data != null) {
+      _dataController = TextEditingController(text: widget.data);
+    }
   }
 
   @override
@@ -45,14 +49,16 @@ class _ReviewPageState extends State<ReviewPage> {
             children: <Widget>[
               Text('Schema: ${widget.schema}'),
               SizedBox(height: 20),
-              TextField(
-                controller: _dataController,
-                maxLines: 5,
-                decoration: InputDecoration(
-                  border: OutlineInputBorder(),
-                  labelText: 'Data',
+              // only create the TextField if widget.data is not null
+              if (widget.data != null)
+                TextField(
+                  controller: _dataController,
+                  maxLines: 5,
+                  decoration: InputDecoration(
+                    border: OutlineInputBorder(),
+                    labelText: 'Data',
+                  ),
                 ),
-              ),
               SizedBox(height: 35),
               Center(
                 child: ElevatedButton(
@@ -77,3 +83,4 @@ class _ReviewPageState extends State<ReviewPage> {
     );
   }
 }
+ 
