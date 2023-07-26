@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:glassmorphism/glassmorphism.dart';
-
+import 'package:http/http.dart' as http;
 import 'review.dart';
 
 class UpsertingPage extends StatefulWidget {
@@ -11,9 +11,12 @@ class UpsertingPage extends StatefulWidget {
 }
 
 class _UpsertingPageState extends State<UpsertingPage> {
+  final _urlController = TextEditingController();
+
   String? _selectedSchema;
   String? _fileContent;
   String _fileName = 'No file uploaded';
+  String? _scrapedData;
 
   Future<void> _pickFile() async {
     FilePickerResult? result = await FilePicker.platform.pickFiles(
@@ -28,6 +31,28 @@ class _UpsertingPageState extends State<UpsertingPage> {
       print('Content of the file: $_fileContent');
     } else {
       print('No file picked');
+    }
+  }
+
+  Future<void> _sendUrlToServer() async {
+    var url = Uri.parse('http://127.0.0.1:5000/scrape_website');
+    var response = await http.post(
+      url,
+      body: jsonEncode(
+        <String, String>{
+          'url': _urlController.text,
+        },
+      ),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+    );
+
+    if (response.statusCode == 200) {
+      _scrapedData = response.body;
+      print('Server call successful. Response: ${response.body}');
+    } else {
+      print('Failed to make server call. Status: ${response.statusCode}.');
     }
   }
 
@@ -96,7 +121,15 @@ class _UpsertingPageState extends State<UpsertingPage> {
                     hint: Text('Choose Schema',
                         style: TextStyle(color: Colors.white, fontSize: 20)),
                   ),
-                  SizedBox(height: 160),
+                  SizedBox(height: 30),
+                  TextField(
+                    controller: _urlController,
+                    decoration: InputDecoration(
+                      border: OutlineInputBorder(),
+                      labelText: 'Enter Facebook URL',
+                    ),
+                  ),
+                  SizedBox(height: 20),
                   Center(
                     child: ElevatedButton(
                       child: const Text('Upload Data File',
@@ -106,20 +139,27 @@ class _UpsertingPageState extends State<UpsertingPage> {
                   ),
                   SizedBox(height: 20),
                   Center(child: Text(_fileName)),
-                  SizedBox(height: 20),
                   SizedBox(height: 35),
                   Center(
                     child: ElevatedButton(
                       child: const Text('Continue',
                           style: TextStyle(fontSize: 18)),
                       onPressed: () {
-                        if (_selectedSchema != null && _fileContent != null) {
+                        if (_selectedSchema != null &&
+                            (_fileContent != null ||
+                                _urlController.text.isNotEmpty)) {
+                          if (_urlController.text.isNotEmpty) {
+                            _sendUrlToServer();
+                          }
+
                           Navigator.push(
                             context,
                             MaterialPageRoute(
                               builder: (context) => ReviewPage(
                                 schema: _selectedSchema!,
-                                data: _fileContent!,
+                                data: _urlController.text.isNotEmpty
+                                    ? _scrapedData!
+                                    : _fileContent!,
                                 filePath: '',
                               ),
                             ),
