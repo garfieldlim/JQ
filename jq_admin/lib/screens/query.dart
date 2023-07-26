@@ -18,7 +18,8 @@ class _HomePageState extends State<HomePage> {
       messages.add(ChatMessage(text: message, isUserMessage: true));
     });
 
-    final url = Uri.parse('http://192.168.68.110:7999/search');
+    final url = Uri.parse(
+        'http://192.168.68.110:7999/query'); // Endpoint changed to match Flask setup
     final headers = {'Content-Type': 'application/json'};
     final body = jsonEncode({'question': message});
 
@@ -26,6 +27,7 @@ class _HomePageState extends State<HomePage> {
       final response = await http.post(url, headers: headers, body: body);
       if (response.statusCode == 200) {
         final data = jsonDecode(response.body);
+        print(data);
         final responseData = data['response'] as String;
         setState(() {
           messages.add(ChatMessage(text: responseData, isUserMessage: false));

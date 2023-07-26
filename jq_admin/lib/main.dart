@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:querying/screens/query.dart';
+import 'package:jq_admin/screens/login.dart';
+import 'package:jq_admin/screens/query.dart';
+import 'package:jq_admin/screens/splashscreen.dart';
+import 'package:jq_admin/screens/homepage.dart';
+import 'package:jq_admin/screens/review.dart';
 
 void main() {
   runApp(MyApp());
