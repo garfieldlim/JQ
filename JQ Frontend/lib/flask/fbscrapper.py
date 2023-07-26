@@ -17,7 +17,7 @@ def scrape_facebook():
     post_id = url.split('/')[-2]  # extract post id from url
 
     try:
-        post = get_post(post_id, options={"cookies": "path/to/your/cookies.json"})
+        post = get_post(post_id, options={"cookies": "C:Users/Jillian/Documents/scrape/cookies.json"})
         print(f"Scraped data: {post}")  # Log the scraped data
         return jsonify(post), 200
     except Exception as e:
