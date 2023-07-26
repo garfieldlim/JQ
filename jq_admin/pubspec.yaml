@@ -1,4 +1,4 @@
-name: querying
+name: jq_admin
 description: A new Flutter project.
 # The following line prevents the package from being accidentally published to
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
@@ -19,7 +19,7 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 version: 1.0.0+1
 
 environment:
-  sdk: ">=2.16.0 <3.0.0"
+  sdk: '>=3.0.5 <4.0.0'
 
 # Dependencies specify other packages that your package needs in order to work.
 # To automatically upgrade your package dependencies to the latest versions
@@ -31,11 +31,15 @@ dependencies:
   flutter:
     sdk: flutter
 
+
+  # The following adds the Cupertino Icons font to your application.
+  # Use with the CupertinoIcons class for iOS style icons.
   http: ^0.13.3
   flutter_inappwebview: ^5.3.2
   cupertino_icons: ^1.0.2
+  file_picker: ^5.3.2
   glassmorphism: ^3.0.0
-  file_picker: ^5.3.3
+  
 
 dev_dependencies:
   flutter_test:
@@ -60,9 +64,12 @@ flutter:
   uses-material-design: true
 
   # To add assets to your application, add an assets section, like this:
-  # assets:
-  #   - images/a_dot_burr.jpeg
-  #   - images/a_dot_ham.jpeg
+  assets:
+    - web/assets/bg.png
+    - web/assets/jq.png
+    - web/assets/logo.gif
+    - web/assets/logo2.png
+
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
