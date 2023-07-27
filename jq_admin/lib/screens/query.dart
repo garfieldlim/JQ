@@ -113,6 +113,28 @@ class _HomePageState extends State<HomePage> {
     }
   }
 
+// Function to handle liking or disliking a response
+  void handleLikeDislike(int index, bool isLiked) {
+    setState(() {
+      if (isLiked) {
+        // If liked, set liked to true and disliked to false
+        messages[index].liked = true;
+        messages[index].disliked = false;
+      } else {
+        // If disliked, set disliked to true and liked to false
+        messages[index].liked = false;
+        messages[index].disliked = true;
+      }
+    });
+
+    // Update the Firestore database with the like/dislike status
+    final collection = FirebaseFirestore.instance.collection('chat_messages');
+    collection.doc(messages[index].id).update({
+      'liked': isLiked,
+      'disliked': !isLiked,
+    });
+  }
+
   @override
   void dispose() {
     textController.dispose();
@@ -229,7 +251,7 @@ class ChatMessage {
   final bool isUserMessage;
   bool liked; // New field to store like status
   bool disliked; // New field to store dislike status
-  String? id; // Document ID in Firestore
+  String? id;
 
   ChatMessage({
     required this.text,
