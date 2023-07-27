@@ -70,6 +70,8 @@ class _HomePageState extends State<HomePage> {
           'text': responseData,
           'isUserMessage': false,
           'timestamp': DateTime.now().toUtc(),
+          'liked': false, // Initialize liked status as false
+          'disliked': false, // Initialize disliked status as false
         });
       } else {
         print('Error: ${response.statusCode}');
@@ -87,6 +89,28 @@ class _HomePageState extends State<HomePage> {
       currentPartition = 0;
       sendMessage(message.text, partition: currentPartition);
     }
+  }
+
+// Function to handle liking or disliking a response
+  void handleLikeDislike(int index, bool isLiked) {
+    setState(() {
+      if (isLiked) {
+        // If liked, set liked to true and disliked to false
+        messages[index].liked = true;
+        messages[index].disliked = false;
+      } else {
+        // If disliked, set disliked to true and liked to false
+        messages[index].liked = false;
+        messages[index].disliked = true;
+      }
+    });
+
+    // Update the Firestore database with the like/dislike status
+    final collection = FirebaseFirestore.instance.collection('chat_messages');
+    collection.doc(messages[index].id).update({
+      'liked': isLiked,
+      'disliked': !isLiked,
+    });
   }
 
   @override
@@ -203,6 +227,15 @@ class _HomePageState extends State<HomePage> {
 class ChatMessage {
   final String text;
   final bool isUserMessage;
+  bool liked; // New field to store like status
+  bool disliked; // New field to store dislike status
+  String? id;
 
-  ChatMessage({required this.text, required this.isUserMessage});
+  ChatMessage({
+    required this.text,
+    required this.isUserMessage,
+    this.liked = false,
+    this.disliked = false,
+    this.id,
+  });
 }
