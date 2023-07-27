@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+import 'package:flutter/cupertino.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -13,21 +14,46 @@ class _HomePageState extends State<HomePage> {
     ChatMessage(text: "How may I help you?", isUserMessage: false),
   ];
   TextEditingController textController = TextEditingController();
+  int currentPartition = 0;
+  bool isLoading =
+      false; // Added a state variable for tracking the loading state
 
-  Future<void> sendMessage(String message) async {
-    setState(() {
-      messages.add(ChatMessage(text: message, isUserMessage: true));
+  Future<void> sendMessage(String message, {int? partition}) async {
+    // if partition is null
+    if (partition == null) {
+      setState(() {
+        messages.add(ChatMessage(text: message, isUserMessage: true));
+      });
+    }
+
+    final url = Uri.parse('http://192.168.68.110:7999/query');
+    final headers = {'Content-Type': 'application/json'};
+    final body = jsonEncode({
+      'question': message,
+      'partition': partition ?? currentPartition,
     });
 
-    final url = Uri.parse('http://192.168.68.112:7999/query');
-    final headers = {'Content-Type': 'application/json'};
-    final body = jsonEncode({'question': message});
+    setState(() {
+      isLoading = true; // Set loading state to true before sending the request
+    });
 
     try {
       final response = await http.post(url, headers: headers, body: body);
+
+      // Remove last message after receiving the response
+      if (messages.length > 0 && partition != null) {
+        messages.removeLast();
+      }
+
+      setState(() {
+        isLoading =
+            false; // Set loading state to false after receiving the response
+      });
+
       if (response.statusCode == 200) {
-        final data = jsonDecode(response.body);
-        final responseData = data['response'] as String;
+        var data = jsonDecode(response.body);
+        var responseData = data['response'] as String;
+
         setState(() {
           messages.add(ChatMessage(text: responseData, isUserMessage: false));
         });
@@ -77,6 +103,16 @@ class _HomePageState extends State<HomePage> {
     });
   }
 
+  Future<void> regenerateMessage(ChatMessage message) async {
+    if (currentPartition < 2) {
+      currentPartition += 1;
+      sendMessage(message.text, partition: currentPartition);
+    } else {
+      currentPartition = 0;
+      sendMessage(message.text, partition: currentPartition);
+    }
+  }
+
   @override
   void dispose() {
     textController.dispose();
@@ -89,39 +125,65 @@ class _HomePageState extends State<HomePage> {
       backgroundColor: Color(0xffFBDFA4),
       appBar: AppBar(
         backgroundColor: Color(0xffE5AA33),
-        leading: Image.network('assets/logo2.png'),
+        leadingWidth: MediaQuery.of(context)
+            .size
+            .width, // Allow leading widget to take up all available space
+        leading: Center(
+          child: Image.network('assets/logo.gif'),
+        ),
+        toolbarHeight: 200, // Set height of AppBar
       ),
       body: Column(
         children: [
           Expanded(
             child: ListView.builder(
+              shrinkWrap: true,
               itemCount: messages.length,
               itemBuilder: (context, index) {
                 final message = messages[index];
-                return Container(
-                  margin: EdgeInsets.all(20),
-                  child: Row(
-                    mainAxisAlignment: message.isUserMessage
-                        ? MainAxisAlignment.end
-                        : MainAxisAlignment.start,
-                    children: [
-                      Container(
-                        padding: EdgeInsets.all(16),
-                        decoration: BoxDecoration(
-                          color: message.isUserMessage
-                              ? Color(0xffE5AA33)
-                              : Color(0xff008400),
-                          borderRadius: BorderRadius.circular(25),
-                        ),
-                        child: Text(
-                          message.text,
-                          style: TextStyle(
-                            color: Colors.white,
+                bool isLastMessage = index == messages.length - 1;
+
+                return Column(
+                  children: [
+                    Container(
+                      margin: EdgeInsets.all(20),
+                      child: Row(
+                        mainAxisAlignment: message.isUserMessage
+                            ? MainAxisAlignment.end
+                            : MainAxisAlignment.start,
+                        children: [
+                          Flexible(
+                            // This is the modification
+                            child: Container(
+                              padding: EdgeInsets.all(16),
+                              decoration: BoxDecoration(
+                                color: message.isUserMessage
+                                    ? Color(0xffE5AA33)
+                                    : Color(0xff008400),
+                                borderRadius: BorderRadius.circular(25),
+                              ),
+                              child: Text(
+                                message.text,
+                                style: TextStyle(
+                                  color: Colors.white,
+                                ),
+                              ),
+                            ),
                           ),
-                        ),
+                        ],
                       ),
-                    ],
-                  ),
+                    ),
+                    if (isLastMessage && !message.isUserMessage && index != 0)
+                      isLoading
+                          ? CircularProgressIndicator()
+                          : TextButton(
+                              // Show CircularProgressIndicator if loading
+                              onPressed: () {
+                                regenerateMessage(message);
+                              },
+                              child: Text('Regenerate'),
+                            ),
+                  ],
                 );
               },
             ),
@@ -146,6 +208,8 @@ class _HomePageState extends State<HomePage> {
                   onPressed: () {
                     final message = textController.text;
                     textController.clear();
+                    currentPartition =
+                        0; // Reset partition when new message is sent
                     sendMessage(message);
                   },
                   icon: Icon(Icons.send),
