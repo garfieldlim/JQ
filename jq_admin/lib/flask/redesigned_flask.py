@@ -6,7 +6,7 @@ from flask_cors import CORS
 app = Flask(__name__)
 CORS(app)  # This will enable CORS for all routes
 
-@app.route('/query', methods=['POST'])
+@app.route('/query', methods=['POST','OPTIONS'])
 def question_answer():
     prompt = request.json['question']
     

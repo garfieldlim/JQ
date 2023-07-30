@@ -1,4 +1,5 @@
 from flask import Flask, jsonify, request
+from flask_cors import CORS 
 from datetime import datetime
 import openai
 import json
@@ -6,9 +7,10 @@ import numpy as np
 from pymilvus import connections, Collection
 
 app = Flask(__name__)
+CORS(app)
 
 # Constants
-OPENAI_API_KEY = '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'
+OPENAI_API_KEY = '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'
 embedding_model = "text-embedding-ada-002"
 embedding_encoding = "cl100k_base"
 max_tokens = 8000
@@ -68,6 +70,7 @@ def perform_search(query_vectors):
     for name in collection_names:
         collection = Collection(f"{name}_collection")
         collection.load()
+        print(f'Partitions in {collection_names} collection:', collection.partitions)
         result = collection.search(
             data=query_vectors,
             anns_field="embeds",
