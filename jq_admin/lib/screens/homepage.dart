@@ -152,20 +152,20 @@ class _UpsertingPageState extends State<UpsertingPage> {
                             _sendUrlToServer();
                           }
 
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => ReviewPage(
-                                schema: _selectedSchema!,
-                                data: _urlController.text.isNotEmpty
-                                    ? _scrapedData!
-                                    : _fileContent!,
-                                filePath: '',
-                              ),
-                            ),
-                          );
-                        } else {
-                          print('Please choose a schema and provide the data');
+                          //   Navigator.push(
+                          //   //   context,
+                          //   //   MaterialPageRoute(
+                          //   //     // builder: (context) => ReviewPage(
+                          //   //     //   schema: _selectedSchema!,
+                          //   //     //   data: _urlController.text.isNotEmpty
+                          //   //     //       ? _scrapedData!
+                          //   //     //       : _fileContent!,
+                          //   //     //   filePath: '',
+                          //   //     // ),
+                          //   //   ),
+                          //   // );
+                          // } else {
+                          //   print('Please choose a schema and provide the data');
                         }
                       },
                     ),

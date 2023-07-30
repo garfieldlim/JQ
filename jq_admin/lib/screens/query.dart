@@ -1,8 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:glassmorphism/glassmorphism.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter_linkify/flutter_linkify.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -26,7 +29,7 @@ class _HomePageState extends State<HomePage> {
       });
     }
 
-    final url = Uri.parse('http://192.168.68.110:7999/query');
+    final url = Uri.parse('http://192.168.68.103:7999/query');
     final headers = {'Content-Type': 'application/json'};
     final body = jsonEncode({
       'question': message,
@@ -114,26 +117,6 @@ class _HomePageState extends State<HomePage> {
   }
 
 // Function to handle liking or disliking a response
-  void handleLikeDislike(int index, bool isLiked) {
-    setState(() {
-      if (isLiked) {
-        // If liked, set liked to true and disliked to false
-        messages[index].liked = true;
-        messages[index].disliked = false;
-      } else {
-        // If disliked, set disliked to true and liked to false
-        messages[index].liked = false;
-        messages[index].disliked = true;
-      }
-    });
-
-    // Update the Firestore database with the like/dislike status
-    final collection = FirebaseFirestore.instance.collection('chat_messages');
-    collection.doc(messages[index].id).update({
-      'liked': isLiked,
-      'disliked': !isLiked,
-    });
-  }
 
   @override
   void dispose() {
@@ -143,104 +126,168 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Color(0xffFBDFA4),
-      appBar: AppBar(
-        backgroundColor: Color(0xffE5AA33),
-        leadingWidth: MediaQuery.of(context)
-            .size
-            .width, // Allow leading widget to take up all available space
-        leading: Center(
-          child: Image.network('assets/logo.gif'),
-        ),
-        toolbarHeight: 200, // Set height of AppBar
-      ),
-      body: Column(
-        children: [
-          Expanded(
-            child: ListView.builder(
-              shrinkWrap: true,
-              itemCount: messages.length,
-              itemBuilder: (context, index) {
-                final message = messages[index];
-                bool isLastMessage = index == messages.length - 1;
-
-                return Column(
-                  children: [
-                    Container(
-                      margin: EdgeInsets.all(20),
-                      child: Row(
-                        mainAxisAlignment: message.isUserMessage
-                            ? MainAxisAlignment.end
-                            : MainAxisAlignment.start,
-                        children: [
-                          Flexible(
-                            // This is the modification
-                            child: Container(
-                              padding: EdgeInsets.all(16),
-                              decoration: BoxDecoration(
-                                color: message.isUserMessage
-                                    ? Color(0xffE5AA33)
-                                    : Color(0xff008400),
-                                borderRadius: BorderRadius.circular(25),
-                              ),
-                              child: Text(
-                                message.text,
-                                style: TextStyle(
-                                  color: Colors.white,
-                                ),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    if (isLastMessage && !message.isUserMessage && index != 0)
-                      isLoading
-                          ? CircularProgressIndicator()
-                          : TextButton(
-                              // Show CircularProgressIndicator if loading
-                              onPressed: () {
-                                regenerateMessage(message);
-                              },
-                              child: Text('Regenerate'),
-                            ),
-                  ],
-                );
-              },
+    return SafeArea(
+      child: Scaffold(
+        extendBodyBehindAppBar: true,
+        appBar: AppBar(
+          titleSpacing: 0.0,
+          backgroundColor: Colors.transparent,
+          // leadingWidth: MediaQuery.of(context).size.width,
+          title: GlassmorphicContainer(
+            height: 100, // match AppBar height
+            width: 3500,
+            borderRadius: 1,
+            blur: 15,
+            alignment: Alignment.center,
+            border: 1.5,
+            linearGradient: LinearGradient(
+              colors: [
+                Colors.white.withOpacity(0.2),
+                Colors.white.withOpacity(0.1),
+              ],
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
             ),
-          ),
-          Divider(height: 1, color: Color(0xffA89E9E)),
-          Container(
-            color: Color(0xffFBDFA4),
-            padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-            child: Row(
-              children: [
-                Expanded(
-                  child: TextField(
-                    controller: textController,
-                    decoration: InputDecoration(
-                      hintText: 'Type your message...',
-                      hintStyle: TextStyle(color: const Color(0xff8A8A8A)),
-                      border: InputBorder.none,
-                    ),
-                  ),
-                ),
-                IconButton(
-                  onPressed: () {
-                    final message = textController.text;
-                    textController.clear();
-                    currentPartition =
-                        0; // Reset partition when new message is sent
-                    sendMessage(message);
-                  },
-                  icon: Icon(Icons.send),
-                  color: Colors.white,
-                ),
+            borderGradient: LinearGradient(
+              colors: [
+                Colors.white.withOpacity(0.5),
+                Colors.white.withOpacity(0.5),
               ],
             ),
+            child: Center(
+              child: Image.network('assets/logo.gif'),
+            ),
           ),
-        ],
+
+          toolbarHeight: 95, // Set height of AppBar
+        ),
+        body: Container(
+          width: 1500,
+          decoration: BoxDecoration(
+            image: DecorationImage(
+              image: NetworkImage(
+                  "assets/bg2.png"), // Replace with your image file
+              fit: BoxFit.cover,
+            ),
+          ),
+          child: Column(
+            children: [
+              Expanded(
+                child: ListView.builder(
+                  shrinkWrap: true,
+                  itemCount: messages.length,
+                  itemBuilder: (context, index) {
+                    final message = messages[index];
+                    bool isLastMessage = index == messages.length - 1;
+                    //bool isLink = Uri.parse(message.text).isAbsolute;
+
+                    return Column(
+                      children: [
+                        Container(
+                          margin: EdgeInsets.all(20),
+                          child: Row(
+                            mainAxisAlignment: message.isUserMessage
+                                ? MainAxisAlignment.end
+                                : MainAxisAlignment.start,
+                            children: [
+                              Flexible(
+                                child: Container(
+                                  padding: EdgeInsets.all(16),
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(25),
+                                    color: message.isUserMessage
+                                        ? Color.fromARGB(255, 237, 237, 237)
+                                            .withOpacity(0.5)
+                                        : Color.fromARGB(255, 255, 255, 255)
+                                            .withOpacity(0.5),
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: Colors.black.withOpacity(0.1),
+                                        spreadRadius: 1,
+                                        blurRadius: 15,
+                                      ),
+                                    ],
+                                  ),
+                                  child: //isLink
+                                      //     ? Linkify(
+                                      //         onOpen: (link) async {
+                                      //           if (await canLaunchUrl(
+                                      //               Uri.parse(link.url))) {
+                                      //             await launchUrl(Uri.parse(link.url));
+                                      //           } else {
+                                      //             throw 'Could not launch $link';
+                                      //           }
+                                      //         },
+                                      //         text: message.text,
+                                      //         style: TextStyle(
+                                      //           color: Colors.white,
+                                      //         ),
+                                      //         linkStyle: TextStyle(
+                                      //           color: Colors.blue,
+                                      //         ),
+                                      //       )
+                                      Text(
+                                    message.text,
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        if (isLastMessage &&
+                            !message.isUserMessage &&
+                            index != 0)
+                          isLoading
+                              ? CircularProgressIndicator()
+                              : TextButton(
+                                  // Show CircularProgressIndicator if loading
+                                  onPressed: () {
+                                    regenerateMessage(message);
+                                  },
+                                  child: Text('Regenerate'),
+                                ),
+                      ],
+                    );
+                  },
+                ),
+              ),
+              Divider(height: 1, color: Colors.white),
+              Container(
+                color: Colors.transparent,
+                padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: TextField(
+                        controller: textController,
+                        style: TextStyle(color: Colors.white),
+                        decoration: InputDecoration(
+                          hintText: 'Type your message...',
+                          hintStyle: TextStyle(color: Colors.white),
+                          border: InputBorder.none,
+                        ),
+                      ),
+                    ),
+                    IconButton(
+                      onPressed: () {
+                        final message = textController.text;
+                        textController.clear();
+                        currentPartition =
+                            0; // Reset partition when new message is sent
+                        sendMessage(message);
+                      },
+                      icon: Icon(Icons.send),
+                      color: Colors.white,
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }
