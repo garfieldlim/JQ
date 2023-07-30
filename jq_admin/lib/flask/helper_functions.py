@@ -10,7 +10,7 @@ import time
 from tqdm import tqdm
 import fasttext
 import joblib
-openai.api_key = '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'
+openai.api_key = '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'
 collections_list = [
     'text_collection',
     'author_collection',
@@ -57,7 +57,7 @@ if connections.has_connection('default'):
 
 # Now, reconnect with your new configuration
 connections.connect(alias='default', host='localhost', port='19530')
-fasttext_model = fasttext.load_model('/Users/garfieldgreglim/Library/Mobile Documents/com~apple~CloudDocs/Josenian-Query/Embedder/crawl-300d-2M-subword.bin')
+fasttext_model = fasttext.load_model("C:/Users/Jillian/Desktop/crawl-300d-2M-subword.bin")
 def get_embedding(text, embedding_type):
     text = text.replace("\n", " ")
     model = "text-embedding-ada-002"
