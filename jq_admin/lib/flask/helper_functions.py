@@ -10,7 +10,7 @@ import time
 from tqdm import tqdm
 import fasttext
 import joblib
-openai.api_key = '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'
+openai.api_key = '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'
 collections_list = [
     'text_collection',
     'author_collection',
