@@ -12,7 +12,7 @@ import time
 from tqdm import tqdm
 import fasttext
 import joblib
-openai.api_key = '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'
+openai.api_key = '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'
 collections_list = [
     'text_collection',
     'author_collection',
@@ -190,7 +190,7 @@ def populate_results(json_results_sorted, partition_names):
             output_fields = []
             if name == 'text':
                 query_field = "text_id"
-                output_fields = [name, 'text_id']
+                output_fields = [name, 'text_id', 'media', 'link']  # Include 'media' and 'link' here
             else:
                 query_field = "uuid"
                 output_fields = [name]
@@ -198,25 +198,34 @@ def populate_results(json_results_sorted, partition_names):
             query = f"{query_field} in {entity_ids}"
 
             query_results = collection.query(
-                expr=query, 
-                offset=0, 
-                limit=len(entity_ids), 
-                partition_names=[partition_names], 
-                output_fields=output_fields, 
+                expr=query,
+                offset=0,
+                limit=len(entity_ids),
+                partition_names=[partition_names],
+                output_fields=output_fields,
                 consistency_level="Strong"
             )
 
             # Append the results to the relevant fields in the results dictionary
             for query_result in query_results:
                 for result in json_results_sorted:
-                    if (name == 'text' and result["entity_id"] == query_result["text_id"]) or (name != 'text' and result["entity_id"] == query_result["uuid"]):
+                    if (name == 'text' and result["entity_id"] == query_result["text_id"]):
+                        # Append the 'media' and 'link' to the 'text' field
+                        text_with_media_link = query_result[name]
+                        if 'media' in query_result:
+                            text_with_media_link += " " + query_result['media']
+                        if 'link' in query_result:
+                            text_with_media_link += " " + query_result['link']
+                        result[name].append(text_with_media_link)
+                    elif (name != 'text' and result["entity_id"] == query_result["uuid"]):
                         result[name].append(query_result[name])
+
             final_results = []
             for result in json_results_sorted:
                 obj = {}
                 for item in result:
                     # If item is not 'entity_id' or 'distance' and the item's value is not empty
-                    if item not in ['entity_id', 'collection'] and result[item]:
+                    if item not in ['entity_id', 'distance'] and result[item]:
                         obj[item] = result[item]
                 # print(obj)
                 final_results.append(obj)
@@ -252,7 +261,7 @@ def generate_response(prompt, string_json):
     # Return the response
     return generated_text
 def ranking_partitions(vectors):
-    return ['social_posts_partition', 'documents_partition', 'people_partition', "contacts_partition"]
+    return ['people_partition', 'documents_partition', 'social_posts_partition', "contacts_partition"]
     
 # clf_attribute = joblib.load('jq_admin/lib/models/clf_attribute.pkl')
 # clf_partition = joblib.load('jq_admin/lib/models/clf_partition.pkl')

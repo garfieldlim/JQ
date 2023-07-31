@@ -40,6 +40,7 @@ def question_answer():
     print("JSON string done.")
     print("JSOdsnfjksdnjkfdsnjklsdnfjklNS", string_json)
     generated_text = generate_response(prompt, string_json)
+    print(generated_text)
     if generated_text is None:
         return jsonify({"error": "No response generated. Check your generate_response function."})
 
