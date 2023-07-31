@@ -8,7 +8,7 @@ from pymilvus import connections, Collection
 app = Flask(__name__)
 
 # Constants
-OPENAI_API_KEY = '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'
+OPENAI_API_KEY = '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'
 embedding_model = "text-embedding-ada-002"
 embedding_encoding = "cl100k_base"
 max_tokens = 8000
