@@ -16,10 +16,8 @@ class SplashScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: Color(0xfffbc44c),
       body: Center(
-        child: Image(
-            image: NetworkImage(
-                'assets/logo.gif')), // replace with your splash gif
-      ),
+          child:
+              Image.asset('web/asssets/logo.gif')), // replace with your splash gif
     );
   }
 }
