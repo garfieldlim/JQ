@@ -12,7 +12,7 @@ import time
 from tqdm import tqdm
 import fasttext
 import joblib
-openai.api_key = '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'
+openai.api_key = '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'
 collections_list = [
     'text_collection',
     'author_collection',
@@ -59,7 +59,7 @@ if connections.has_connection('default'):
 
 # Now, reconnect with your new configuration
 connections.connect(alias='default', host='localhost', port='19530')
-fasttext_model = fasttext.load_model('/Users/garfieldgreglim/Library/Mobile Documents/com~apple~CloudDocs/Josenian-Query/Embedder/crawl-300d-2M-subword.bin')
+fasttext_model = fasttext.load_model("C:/Users/Jillian/Desktop/crawl-300d-2M-subword.bin")
 def get_embedding(text, embedding_type):
     text = text.replace("\n", " ")
     model = "text-embedding-ada-002"
@@ -232,14 +232,13 @@ def generate_response(prompt, string_json):
     # Return the response
     return generated_text
 def ranking_partitions(vectors):
-    return ['social_posts_partition', 'documents_partition', 'people_partition', "contacts_partition"]
-    
-# clf_attribute = joblib.load('jq_admin/lib/models/clf_attribute.pkl')
-# clf_partition = joblib.load('jq_admin/lib/models/clf_partition.pkl')
+    return ['people_partition', 'documents_partition', 'social_posts_partition', "contacts_partition"]
+# clf_attribute = joblib.load('lib\models\clf_attribute.pkl')
+# clf_partition = joblib.load('lib\models\clf_partition.pkl')
 
 # # load encoders
-# le_attribute = joblib.load('jq_admin/lib/models/le_attribute.pkl')
-# le_partition = joblib.load('jq_admin/lib/models/le_partition.pkl')
+# le_attribute = joblib.load('lib\models\le_attribute.pkl')
+# le_partition = joblib.load('lib\models\le_partition.pkl')
 
 # def predict_attribute(embeds):
 #     # transform input to the right format

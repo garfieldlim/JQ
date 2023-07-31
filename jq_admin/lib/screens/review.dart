@@ -98,6 +98,6 @@ class _ReviewPageState extends State<ReviewPage> {
           ),
         ),
       ),
-    ));
+    );
   }
 }
