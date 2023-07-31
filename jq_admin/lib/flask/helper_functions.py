@@ -5,12 +5,14 @@ import pandas as pd
 import numpy as np
 import re
 import json
-from openai.embeddings_utils import get_embedding
+import torch.nn.functional as F
+from torch import Tensor
+from transformers import AutoTokenizer, AutoModel
 import time
 from tqdm import tqdm
 import fasttext
 import joblib
-openai.api_key = 'ssk-4JP9Vf9ErNRQ7fuiG4LLT3BlbkFJ6z9eMwCZ4wA19IKqjW4p'
+openai.api_key = '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'
 collections_list = [
     'text_collection',
     'author_collection',
@@ -57,20 +59,40 @@ if connections.has_connection('default'):
 
 # Now, reconnect with your new configuration
 connections.connect(alias='default', host='localhost', port='19530')
-fasttext_model = fasttext.load_model("C:/Users/Jillian/Desktop/crawl-300d-2M-subword.bin")
-def get_embedding(text, embedding_type):
-    text = text.replace("\n", " ")
-    model = "text-embedding-ada-002"
-    if embedding_type == 'openai':
-        return openai.Embedding.create(input=[text.lower()], model=model)['data'][0]['embedding']
-    elif embedding_type == 'fasttext':
-        return fasttext_model.get_sentence_vector(text.lower())
-    else:
-        raise ValueError("Invalid embedding_type. Expected 'openai' or 'fasttext'.")
+# fasttext_model = fasttext.load_model("C:/Users/Jillian/Desktop/crawl-300d-2M-subword.bin")
+# fasttext_model = fasttext.load_model('/Users/garfieldgreglim/Library/Mobile Documents/com~apple~CloudDocs/Josenian-Query/Embedder/crawl-300d-2M-subword.bin')
+def average_pool(last_hidden_states: Tensor, attention_mask: Tensor) -> Tensor:
+    last_hidden = last_hidden_states.masked_fill(~attention_mask[..., None].bool(), 0.0)
+    return last_hidden.sum(dim=1) / attention_mask.sum(dim=1)[..., None]
+
+def get_embedding(text):
+    # Load the tokenizer and model
+    tokenizer = AutoTokenizer.from_pretrained('intfloat/e5-large-v2')
+    model = AutoModel.from_pretrained('intfloat/e5-large-v2')
+
+    # Prefix the text with 'query: '
+    text = 'query: ' + text
+
+    # Tokenize the input text
+    inputs = tokenizer(text, max_length=512, padding=True, truncation=True, return_tensors='pt')
+
+    # Generate model outputs
+    outputs = model(**inputs)
+
+    # Average pool the last hidden states and apply the attention mask
+    embeddings = average_pool(outputs.last_hidden_state, inputs['attention_mask'])
+
+    # Normalize the embeddings
+    embeddings = F.normalize(embeddings, p=2, dim=1)
+
+    # Convert tensor to list
+    embeddings_list = embeddings.tolist()
+
+    return embeddings_list[0]
 def remove_non_alphanumeric(text):
     return re.sub(r'[^a-zA-Z0-9\s]', '', text)
 def vectorize_query(query):
-    return {'question1536': get_embedding(query.lower(), 'openai'),'question300': get_embedding(query.lower(), 'fasttext').tolist()}
+    return {'question1536': get_embedding(query.lower()),'question300': get_embedding(query.lower())}
 def search_collections(vectors, partition_names):
     question1536=vectors['question1536']
     question300=vectors['question300']
@@ -196,6 +218,7 @@ def populate_results(json_results_sorted, partition_names):
                     # If item is not 'entity_id' or 'distance' and the item's value is not empty
                     if item not in ['entity_id', 'collection'] and result[item]:
                         obj[item] = result[item]
+                # print(obj)
                 final_results.append(obj)
         except Exception as e:
             print(f"Error with collection {name}: {str(e)}")
@@ -205,7 +228,7 @@ def generate_response(prompt, string_json):
     conversation = [
         {'role': 'system', 'content': """You are Josenian Quiri. University of San Jose- Recoletos' general knowledge base assistant. Refer to yourself as JQ. If there are links, give the link as well."""},
         {'role': 'user', 'content': prompt},
-        {'role': 'system', 'content': f'Here is the database JSON from your knowledge base (note: select only the correct answer): \n{string_json[:4500]}'},
+        {'role': 'system', 'content': f'Here is the database JSON from your knowledge base (note: select only the correct answer): \n{string_json[:4500]}]'},
         {'role': 'user', 'content': ''}
     ]
     
@@ -230,40 +253,41 @@ def generate_response(prompt, string_json):
     return generated_text
 def ranking_partitions(vectors):
     return ['social_posts_partition', 'documents_partition', 'people_partition', "contacts_partition"]
-clf_attribute = joblib.load('jq_admin/lib/models/clf_attribute.pkl')
-clf_partition = joblib.load('jq_admin/lib/models/clf_partition.pkl')
+    
+# clf_attribute = joblib.load('jq_admin/lib/models/clf_attribute.pkl')
+# clf_partition = joblib.load('jq_admin/lib/models/clf_partition.pkl')
 
-# load encoders
-le_attribute = joblib.load('jq_admin/lib/models/le_attribute.pkl')
-le_partition = joblib.load('jq_admin/lib/models/le_partition.pkl')
+# # load encoders
+# le_attribute = joblib.load('jq_admin/lib/models/le_attribute.pkl')
+# le_partition = joblib.load('jq_admin/lib/models/le_partition.pkl')
 
-def predict_attribute(embeds):
-    # transform input to the right format
-    X = np.stack([embeds])
+# def predict_attribute(embeds):
+#     # transform input to the right format
+#     X = np.stack([embeds])
 
-    # predict probabilities across all possible labels
-    probas = clf_attribute.predict_proba(X)[0]
+#     # predict probabilities across all possible labels
+#     probas = clf_attribute.predict_proba(X)[0]
 
-    # get class labels in descending order of probability
-    classes = clf_attribute.classes_
-    ranked_classes = [x for _, x in sorted(zip(probas, classes), reverse=True)]
+#     # get class labels in descending order of probability
+#     classes = clf_attribute.classes_
+#     ranked_classes = [x for _, x in sorted(zip(probas, classes), reverse=True)]
 
-    # return the names instead of the encoded labels
-    return le_attribute.inverse_transform(ranked_classes)
+#     # return the names instead of the encoded labels
+#     return le_attribute.inverse_transform(ranked_classes)
 
-def predict_partition(embeds):
-    # transform input to the right format
-    X = np.stack([embeds])
+# def predict_partition(embeds):
+#     # transform input to the right format
+#     X = np.stack([embeds])
 
-    # predict probabilities across all possible labels
-    probas = clf_partition.predict_proba(X)[0]
+#     # predict probabilities across all possible labels
+#     probas = clf_partition.predict_proba(X)[0]
 
-    # get class labels in descending order of probability
-    classes = clf_partition.classes_
-    ranked_classes = [x for _, x in sorted(zip(probas, classes), reverse=True)]
+#     # get class labels in descending order of probability
+#     classes = clf_partition.classes_
+#     ranked_classes = [x for _, x in sorted(zip(probas, classes), reverse=True)]
 
-    # return the names instead of the encoded labels
-    return le_partition.inverse_transform(ranked_classes)
+#     # return the names instead of the encoded labels
+#     return le_partition.inverse_transform(ranked_classes)
 
 def question_answer():
     while True:
@@ -276,7 +300,7 @@ def question_answer():
             if vectors is None:
                 print("No vectors returned. Check your vectorize_query function.")
                 continue
-            ranked_partitions = ranking_partitions(vectors)
+            ranked_partitions = ranking_partitions(vectors['question300'])
             if ranked_partitions is None:
                 print("No ranked_partitions returned. Check your ranking_partitions function.")
                 continue
@@ -305,7 +329,7 @@ def question_answer():
                 correct = input("Is the answer correct? 1-Y, 0-N: ")
                 if correct not in ['0', '1']:
                     print("Invalid input. Try again.")
-                elif partition <= 3:
+                elif partition <= 3 :
                     partition = partition + 1
                 else:
                     partition = 0
