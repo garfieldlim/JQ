@@ -10,7 +10,7 @@ app = Flask(__name__)
 CORS(app)
 
 # Constants
-OPENAI_API_KEY = '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'
+OPENAI_API_KEY = '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'
 embedding_model = "text-embedding-ada-002"
 embedding_encoding = "cl100k_base"
 max_tokens = 8000

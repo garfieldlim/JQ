@@ -116,8 +116,6 @@ class _HomePageState extends State<HomePage> {
     }
   }
 
-// Function to handle liking or disliking a response
-
   @override
   void dispose() {
     textController.dispose();
@@ -132,7 +130,7 @@ class _HomePageState extends State<HomePage> {
         appBar: AppBar(
           titleSpacing: 0.0,
           backgroundColor: Colors.transparent,
-          // leadingWidth: MediaQuery.of(context).size.width,
+          // leadingWidth: MediaQuery.of(context)
           title: GlassmorphicContainer(
             height: 100, // match AppBar height
             width: 3500,
@@ -155,21 +153,18 @@ class _HomePageState extends State<HomePage> {
               ],
             ),
             child: Center(
-              child: Image.network('assets/logo.gif'),
+              child: Image.asset('web/assets/logo.gif'),
             ),
           ),
 
           toolbarHeight: 95, // Set height of AppBar
         ),
         body: Container(
-          width: 1500,
+          width: double.infinity,
+          height: double.infinity,
           decoration: BoxDecoration(
-            image: DecorationImage(
-              image: NetworkImage(
-                  "assets/bg2.png"), // Replace with your image file
-              fit: BoxFit.cover,
-            ),
-          ),
+              image: DecorationImage(
+                  image: AssetImage('web/assets/bg2.png'), fit: BoxFit.cover)),
           child: Column(
             children: [
               Expanded(
@@ -179,7 +174,7 @@ class _HomePageState extends State<HomePage> {
                   itemBuilder: (context, index) {
                     final message = messages[index];
                     bool isLastMessage = index == messages.length - 1;
-                    //bool isLink = Uri.parse(message.text).isAbsolute;
+                    bool isLink = Uri.parse(message.text).isAbsolute;
 
                     return Column(
                       children: [
@@ -208,30 +203,31 @@ class _HomePageState extends State<HomePage> {
                                       ),
                                     ],
                                   ),
-                                  child: //isLink
-                                      //     ? Linkify(
-                                      //         onOpen: (link) async {
-                                      //           if (await canLaunchUrl(
-                                      //               Uri.parse(link.url))) {
-                                      //             await launchUrl(Uri.parse(link.url));
-                                      //           } else {
-                                      //             throw 'Could not launch $link';
-                                      //           }
-                                      //         },
-                                      //         text: message.text,
-                                      //         style: TextStyle(
-                                      //           color: Colors.white,
-                                      //         ),
-                                      //         linkStyle: TextStyle(
-                                      //           color: Colors.blue,
-                                      //         ),
-                                      //       )
-                                      Text(
-                                    message.text,
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                    ),
-                                  ),
+                                  child: isLink
+                                      ? Linkify(
+                                          onOpen: (link) async {
+                                            if (await canLaunchUrl(
+                                                Uri.parse(link.url))) {
+                                              await launchUrl(
+                                                  Uri.parse(link.url));
+                                            } else {
+                                              throw 'Could not launch $link';
+                                            }
+                                          },
+                                          text: message.text,
+                                          style: TextStyle(
+                                            color: Colors.white,
+                                          ),
+                                          linkStyle: TextStyle(
+                                            color: Colors.blue,
+                                          ),
+                                        )
+                                      : Text(
+                                          message.text,
+                                          style: TextStyle(
+                                            color: Colors.white,
+                                          ),
+                                        ),
                                 ),
                               ),
                             ],

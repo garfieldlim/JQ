@@ -60,11 +60,13 @@ class _UpsertingPageState extends State<UpsertingPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        width: 1500,
-        height: 750,
+        width: double.infinity,
+        height: double.infinity,
         decoration: BoxDecoration(
             image: DecorationImage(
-          image: NetworkImage("assets/bg.png"), // Replace with your image file
+          image:
+              AssetImage("web/assets/bg.png"), // Replace with your image file
+          // Replace with your image file
           fit: BoxFit.cover,
         )),
         child: Padding(
@@ -144,12 +146,13 @@ class _UpsertingPageState extends State<UpsertingPage> {
                     child: ElevatedButton(
                       child: const Text('Continue',
                           style: TextStyle(fontSize: 18)),
-                      onPressed: () {
+                      onPressed: () async {
+                        // Making onPressed callback asynchronous
                         if (_selectedSchema != null &&
                             (_fileContent != null ||
                                 _urlController.text.isNotEmpty)) {
                           if (_urlController.text.isNotEmpty) {
-                            _sendUrlToServer();
+                            await _sendUrlToServer(); // Awaiting _sendUrlToServer method
                           }
 
                           //   Navigator.push(

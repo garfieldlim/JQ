@@ -1,5 +1,5 @@
 from flask import Flask, request, jsonify
-from helper_functions import vectorize_query, ranking_partitions, search_collections, process_results, populate_results, generate_response, predict_partition
+from helper_functions import vectorize_query, ranking_partitions, search_collections, process_results, populate_results, generate_response
 import json
 from flask_cors import CORS
 
@@ -15,7 +15,7 @@ def question_answer():
     if vectors is None:
         return jsonify({"error": "No vectors returned. Check your vectorize_query function."})
 
-    ranked_partitions = predict_partition(vectors['question300'])
+    ranked_partitions = ranking_partitions(vectors['question300'])
     if ranked_partitions is None:
         return jsonify({"error": "No ranked_partitions returned. Check your ranking_partitions function."})
     print("Partitions ranked.")
@@ -35,9 +35,10 @@ def question_answer():
     print("Populate results done.")
     if final_results is None:
         return jsonify({"error": "No final results returned. Check your populate_results function."})
-
+    
     string_json = json.dumps(final_results)
     print("JSON string done.")
+    print("JSOdsnfjksdnjkfdsnjklsdnfjklNS", string_json)
     generated_text = generate_response(prompt, string_json)
     if generated_text is None:
         return jsonify({"error": "No response generated. Check your generate_response function."})
