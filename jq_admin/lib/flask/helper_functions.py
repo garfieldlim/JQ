@@ -57,7 +57,7 @@ if connections.has_connection('default'):
 
 # Now, reconnect with your new configuration
 connections.connect(alias='default', host='localhost', port='19530')
-fasttext_model = fasttext.load_model("C:/Users/Jillian/Desktop/crawl-300d-2M-subword.bin")
+# fasttext_model = fasttext.load_model("/Users/garfieldgreglim/Library/Mobile Documents/com~apple~CloudDocs/Josenian-Query/Embedder/crawl-300d-2M-subword.bin")
 def get_embedding(text, embedding_type):
     text = text.replace("\n", " ")
     model = "text-embedding-ada-002"
@@ -237,33 +237,33 @@ clf_partition = joblib.load('jq_admin/lib/models/clf_partition.pkl')
 le_attribute = joblib.load('jq_admin/lib/models/le_attribute.pkl')
 le_partition = joblib.load('jq_admin/lib/models/le_partition.pkl')
 
-def predict_attribute(embeds):
-    # transform input to the right format
-    X = np.stack([embeds])
+# def predict_attribute(embeds):
+#     # transform input to the right format
+#     X = np.stack([embeds])
 
-    # predict probabilities across all possible labels
-    probas = clf_attribute.predict_proba(X)[0]
+#     # predict probabilities across all possible labels
+#     probas = clf_attribute.predict_proba(X)[0]
 
-    # get class labels in descending order of probability
-    classes = clf_attribute.classes_
-    ranked_classes = [x for _, x in sorted(zip(probas, classes), reverse=True)]
+#     # get class labels in descending order of probability
+#     classes = clf_attribute.classes_
+#     ranked_classes = [x for _, x in sorted(zip(probas, classes), reverse=True)]
 
-    # return the names instead of the encoded labels
-    return le_attribute.inverse_transform(ranked_classes)
+#     # return the names instead of the encoded labels
+#     return le_attribute.inverse_transform(ranked_classes)
 
-def predict_partition(embeds):
-    # transform input to the right format
-    X = np.stack([embeds])
+# def predict_partition(embeds):
+#     # transform input to the right format
+#     X = np.stack([embeds])
 
-    # predict probabilities across all possible labels
-    probas = clf_partition.predict_proba(X)[0]
+#     # predict probabilities across all possible labels
+#     probas = clf_partition.predict_proba(X)[0]
 
-    # get class labels in descending order of probability
-    classes = clf_partition.classes_
-    ranked_classes = [x for _, x in sorted(zip(probas, classes), reverse=True)]
+#     # get class labels in descending order of probability
+#     classes = clf_partition.classes_
+#     ranked_classes = [x for _, x in sorted(zip(probas, classes), reverse=True)]
 
-    # return the names instead of the encoded labels
-    return le_partition.inverse_transform(ranked_classes)
+#     # return the names instead of the encoded labels
+#     return le_partition.inverse_transform(ranked_classes)
 
 def question_answer():
     while True:

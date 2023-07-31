@@ -1,12 +1,12 @@
 from flask import Flask, request, jsonify
-from helper_functions import vectorize_query, ranking_partitions, search_collections, process_results, populate_results, generate_response, predict_partition
+from helper_functions import vectorize_query, ranking_partitions, search_collections, process_results, populate_results, generate_response
 import json
 from flask_cors import CORS
 
 app = Flask(__name__)
 CORS(app)  # This will enable CORS for all routes
 
-@app.route('/query', methods=['POST','OPTIONS'])
+@app.route('/query', methods=['POST'])
 def question_answer():
     prompt = request.json['question']
     
