@@ -1,16 +1,13 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
-import 'package:jq_admin/screens/homepage.dart';
-import 'package:jq_admin/screens/query.dart';
 
 class ReviewPage extends StatefulWidget {
   final String schema;
-  final String? data; // data can now be nullable
+  final String? data;
 
   ReviewPage(
-      {required this.schema,
-      this.data, // remove 'required' keyword here
-      Key? key,
-      required String filePath})
+      {required this.schema, this.data, Key? key, required String filePath})
       : super(key: key);
 
   @override
@@ -18,15 +15,20 @@ class ReviewPage extends StatefulWidget {
 }
 
 class _ReviewPageState extends State<ReviewPage> {
-  late TextEditingController
-      _dataController; // declare the controller without initializing
+  late TextEditingController _textController;
+  late TextEditingController _timeController;
+  late TextEditingController _urlController;
 
   @override
   void initState() {
     super.initState();
-    // only initialize the controller if widget.data is not null
     if (widget.data != null) {
-      _dataController = TextEditingController(text: widget.data);
+      List<dynamic> jsonData = jsonDecode(widget.data!);
+      Map<String, dynamic> firstElement =
+          jsonData[0]; // getting first element of the list
+      _textController = TextEditingController(text: firstElement['text']);
+      _timeController = TextEditingController(text: firstElement['time']);
+      _urlController = TextEditingController(text: firstElement['post_url']);
     }
   }
 
@@ -38,8 +40,7 @@ class _ReviewPageState extends State<ReviewPage> {
         width: 1500,
         decoration: BoxDecoration(
           image: DecorationImage(
-            image:
-                NetworkImage("assets/bg.png"), // Replace with your image file
+            image: NetworkImage("assets/bg.png"),
             fit: BoxFit.cover,
           ),
         ),
@@ -50,16 +51,34 @@ class _ReviewPageState extends State<ReviewPage> {
             children: <Widget>[
               Text('Schema: ${widget.schema}'),
               SizedBox(height: 20),
-              // only create the TextField if widget.data is not null
-              if (widget.data != null)
+              if (widget.data != null) ...[
                 TextField(
-                  controller: _dataController,
+                  controller: _textController,
                   maxLines: 5,
                   decoration: InputDecoration(
                     border: OutlineInputBorder(),
-                    labelText: 'Data',
+                    labelText: 'Text',
                   ),
                 ),
+                SizedBox(height: 20),
+                TextField(
+                  controller: _timeController,
+                  maxLines: 5,
+                  decoration: InputDecoration(
+                    border: OutlineInputBorder(),
+                    labelText: 'Time',
+                  ),
+                ),
+                SizedBox(height: 20),
+                TextField(
+                  controller: _urlController,
+                  maxLines: 5,
+                  decoration: InputDecoration(
+                    border: OutlineInputBorder(),
+                    labelText: 'Link',
+                  ),
+                ),
+              ],
               SizedBox(height: 35),
               Center(
                 child: ElevatedButton(
@@ -68,12 +87,10 @@ class _ReviewPageState extends State<ReviewPage> {
                     style: TextStyle(fontSize: 18),
                   ),
                   onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => HomePage()),
-                    );
                     print('Schema: ${widget.schema}');
-                    print('Data: ${_dataController.text}');
+                    print('Text: ${_textController.text}');
+                    print('Time: ${_timeController.text}');
+                    print('Link: ${_urlController.text}');
                   },
                 ),
               ),

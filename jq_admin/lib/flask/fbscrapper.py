@@ -1,27 +1,27 @@
-from facebook_scraper import get_post
 from flask import Flask, request, jsonify
-from flask_cors import CORS
 import json
+import datetime
+from facebook_scraper import get_posts
 
 app = Flask(__name__)
-CORS(app)
 
-@app.route('/scrape_facebook', methods=['POST'])
-def scrape_facebook():
-    data = request.get_json()
+@app.route('/scrape_website', methods=['POST'])
+def scrape_website():
+    url = request.json['url']
 
-    if 'url' not in data:
-        return jsonify({'error': 'No URL provided'}), 400
+    # Custom encoder for datetime objects
+    class DateTimeEncoder(json.JSONEncoder):
+        def default(self, obj):
+            if isinstance(obj, datetime.datetime):
+                return obj.isoformat()
+            return json.JSONEncoder.default(self, obj)
 
-    url = data['url']
-    post_id = url.split('/')[-2]  # extract post id from url
+    scraped_data = []
+    for post in get_posts(post_urls=[url], cookies="C:/Users/Jillian/Documents/scrape/cookies.json"):
+        post_json = json.dumps(post, cls=DateTimeEncoder)  
+        scraped_data.append(post_json)
 
-    try:
-        post = get_post(post_id, options={"cookies": "C:Users/Jillian/Documents/scrape/cookies.json"})
-        print(f"Scraped data: {post}")  # Log the scraped data
-        return jsonify(post), 200
-    except Exception as e:
-        return jsonify({'error': 'Error while scraping the post'}), 400
+    return jsonify(scraped_data)
 
-if __name__ == "__main__":
-    app.run(port=5000)
+if __name__ == '__main__':
+    app.run(debug=True)
