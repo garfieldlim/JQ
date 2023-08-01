@@ -36,9 +36,9 @@ def question_answer():
     if final_results is None:
         return jsonify({"error": "No final results returned. Check your populate_results function."})
     
-    string_json = json.dumps(final_results)
+    string_json = final_results
     print("JSON string done.")
-    print("JSOdsnfjksdnjkfdsnjklsdnfjklNS", string_json)
+    print("JSOdsnfjksdnjkfdsnjklsdnfjklNS", string_json[:4500])
     generated_text = generate_response(prompt, string_json)
     print(generated_text)
     if generated_text is None:

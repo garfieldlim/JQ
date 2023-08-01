@@ -223,20 +223,24 @@ def populate_results(json_results_sorted, partition_names):
             for result in json_results_sorted:
                 obj = {}
                 for item in result:
-                    # If item is not 'entity_id' or 'distance' and the item's value is not empty
-                    if item not in ['entity_id', 'distance'] and result[item]:
+                    # If item is not 'entity_id', 'distance', or 'collection' and the item's value is not empty
+                    if item not in ['entity_id', 'distance', 'collection'] and result[item]:
                         obj[item] = result[item]
-                # print(obj)
-                final_results.append(obj)
+                # Concatenate all values that aren't associated with the 'collection' key
+                concatenated_values = ' '.join([str(v) for k, v in obj.items() if k != 'collection'])
+                final_results.append(concatenated_values)
         except Exception as e:
             print(f"Error with collection {name}: {str(e)}")
-    return final_results[:10]
+            # final results should be a string
+    return '\n'.join(final_results)
+
+
 def generate_response(prompt, string_json):
     # Format the input as per the desired conversation format
     conversation = [
         {'role': 'system', 'content': """You are Josenian Quiri. University of San Jose- Recoletos' general knowledge base assistant. Refer to yourself as JQ. If there are links, give the link as well."""},
         {'role': 'user', 'content': prompt},
-        {'role': 'system', 'content': f'Here is the database JSON from your knowledge base (note: select only the correct answer): \n{string_json[:4500]}]'},
+        {'role': 'system', 'content': f'Here is the returned data from your knowledge base (note: select only the correct answer): \n{string_json[:4500]}]'},
         {'role': 'user', 'content': ''}
     ]
     
