@@ -11,7 +11,8 @@ from transformers import AutoTokenizer, AutoModel
 import time
 from tqdm import tqdm
 import fasttext
-import joblib
+from joblib import load
+
 openai.api_key = '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'
 collections_list = [
     'text_collection',
@@ -92,10 +93,8 @@ def get_embedding(text):
 def remove_non_alphanumeric(text):
     return re.sub(r'[^a-zA-Z0-9\s]', '', text)
 def vectorize_query(query):
-    return {'question1536': get_embedding(query.lower()),'question300': get_embedding(query.lower())}
+    return get_embedding(query.lower())
 def search_collections(vectors, partition_names):
-    question1536=vectors['question1536']
-    question300=vectors['question300']
     results_dict = {}
     search_params = {
     "metric_type": "L2",  # Distance metric, can be L2, IP (Inner Product), etc.
@@ -106,7 +105,7 @@ def search_collections(vectors, partition_names):
                 collection = Collection(f"{name}_collection")
                 collection.load()
                 result = collection.search(
-                    data=[question1536],
+                    data=[vectors],
                     anns_field="embeds",
                     param=search_params,
                     limit=10,
@@ -119,7 +118,7 @@ def search_collections(vectors, partition_names):
                 collection = Collection(f"{name}_collection")
                 collection.load()
                 result = collection.search(
-                    data=[question300],
+                    data=[vectors],
                     anns_field="embeds",
                     param=search_params,
                     limit=10,
@@ -263,9 +262,24 @@ def generate_response(prompt, string_json):
 def ranking_partitions(vectors):
     return ['people_partition', 'documents_partition', 'social_posts_partition', "contacts_partition"]
     
-# clf_attribute = joblib.load('jq_admin/lib/models/clf_attribute.pkl')
-# clf_partition = joblib.load('jq_admin/lib/models/clf_partition.pkl')
-
+svm_model = load('jq_admin/lib/models/svm_model.joblib')
+label_encoder = load('jq_admin/lib/models/label_encoder.joblib')
+def rank_partitions(prompt_embedding):
+    # Convert the prompt to an embedding
+    
+    # Predict the class probabilities
+    probabilities = svm_model.predict_proba([prompt_embedding])
+    
+    # Get the classes and their corresponding probabilities
+    classes_and_probabilities = zip(label_encoder.classes_, probabilities[0])
+    
+    # Sort the classes by probability
+    ranked_classes = sorted(classes_and_probabilities, key=lambda x: x[1], reverse=True)
+    
+    # Extract the class names, ignoring the probabilities
+    ranked_class_names = [item[0] for item in ranked_classes]
+    
+    return ranked_class_names
 # # load encoders
 # le_attribute = joblib.load('jq_admin/lib/models/le_attribute.pkl')
 # le_partition = joblib.load('jq_admin/lib/models/le_partition.pkl')
@@ -309,7 +323,7 @@ def question_answer():
             if vectors is None:
                 print("No vectors returned. Check your vectorize_query function.")
                 continue
-            ranked_partitions = ranking_partitions(vectors['question300'])
+            ranked_partitions = ranking_partitions(vectors)
             if ranked_partitions is None:
                 print("No ranked_partitions returned. Check your ranking_partitions function.")
                 continue
