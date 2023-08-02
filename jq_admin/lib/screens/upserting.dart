@@ -56,6 +56,39 @@ class _UpsertingPageState extends State<UpsertingPage> {
     }
   }
 
+  List<Widget> _getFieldsForSelectedSchema() {
+    if (_selectedSchema == 'Documents') {
+      return [
+        _buildTextField('Text'),
+        _buildTextField('Author'),
+        _buildTextField('Title'),
+        _buildTextField('Date'),
+        _buildTextField('Media (link)'),
+        _buildTextField('Link'),
+      ];
+    } else if (_selectedSchema == 'People') {
+      return [
+        _buildTextField('Text'),
+        _buildTextField('Name'),
+        _buildTextField('Media'),
+        _buildTextField('Links'),
+        _buildTextField('Position'),
+        _buildTextField('Department'),
+      ];
+    } else {
+      return [];
+    }
+  }
+
+  TextField _buildTextField(String label) {
+    return TextField(
+      decoration: InputDecoration(
+        border: OutlineInputBorder(),
+        labelText: label,
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -106,6 +139,7 @@ class _UpsertingPageState extends State<UpsertingPage> {
                     'Choose Schema:',
                     style: TextStyle(color: Colors.white, fontSize: 25),
                   ),
+                  Column(children: _getFieldsForSelectedSchema()),
                   DropdownButton<String>(
                     value: _selectedSchema,
                     onChanged: (String? newValue) {
@@ -113,7 +147,7 @@ class _UpsertingPageState extends State<UpsertingPage> {
                         _selectedSchema = newValue!;
                       });
                     },
-                    items: <String>['Schema 1', 'Schema 2', 'Schema 3']
+                    items: <String>['Social Posts', 'Documents', 'People']
                         .map<DropdownMenuItem<String>>((String value) {
                       return DropdownMenuItem<String>(
                         value: value,
