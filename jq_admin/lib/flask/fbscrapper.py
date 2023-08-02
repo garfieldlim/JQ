@@ -2,11 +2,12 @@ from flask import Flask, request, jsonify
 import json
 import datetime
 from facebook_scraper import get_posts
+from flask_cors import CORS
 
 from flask_cors import CORS
 
 app = Flask(__name__)
-CORS(app)
+CORS(app) # Enable CORS for all routes
 
 @app.route('/scrape_website', methods=['POST'])
 def scrape_website():
@@ -21,8 +22,8 @@ def scrape_website():
 
     scraped_data = []
     for post in get_posts(post_urls=[url], cookies="C:/Users/Jillian/Documents/scrape/cookies.json"):
-        # post_json = json.dumps(post, cls=DateTimeEncoder)  
-        scraped_data.append(post)
+        post_json = json.dumps(post, cls=DateTimeEncoder)  
+        scraped_data.append(post_json)
 
     return jsonify(scraped_data)
 
