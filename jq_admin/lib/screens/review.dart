@@ -26,8 +26,10 @@ class _ReviewPageState extends State<ReviewPage> {
       List<dynamic> jsonData = jsonDecode(widget.data!);
       Map<String, dynamic> firstElement =
           jsonData[0]; // getting first element of the list
-      _textController = TextEditingController(text: firstElement['text']);
-      _timeController = TextEditingController(text: firstElement['time']);
+      _textController =
+          TextEditingController(text: firstElement['post_text'].toString());
+      _timeController =
+          TextEditingController(text: firstElement['time '].toString());
       _urlController = TextEditingController(text: firstElement['post_url']);
     }
   }
