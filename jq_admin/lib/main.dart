@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:jq_admin/screens/login.dart';
 import 'package:jq_admin/screens/query.dart';
 import 'package:jq_admin/screens/splashscreen.dart';
-import 'package:jq_admin/screens/homepage.dart';
+import 'package:jq_admin/screens/upserting.dart';
 import 'package:jq_admin/screens/review.dart';
 
 void main() async {
@@ -28,7 +28,7 @@ class MyApp extends StatelessWidget {
             ColorScheme.fromSeed(seedColor: Color.fromARGB(255, 255, 223, 107)),
         useMaterial3: true,
       ),
-      home: HomePage(),
+      home: UpsertingPage(),
       debugShowCheckedModeBanner: false,
     );
   }
