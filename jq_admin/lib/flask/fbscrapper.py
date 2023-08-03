@@ -2,6 +2,7 @@ from flask import Flask, request, jsonify
 import json
 import datetime
 from facebook_scraper import get_posts
+from helper_functions import process_object
 from flask_cors import CORS
 
 from flask_cors import CORS
@@ -21,11 +22,19 @@ def scrape_website():
             return json.JSONEncoder.default(self, obj)
 
     scraped_data = []
-    for post in get_posts(post_urls=[url], cookies="C:/Users/Jillian/Documents/scrape/cookies.json"):
-        post_json = json.dumps(post, cls=DateTimeEncoder)  
+    for post in get_posts(post_urls=[url], cookies="jq_admin/lib/flask/cookies.json"):
+        post_json = post # No need to convert to string here
         scraped_data.append(post_json)
 
-    return jsonify(scraped_data)
+    return jsonify(scraped_data) # Return list of dictionaries
+
+@app.route('/receive_json', methods=['POST'])
+def receive_json():
+    # Get the JSON data from the request
+    data = request.json
+    process_object(data)
+    return jsonify({'status': 'success'})
+
 
 if __name__ == '__main__':
     app.run( port=5000,debug=True)

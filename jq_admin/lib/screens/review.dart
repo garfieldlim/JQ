@@ -1,6 +1,6 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 
 class ReviewPage extends StatefulWidget {
   final String schema;
@@ -29,7 +29,7 @@ class _ReviewPageState extends State<ReviewPage> {
       _textController =
           TextEditingController(text: firstElement['post_text'].toString());
       _timeController =
-          TextEditingController(text: firstElement['time '].toString());
+          TextEditingController(text: firstElement['time'].toString());
       _urlController = TextEditingController(text: firstElement['post_url']);
     }
   }
@@ -42,7 +42,7 @@ class _ReviewPageState extends State<ReviewPage> {
         width: 1500,
         decoration: BoxDecoration(
           image: DecorationImage(
-            image: NetworkImage("assets/bg.png"),
+            image: AssetImage("assets/bg.png"),
             fit: BoxFit.cover,
           ),
         ),
@@ -88,11 +88,25 @@ class _ReviewPageState extends State<ReviewPage> {
                     'Upsert',
                     style: TextStyle(fontSize: 18),
                   ),
-                  onPressed: () {
-                    print('Schema: ${widget.schema}');
-                    print('Text: ${_textController.text}');
-                    print('Time: ${_timeController.text}');
-                    print('Link: ${_urlController.text}');
+                  onPressed: () async {
+                    final response = await http.post(
+                      Uri.parse('http://127.0.0.1:5000/receive_json'),
+                      headers: {
+                        'Content-Type': 'application/json',
+                      },
+                      body: jsonEncode({
+                        'schema': widget.schema,
+                        'text': _textController.text,
+                        'time': _timeController.text,
+                        'url': _urlController.text,
+                      }),
+                    );
+
+                    if (response.statusCode == 200) {
+                      print('Data sent successfully');
+                    } else {
+                      print('Failed to send data');
+                    }
                   },
                 ),
               ),

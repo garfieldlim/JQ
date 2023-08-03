@@ -10,8 +10,10 @@ from torch import Tensor
 from transformers import AutoTokenizer, AutoModel
 import time
 from tqdm import tqdm
-import fasttext
-import joblib
+from joblib import load
+import uuid
+from datetime import datetime 
+
 openai.api_key = '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'
 collections_list = [
     'text_collection',
@@ -59,7 +61,7 @@ if connections.has_connection('default'):
 
 # Now, reconnect with your new configuration
 connections.connect(alias='default', host='localhost', port='19530')
-fasttext_model = fasttext.load_model("C:/Users/Jillian/Desktop/crawl-300d-2M-subword.bin")
+# fasttext_model = fasttext.load_model("C:/Users/Jillian/Desktop/crawl-300d-2M-subword.bin")
 # fasttext_model = fasttext.load_model('/Users/garfieldgreglim/Library/Mobile Documents/com~apple~CloudDocs/Josenian-Query/Embedder/crawl-300d-2M-subword.bin')
 def average_pool(last_hidden_states: Tensor, attention_mask: Tensor) -> Tensor:
     last_hidden = last_hidden_states.masked_fill(~attention_mask[..., None].bool(), 0.0)
@@ -314,6 +316,82 @@ def rank_partitions(prompt_embedding):
 
 #     # return the names instead of the encoded labels
 #     return le_partition.inverse_transform(ranked_classes)
+def refactor_date(input_date):
+    # Parse the input date using datetime.datetime.strptime
+    parsed_date = datetime.strptime(input_date, "%a, %d %b %Y %H:%M:%S %Z")
+
+    # Format the date in the desired format
+    formatted_date = parsed_date.strftime("%Y-%m-%d %B %d %Y")
+    return formatted_date
+
+def process_object(obj):
+    # Create a 'uuid' attribute
+    obj['link']=obj.pop('url')
+    obj.pop('schema')
+    obj['partition_name'] = 'social_posts_partition'
+    obj['uuid'] = str(uuid.uuid4())
+    obj['date'] = obj.pop('time')
+    obj['date'] = refactor_date(obj['date'])
+    # Create 'embeds' attribute by appending all values in the object
+    obj['embeds'] = [value for key, value in obj.items() if key != 'embeds' or key != 'text']
+    obj['text_id'] = obj['uuid']  # Adding 'text_id' attribute
+    # Check if 'embeds' has more than 100 words
+    total_words = sum(len(str(value).split()) for value in obj['embeds'])
+    
+    obj_list = []
+    if total_words > 100:
+        # Split into equal objects
+        n_parts = total_words // 100
+        chunk_size = len(obj['text']) // n_parts
+        obj['text'].append(obj['url'])
+
+        for i in range(n_parts):
+            chunk_obj = copy.deepcopy(obj)
+            chunk_obj['embeds'] = obj['embeds'][i * chunk_size : (i + 1) * chunk_size]
+            chunk_obj['uuid'] = str(uuid.uuid4())
+            chunk_obj['text_id'] = obj['uuid']
+            obj_list.append(chunk_obj)
+
+        # Handle remaining items if the chunks do not evenly divide the list
+        if len(obj['embeds']) % n_parts != 0:
+            chunk_obj = copy.deepcopy(obj)
+            chunk_obj['embeds'] = obj['embeds'][n_parts * chunk_size:]
+            chunk_obj['uuid'] = str(uuid.uuid4())
+            chunk_obj['text_id'] = obj['uuid']
+            obj_list.append(chunk_obj)
+    else:
+        obj_list.append(obj)
+    text_collection_keys = ["uuid", "text_id", "text", "embeds", "media", "link", "partition_name"]
+    date_collection_keys = ["uuid", "date", "embeds", "partition_name"]
+
+    text_objects = []
+    date_objects = []
+
+    for count, obj in enumerate(obj_list, 1):
+        text_object = {key: obj.get(key, None) for key in text_collection_keys}
+        date_object = {key: obj.get(key, None) for key in date_collection_keys}
+        text_embeds_str = ' '.join(map(str, text_object['embeds']))
+        date_embeds_str = ' '.join(map(str, date_object['embeds']))
+        text_object['embeds'] = get_embedding(text_embeds_str)
+        date_object['embeds'] = get_embedding(date_embeds_str)
+        text_objects.append(text_object)
+        date_objects.append(date_object)
+        
+        print(f"COUNT {count}-")
+        print(f"OBJ[{count}] text_object:", text_object)
+        print(f"OBJ[{count}] date_object:", date_object)
+        print('\n')
+    for obj in text_objects:
+        for attribute in obj:
+            if obj[attribute] is None:
+                obj[attribute] = ''
+    collection = Collection("text_collection")
+    print(collection.insert(text_objects, 'social_posts_partition'))
+    collection = Collection("date_collection")  # Fixed collection name
+    print(collection.insert(date_objects, 'social_posts_partition'))  # Fixed variable name
+
+    return obj_list
+
 
 def question_answer():
     while True:
