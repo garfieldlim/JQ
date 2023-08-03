@@ -29,7 +29,7 @@ class _HomePageState extends State<HomePage> {
       });
     }
 
-    final url = Uri.parse('http://192.168.68.103:7999/query');
+    final url = Uri.parse('http://192.168.68.124:7999/query');
     final headers = {'Content-Type': 'application/json'};
     final body = jsonEncode({
       'question': message,
@@ -188,6 +188,12 @@ class _HomePageState extends State<HomePage> {
                               Flexible(
                                 child: Container(
                                   padding: EdgeInsets.all(16),
+                                  constraints: BoxConstraints(
+                                    maxWidth: MediaQuery.of(context)
+                                            .size
+                                            .width *
+                                        0.7, // setting max width as 70% of screen width
+                                  ),
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(25),
                                     color: message.isUserMessage
@@ -238,8 +244,16 @@ class _HomePageState extends State<HomePage> {
                             index != 0)
                           isLoading
                               ? CircularProgressIndicator()
-                              : TextButton(
-                                  // Show CircularProgressIndicator if loading
+                              : ElevatedButton(
+                                  style: ElevatedButton.styleFrom(
+                                    primary: Color(
+                                        0xfff9dea6), // background color of the button
+                                    onPrimary:
+                                        Colors.white, // color of the text
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(20),
+                                    ),
+                                  ),
                                   onPressed: () {
                                     regenerateMessage(message);
                                   },
