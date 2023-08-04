@@ -11,7 +11,15 @@ List<Widget> getFieldsForSelectedSchema(String? selectedSchema) {
   } else {
     return [];
   }
-  return fields.map((label) => buildTextField(label)).toList();
+
+  List<Widget> fieldsWithSpacing = [];
+  fields.forEach((label) {
+    fieldsWithSpacing.add(buildTextField(label));
+    fieldsWithSpacing.add(SizedBox(
+        height: 5)); // Add space of 10 logical pixels between the TextFields
+  });
+
+  return fieldsWithSpacing;
 }
 
 TextField buildTextField(String label) {

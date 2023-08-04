@@ -14,9 +14,8 @@ class UpsertingPage extends StatefulWidget {
 
 class _UpsertingPageState extends State<UpsertingPage> {
   final _urlController = TextEditingController();
-  bool _showLogo = true;
 
-  String? _selectedSchema;
+  String? _selectedSchema = 'Social Posts';
   String? _fileContent;
   String _fileName = 'No file uploaded';
   String? _scrapedData;
@@ -58,39 +57,6 @@ class _UpsertingPageState extends State<UpsertingPage> {
       print('Failed to make server call. Status: ${response.statusCode}.');
     }
   }
-
-  // List<Widget> _getFieldsForSelectedSchema() {
-  //   if (_selectedSchema == 'Documents') {
-  //     return [
-  //       _buildTextField('Text'),
-  //       _buildTextField('Author'),
-  //       _buildTextField('Title'),
-  //       _buildTextField('Date'),
-  //       _buildTextField('Media (link)'),
-  //       _buildTextField('Link'),
-  //     ];
-  //   } else if (_selectedSchema == 'People') {
-  //     return [
-  //       _buildTextField('Text'),
-  //       _buildTextField('Name'),
-  //       _buildTextField('Media'),
-  //       _buildTextField('Links'),
-  //       _buildTextField('Position'),
-  //       _buildTextField('Department'),
-  //     ];
-  //   } else {
-  //     return [];
-  //   }
-  // }
-
-  // TextField _buildTextField(String label) {
-  //   return TextField(
-  //     decoration: InputDecoration(
-  //       border: const OutlineInputBorder(),
-  //       labelText: label,
-  //     ),
-  //   );
-  // }
 
   @override
   Widget build(BuildContext context) {
@@ -139,27 +105,11 @@ class _UpsertingPageState extends State<UpsertingPage> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
-                  _showLogo
-                      ? Center(
-                          child: Image.asset(
-                            'web/assets/logo2.png',
-                            width: 200,
-                          ),
-                        )
-                      : Container(),
-                  // Center(
-                  //   child: Image.asset(
-                  //     'web/assets/logo2.png',
-                  //     width: 200,
-                  //   ),
-                  // ), // replace 'assets/logo.png' with the path of your image file
-                  const SizedBox(height: 30),
                   const Text(
                     'Choose Schema:',
                     style: TextStyle(color: Colors.white, fontSize: 25),
                   ),
                   const SizedBox(height: 30),
-                  Column(children: getFieldsForSelectedSchema(_selectedSchema)),
                   DropdownButtonHideUnderline(
                     child: DropdownButton2<String>(
                       hint: const Padding(
@@ -176,14 +126,6 @@ class _UpsertingPageState extends State<UpsertingPage> {
                       onChanged: (String? newValue) {
                         setState(() {
                           _selectedSchema = newValue!;
-                          if (_selectedSchema == 'Documents' ||
-                              _selectedSchema == 'People') {
-                            _showLogo =
-                                false; // the logo will not be shown when 'Documents' or 'People' are selected
-                          } else {
-                            _showLogo =
-                                true; // the logo will be shown in other cases
-                          }
                         });
                       },
                       items: <String>['Social Posts', 'Documents', 'People']
@@ -236,54 +178,85 @@ class _UpsertingPageState extends State<UpsertingPage> {
                       ),
                     ),
                   ),
-                  const SizedBox(height: 30),
-                  TextField(
-                    controller: _urlController,
-                    decoration: InputDecoration(
-                      labelText: 'Enter Facebook URL',
-                      labelStyle: TextStyle(color: Colors.white),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(14.0),
-                      ),
-                      enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(14.0),
-                        borderSide: BorderSide(color: Colors.white, width: 2.0),
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(14.0),
-                        borderSide: BorderSide(
-                            color: const Color.fromARGB(255, 85, 165, 87),
-                            width: 2.0),
-                      ),
-                    ),
-                  ),
-                  const SizedBox(height: 30),
-                  Center(
-                    child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        primary: Colors.transparent,
-                        onPrimary: Color(0xff008400),
-                        elevation: 0,
-                        side: BorderSide(color: Colors.white, width: 2),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(25.0),
+                  const SizedBox(height: 15),
+                  Column(children: getFieldsForSelectedSchema(_selectedSchema)),
+                  if (_selectedSchema == 'Social Posts') ...[
+                    TextField(
+                      controller: _urlController,
+                      decoration: InputDecoration(
+                        labelText: 'Enter Facebook URL',
+                        labelStyle: TextStyle(color: Colors.white),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(14.0),
+                        ),
+                        enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(14.0),
+                          borderSide:
+                              BorderSide(color: Colors.white, width: 2.0),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(14.0),
+                          borderSide: BorderSide(
+                              color: const Color.fromARGB(255, 85, 165, 87),
+                              width: 2.0),
                         ),
                       ),
-                      child: const Text('Upload Data File',
-                          style: TextStyle(fontSize: 18)),
-                      onPressed: _pickFile,
                     ),
-                  ),
-                  const SizedBox(height: 30),
-                  Center(
-                    child: Text(
-                      _fileName,
-                      style: TextStyle(
-                        color: Colors.white, // choose the color you prefer
+                    Center(
+                      child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          primary: Colors.transparent,
+                          onPrimary: Color(0xff008400),
+                          elevation: 0,
+                          side: BorderSide(color: Colors.white, width: 2),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(25.0),
+                          ),
+                        ),
+                        child: const Text('Upload Data File',
+                            style: TextStyle(fontSize: 18)),
+                        onPressed: _pickFile,
                       ),
                     ),
-                  ),
-                  const SizedBox(height: 35),
+                    Center(
+                      child: Text(
+                        _fileName,
+                        style: TextStyle(
+                          color: Colors.white, // choose the color you prefer
+                        ),
+                      ),
+                    ),
+                  ],
+                  if (_selectedSchema == 'Documents' ||
+                      _selectedSchema == 'People') ...[
+                    const SizedBox(height: 15),
+                    Center(
+                      child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          primary: Colors.transparent,
+                          onPrimary: Color(0xff008400),
+                          elevation: 0,
+                          side: BorderSide(color: Colors.white, width: 2),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(25.0),
+                          ),
+                        ),
+                        child: const Text('Upload Data File',
+                            style: TextStyle(fontSize: 18)),
+                        onPressed: _pickFile,
+                      ),
+                    ),
+                    const SizedBox(height: 30),
+                    Center(
+                      child: Text(
+                        _fileName,
+                        style: TextStyle(
+                          color: Colors.white, // choose the color you prefer
+                        ),
+                      ),
+                    ),
+                  ],
+                  const SizedBox(height: 15),
                   Center(
                     child: ElevatedButton(
                       style: ElevatedButton.styleFrom(
