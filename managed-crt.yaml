@@ -1,0 +1,7 @@
+apiVersion: networking.gke.io/v1
+kind: ManagedCertificate
+metadata:
+  name: my-release-milvus-tls
+spec:
+  domains:
+    - my-release.milvus.io
