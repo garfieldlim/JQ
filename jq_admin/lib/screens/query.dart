@@ -5,6 +5,8 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_linkify/flutter_linkify.dart';
+
+import 'package:any_link_preview/any_link_preview.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class HomePage extends StatefulWidget {
@@ -18,8 +20,7 @@ class _HomePageState extends State<HomePage> {
   ];
   TextEditingController textController = TextEditingController();
   int currentPartition = 0;
-  bool isLoading =
-      false; // Added a state variable for tracking the loading state
+  bool isLoading = false;
 
   Future<void> sendMessage(String message, {int? partition}) async {
     // if partition is null
@@ -37,7 +38,7 @@ class _HomePageState extends State<HomePage> {
     });
 
     setState(() {
-      isLoading = true; // Set loading state to true before sending the request
+      isLoading = true;
     });
 
     try {
@@ -49,8 +50,7 @@ class _HomePageState extends State<HomePage> {
       }
 
       setState(() {
-        isLoading =
-            false; // Set loading state to false after receiving the response
+        isLoading = false;
       });
 
       if (response.statusCode == 200) {
@@ -73,8 +73,8 @@ class _HomePageState extends State<HomePage> {
           'text': responseData,
           'isUserMessage': false,
           'timestamp': DateTime.now().toUtc(),
-          'liked': false, // Initialize liked status as false
-          'disliked': false, // Initialize disliked status as false
+          'liked': false,
+          'disliked': false,
         });
       } else {
         print('Error: ${response.statusCode}');
@@ -84,21 +84,17 @@ class _HomePageState extends State<HomePage> {
     }
   }
 
-  // Function to handle liking or disliking a response
   void handleLikeDislike(int index, bool isLiked) {
     setState(() {
       if (isLiked) {
-        // If liked, set liked to true and disliked to false
         messages[index].liked = true;
         messages[index].disliked = false;
       } else {
-        // If disliked, set disliked to true and liked to false
         messages[index].liked = false;
         messages[index].disliked = true;
       }
     });
 
-    // Update the Firestore database with the like/dislike status
     final collection = FirebaseFirestore.instance.collection('chat_messages');
     collection.doc(messages[index].id).update({
       'liked': isLiked,
@@ -130,9 +126,8 @@ class _HomePageState extends State<HomePage> {
         appBar: AppBar(
           titleSpacing: 0.0,
           backgroundColor: Colors.transparent,
-          // leadingWidth: MediaQuery.of(context)
           title: GlassmorphicContainer(
-            height: 100, // match AppBar height
+            height: 100,
             width: 3500,
             borderRadius: 1,
             blur: 15,
@@ -156,15 +151,17 @@ class _HomePageState extends State<HomePage> {
               child: Image.asset('web/assets/logo.gif'),
             ),
           ),
-
-          toolbarHeight: 95, // Set height of AppBar
+          toolbarHeight: 95,
         ),
         body: Container(
           width: double.infinity,
           height: double.infinity,
           decoration: BoxDecoration(
-              image: DecorationImage(
-                  image: AssetImage('web/assets/bg2.png'), fit: BoxFit.cover)),
+            image: DecorationImage(
+              image: AssetImage('web/assets/bg2.png'),
+              fit: BoxFit.cover,
+            ),
+          ),
           child: Column(
             children: [
               Expanded(
@@ -174,8 +171,18 @@ class _HomePageState extends State<HomePage> {
                   itemBuilder: (context, index) {
                     final message = messages[index];
                     bool isLastMessage = index == messages.length - 1;
-                    bool isLink = Uri.parse(message.text).isAbsolute;
+                    // bool isLink =
+                    //     Uri.tryParse(message.text)?.isAbsolute ?? false;
+                    final imageUrlRegex =
+                        RegExp(r'\((http.*?\.jpg|http.*?\.png)\)');
+                    final imageUrlMatch =
+                        imageUrlRegex.firstMatch(message.text);
+                    final imageUrl = imageUrlMatch?.group(1) ?? '';
+                    final imageUrlWithCors =
+                        'https://cors-anywhere.herokuapp.com/$imageUrl';
 
+                    final displayText =
+                        message.text.replaceAll(RegExp(r'\[.*?\]\(.*?\)'), '');
                     return Column(
                       children: [
                         Container(
@@ -189,10 +196,8 @@ class _HomePageState extends State<HomePage> {
                                 child: Container(
                                   padding: EdgeInsets.all(16),
                                   constraints: BoxConstraints(
-                                    maxWidth: MediaQuery.of(context)
-                                            .size
-                                            .width *
-                                        0.7, // setting max width as 70% of screen width
+                                    maxWidth:
+                                        MediaQuery.of(context).size.width * 0.7,
                                   ),
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(25),
@@ -209,33 +214,58 @@ class _HomePageState extends State<HomePage> {
                                       ),
                                     ],
                                   ),
-                                  child: isLink
-                                      ? Linkify(
-                                          onOpen: (link) async {
-                                            if (await canLaunchUrl(
-                                                Uri.parse(link.url))) {
-                                              await launchUrl(
-                                                  Uri.parse(link.url));
-                                            } else {
-                                              throw 'Could not launch $link';
-                                            }
-                                          },
-                                          text: message.text,
-                                          style: TextStyle(
-                                            color: Colors.white,
-                                          ),
-                                          linkStyle: TextStyle(
-                                            color: Colors.blue,
-                                          ),
-                                        )
-                                      : Text(
-                                          message.text,
-                                          style: TextStyle(
-                                            color: Colors.white,
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    children: [
+                                      Linkify(
+                                        onOpen: (link) async {
+                                          if (await canLaunch(link.url)) {
+                                            await launch(link.url);
+                                          }
+                                        },
+                                        text: displayText,
+                                        linkStyle:
+                                            TextStyle(color: Colors.blue),
+                                        style: TextStyle(color: Colors.white),
+                                      ),
+                                      if (imageUrl.isNotEmpty)
+                                        Padding(
+                                          padding:
+                                              const EdgeInsets.only(top: 8.0),
+                                          child: Image.network(
+                                            imageUrlWithCors, // <-- This is the updated line
+                                            width: 150,
+                                            height: 150,
+                                            errorBuilder:
+                                                (context, error, stackTrace) {
+                                              return Text(
+                                                  'Failed to load image: $error');
+                                            },
                                           ),
                                         ),
+                                    ],
+                                  ),
                                 ),
                               ),
+                              if (!message.isUserMessage && index != 0) ...[
+                                IconButton(
+                                  icon: Icon(Icons.thumb_up,
+                                      color: message.liked
+                                          ? Colors.green
+                                          : Colors.grey),
+                                  onPressed: () =>
+                                      handleLikeDislike(index, true),
+                                ),
+                                IconButton(
+                                  icon: Icon(Icons.thumb_down,
+                                      color: message.disliked
+                                          ? Colors.red
+                                          : Colors.grey),
+                                  onPressed: () =>
+                                      handleLikeDislike(index, false),
+                                ),
+                              ],
                             ],
                           ),
                         ),
@@ -246,10 +276,8 @@ class _HomePageState extends State<HomePage> {
                               ? CircularProgressIndicator()
                               : ElevatedButton(
                                   style: ElevatedButton.styleFrom(
-                                    primary: Color(
-                                        0xfff9dea6), // background color of the button
-                                    onPrimary:
-                                        Colors.white, // color of the text
+                                    primary: Color(0xfff9dea6),
+                                    onPrimary: Colors.white,
                                     shape: RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(20),
                                     ),
@@ -273,6 +301,13 @@ class _HomePageState extends State<HomePage> {
                     Expanded(
                       child: TextField(
                         controller: textController,
+                        onSubmitted: (text) {
+                          if (text.isNotEmpty) {
+                            currentPartition = 0;
+                            sendMessage(text);
+                            textController.clear();
+                          }
+                        },
                         style: TextStyle(color: Colors.white),
                         decoration: InputDecoration(
                           hintText: 'Type your message...',
@@ -284,10 +319,11 @@ class _HomePageState extends State<HomePage> {
                     IconButton(
                       onPressed: () {
                         final message = textController.text;
-                        textController.clear();
-                        currentPartition =
-                            0; // Reset partition when new message is sent
-                        sendMessage(message);
+                        if (message.isNotEmpty) {
+                          textController.clear();
+                          currentPartition = 0;
+                          sendMessage(message);
+                        }
                       },
                       icon: Icon(Icons.send),
                       color: Colors.white,
@@ -306,8 +342,8 @@ class _HomePageState extends State<HomePage> {
 class ChatMessage {
   final String text;
   final bool isUserMessage;
-  bool liked; // New field to store like status
-  bool disliked; // New field to store dislike status
+  bool liked;
+  bool disliked;
   String? id;
 
   ChatMessage({
