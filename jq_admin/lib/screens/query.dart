@@ -30,7 +30,7 @@ class _HomePageState extends State<HomePage> {
       });
     }
 
-    final url = Uri.parse('http://192.168.68.124:7999/query');
+    final url = Uri.parse('http://192.168.68.102:7999/query');
     final headers = {'Content-Type': 'application/json'};
     final body = jsonEncode({
       'question': message,

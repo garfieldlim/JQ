@@ -19,7 +19,8 @@ def question_answer():
     if ranked_partitions is None:
         return jsonify({"error": "No ranked_partitions returned. Check your ranking_partitions function."})
     print("Partitions ranked.")
-
+    for part in ranked_partitions:
+        print(part)
     partition = request.json.get('partition', 0)
     results_dict = search_collections(vectors, [ranked_partitions[partition]])
     print("Results dic done.")
