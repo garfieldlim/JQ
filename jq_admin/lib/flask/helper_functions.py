@@ -14,7 +14,7 @@ from joblib import load
 import uuid
 from datetime import datetime 
 
-openai.api_key = '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'
+openai.api_key = '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'
 collections_list = [
     'text_collection',
     'author_collection',
@@ -171,6 +171,7 @@ def process_results(results_dict):
             json_results_sorted = sorted(json_results_list, key=lambda x: x['distance'])
     
     return json_results_sorted
+    
 def populate_results(json_results_sorted, partition_names):
     # Load all collections beforehand
     collections = {name: Collection(f"{name}_collection") for name in fields_list}
@@ -232,8 +233,9 @@ def populate_results(json_results_sorted, partition_names):
                 final_results.append(concatenated_values)
         except Exception as e:
             print(f"Error with collection {name}: {str(e)}")
-            # final results should be a string
-    return '\n'.join(final_results)
+    # format final results with "Result {index}: " pattern
+    formatted_results = [f"Result {index+1}:  {value}" for index, value in enumerate(final_results)]
+    return '\n'.join(formatted_results)
 
 
 def generate_response(prompt, string_json):
@@ -245,7 +247,7 @@ def generate_response(prompt, string_json):
         {'role': 'user', 'content': ''}
     ]
     
-    # Convert the conversation to a string
+    # Convert the conversation to a string  
     conversation_str = ''.join([f'{item["role"]}: {item["content"]}\n' for item in conversation])
 
     response = openai.ChatCompletion.create(
@@ -267,8 +269,8 @@ def generate_response(prompt, string_json):
 def ranking_partitions(vectors):
     return ['people_partition', 'documents_partition', 'social_posts_partition', "contacts_partition"]
     
-svm_model = load('lib\models\svm_model.joblib')
-label_encoder = load('lib\models\label_encoder.joblib')
+svm_model = load('lib/models/svm_model.joblib')
+label_encoder = load('lib/models/label_encoder.joblib')
 def rank_partitions(prompt_embedding):
     # Convert the prompt to an embedding
     
@@ -285,37 +287,7 @@ def rank_partitions(prompt_embedding):
     ranked_class_names = [item[0] for item in ranked_classes]
     
     return ranked_class_names
-# # load encoders
-# le_attribute = joblib.load('jq_admin/lib/models/le_attribute.pkl')
-# le_partition = joblib.load('jq_admin/lib/models/le_partition.pkl')
 
-# def predict_attribute(embeds):
-#     # transform input to the right format
-#     X = np.stack([embeds])
-
-#     # predict probabilities across all possible labels
-#     probas = clf_attribute.predict_proba(X)[0]
-
-#     # get class labels in descending order of probability
-#     classes = clf_attribute.classes_
-#     ranked_classes = [x for _, x in sorted(zip(probas, classes), reverse=True)]
-
-#     # return the names instead of the encoded labels
-#     return le_attribute.inverse_transform(ranked_classes)
-
-# def predict_partition(embeds):
-#     # transform input to the right format
-#     X = np.stack([embeds])
-
-#     # predict probabilities across all possible labels
-#     probas = clf_partition.predict_proba(X)[0]
-
-#     # get class labels in descending order of probability
-#     classes = clf_partition.classes_
-#     ranked_classes = [x for _, x in sorted(zip(probas, classes), reverse=True)]
-
-#     # return the names instead of the encoded labels
-#     return le_partition.inverse_transform(ranked_classes)
 def refactor_date(input_date):
     # Parse the input date using datetime.datetime.strptime
     parsed_date = datetime.strptime(input_date, "%a, %d %b %Y %H:%M:%S %Z")

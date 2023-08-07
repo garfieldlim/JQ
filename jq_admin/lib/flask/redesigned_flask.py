@@ -9,8 +9,17 @@ CORS(app)  # This will enable CORS for all routes
 @app.route('/query', methods=['POST'])
 def question_answer():
     prompt = request.json['question']
-    
-    vectors = vectorize_query(prompt)
+    prev_message = request.json.get('prev')
+    print(f"THIS IS PROMPT : {prompt} ")
+    print(f"THIS IS PREV MESSAGE : {prev_message} ")
+    if prev_message == 'How may I help you?':
+        prev_message = ' '
+    #  if prev_message has 'announcement', prev_message == ' '
+    if 'announcement' in prev_message:
+        prev_message = ' '
+
+
+    vectors = vectorize_query(prompt+ ' ' + prev_message)
     print("Vectors done.")
     if vectors is None:
         return jsonify({"error": "No vectors returned. Check your vectorize_query function."})
@@ -34,12 +43,13 @@ def question_answer():
     final_results = populate_results(json_results_sorted, ranked_partitions[partition])
     print("Populate results done.")
     if final_results is None:
-        return jsonify({"error": "No final results returned. Check your populate_results function."})
+        return jsonify({"error": "No final esults returned. Check your populate_results function."})
     
     string_json = final_results
     print("JSON string done.")
     print("JSOdsnfjksdnjkfdsnjklsdnfjklNS", string_json[:4500])
-    generated_text = generate_response(prompt, string_json)
+    print("HGSDUGHSUDHFSDFJILDSFDISJDF,", prev_message)
+    generated_text = generate_response(f"{prompt}, previous answer: {prev_message}", string_json)
     print(generated_text)
     if generated_text is None:
         return jsonify({"error": "No response generated. Check your generate_response function."})

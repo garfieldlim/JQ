@@ -5,6 +5,7 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_linkify/flutter_linkify.dart';
+import 'dart:convert';
 
 import 'package:any_link_preview/any_link_preview.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -22,19 +23,40 @@ class _HomePageState extends State<HomePage> {
   int currentPartition = 0;
   bool isLoading = false;
 
+  void resetChat() {
+    setState(() {
+      messages = [
+        ChatMessage(text: "How may I help you?", isUserMessage: false),
+      ];
+    });
+
+    // Optionally: Remove chat messages from Cloud Firestore.
+  }
+
   Future<void> sendMessage(String message, {int? partition}) async {
-    // if partition is null
+    // Add the user message to the messages list if partition is null
     if (partition == null) {
       setState(() {
         messages.add(ChatMessage(text: message, isUserMessage: true));
       });
     }
 
-    final url = Uri.parse('http://192.168.68.124:7999/query');
+    final url = Uri.parse('http://192.168.68.102:7999/query');
     final headers = {'Content-Type': 'application/json'};
+
+    // Getting the previous answer from the bot
+    String? previousAnswer;
+    for (var item in messages.reversed) {
+      if (!item.isUserMessage) {
+        previousAnswer = item.text;
+        break;
+      }
+    }
+
     final body = jsonEncode({
       'question': message,
       'partition': partition ?? currentPartition,
+      'prev': previousAnswer,
     });
 
     setState(() {
@@ -42,7 +64,11 @@ class _HomePageState extends State<HomePage> {
     });
 
     try {
-      final response = await http.post(url, headers: headers, body: body);
+      final response = await http.post(
+        url,
+        headers: headers,
+        body: body,
+      );
 
       // Remove last message after receiving the response
       if (messages.length > 0 && partition != null) {
@@ -53,28 +79,40 @@ class _HomePageState extends State<HomePage> {
         isLoading = false;
       });
 
+      // Save the chat messages in Cloud Firestore
+      final collection = FirebaseFirestore.instance.collection('chat_messages');
+
       if (response.statusCode == 200) {
         var data = jsonDecode(response.body);
         var responseData = data['response'] as String;
 
         setState(() {
-          messages.add(ChatMessage(text: responseData, isUserMessage: false));
+          messages.add(ChatMessage(
+            text: responseData,
+            isUserMessage: false,
+            liked: false,
+            disliked: false,
+            id: collection.doc().id, // Store the document ID
+          ));
         });
 
-        // Save the chat messages in Cloud Firestore
-        final collection =
-            FirebaseFirestore.instance.collection('chat_messages');
-        collection.add({
+        var userMessageDoc = await collection.add({
           'text': message,
           'isUserMessage': true,
           'timestamp': DateTime.now().toUtc(),
         });
-        collection.add({
+        var botMessageDoc = await collection.add({
           'text': responseData,
           'isUserMessage': false,
           'timestamp': DateTime.now().toUtc(),
           'liked': false,
           'disliked': false,
+        });
+
+        // Store the document ID in the ChatMessage object
+        setState(() {
+          messages[messages.length - 2].id = userMessageDoc.id;
+          messages[messages.length - 1].id = botMessageDoc.id;
         });
       } else {
         print('Error: ${response.statusCode}');
@@ -85,21 +123,25 @@ class _HomePageState extends State<HomePage> {
   }
 
   void handleLikeDislike(int index, bool isLiked) {
-    setState(() {
-      if (isLiked) {
-        messages[index].liked = true;
-        messages[index].disliked = false;
-      } else {
-        messages[index].liked = false;
-        messages[index].disliked = true;
-      }
-    });
+    if (messages[index].id != null) {
+      setState(() {
+        if (isLiked) {
+          messages[index].liked = true;
+          messages[index].disliked = false;
+        } else {
+          messages[index].liked = false;
+          messages[index].disliked = true;
+        }
+      });
 
-    final collection = FirebaseFirestore.instance.collection('chat_messages');
-    collection.doc(messages[index].id).update({
-      'liked': isLiked,
-      'disliked': !isLiked,
-    });
+      final collection = FirebaseFirestore.instance.collection('chat_messages');
+      collection.doc(messages[index].id).update({
+        'liked': isLiked,
+        'disliked': !isLiked,
+      });
+    } else {
+      print('Error: Document ID is null.');
+    }
   }
 
   Future<void> regenerateMessage(ChatMessage message) async {
@@ -122,6 +164,12 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
+        floatingActionButton: FloatingActionButton(
+          onPressed: resetChat,
+          tooltip: 'Reset Chat',
+          child: Icon(Icons.refresh),
+        ),
+        floatingActionButtonLocation: CustomFloatingActionButtonLocation(100.0),
         extendBodyBehindAppBar: true,
         appBar: AppBar(
           titleSpacing: 0.0,
@@ -353,4 +401,20 @@ class ChatMessage {
     this.disliked = false,
     this.id,
   });
+}
+
+class CustomFloatingActionButtonLocation extends FloatingActionButtonLocation {
+  final double _offsetY;
+
+  CustomFloatingActionButtonLocation(this._offsetY);
+
+  @override
+  Offset getOffset(ScaffoldPrelayoutGeometry scaffoldGeometry) {
+    // Compute the default offset.
+    final Offset defaultOffset =
+        FloatingActionButtonLocation.endFloat.getOffset(scaffoldGeometry);
+
+    // Adjust the y value of the offset to move the FAB up by _offsetY.
+    return Offset(defaultOffset.dx, defaultOffset.dy - _offsetY);
+  }
 }
