@@ -5,6 +5,7 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_linkify/flutter_linkify.dart';
+import 'dart:convert';
 
 import 'package:any_link_preview/any_link_preview.dart';
 import 'package:jq_admin/screens/loading.dart';
@@ -24,19 +25,40 @@ class _HomePageState extends State<HomePage> {
   bool isLoading = false;
   bool isTyping = false;
 
+  void resetChat() {
+    setState(() {
+      messages = [
+        ChatMessage(text: "How may I help you?", isUserMessage: false),
+      ];
+    });
+
+    // Optionally: Remove chat messages from Cloud Firestore.
+  }
+
   Future<void> sendMessage(String message, {int? partition}) async {
-    // if partition is null
+    // Add the user message to the messages list if partition is null
     if (partition == null) {
       setState(() {
         messages.add(ChatMessage(text: message, isUserMessage: true));
       });
     }
 
-    final url = Uri.parse('http://127.0.0.1:7999/query');
+    final url = Uri.parse('http://192.168.68.102:7999/query');
     final headers = {'Content-Type': 'application/json'};
+
+    // Getting the previous answer from the bot
+    String? previousAnswer;
+    for (var item in messages.reversed) {
+      if (!item.isUserMessage) {
+        previousAnswer = item.text;
+        break;
+      }
+    }
+
     final body = jsonEncode({
       'question': message,
       'partition': partition ?? currentPartition,
+      'prev': previousAnswer,
     });
 
     setState(() {
@@ -45,7 +67,11 @@ class _HomePageState extends State<HomePage> {
     });
 
     try {
-      final response = await http.post(url, headers: headers, body: body);
+      final response = await http.post(
+        url,
+        headers: headers,
+        body: body,
+      );
 
       // Remove last message after receiving the response
       if (messages.length > 0 && partition != null) {
@@ -143,6 +169,12 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
+        floatingActionButton: FloatingActionButton(
+          onPressed: resetChat,
+          tooltip: 'Reset Chat',
+          child: Icon(Icons.refresh),
+        ),
+        floatingActionButtonLocation: CustomFloatingActionButtonLocation(100.0),
         extendBodyBehindAppBar: true,
         appBar: AppBar(
           titleSpacing: 0.0,
@@ -380,4 +412,20 @@ class ChatMessage {
     this.disliked = false,
     this.id,
   });
+}
+
+class CustomFloatingActionButtonLocation extends FloatingActionButtonLocation {
+  final double _offsetY;
+
+  CustomFloatingActionButtonLocation(this._offsetY);
+
+  @override
+  Offset getOffset(ScaffoldPrelayoutGeometry scaffoldGeometry) {
+    // Compute the default offset.
+    final Offset defaultOffset =
+        FloatingActionButtonLocation.endFloat.getOffset(scaffoldGeometry);
+
+    // Adjust the y value of the offset to move the FAB up by _offsetY.
+    return Offset(defaultOffset.dx, defaultOffset.dy - _offsetY);
+  }
 }
