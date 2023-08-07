@@ -216,7 +216,7 @@ class _HomePageState extends State<HomePage> {
                                   ),
                                   child: Column(
                                     crossAxisAlignment:
-                                        CrossAxisAlignment.start,
+                                        CrossAxisAlignment.center,
                                     children: [
                                       Linkify(
                                         onOpen: (link) async {
@@ -248,6 +248,24 @@ class _HomePageState extends State<HomePage> {
                                   ),
                                 ),
                               ),
+                              if (!message.isUserMessage && index != 0) ...[
+                                IconButton(
+                                  icon: Icon(Icons.thumb_up,
+                                      color: message.liked
+                                          ? Colors.green
+                                          : Colors.grey),
+                                  onPressed: () =>
+                                      handleLikeDislike(index, true),
+                                ),
+                                IconButton(
+                                  icon: Icon(Icons.thumb_down,
+                                      color: message.disliked
+                                          ? Colors.red
+                                          : Colors.grey),
+                                  onPressed: () =>
+                                      handleLikeDislike(index, false),
+                                ),
+                              ],
                             ],
                           ),
                         ),
