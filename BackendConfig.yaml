@@ -1,0 +1,10 @@
+apiVersion: cloud.google.com/v1
+kind: BackendConfig
+metadata:
+  name: my-release-backendconfig
+  namespace: default
+spec:
+  healthCheck:
+    port: 9091
+    requestPath: /healthz
+    type: HTTP
