@@ -7,6 +7,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_linkify/flutter_linkify.dart';
 
 import 'package:any_link_preview/any_link_preview.dart';
+import 'package:jq_admin/screens/loading.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class HomePage extends StatefulWidget {
@@ -21,6 +22,7 @@ class _HomePageState extends State<HomePage> {
   TextEditingController textController = TextEditingController();
   int currentPartition = 0;
   bool isLoading = false;
+  bool isTyping = false;
 
   Future<void> sendMessage(String message, {int? partition}) async {
     // if partition is null
@@ -30,7 +32,7 @@ class _HomePageState extends State<HomePage> {
       });
     }
 
-    final url = Uri.parse('http://192.168.68.124:7999/query');
+    final url = Uri.parse('http://127.0.0.1:7999/query');
     final headers = {'Content-Type': 'application/json'};
     final body = jsonEncode({
       'question': message,
@@ -39,6 +41,7 @@ class _HomePageState extends State<HomePage> {
 
     setState(() {
       isLoading = true;
+      isTyping = true;
     });
 
     try {
@@ -51,55 +54,73 @@ class _HomePageState extends State<HomePage> {
 
       setState(() {
         isLoading = false;
+        isTyping = false;
       });
+
+      // Save the chat messages in Cloud Firestore
+      final collection = FirebaseFirestore.instance.collection('chat_messages');
 
       if (response.statusCode == 200) {
         var data = jsonDecode(response.body);
         var responseData = data['response'] as String;
 
         setState(() {
-          messages.add(ChatMessage(text: responseData, isUserMessage: false));
+          messages.add(ChatMessage(
+            text: responseData,
+            isUserMessage: false,
+            liked: false,
+            disliked: false,
+            id: collection.doc().id, // Store the document ID
+          ));
         });
 
-        // Save the chat messages in Cloud Firestore
-        final collection =
-            FirebaseFirestore.instance.collection('chat_messages');
-        collection.add({
+        var userMessageDoc = await collection.add({
           'text': message,
           'isUserMessage': true,
           'timestamp': DateTime.now().toUtc(),
         });
-        collection.add({
+        var botMessageDoc = await collection.add({
           'text': responseData,
           'isUserMessage': false,
           'timestamp': DateTime.now().toUtc(),
           'liked': false,
           'disliked': false,
         });
+
+        // Store the document ID in the ChatMessage object
+        setState(() {
+          messages[messages.length - 2].id = userMessageDoc.id;
+          messages[messages.length - 1].id = botMessageDoc.id;
+        });
       } else {
         print('Error: ${response.statusCode}');
       }
     } catch (error) {
       print('Error: $error');
+      isTyping = false;
     }
   }
 
   void handleLikeDislike(int index, bool isLiked) {
-    setState(() {
-      if (isLiked) {
-        messages[index].liked = true;
-        messages[index].disliked = false;
-      } else {
-        messages[index].liked = false;
-        messages[index].disliked = true;
-      }
-    });
+    if (messages[index].id != null) {
+      setState(() {
+        if (isLiked) {
+          messages[index].liked = true;
+          messages[index].disliked = false;
+        } else {
+          messages[index].liked = false;
+          messages[index].disliked = true;
+        }
+      });
 
-    final collection = FirebaseFirestore.instance.collection('chat_messages');
-    collection.doc(messages[index].id).update({
-      'liked': isLiked,
-      'disliked': !isLiked,
-    });
+      final collection = FirebaseFirestore.instance.collection('chat_messages');
+      collection.doc(messages[index].id).update({
+        'liked': isLiked,
+        'disliked': !isLiked,
+      });
+    } else {
+      print('Error: Document ID is null.');
+    }
   }
 
   Future<void> regenerateMessage(ChatMessage message) async {
@@ -167,8 +188,14 @@ class _HomePageState extends State<HomePage> {
               Expanded(
                 child: ListView.builder(
                   shrinkWrap: true,
-                  itemCount: messages.length,
+                  itemCount: messages.length + (isTyping ? 1 : 0),
                   itemBuilder: (context, index) {
+                    if (isTyping && index == messages.length) {
+                      return Padding(
+                        padding: const EdgeInsets.all(20.0),
+                        child: TypingIndicator(),
+                      );
+                    }
                     final message = messages[index];
                     bool isLastMessage = index == messages.length - 1;
                     // bool isLink =
