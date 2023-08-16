@@ -8,6 +8,7 @@ import 'package:flutter_linkify/flutter_linkify.dart';
 import 'dart:convert';
 
 import 'package:any_link_preview/any_link_preview.dart';
+import 'package:jq_admin/screens/loading.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class HomePage extends StatefulWidget {
@@ -22,6 +23,7 @@ class _HomePageState extends State<HomePage> {
   TextEditingController textController = TextEditingController();
   int currentPartition = 0;
   bool isLoading = false;
+  bool isTyping = false;
 
   void resetChat() {
     setState(() {
@@ -61,6 +63,7 @@ class _HomePageState extends State<HomePage> {
 
     setState(() {
       isLoading = true;
+      isTyping = true;
     });
 
     try {
@@ -77,6 +80,7 @@ class _HomePageState extends State<HomePage> {
 
       setState(() {
         isLoading = false;
+        isTyping = false;
       });
 
       // Save the chat messages in Cloud Firestore
@@ -119,6 +123,7 @@ class _HomePageState extends State<HomePage> {
       }
     } catch (error) {
       print('Error: $error');
+      isTyping = false;
     }
   }
 
@@ -215,8 +220,14 @@ class _HomePageState extends State<HomePage> {
               Expanded(
                 child: ListView.builder(
                   shrinkWrap: true,
-                  itemCount: messages.length,
+                  itemCount: messages.length + (isTyping ? 1 : 0),
                   itemBuilder: (context, index) {
+                    if (isTyping && index == messages.length) {
+                      return Padding(
+                        padding: const EdgeInsets.all(20.0),
+                        child: TypingIndicator(),
+                      );
+                    }
                     final message = messages[index];
                     bool isLastMessage = index == messages.length - 1;
                     // bool isLink =
