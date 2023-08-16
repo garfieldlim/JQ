@@ -1,10 +1,42 @@
 from flask import Flask, request, jsonify
-from helper_functions import vectorize_query, ranking_partitions, search_collections, process_results, populate_results, generate_response, rank_partitions
+from helper_functions import vectorize_query, process_object, ranking_partitions, search_collections, process_results, populate_results, generate_response, rank_partitions
 import json
+import datetime
+from flask import Flask, request, jsonify
+import json
+import datetime
+from facebook_scraper import get_posts
 from flask_cors import CORS
 
 app = Flask(__name__)
 CORS(app)  # This will enable CORS for all routes
+
+
+@app.route('/scrape_website', methods=['POST'])
+def scrape_website():
+    url = request.json['url']
+
+    # Custom encoder for datetime objects
+    class DateTimeEncoder(json.JSONEncoder):
+        def default(self, obj):
+            if isinstance(obj, datetime.datetime):
+                return obj.isoformat()
+            return json.JSONEncoder.default(self, obj)
+
+    scraped_data = []
+    for post in get_posts(post_urls=[url], cookies="/Users/garfieldgreglim/Documents/JQ/jq_admin/lib/flask/cookies.json"):
+        post_json = post # No need to convert to string here
+        scraped_data.append(post_json)
+
+    return jsonify(scraped_data) # Return list of dictionaries
+
+@app.route('/receive_json', methods=['POST'])
+def receive_json():
+    # Get the JSON data from the request
+    data = request.json
+    process_object(data)
+    return jsonify({'status': 'success'})
+
 
 @app.route('/query', methods=['POST'])
 def question_answer():
@@ -49,7 +81,7 @@ def question_answer():
     print("JSON string done.")
     print("JSOdsnfjksdnjkfdsnjklsdnfjklNS", string_json[:4500])
     print("HGSDUGHSUDHFSDFJILDSFDISJDF,", prev_message)
-    generated_text = generate_response(f"{prompt}, previous answer: {prev_message}", string_json)
+    generated_text = generate_response(f"{prompt}")
     print(generated_text)
     if generated_text is None:
         return jsonify({"error": "No response generated. Check your generate_response function."})
