@@ -37,7 +37,7 @@ class _UpsertingPageState extends State<UpsertingPage> {
   }
 
   Future<void> _sendUrlToServer() async {
-    var url = Uri.parse('http://127.0.0.1:5000/scrape_website');
+    var url = Uri.parse('http://127.0.0.1:7999/scrape_website');
     var response = await http.post(
       url,
       body: jsonEncode(

@@ -14,7 +14,7 @@ from joblib import load
 import uuid
 from datetime import datetime 
 
-openai.api_key = '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'
+openai.api_key = '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'
 collections_list = [
     'text_collection',
     'author_collection',
@@ -251,7 +251,7 @@ def generate_response(prompt, string_json):
     conversation_str = ''.join([f'{item["role"]}: {item["content"]}\n' for item in conversation])
 
     response = openai.ChatCompletion.create(
-      model="gpt-3.5-turbo",
+      model="gpt-4",
       messages=conversation,
       temperature=1,
       max_tokens=1000,
@@ -269,8 +269,8 @@ def generate_response(prompt, string_json):
 def ranking_partitions(vectors):
     return ['people_partition', 'documents_partition', 'social_posts_partition', "contacts_partition"]
     
-svm_model = load('lib/models/svm_model.joblib')
-label_encoder = load('lib/models/label_encoder.joblib')
+svm_model = load('models/svm_model.joblib')
+label_encoder = load('models/label_encoder.joblib')
 def rank_partitions(prompt_embedding):
     # Convert the prompt to an embedding
     
