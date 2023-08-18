@@ -1,21 +1,17 @@
-// update_knowledgebase.dart
+// group_upsertion.dart
 
 import 'package:flutter/material.dart';
 import 'package:glassmorphism/glassmorphism.dart';
-import 'package:jq_dashboard/screens/update_knowledgebase_selection/announcements/select_type.dart'
-    as announcements;
-import 'package:jq_dashboard/screens/update_knowledgebase_selection/documents/select_type.dart'
-    as documents;
-import 'package:jq_dashboard/screens/update_knowledgebase_selection/people/select_type.dart'
-    as people;
+import 'package:file_picker/file_picker.dart';
 
-class UpdateKnowledgebasePage extends StatefulWidget {
+class GroupUpsertionPage extends StatefulWidget {
   @override
-  _UpdateKnowledgebasePageState createState() =>
-      _UpdateKnowledgebasePageState();
+  _GroupUpsertionPageState createState() => _GroupUpsertionPageState();
 }
 
-class _UpdateKnowledgebasePageState extends State<UpdateKnowledgebasePage> {
+class _GroupUpsertionPageState extends State<GroupUpsertionPage> {
+  String _fileName = 'No file uploaded';
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -89,41 +85,38 @@ class _UpdateKnowledgebasePageState extends State<UpdateKnowledgebasePage> {
       crossAxisAlignment: CrossAxisAlignment.stretch,
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
-        _buildPartitionButton('announcements'),
+        _buildFormatGuide(),
         const SizedBox(height: 20),
-        _buildPartitionButton('documents'),
+        _buildUploadButton(),
         const SizedBox(height: 20),
-        _buildPartitionButton('people'),
-        const SizedBox(height: 20),
-        _buildPartitionButton('contacts'),
+        _buildContinueButton(),
       ],
     );
   }
 
-  Widget _buildPartitionButton(String title) {
-    return ElevatedButton(
-      style: _buildElevatedButtonStyle(Colors.transparent, Color(0xffD9A830)),
-      child: Text(title, style: TextStyle(fontSize: 18)),
-      onPressed: () {
-        if (title == 'announcements') {
-          Navigator.of(context).push(
-            MaterialPageRoute(
-                builder: (context) => announcements.SelectTypePage()),
-          );
-        }
-        if (title == 'documents') {
-          Navigator.of(context).push(
-            MaterialPageRoute(builder: (context) => documents.SelectTypePage()),
-          );
-        }
-        if (title == 'people') {
-          Navigator.of(context).push(
-            MaterialPageRoute(builder: (context) => people.SelectTypePage()),
-          );
-        }
-        // Handle other partition selections here
-        print('Selected partition: $title');
-      },
+  Widget _buildFormatGuide() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          'Format Guide:',
+          style: TextStyle(color: Colors.white, fontSize: 20),
+        ),
+        Text(
+          '{\ntext: <text_content>,\nlink: <link_content>,\ntime: <time_content>\n}',
+          style: TextStyle(color: Colors.white, fontSize: 18),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildUploadButton() {
+    return Center(
+      child: ElevatedButton(
+        style: _buildElevatedButtonStyle(Colors.transparent, Color(0xffD9A830)),
+        child: const Text('Upload JSON File', style: TextStyle(fontSize: 18)),
+        onPressed: _pickFile,
+      ),
     );
   }
 
@@ -137,5 +130,31 @@ class _UpdateKnowledgebasePageState extends State<UpdateKnowledgebasePage> {
         borderRadius: BorderRadius.circular(25.0),
       ),
     );
+  }
+
+  Widget _buildContinueButton() {
+    return Center(
+      child: ElevatedButton(
+        style: _buildElevatedButtonStyle(Colors.transparent, Color(0xffD9A830)),
+        child: const Text('Continue', style: TextStyle(fontSize: 18)),
+        onPressed: () {
+          // Handle continue press
+          print('Continue button pressed');
+        },
+      ),
+    );
+  }
+
+  Future<void> _pickFile() async {
+    FilePickerResult? result = await FilePicker.platform
+        .pickFiles(type: FileType.custom, allowedExtensions: ['json']);
+
+    if (result != null) {
+      setState(() {
+        _fileName = result.files.single.name;
+      });
+    } else {
+      print('No file picked');
+    }
   }
 }

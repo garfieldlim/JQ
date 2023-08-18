@@ -1,21 +1,16 @@
-// update_knowledgebase.dart
+// select_type.dart
 
 import 'package:flutter/material.dart';
 import 'package:glassmorphism/glassmorphism.dart';
-import 'package:jq_dashboard/screens/update_knowledgebase_selection/announcements/select_type.dart'
-    as announcements;
-import 'package:jq_dashboard/screens/update_knowledgebase_selection/documents/select_type.dart'
-    as documents;
-import 'package:jq_dashboard/screens/update_knowledgebase_selection/people/select_type.dart'
-    as people;
+import 'package:jq_dashboard/screens/update_knowledgebase_selection/people/group_upsertion.dart';
+import 'package:jq_dashboard/screens/update_knowledgebase_selection/people/single_upsertion.dart';
 
-class UpdateKnowledgebasePage extends StatefulWidget {
+class SelectTypePage extends StatefulWidget {
   @override
-  _UpdateKnowledgebasePageState createState() =>
-      _UpdateKnowledgebasePageState();
+  _SelectTypePageState createState() => _SelectTypePageState();
 }
 
-class _UpdateKnowledgebasePageState extends State<UpdateKnowledgebasePage> {
+class _SelectTypePageState extends State<SelectTypePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -46,8 +41,8 @@ class _UpdateKnowledgebasePageState extends State<UpdateKnowledgebasePage> {
 
   Widget _buildGlassContainer() {
     return GlassmorphicContainer(
-      width: 800,
-      height: 400,
+      width: 600,
+      height: 250,
       borderRadius: 20,
       blur: 20,
       alignment: Alignment.bottomCenter,
@@ -89,40 +84,29 @@ class _UpdateKnowledgebasePageState extends State<UpdateKnowledgebasePage> {
       crossAxisAlignment: CrossAxisAlignment.stretch,
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
-        _buildPartitionButton('announcements'),
+        _buildOptionButton('Group Upsertion (JSON)'),
         const SizedBox(height: 20),
-        _buildPartitionButton('documents'),
-        const SizedBox(height: 20),
-        _buildPartitionButton('people'),
-        const SizedBox(height: 20),
-        _buildPartitionButton('contacts'),
+        _buildOptionButton('Single Upsertion'),
       ],
     );
   }
 
-  Widget _buildPartitionButton(String title) {
+  Widget _buildOptionButton(String title) {
     return ElevatedButton(
       style: _buildElevatedButtonStyle(Colors.transparent, Color(0xffD9A830)),
       child: Text(title, style: TextStyle(fontSize: 18)),
       onPressed: () {
-        if (title == 'announcements') {
+        if (title == 'Group Upsertion (JSON)') {
           Navigator.of(context).push(
-            MaterialPageRoute(
-                builder: (context) => announcements.SelectTypePage()),
+            MaterialPageRoute(builder: (context) => GroupUpsertionPage()),
+          );
+        } else if (title == 'Single Upsertion') {
+          // Navigate to the SingleUpsertionPage once you've created it
+          Navigator.of(context).push(
+            MaterialPageRoute(builder: (context) => SingleUpsertion()),
           );
         }
-        if (title == 'documents') {
-          Navigator.of(context).push(
-            MaterialPageRoute(builder: (context) => documents.SelectTypePage()),
-          );
-        }
-        if (title == 'people') {
-          Navigator.of(context).push(
-            MaterialPageRoute(builder: (context) => people.SelectTypePage()),
-          );
-        }
-        // Handle other partition selections here
-        print('Selected partition: $title');
+        print('Selected option: $title');
       },
     );
   }

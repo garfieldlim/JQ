@@ -99,8 +99,7 @@ class _DashboardPageState extends State<DashboardPage> {
           Navigator.of(context).push(
             MaterialPageRoute(builder: (context) => UpdateKnowledgebasePage()),
           );
-        }
-        // Handle other button presses here
+        } // Handle other button presses here
         print('$title button pressed');
       },
     );
