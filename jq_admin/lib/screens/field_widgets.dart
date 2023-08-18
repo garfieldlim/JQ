@@ -3,44 +3,53 @@ import 'package:flutter/material.dart';
 Map<String, TextEditingController> controllers = {};
 
 List<Widget> getFieldsForSelectedSchema(String? selectedSchema) {
-  List<String> fields = [];
-  if (selectedSchema == 'Documents') {
-    fields = ['Text', 'Author', 'Title', 'Date', 'Media (link)', 'Link'];
-  } else if (selectedSchema == 'People') {
-    fields = ['Text', 'Name', 'Media', 'Links', 'Position', 'Department'];
-  } else {
-    return [];
-  }
+  List<String> fields = _getFieldsForSchema(selectedSchema);
 
-  List<Widget> fieldsWithSpacing = [];
-  fields.forEach((label) {
-    fieldsWithSpacing.add(buildTextField(label));
-    fieldsWithSpacing.add(SizedBox(
-        height: 5)); // Add space of 10 logical pixels between the TextFields
-  });
-
-  return fieldsWithSpacing;
+  return [
+    for (String label in fields) ...[
+      _buildTextField(label),
+      const SizedBox(height: 5),
+    ]
+  ];
 }
 
-TextField buildTextField(String label) {
+List<String> _getFieldsForSchema(String? selectedSchema) {
+  switch (selectedSchema) {
+    case 'Documents':
+      return ['Text', 'Author', 'Title', 'Date', 'Links'];
+    case 'People':
+      return ['Text', 'Name', 'Media', 'Links', 'Position', 'Department'];
+    default:
+      return [];
+  }
+}
+
+TextField _buildTextField(String label) {
   controllers.putIfAbsent(label, () => TextEditingController());
+
   return TextField(
     controller: controllers[label],
     decoration: InputDecoration(
       labelText: label,
       labelStyle: TextStyle(color: Colors.white),
-      border: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(14.0),
-      ),
-      enabledBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(14.0),
-        borderSide: BorderSide(color: Colors.white, width: 2.0),
-      ),
-      focusedBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(14.0),
-        borderSide: BorderSide(
-            color: const Color.fromARGB(255, 85, 165, 87), width: 2.0),
-      ),
+      border: _defaultInputBorder(),
+      enabledBorder: _defaultInputBorder(),
+      focusedBorder: _focusedInputBorder(),
     ),
+  );
+}
+
+InputBorder _defaultInputBorder() {
+  return OutlineInputBorder(
+    borderRadius: BorderRadius.circular(14.0),
+    borderSide: BorderSide(color: Colors.white, width: 2.0),
+  );
+}
+
+InputBorder _focusedInputBorder() {
+  return OutlineInputBorder(
+    borderRadius: BorderRadius.circular(14.0),
+    borderSide:
+        BorderSide(color: const Color.fromARGB(255, 85, 165, 87), width: 2.0),
   );
 }
