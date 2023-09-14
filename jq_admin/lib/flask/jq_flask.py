@@ -47,12 +47,10 @@ def receive_json():
 @app.route('/query', methods=['POST'])
 def question_answer():
     prompt = request.json['question']
-    prev_message = request.json.get('prev', '')
 
-    if prev_message in ['How may I help you?', 'announcement']:
-        prev_message = ' '
+    print(prompt)
 
-    vectors = vectorize_query(prompt + ' ' + prev_message)
+    vectors = vectorize_query(prompt)
     if vectors is None:
         return jsonify({"error": "No vectors returned. Check your vectorize_query function."})
 
