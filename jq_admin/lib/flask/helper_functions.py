@@ -14,7 +14,7 @@ from joblib import load
 import uuid
 from datetime import datetime 
 
-openai.api_key = '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'
+openai.api_key = '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'
 collections_list = [
     'text_collection',
     'author_collection',
@@ -251,7 +251,7 @@ def generate_response(prompt, string_json):
     conversation_str = ''.join([f'{item["role"]}: {item["content"]}\n' for item in conversation])
 
     response = openai.ChatCompletion.create(
-      model="gpt-4",
+      model="gpt-3.5-turbo",
       messages=conversation,
       temperature=1,
       max_tokens=1000,
