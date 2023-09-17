@@ -11,6 +11,8 @@ from helper_functions import (
     process_results,
     populate_results,
     generate_response,
+    create_table,
+    combine_results_by_uuid,
 )
 import json
 import datetime
@@ -106,6 +108,14 @@ def question_answer():
     return jsonify({"response": generated_text})
 
 
+@app.route("/get_data/<partition_name>", methods=["GET"])
+def get_data(partition_name):
+    combined_data = combine_results_by_uuid(partition_name)
+    print("hi")
+    table_data = create_table(combined_data, partition_name)
+    print(table_data)
+    return jsonify(table_data)
+
+
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=7999)
-q
