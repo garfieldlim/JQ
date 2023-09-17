@@ -76,6 +76,13 @@ def question_answer():
         return jsonify({"error": "No response generated. Check your generate_response function."})
 
     return jsonify({"response": generated_text})
+@app.route("/get_data/<partition_name>", methods=["GET"])
+def get_data(partition_name):
+    combined_data = combine_results_by_uuid(partition_name)
+    print("hi")
+    table_data = create_table(combined_data, partition_name)
+    print(table_data)
+    return jsonify(table_data)
 
 
 if __name__ == '__main__':
