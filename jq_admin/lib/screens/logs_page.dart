@@ -7,91 +7,87 @@ class LogsPage extends StatefulWidget {
 }
 
 class _LogsPageState extends State<LogsPage> {
-  bool sortByTime = true; // Initially, sort by time
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Logs'),
-        actions: [
-          IconButton(
-            icon: Icon(sortByTime ? Icons.access_time : Icons.thumb_up),
-            onPressed: () {
-              setState(() {
-                sortByTime = !sortByTime;
-              });
-            },
+      body: ListView(
+        children: [
+          SizedBox(height: 15),
+          Padding(
+              padding: const EdgeInsets.all(10.0),
+              child: Text('Logs', style: TextStyle(fontSize: 30))),
+
+          // Recently Added Section
+          SizedBox(height: 15),
+          Padding(
+            padding: const EdgeInsets.all(10.0),
+            child: Text(
+              "Recently Added",
+              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+            ),
           ),
+          Container(
+              height: 220, child: _buildHorizontalLogList(sortByTime: true)),
+          SizedBox(height: 25),
+          // Most Liked Section
+          Padding(
+            padding: const EdgeInsets.all(10.0),
+            child: Text(
+              "Most Liked",
+              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+            ),
+          ),
+          Container(
+              height: 220, child: _buildHorizontalLogList(sortByTime: false)),
         ],
       ),
-      body: _buildLogsList(),
     );
   }
 
-  Widget _buildLogsList() {
+  Widget _buildHorizontalLogList({required bool sortByTime}) {
     return StreamBuilder<QuerySnapshot>(
       stream:
           FirebaseFirestore.instance.collection('chat_messages').snapshots(),
       builder: (context, snapshot) {
         if (!snapshot.hasData) {
-          return Center(
-            child: CircularProgressIndicator(),
-          );
+          return Center(child: CircularProgressIndicator());
         }
 
         final logs = snapshot.data!.docs;
 
         if (sortByTime) {
-          // Sort by timestamp (latest first)
           logs.sort((a, b) {
             final aTimestamp =
                 (a.data() as Map<String, dynamic>)['timestamp'] as Timestamp?;
             final bTimestamp =
                 (b.data() as Map<String, dynamic>)['timestamp'] as Timestamp?;
-
             if (aTimestamp == null || bTimestamp == null) {
               return 0;
             }
-
             return bTimestamp.toDate().compareTo(aTimestamp.toDate());
           });
         } else {
-          // Sort by liked (most liked first)
           logs.sort((a, b) {
             final aLiked =
                 (a.data() as Map<String, dynamic>)['liked'] as bool? ?? false;
             final bLiked =
                 (b.data() as Map<String, dynamic>)['liked'] as bool? ?? false;
-
             if (aLiked == bLiked) {
               return 0;
             }
-
             return aLiked ? -1 : 1;
           });
         }
 
-        // Check if there are any liked messages
-        final hasLikedMessages = logs.any(
-            (log) => (log.data() as Map<String, dynamic>)['liked'] == true);
-
-        if (!hasLikedMessages) {
-          return Center(
-            child: Text('Empty'),
-          );
-        }
-
         return ListView.builder(
+          scrollDirection: Axis.horizontal,
           itemCount: logs.length,
           itemBuilder: (context, index) {
             final log = logs[index].data() as Map<String, dynamic>;
             final documentId = logs[index].id;
             final isUserMessage = log['isUserMessage'] ?? false;
-            final partitionName =
-                log['partitionName'] ?? ''; // Change to the actual field name
-            final milvusData =
-                log['milvusData'] ?? ''; // Change to the actual field name
+            final partitionName = log['partitionName'] ?? '';
+            final milvusData = log['milvusData'] ?? '';
 
             final timestamp = log['timestamp'] != null
                 ? (log['timestamp'] as Timestamp).toDate()
@@ -100,20 +96,48 @@ class _LogsPageState extends State<LogsPage> {
             final formattedTimestamp =
                 '${timestamp.year}-${timestamp.month.toString().padLeft(2, '0')}-${timestamp.day.toString().padLeft(2, '0')} ${timestamp.hour.toString().padLeft(2, '0')}:${timestamp.minute.toString().padLeft(2, '0')}:${timestamp.second.toString().padLeft(2, '0')}';
 
-            return ListTile(
-              title: Text(log['text'] ?? ''),
-              subtitle: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text('Document ID: $documentId'),
-                  if (!isUserMessage) Text('Liked: ${log['liked'] ?? false}'),
-                  if (!isUserMessage)
-                    Text('Disliked: ${log['disliked'] ?? false}'),
-                  Text('Is User Message: $isUserMessage'),
-                  Text('Partition Name: $partitionName'),
-                  Text('Milvus Data: $milvusData'),
-                  Text('Timestamp: $formattedTimestamp'),
-                ],
+            return SizedBox(
+              width: 300,
+              child: ClipRect(
+                child: OverflowBox(
+                  alignment: Alignment.center,
+                  child: Container(
+                    margin: EdgeInsets.all(8.0),
+                    padding: EdgeInsets.all(16.0),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.grey.withOpacity(0.5),
+                          spreadRadius: 5,
+                          blurRadius: 7,
+                        )
+                      ],
+                      borderRadius: BorderRadius.circular(8.0),
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          log['text'] ?? '',
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                          maxLines: 3, // Adjust the number of lines as needed
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                        SizedBox(height: 10),
+                        Text('Document ID: $documentId'),
+                        if (!isUserMessage)
+                          Text('Liked: ${log['liked'] ?? false}'),
+                        if (!isUserMessage)
+                          Text('Disliked: ${log['disliked'] ?? false}'),
+                        Text('Is User Message: $isUserMessage'),
+                        Text('Partition Name: $partitionName'),
+                        Text('Milvus Data: $milvusData'),
+                        Text('Timestamp: $formattedTimestamp'),
+                      ],
+                    ),
+                  ),
+                ),
               ),
             );
           },

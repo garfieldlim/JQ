@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:jq_admin/rubbish/upserting%20copy.dart';
 
 import '../widgets/nav.dart';
+import 'logs_page.dart';
 
 class Admin_dashboard extends StatelessWidget {
   const Admin_dashboard({super.key});
@@ -25,21 +27,32 @@ class Admin_dashboard extends StatelessWidget {
                   iconData: Icons.home,
                   color: Color(0xffe7d192),
                   onPressed: () {
-                    print("Home icon pressed");
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => Admin_dashboard()),
+                    );
                   },
                 ),
                 NavItem(
                   iconData: Icons.upload_file,
                   color: Color(0xffe7d192),
                   onPressed: () {
-                    print("Settings icon pressed");
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => UpsertingPage()),
+                    );
                   },
                 ),
                 NavItem(
                   iconData: Icons.menu_book,
                   color: Color(0xffe7d192),
                   onPressed: () {
-                    print("Settings icon pressed");
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => Admin_dashboard()),
+                    );
                   },
                 ),
                 Expanded(
@@ -60,7 +73,7 @@ class Admin_dashboard extends StatelessWidget {
           // Main content
           Expanded(
             child: Center(
-              child: Text('LOGS'),
+              child: LogsPage(),
             ),
           ),
         ],
