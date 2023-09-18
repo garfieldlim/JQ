@@ -38,8 +38,8 @@ class _DashboardPageState extends State<DashboardPage> {
 
   Widget _buildGlassContainer() {
     return GlassmorphicContainer(
-      width: 800,
-      height: 400,
+      width: 1500,
+      height: 800,
       borderRadius: 20,
       blur: 20,
       alignment: Alignment.bottomCenter,
@@ -110,6 +110,7 @@ class _DashboardPageState extends State<DashboardPage> {
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(25.0),
       ),
+      padding: EdgeInsets.symmetric(horizontal: 100, vertical: 20),
     );
   }
 }

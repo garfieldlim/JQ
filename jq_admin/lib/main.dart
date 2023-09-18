@@ -1,6 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:jq_admin/screens/admin_dashboard.dart';
+import 'package:jq_admin/screens/dashboard.dart';
 import 'package:jq_admin/screens/login.dart';
 import 'package:jq_admin/screens/query.dart';
 import 'package:jq_admin/screens/splashscreen.dart';
@@ -29,7 +30,7 @@ class MyApp extends StatelessWidget {
             ColorScheme.fromSeed(seedColor: Color.fromARGB(255, 255, 223, 107)),
         useMaterial3: true,
       ),
-      home: DashboardPage(),
+      home: Admin_dashboard(),
       debugShowCheckedModeBanner: false,
     );
   }

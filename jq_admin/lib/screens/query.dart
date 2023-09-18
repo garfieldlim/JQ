@@ -169,228 +169,238 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        floatingActionButton: FloatingActionButton(
-          onPressed: resetChat,
-          tooltip: 'Reset Chat',
-          child: Icon(Icons.refresh),
+        backgroundColor: Color(0xff114224),
+        floatingActionButton: Padding(
+          padding: const EdgeInsets.only(right: 50.0),
+          child: FloatingActionButton(
+            onPressed: resetChat,
+            tooltip: 'Reset Chat',
+            child: Icon(Icons.refresh),
+          ),
         ),
         floatingActionButtonLocation: CustomFloatingActionButtonLocation(100.0),
         extendBodyBehindAppBar: true,
-        appBar: AppBar(
-          titleSpacing: 0.0,
-          backgroundColor: Colors.transparent,
-          title: GlassmorphicContainer(
-            height: 100,
-            width: 3500,
-            borderRadius: 1,
-            blur: 15,
-            alignment: Alignment.center,
-            border: 1.5,
+        body: Padding(
+          padding: const EdgeInsets.all(35.0),
+          child: GlassmorphicContainer(
+            width: 1500,
+            height: 900,
+            borderRadius: 10,
+            blur: 20,
+            alignment: Alignment.bottomCenter,
+            border: 2,
             linearGradient: LinearGradient(
-              colors: [
-                Colors.white.withOpacity(0.2),
-                Colors.white.withOpacity(0.1),
-              ],
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
-            ),
-            borderGradient: LinearGradient(
               colors: [
-                Colors.white.withOpacity(0.5),
-                Colors.white.withOpacity(0.5),
+                Color(0xFFFBDFA4).withOpacity(0.5),
+                Color(0xFFFBDFA4).withOpacity(0.5),
+              ],
+              stops: [
+                0.1,
+                1,
               ],
             ),
-            child: Center(
-              child: Image.asset('web/assets/logo.gif'),
+            borderGradient: LinearGradient(
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+              colors: [
+                Color(0xFFeeeeeee).withOpacity(0.5),
+                Color((0xFFeeeeeee)).withOpacity(0.5),
+              ],
             ),
-          ),
-          toolbarHeight: 95,
-        ),
-        body: Container(
-          width: double.infinity,
-          height: double.infinity,
-          decoration: BoxDecoration(
-            image: DecorationImage(
-              image: AssetImage('web/assets/bg2.png'),
-              fit: BoxFit.cover,
-            ),
-          ),
-          child: Column(
-            children: [
-              Expanded(
-                child: ListView.builder(
-                  shrinkWrap: true,
-                  itemCount: messages.length + (isTyping ? 1 : 0),
-                  itemBuilder: (context, index) {
-                    if (isTyping && index == messages.length) {
-                      return Padding(
-                        padding: const EdgeInsets.all(20.0),
-                        child: TypingIndicator(),
-                      );
-                    }
-                    final message = messages[index];
-                    bool isLastMessage = index == messages.length - 1;
-                    // bool isLink =
-                    //     Uri.tryParse(message.text)?.isAbsolute ?? false;
-                    final imageUrlRegex =
-                        RegExp(r'\((http.*?\.jpg|http.*?\.png)\)');
-                    final imageUrlMatch =
-                        imageUrlRegex.firstMatch(message.text);
-                    final imageUrl = imageUrlMatch?.group(1) ?? '';
-                    final imageUrlWithCors =
-                        'https://cors-anywhere.herokuapp.com/$imageUrl';
+            child: Padding(
+              padding: const EdgeInsets.only(top: 35.0),
+              child: Column(
+                children: [
+                  Expanded(
+                    child: ListView.builder(
+                      shrinkWrap: true,
+                      itemCount: messages.length + (isTyping ? 1 : 0),
+                      itemBuilder: (context, index) {
+                        if (isTyping && index == messages.length) {
+                          return Padding(
+                            padding: const EdgeInsets.all(20.0),
+                            child: TypingIndicator(),
+                          );
+                        }
+                        final message = messages[index];
+                        bool isLastMessage = index == messages.length - 1;
+                        // bool isLink =
+                        //     Uri.tryParse(message.text)?.isAbsolute ?? false;
+                        final imageUrlRegex =
+                            RegExp(r'\((http.*?\.jpg|http.*?\.png)\)');
+                        final imageUrlMatch =
+                            imageUrlRegex.firstMatch(message.text);
+                        final imageUrl = imageUrlMatch?.group(1) ?? '';
+                        final imageUrlWithCors =
+                            'https://cors-anywhere.herokuapp.com/$imageUrl';
 
-                    final displayText =
-                        message.text.replaceAll(RegExp(r'\[.*?\]\(.*?\)'), '');
-                    return Column(
-                      children: [
-                        Container(
-                          margin: EdgeInsets.all(20),
-                          child: Row(
-                            mainAxisAlignment: message.isUserMessage
-                                ? MainAxisAlignment.end
-                                : MainAxisAlignment.start,
-                            children: [
-                              Flexible(
-                                child: Container(
-                                  padding: EdgeInsets.all(16),
-                                  constraints: BoxConstraints(
-                                    maxWidth:
-                                        MediaQuery.of(context).size.width * 0.7,
-                                  ),
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(25),
-                                    color: message.isUserMessage
-                                        ? Color.fromARGB(255, 237, 237, 237)
-                                            .withOpacity(0.5)
-                                        : Color.fromARGB(255, 255, 255, 255)
-                                            .withOpacity(0.5),
-                                    boxShadow: [
-                                      BoxShadow(
-                                        color: Colors.black.withOpacity(0.1),
-                                        spreadRadius: 1,
-                                        blurRadius: 15,
+                        final displayText = message.text
+                            .replaceAll(RegExp(r'\[.*?\]\(.*?\)'), '');
+                        return Column(
+                          children: [
+                            Container(
+                              margin: EdgeInsets.all(20),
+                              child: Row(
+                                mainAxisAlignment: message.isUserMessage
+                                    ? MainAxisAlignment.end
+                                    : MainAxisAlignment.start,
+                                children: [
+                                  if (!message
+                                      .isUserMessage) // Add avatar only for non-user messages.
+                                    CircleAvatar(
+                                      backgroundImage:
+                                          AssetImage('web/assets/logo.gif'),
+                                      radius:
+                                          20.0, // Adjust the size of the avatar as needed.
+                                    ),
+                                  SizedBox(width: 10),
+                                  Flexible(
+                                    child: Container(
+                                      padding: EdgeInsets.all(16),
+                                      constraints: BoxConstraints(
+                                        maxWidth:
+                                            MediaQuery.of(context).size.width *
+                                                0.7,
                                       ),
-                                    ],
-                                  ),
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
-                                    children: [
-                                      Linkify(
-                                        onOpen: (link) async {
-                                          if (await canLaunch(link.url)) {
-                                            await launch(link.url);
-                                          }
-                                        },
-                                        text: displayText,
-                                        linkStyle:
-                                            TextStyle(color: Colors.blue),
-                                        style: TextStyle(color: Colors.white),
-                                      ),
-                                      if (imageUrl.isNotEmpty)
-                                        Padding(
-                                          padding:
-                                              const EdgeInsets.only(top: 8.0),
-                                          child: Image.network(
-                                            imageUrlWithCors, // <-- This is the updated line
-                                            width: 150,
-                                            height: 150,
-                                            errorBuilder:
-                                                (context, error, stackTrace) {
-                                              return Text(
-                                                  'Failed to load image: $error');
-                                            },
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(25),
+                                        color: message.isUserMessage
+                                            ? Color.fromARGB(255, 237, 237, 237)
+                                                .withOpacity(0.5)
+                                            : Color(0xffFCDD98),
+                                        boxShadow: [
+                                          BoxShadow(
+                                            color:
+                                                Colors.black.withOpacity(0.5),
+                                            spreadRadius: 1,
+                                            blurRadius: 15,
                                           ),
-                                        ),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                              if (!message.isUserMessage && index != 0) ...[
-                                IconButton(
-                                  icon: Icon(Icons.thumb_up,
-                                      color: message.liked
-                                          ? Colors.green
-                                          : Colors.grey),
-                                  onPressed: () =>
-                                      handleLikeDislike(index, true),
-                                ),
-                                IconButton(
-                                  icon: Icon(Icons.thumb_down,
-                                      color: message.disliked
-                                          ? Colors.red
-                                          : Colors.grey),
-                                  onPressed: () =>
-                                      handleLikeDislike(index, false),
-                                ),
-                              ],
-                            ],
-                          ),
-                        ),
-                        if (isLastMessage &&
-                            !message.isUserMessage &&
-                            index != 0)
-                          isLoading
-                              ? CircularProgressIndicator()
-                              : ElevatedButton(
-                                  style: ElevatedButton.styleFrom(
-                                    primary: Color(0xfff9dea6),
-                                    onPrimary: Colors.white,
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(20),
+                                        ],
+                                      ),
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.center,
+                                        children: [
+                                          Linkify(
+                                            onOpen: (link) async {
+                                              if (await canLaunch(link.url)) {
+                                                await launch(link.url);
+                                              }
+                                            },
+                                            text: displayText,
+                                            linkStyle:
+                                                TextStyle(color: Colors.blue),
+                                            style:
+                                                TextStyle(color: Colors.white),
+                                          ),
+                                          if (imageUrl.isNotEmpty)
+                                            Padding(
+                                              padding: const EdgeInsets.only(
+                                                  top: 8.0),
+                                              child: Image.network(
+                                                imageUrlWithCors, // <-- This is the updated line
+                                                width: 150,
+                                                height: 150,
+                                                errorBuilder: (context, error,
+                                                    stackTrace) {
+                                                  return Text(
+                                                      'Failed to load image: $error');
+                                                },
+                                              ),
+                                            ),
+                                        ],
+                                      ),
                                     ),
                                   ),
-                                  onPressed: () {
-                                    regenerateMessage(message);
-                                  },
-                                  child: Text('Regenerate'),
-                                ),
-                      ],
-                    );
-                  },
-                ),
-              ),
-              Divider(height: 1, color: Colors.white),
-              Container(
-                color: Colors.transparent,
-                padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                child: Row(
-                  children: [
-                    Expanded(
-                      child: TextField(
-                        controller: textController,
-                        onSubmitted: (text) {
-                          if (text.isNotEmpty) {
-                            currentPartition = 0;
-                            sendMessage(text);
-                            textController.clear();
-                          }
-                        },
-                        style: TextStyle(color: Colors.white),
-                        decoration: InputDecoration(
-                          hintText: 'Type your message...',
-                          hintStyle: TextStyle(color: Colors.white),
-                          border: InputBorder.none,
-                        ),
-                      ),
-                    ),
-                    IconButton(
-                      onPressed: () {
-                        final message = textController.text;
-                        if (message.isNotEmpty) {
-                          textController.clear();
-                          currentPartition = 0;
-                          sendMessage(message);
-                        }
+                                  if (!message.isUserMessage && index != 0) ...[
+                                    IconButton(
+                                      icon: Icon(Icons.thumb_up,
+                                          color: message.liked
+                                              ? Colors.green
+                                              : Colors.grey),
+                                      onPressed: () =>
+                                          handleLikeDislike(index, true),
+                                    ),
+                                    IconButton(
+                                      icon: Icon(Icons.thumb_down,
+                                          color: message.disliked
+                                              ? Colors.red
+                                              : Colors.grey),
+                                      onPressed: () =>
+                                          handleLikeDislike(index, false),
+                                    ),
+                                  ],
+                                ],
+                              ),
+                            ),
+                            if (isLastMessage &&
+                                !message.isUserMessage &&
+                                index != 0)
+                              isLoading
+                                  ? CircularProgressIndicator()
+                                  : ElevatedButton(
+                                      style: ElevatedButton.styleFrom(
+                                        primary: Color(0xfff9dea6),
+                                        onPrimary: Colors.white,
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(20),
+                                        ),
+                                      ),
+                                      onPressed: () {
+                                        regenerateMessage(message);
+                                      },
+                                      child: Text('Regenerate'),
+                                    ),
+                          ],
+                        );
                       },
-                      icon: Icon(Icons.send),
-                      color: Colors.white,
                     ),
-                  ],
-                ),
+                  ),
+                  Divider(height: 1, color: Colors.white),
+                  Container(
+                    color: Colors.transparent,
+                    padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                    child: Row(
+                      children: [
+                        Expanded(
+                          child: TextField(
+                            controller: textController,
+                            onSubmitted: (text) {
+                              if (text.isNotEmpty) {
+                                currentPartition = 0;
+                                sendMessage(text);
+                                textController.clear();
+                              }
+                            },
+                            style: TextStyle(color: Colors.white),
+                            decoration: InputDecoration(
+                              hintText: 'Type your message...',
+                              hintStyle: TextStyle(color: Colors.white),
+                              border: InputBorder.none,
+                            ),
+                          ),
+                        ),
+                        IconButton(
+                          onPressed: () {
+                            final message = textController.text;
+                            if (message.isNotEmpty) {
+                              textController.clear();
+                              currentPartition = 0;
+                              sendMessage(message);
+                            }
+                          },
+                          icon: Icon(Icons.send),
+                          color: Colors.white,
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
               ),
-            ],
+            ),
           ),
         ),
       ),
