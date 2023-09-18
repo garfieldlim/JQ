@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 // importing admin_menu.dart from screens folder
 import 'package:jq_dashboard/screens/admin_menu.dart';
+import 'package:jq_dashboard/screens/table.dart';
 
 void main() {
   runApp(MyApp());
@@ -16,7 +17,7 @@ class MyApp extends StatelessWidget {
             ColorScheme.fromSeed(seedColor: Color.fromARGB(255, 255, 223, 107)),
         useMaterial3: true,
       ),
-      home: DashboardPage(),
+      home: DataTableDemo(),
       debugShowCheckedModeBanner: false,
     );
   }

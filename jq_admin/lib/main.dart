@@ -7,6 +7,7 @@ import 'package:jq_admin/screens/query.dart';
 import 'package:jq_admin/screens/splashscreen.dart';
 import 'package:jq_admin/screens/upserting.dart';
 import 'package:jq_admin/screens/review.dart';
+import 'package:jq_admin/screens/query.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

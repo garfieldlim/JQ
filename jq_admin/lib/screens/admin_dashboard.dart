@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'package:glassmorphism/glassmorphism.dart';
+import 'package:jq_admin/screens/logs_page.dart';
 
 class DashboardPage extends StatefulWidget {
   @override
@@ -95,8 +96,15 @@ class _DashboardPageState extends State<DashboardPage> {
       style: _buildElevatedButtonStyle(Colors.transparent, Color(0xffD9A830)),
       child: Text(title, style: TextStyle(fontSize: 18)),
       onPressed: () {
-        // Handle button press
-        print('$title button pressed');
+        if (title == 'Logs') {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => LogsPage()),
+          );
+        } else {
+          // Handle other button presses
+          print('$title button pressed');
+        }
       },
     );
   }

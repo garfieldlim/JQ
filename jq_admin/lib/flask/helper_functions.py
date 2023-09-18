@@ -14,7 +14,7 @@ from joblib import load
 import uuid
 from datetime import datetime 
 
-openai.api_key = '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'
+openai.api_key = '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'
 collections_list = [
     'text_collection',
     'author_collection',
@@ -251,7 +251,7 @@ def generate_response(prompt, string_json):
     conversation_str = ''.join([f'{item["role"]}: {item["content"]}\n' for item in conversation])
 
     response = openai.ChatCompletion.create(
-      model="gpt-4",
+      model="gpt-3.5-turbo",
       messages=conversation,
       temperature=1,
       max_tokens=1000,
@@ -269,8 +269,8 @@ def generate_response(prompt, string_json):
 def ranking_partitions(vectors):
     return ['people_partition', 'documents_partition', 'social_posts_partition', "contacts_partition"]
     
-svm_model = load('lib/flask/models/svm_model.joblib')
-label_encoder = load('lib/flask/models/label_encoder.joblib')
+svm_model = load('/Users/garfieldgreglim/Documents/JQ/jq_admin/lib/flask/models/svm_model.joblib')
+label_encoder = load('/Users/garfieldgreglim/Documents/JQ/jq_admin/lib/flask/models/label_encoder.joblib')
 def rank_partitions(prompt_embedding):
     # Convert the prompt to an embedding
     
@@ -411,3 +411,86 @@ def question_answer():
                     partition = 0
         except Exception as e:
             print(f"An error occurred: {e}")
+
+            
+# Assuming you have already imported all necessary modules and set up the environment
+
+# Define a dictionary that maps each collection to its desired field
+desired_fields = {
+    "text_collection": "text",
+    "title_collection": "title",
+    "author_collection": "author",
+    "contact_collection": "contact",
+    "department_collection": "department",
+    "name_collection": "name",
+    "position_collection": "position",
+    "date_collection": "date"
+}
+
+table_fields = {
+    "documents_partition": [
+        "text",
+        "author",
+        "title",
+        "date",
+    ],
+    "social_posts_partition": ["text", "date"],
+    "contacts_partition": [
+        "name",
+        "text",
+        "contact",
+        "department",
+    ],
+    "people_partition": [
+        "text",
+        "name",
+        "position",
+        "department",
+    ]}
+
+# Define a function to query all items in a collection based on partition_name
+def query_collection_by_partition(collection_name, partition_name):
+    collection = Collection(collection_name)
+    collection.load()
+    # Fetch text_id for text_collection and uuid for other collections
+    id_field = "text_id" if collection_name == "text_collection" else "uuid"
+    res = collection.query(
+        expr=f"partition_name == '{partition_name}'",
+        output_fields=[desired_fields[collection_name], id_field]
+    )
+    return res
+
+# Define a function to combine results by uuid (or text_id for text_collection)
+def combine_results_by_uuid(partition_name):
+    combined_results = {}
+    
+    # Loop through each collection in the given partition
+    for collection_name in partitions[partition_name]:
+        results = query_collection_by_partition(collection_name, partition_name)
+        
+        # Loop through each result and store/combine in the combined_results dictionary
+        for item in results:
+            # Use text_id for text_collection and uuid for other collections
+            id_key = "text_id" if collection_name == "text_collection" else "uuid"
+            unique_id = item[id_key]
+            field_name = desired_fields[collection_name]
+            
+            # Initialize the unique_id entry with all desired fields set to empty strings
+            if unique_id not in combined_results:
+                combined_results[unique_id] = {field: "" for field in table_fields[partition_name]}
+            
+            # Append the value if it already exists for the unique_id
+            if field_name in combined_results[unique_id] and combined_results[unique_id][field_name]:
+                combined_results[unique_id][field_name] += ", " + item[field_name]
+            else:
+                combined_results[unique_id][field_name] = item[field_name]
+    
+    return combined_results
+
+def create_table(combined_data, partition_name):
+    table = {}
+    for i, (uuid, data) in enumerate(combined_data.items()):
+        table[i] = {'uuid': uuid}
+        for fieldname in table_fields[partition_name]:
+            table[i][fieldname] = data.get(fieldname, "")  # Use get() to handle missing fields
+    return table
