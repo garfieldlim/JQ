@@ -269,8 +269,8 @@ def generate_response(prompt, string_json):
 def ranking_partitions(vectors):
     return ['people_partition', 'documents_partition', 'social_posts_partition', "contacts_partition"]
     
-svm_model = load('/Users/garfieldgreglim/Documents/JQ/jq_admin/lib/flask/models/svm_model.joblib')
-label_encoder = load('/Users/garfieldgreglim/Documents/JQ/jq_admin/lib/flask/models/label_encoder.joblib')
+svm_model = load('C:/Users/user/Documents/3rd year/Summer/Thesis 1/JQ/jq_admin/lib/flask/models/svm_model.joblib')
+label_encoder = load('C:/Users/user/Documents/3rd year/Summer/Thesis 1/JQ/jq_admin/lib/flask/models/label_encoder.joblib')
 def rank_partitions(prompt_embedding):
     # Convert the prompt to an embedding
     
