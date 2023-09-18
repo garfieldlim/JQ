@@ -47,12 +47,10 @@ def receive_json():
 @app.route('/query', methods=['POST'])
 def question_answer():
     prompt = request.json['question']
-    prev_message = request.json.get('prev', '')
 
-    if prev_message in ['How may I help you?', 'announcement']:
-        prev_message = ' '
+    print(prompt)
 
-    vectors = vectorize_query(prompt + ' ' + prev_message)
+    vectors = vectorize_query(prompt)
     if vectors is None:
         return jsonify({"error": "No vectors returned. Check your vectorize_query function."})
 
@@ -78,6 +76,13 @@ def question_answer():
         return jsonify({"error": "No response generated. Check your generate_response function."})
 
     return jsonify({"response": generated_text})
+@app.route("/get_data/<partition_name>", methods=["GET"])
+def get_data(partition_name):
+    combined_data = combine_results_by_uuid(partition_name)
+    print("hi")
+    table_data = create_table(combined_data, partition_name)
+    print(table_data)
+    return jsonify(table_data)
 
 
 if __name__ == '__main__':
