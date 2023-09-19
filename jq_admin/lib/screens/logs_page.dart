@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:intl/intl.dart';
 
 class LogsPage extends StatefulWidget {
   @override
@@ -7,118 +8,137 @@ class LogsPage extends StatefulWidget {
 }
 
 class _LogsPageState extends State<LogsPage> {
-  bool sortByTime = true; // Initially, sort by time
+  late CollectionReference logsCollection;
+  late Stream<QuerySnapshot> logsStream;
+
+  // Sorting options
+  static const List<String> sortingOptions = [
+    'Time',
+    'User Message',
+    'Liked/Disliked'
+  ];
+  String selectedSortingOption = 'Time';
+
+  @override
+  void initState() {
+    super.initState();
+    logsCollection = FirebaseFirestore.instance.collection('chat_messages');
+    logsStream = logsCollection.snapshots();
+  }
+
+  String formatTimestamp(Timestamp timestamp) {
+    final dateTime = timestamp.toDate();
+    final formattedDateTime =
+        DateFormat('yyyy-MM-dd HH:mm:ss').format(dateTime);
+    return formattedDateTime;
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Logs'),
+        title: Text('Logs Page'),
         actions: [
-          IconButton(
-            icon: Icon(sortByTime ? Icons.access_time : Icons.thumb_up),
-            onPressed: () {
+          // Dropdown menu for sorting options
+          DropdownButton<String>(
+            value: selectedSortingOption,
+            onChanged: (String? newValue) {
               setState(() {
-                sortByTime = !sortByTime;
+                selectedSortingOption = newValue!;
               });
             },
+            items: sortingOptions.map<DropdownMenuItem<String>>((String value) {
+              return DropdownMenuItem<String>(
+                value: value,
+                child: Text(value),
+              );
+            }).toList(),
           ),
         ],
       ),
-      body: _buildLogsList(),
-    );
-  }
+      body: StreamBuilder<QuerySnapshot>(
+        stream: logsStream,
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return Center(child: CircularProgressIndicator());
+          }
 
-  Widget _buildLogsList() {
-    return StreamBuilder<QuerySnapshot>(
-      stream:
-          FirebaseFirestore.instance.collection('chat_messages').snapshots(),
-      builder: (context, snapshot) {
-        if (!snapshot.hasData) {
-          return Center(
-            child: CircularProgressIndicator(),
-          );
-        }
+          if (snapshot.hasError) {
+            return Center(child: Text('Error: ${snapshot.error}'));
+          }
 
-        final logs = snapshot.data!.docs;
+          if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
+            return Center(child: Text('No data available.'));
+          }
 
-        if (sortByTime) {
-          // Sort by timestamp (latest first)
+          final logs = snapshot.data!.docs;
+
+          // Sort the logs based on the selected sorting option
           logs.sort((a, b) {
-            final aTimestamp =
-                (a.data() as Map<String, dynamic>)['timestamp'] as Timestamp?;
-            final bTimestamp =
-                (b.data() as Map<String, dynamic>)['timestamp'] as Timestamp?;
+            final logDataA = a.data() as Map<String, dynamic>;
+            final logDataB = b.data() as Map<String, dynamic>;
 
-            if (aTimestamp == null || bTimestamp == null) {
-              return 0;
+            switch (selectedSortingOption) {
+              case 'Time':
+                final timestampA = logDataA['timestamp'] as Timestamp;
+                final timestampB = logDataB['timestamp'] as Timestamp;
+                return timestampA.compareTo(timestampB);
+
+              case 'User Message':
+                final isUserMessageA = logDataA['isUserMessage'] as bool;
+                final isUserMessageB = logDataB['isUserMessage'] as bool;
+                return isUserMessageA == isUserMessageB
+                    ? 0
+                    : isUserMessageA
+                        ? -1
+                        : 1;
+
+              case 'Liked/Disliked':
+                final likedA = logDataA['liked'] as bool? ?? false;
+                final likedB = logDataB['liked'] as bool? ?? false;
+                return likedA == likedB
+                    ? 0
+                    : likedA
+                        ? -1
+                        : 1;
+
+              default:
+                return 0;
             }
-
-            return bTimestamp.toDate().compareTo(aTimestamp.toDate());
           });
-        } else {
-          // Sort by liked (most liked first)
-          logs.sort((a, b) {
-            final aLiked =
-                (a.data() as Map<String, dynamic>)['liked'] as bool? ?? false;
-            final bLiked =
-                (b.data() as Map<String, dynamic>)['liked'] as bool? ?? false;
 
-            if (aLiked == bLiked) {
-              return 0;
-            }
+          return SingleChildScrollView(
+            child: DataTable(
+              columns: [
+                DataColumn(label: Text('Log ID')),
+                DataColumn(label: Text('Timestamp')),
+                DataColumn(label: Text('Message')),
+                DataColumn(label: Text('Is User Message')),
+                DataColumn(label: Text('Liked')),
+                // Add more DataColumn widgets for other fields
+              ],
+              rows: logs.map((doc) {
+                final logData = doc.data() as Map<String, dynamic>;
+                final timestamp = logData['timestamp'] as Timestamp;
+                final isUserMessage =
+                    logData['isUserMessage'] as bool? ?? false;
+                final liked = logData['liked'] as bool? ?? false;
 
-            return aLiked ? -1 : 1;
-          });
-        }
-
-        // Check if there are any liked messages
-        final hasLikedMessages = logs.any(
-            (log) => (log.data() as Map<String, dynamic>)['liked'] == true);
-
-        if (!hasLikedMessages) {
-          return Center(
-            child: Text('Empty'),
+                return DataRow(
+                  cells: [
+                    DataCell(Text(doc.id)),
+                    DataCell(Text(formatTimestamp(timestamp))),
+                    DataCell(Text(logData['text'] ?? '')),
+                    DataCell(Text(isUserMessage ? 'Yes' : 'No')),
+                    DataCell(Text(liked ? 'Yes' : 'No')),
+                    // Add more DataCell widgets for other fields
+                  ],
+                );
+              }).toList(),
+            ),
           );
-        }
-
-        return ListView.builder(
-          itemCount: logs.length,
-          itemBuilder: (context, index) {
-            final log = logs[index].data() as Map<String, dynamic>;
-            final documentId = logs[index].id;
-            final isUserMessage = log['isUserMessage'] ?? false;
-            final partitionName =
-                log['partitionName'] ?? ''; // Change to the actual field name
-            final milvusData =
-                log['milvusData'] ?? ''; // Change to the actual field name
-
-            final timestamp = log['timestamp'] != null
-                ? (log['timestamp'] as Timestamp).toDate()
-                : DateTime.now();
-
-            final formattedTimestamp =
-                '${timestamp.year}-${timestamp.month.toString().padLeft(2, '0')}-${timestamp.day.toString().padLeft(2, '0')} ${timestamp.hour.toString().padLeft(2, '0')}:${timestamp.minute.toString().padLeft(2, '0')}:${timestamp.second.toString().padLeft(2, '0')}';
-
-            return ListTile(
-              title: Text(log['text'] ?? ''),
-              subtitle: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text('Document ID: $documentId'),
-                  if (!isUserMessage) Text('Liked: ${log['liked'] ?? false}'),
-                  if (!isUserMessage)
-                    Text('Disliked: ${log['disliked'] ?? false}'),
-                  Text('Is User Message: $isUserMessage'),
-                  Text('Partition Name: $partitionName'),
-                  Text('Milvus Data: $milvusData'),
-                  Text('Timestamp: $formattedTimestamp'),
-                ],
-              ),
-            );
-          },
-        );
-      },
+        },
+      ),
     );
   }
 }
