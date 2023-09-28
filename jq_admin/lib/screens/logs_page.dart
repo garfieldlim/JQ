@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:intl/intl.dart';
 
 class LogsPage extends StatefulWidget {
   @override
@@ -7,6 +8,20 @@ class LogsPage extends StatefulWidget {
 }
 
 class _LogsPageState extends State<LogsPage> {
+  @override
+  void initState() {
+    super.initState();
+    logsCollection = FirebaseFirestore.instance.collection('chat_messages');
+    logsStream = logsCollection.snapshots();
+  }
+
+  String formatTimestamp(Timestamp timestamp) {
+    final dateTime = timestamp.toDate();
+    final formattedDateTime =
+        DateFormat('yyyy-MM-dd HH:mm:ss').format(dateTime);
+    return formattedDateTime;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -53,7 +68,9 @@ class _LogsPageState extends State<LogsPage> {
           return Center(child: CircularProgressIndicator());
         }
 
-        final logs = snapshot.data!.docs;
+          if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
+            return Center(child: Text('No data available.'));
+          }
 
         if (sortByTime) {
           logs.sort((a, b) {
@@ -77,7 +94,6 @@ class _LogsPageState extends State<LogsPage> {
             }
             return aLiked ? -1 : 1;
           });
-        }
 
         return ListView.builder(
           scrollDirection: Axis.horizontal,
