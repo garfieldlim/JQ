@@ -31,7 +31,7 @@ class MyApp extends StatelessWidget {
             ColorScheme.fromSeed(seedColor: Color.fromARGB(255, 255, 223, 107)),
         useMaterial3: true,
       ),
-      home: Admin_dashboard(),
+      home: HomePage(),
       debugShowCheckedModeBanner: false,
     );
   }

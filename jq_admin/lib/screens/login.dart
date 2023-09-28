@@ -36,6 +36,8 @@ class _LoginPageState extends State<LoginPage> {
                 child: GlassmorphicContainerWidget(
                   widthPercentage: 0.8,
                   heightPercentage: 0.8,
+                  color2: Color(0xffafbc8f),
+                  color1: Color(0xffafbc8f),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[

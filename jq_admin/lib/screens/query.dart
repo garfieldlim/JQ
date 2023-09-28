@@ -4,13 +4,14 @@ import 'dart:convert';
 // Third-party package imports
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter_linkify/flutter_linkify.dart';
 import 'package:http/http.dart' as http;
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:glassmorphism/glassmorphism.dart';
-import 'package:any_link_preview/any_link_preview.dart';
-import 'package:url_launcher/url_launcher.dart';
-import 'package:jq_admin/screens/loading.dart';
+import 'package:jq_admin/widgets/chatMessage.dart';
+import 'package:jq_admin/widgets/customfloatingbutton.dart';
+import 'package:jq_admin/widgets/floatingactionbutton.dart';
+import 'package:jq_admin/widgets/glassmorphic.dart';
+import '../widgets/chat_input.dart';
+import '../widgets/message_item_widget.dart';
 
 //-------------------------------------
 // HomePage Stateful Widget
@@ -23,7 +24,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   // Variables
   List<ChatMessage> messages = [
-    ChatMessage(text: "How may I help you, girly?", isUserMessage: false),
+    ChatMessage(text: "How may I help you?", isUserMessage: false),
   ];
   TextEditingController textController = TextEditingController();
   int currentPartition = 0;
@@ -62,7 +63,6 @@ class _HomePageState extends State<HomePage> {
 
     String fullMessage = message;
 
-// Check for a quoted message
     for (var msg in messages) {
       if (msg.quoted) {
         fullMessage = "\"${msg.text}\" - Quoted\n\n$fullMessage";
@@ -198,76 +198,32 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        floatingActionButton: _buildFloatingActionButton(),
+        floatingActionButton: buildFloatingActionButton(resetChat: resetChat),
         floatingActionButtonLocation: CustomFloatingActionButtonLocation(100.0),
         extendBodyBehindAppBar: true,
-        appBar: _buildAppBar(),
         body: _buildBody(),
       ),
     );
   }
 
-  Widget _buildFloatingActionButton() {
-    return FloatingActionButton(
-      onPressed: resetChat,
-      tooltip: 'Reset Chat',
-      child: Icon(Icons.refresh),
-    );
-  }
-
-  PreferredSizeWidget _buildAppBar() {
-    return PreferredSize(
-      preferredSize:
-          Size.fromHeight(95.0), // You can adjust this height as necessary
-      child: AppBar(
-        titleSpacing: 0.0,
-        backgroundColor: Colors.transparent,
-        title: GlassmorphicContainer(
-          height: 100,
-          width: 3500,
-          borderRadius: 1,
-          blur: 15,
-          alignment: Alignment.center,
-          border: 1.5,
-          linearGradient: LinearGradient(
-            colors: [
-              Colors.white.withOpacity(0.2),
-              Colors.white.withOpacity(0.1),
-            ],
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-          ),
-          borderGradient: LinearGradient(
-            colors: [
-              Colors.white.withOpacity(0.5),
-              Colors.white.withOpacity(0.5),
-            ],
-          ),
-          child: Center(
-            child: Image.asset('web/assets/logo.gif'),
-          ),
-        ),
-        toolbarHeight: 95,
-      ),
-    );
-  }
-
   Widget _buildBody() {
-    return Container(
-      width: double.infinity,
-      height: double.infinity,
-      decoration: BoxDecoration(
-        image: DecorationImage(
-          image: AssetImage('web/assets/bg2.png'),
-          fit: BoxFit.cover,
+    return Center(
+      child: GlassmorphicContainerWidget(
+        widthPercentage: 0.9,
+        heightPercentage: 0.9,
+        color1: Color(0xffafbc8f),
+        color2: Color(0xffafbc8f),
+        child: Column(
+          children: [
+            _buildMessagesList(),
+            Divider(height: 1, color: Colors.white),
+            MessageInput(
+              textController: textController,
+              sendMessage: sendMessage,
+              currentPartition: currentPartition,
+            ),
+          ],
         ),
-      ),
-      child: Column(
-        children: [
-          _buildMessagesList(),
-          Divider(height: 1, color: Colors.white),
-          _buildMessageInput(),
-        ],
       ),
     );
   }
@@ -277,200 +233,172 @@ class _HomePageState extends State<HomePage> {
       child: ListView.builder(
         shrinkWrap: true,
         itemCount: messages.length + (isTyping ? 1 : 0),
-        itemBuilder: (context, index) => _buildMessageItem(context, index),
-      ),
-    );
-  }
-
-  Widget _buildMessageItem(BuildContext context, int index) {
-    if (isTyping && index == messages.length) {
-      return Padding(
-        padding: const EdgeInsets.all(20.0),
-        child: TypingIndicator(),
-      );
-    }
-
-    final message = messages[index];
-    bool isLastMessage = index == messages.length - 1;
-
-    final imageUrlRegex = RegExp(r'\((http.*?\.jpg|http.*?\.png)\)');
-    final imageUrlMatch = imageUrlRegex.firstMatch(message.text);
-    final imageUrl = imageUrlMatch?.group(1) ?? '';
-    final imageUrlWithCors = 'https://cors-anywhere.herokuapp.com/$imageUrl';
-    final displayText = message.text.replaceAll(RegExp(r'\[.*?\]\(.*?\)'), '');
-
-    return Column(
-      children: [
-        Container(
-          margin: EdgeInsets.all(20),
-          child: Row(
-            mainAxisAlignment: message.isUserMessage
-                ? MainAxisAlignment.end
-                : MainAxisAlignment.start,
-            children: [
-              Flexible(
-                child: Container(
-                  padding: EdgeInsets.all(16),
-                  constraints: BoxConstraints(
-                    maxWidth: MediaQuery.of(context).size.width * 0.7,
-                  ),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(25),
-                    color: message.isUserMessage
-                        ? Color.fromARGB(255, 237, 237, 237).withOpacity(0.5)
-                        : Color.fromARGB(255, 255, 255, 255).withOpacity(0.5),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.black.withOpacity(0.1),
-                        spreadRadius: 1,
-                        blurRadius: 15,
-                      ),
-                    ],
-                  ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Linkify(
-                        onOpen: (link) async {
-                          if (await canLaunch(link.url)) {
-                            await launch(link.url);
-                          }
-                        },
-                        text: displayText,
-                        linkStyle: TextStyle(color: Colors.blue),
-                        style: TextStyle(color: Colors.white),
-                      ),
-                      if (imageUrl.isNotEmpty)
-                        Padding(
-                          padding: const EdgeInsets.only(top: 8.0),
-                          child: Image.network(
-                            imageUrlWithCors,
-                            width: 150,
-                            height: 150,
-                            errorBuilder: (context, error, stackTrace) {
-                              return Text('Failed to load image: $error');
-                            },
-                          ),
-                        ),
-                    ],
-                  ),
-                ),
-              ),
-              if (!message.isUserMessage && index != 0) ...[
-                IconButton(
-                  icon: Icon(Icons.thumb_up,
-                      color: message.liked ? Colors.green : Colors.grey),
-                  onPressed: () => handleLikeDislike(index, true),
-                ),
-                IconButton(
-                  icon: Icon(Icons.thumb_down,
-                      color: message.disliked ? Colors.red : Colors.grey),
-                  onPressed: () => handleLikeDislike(index, false),
-                ),
-                IconButton(
-                  icon: Icon(Icons.format_quote,
-                      color: message.quoted ? Colors.blue : Colors.grey),
-                  onPressed: () => handleQuote(index),
-                ),
-              ],
-            ],
-          ),
+        itemBuilder: (context, index) => MessageItem(
+          index: index,
+          isTyping: isTyping, // Depending on your logic
+          messages: messages,
+          handleLikeDislike: handleLikeDislike,
+          handleQuote: handleQuote,
+          regenerateMessage: regenerateMessage,
+          isLoading: isLoading,
         ),
-        if (isLastMessage && !message.isUserMessage && index != 0)
-          isLoading
-              ? CircularProgressIndicator()
-              : ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    primary: Color(0xfff9dea6),
-                    onPrimary: Colors.white,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(20),
-                    ),
-                  ),
-                  onPressed: () {
-                    regenerateMessage(message);
-                  },
-                  child: Text('Regenerate'),
-                ),
-      ],
-    );
-  }
-
-  Widget _buildMessageInput() {
-    return Container(
-      color: Colors.transparent,
-      padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-      child: Row(
-        children: [
-          Expanded(
-            child: TextField(
-              controller: textController,
-              onSubmitted: (text) {
-                if (text.isNotEmpty) {
-                  currentPartition = 0;
-                  sendMessage(text);
-                  textController.clear();
-                }
-              },
-              style: TextStyle(color: Colors.white),
-              decoration: InputDecoration(
-                hintText: 'Type your message...',
-                hintStyle: TextStyle(color: Colors.white),
-                border: InputBorder.none,
-              ),
-            ),
-          ),
-          IconButton(
-            onPressed: () {
-              final message = textController.text;
-              if (message.isNotEmpty) {
-                textController.clear();
-                currentPartition = 0;
-                sendMessage(message);
-              }
-            },
-            icon: Icon(Icons.send),
-            color: Colors.white,
-          ),
-        ],
       ),
     );
   }
-}
 
-//-------------------------------------
-// ChatMessage Class
-//-------------------------------------
-class ChatMessage {
-  final String text;
-  final bool isUserMessage;
-  bool liked;
-  bool disliked;
-  String? id;
-  bool quoted;
+  // Widget _buildMessageItem(BuildContext context, int index) {
+  //   if (isTyping && index == messages.length) {
+  //     return Padding(
+  //       padding: const EdgeInsets.all(20.0),
+  //       child: TypingIndicator(),
+  //     );
+  //   }
 
-  ChatMessage({
-    required this.text,
-    required this.isUserMessage,
-    this.liked = false,
-    this.disliked = false,
-    this.id,
-    this.quoted = false,
-  });
-}
+  //   final message = messages[index];
+  //   bool isLastMessage = index == messages.length - 1;
 
-//-------------------------------------
-// CustomFloatingActionButtonLocation Class
-//-------------------------------------
-class CustomFloatingActionButtonLocation extends FloatingActionButtonLocation {
-  final double _offsetY;
+  //   final imageUrlRegex = RegExp(r'\((http.*?\.jpg|http.*?\.png)\)');
+  //   final imageUrlMatch = imageUrlRegex.firstMatch(message.text);
+  //   final imageUrl = imageUrlMatch?.group(1) ?? '';
+  //   final imageUrlWithCors = 'https://cors-anywhere.herokuapp.com/$imageUrl';
+  //   final displayText = message.text.replaceAll(RegExp(r'\[.*?\]\(.*?\)'), '');
 
-  CustomFloatingActionButtonLocation(this._offsetY);
+  //   return Column(
+  //     children: [
+  //       Container(
+  //         margin: EdgeInsets.all(20),
+  //         child: Row(
+  //           mainAxisAlignment: message.isUserMessage
+  //               ? MainAxisAlignment.end
+  //               : MainAxisAlignment.start,
+  //           children: [
+  //             Flexible(
+  //               child: Container(
+  //                 padding: EdgeInsets.all(16),
+  //                 constraints: BoxConstraints(
+  //                   maxWidth: MediaQuery.of(context).size.width * 0.7,
+  //                 ),
+  //                 decoration: BoxDecoration(
+  //                   borderRadius: BorderRadius.circular(25),
+  //                   color: message.isUserMessage
+  //                       ? Color.fromARGB(255, 237, 237, 237).withOpacity(0.5)
+  //                       : Color.fromARGB(255, 255, 255, 255).withOpacity(0.5),
+  //                   boxShadow: [
+  //                     BoxShadow(
+  //                       color: Colors.black.withOpacity(0.1),
+  //                       spreadRadius: 1,
+  //                       blurRadius: 15,
+  //                     ),
+  //                   ],
+  //                 ),
+  //                 child: Column(
+  //                   crossAxisAlignment: CrossAxisAlignment.center,
+  //                   children: [
+  //                     Linkify(
+  //                       onOpen: (link) async {
+  //                         if (await canLaunch(link.url)) {
+  //                           await launch(link.url);
+  //                         }
+  //                       },
+  //                       text: displayText,
+  //                       linkStyle: TextStyle(color: Colors.blue),
+  //                       style: TextStyle(color: Colors.white),
+  //                     ),
+  //                     if (imageUrl.isNotEmpty)
+  //                       Padding(
+  //                         padding: const EdgeInsets.only(top: 8.0),
+  //                         child: Image.network(
+  //                           imageUrlWithCors,
+  //                           width: 150,
+  //                           height: 150,
+  //                           errorBuilder: (context, error, stackTrace) {
+  //                             return Text('Failed to load image: $error');
+  //                           },
+  //                         ),
+  //                       ),
+  //                   ],
+  //                 ),
+  //               ),
+  //             ),
+  //             if (!message.isUserMessage && index != 0) ...[
+  //               IconButton(
+  //                 icon: Icon(Icons.thumb_up,
+  //                     color: message.liked ? Colors.green : Colors.grey),
+  //                 onPressed: () => handleLikeDislike(index, true),
+  //               ),
+  //               IconButton(
+  //                 icon: Icon(Icons.thumb_down,
+  //                     color: message.disliked ? Colors.red : Colors.grey),
+  //                 onPressed: () => handleLikeDislike(index, false),
+  //               ),
+  //               IconButton(
+  //                 icon: Icon(Icons.format_quote,
+  //                     color: message.quoted ? Colors.blue : Colors.grey),
+  //                 onPressed: () => handleQuote(index),
+  //               ),
+  //             ],
+  //           ],
+  //         ),
+  //       ),
+  //       if (isLastMessage && !message.isUserMessage && index != 0)
+  //         isLoading
+  //             ? CircularProgressIndicator()
+  //             : ElevatedButton(
+  //                 style: ElevatedButton.styleFrom(
+  //                   primary: Color(0xfff9dea6),
+  //                   onPrimary: Colors.white,
+  //                   shape: RoundedRectangleBorder(
+  //                     borderRadius: BorderRadius.circular(20),
+  //                   ),
+  //                 ),
+  //                 onPressed: () {
+  //                   regenerateMessage(message);
+  //                 },
+  //                 child: Text('Regenerate'),
+  //               ),
+  //     ],
+  //   );
+  // }
 
-  @override
-  Offset getOffset(ScaffoldPrelayoutGeometry scaffoldGeometry) {
-    final Offset defaultOffset =
-        FloatingActionButtonLocation.endFloat.getOffset(scaffoldGeometry);
-    return Offset(defaultOffset.dx, defaultOffset.dy - _offsetY);
-  }
+//   Widget _buildMessageInput() {
+//     return Container(
+//       color: Colors.transparent,
+//       padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+//       child: Row(
+//         children: [
+//           Expanded(
+//             child: TextField(
+//               controller: textController,
+//               onSubmitted: (text) {
+//                 if (text.isNotEmpty) {
+//                   currentPartition = 0;
+//                   sendMessage(text);
+//                   textController.clear();
+//                 }
+//               },
+//               style: TextStyle(color: Colors.white),
+//               decoration: InputDecoration(
+//                 hintText: 'Type your message...',
+//                 hintStyle: TextStyle(color: Colors.white),
+//                 border: InputBorder.none,
+//               ),
+//             ),
+//           ),
+//           IconButton(
+//             onPressed: () {
+//               final message = textController.text;
+//               if (message.isNotEmpty) {
+//                 textController.clear();
+//                 currentPartition = 0;
+//                 sendMessage(message);
+//               }
+//             },
+//             icon: Icon(Icons.send),
+//             color: Colors.white,
+//           ),
+//         ],
+//       ),
+//     );
+//   }
+// }
 }
