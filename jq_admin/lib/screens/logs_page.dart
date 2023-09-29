@@ -8,6 +8,9 @@ class LogsPage extends StatefulWidget {
 }
 
 class _LogsPageState extends State<LogsPage> {
+  late CollectionReference logsCollection;
+  late Stream<QuerySnapshot> logsStream;
+
   @override
   void initState() {
     super.initState();
@@ -15,69 +18,24 @@ class _LogsPageState extends State<LogsPage> {
     logsStream = logsCollection.snapshots();
   }
 
-  String formatTimestamp(Timestamp timestamp) {
-    final dateTime = timestamp.toDate();
-    final formattedDateTime =
-        DateFormat('yyyy-MM-dd HH:mm:ss').format(dateTime);
-    return formattedDateTime;
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: ListView(
-        children: [
-          SizedBox(height: 15),
-          Padding(
-              padding: const EdgeInsets.all(10.0),
-              child: Text('Logs', style: TextStyle(fontSize: 30))),
-
-          // Recently Added Section
-          SizedBox(height: 15),
-          Padding(
-            padding: const EdgeInsets.all(10.0),
-            child: Text(
-              "Recently Added",
-              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-            ),
-          ),
-          Container(
-              height: 220, child: _buildHorizontalLogList(sortByTime: true)),
-          SizedBox(height: 25),
-          // Most Liked Section
-          Padding(
-            padding: const EdgeInsets.all(10.0),
-            child: Text(
-              "Most Liked",
-              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-            ),
-          ),
-          Container(
-              height: 220, child: _buildHorizontalLogList(sortByTime: false)),
-        ],
-      ),
-    );
-  }
-
   Widget _buildHorizontalLogList({required bool sortByTime}) {
     return StreamBuilder<QuerySnapshot>(
-      stream:
-          FirebaseFirestore.instance.collection('chat_messages').snapshots(),
+      stream: logsStream,
       builder: (context, snapshot) {
         if (!snapshot.hasData) {
           return Center(child: CircularProgressIndicator());
         }
 
-          if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
-            return Center(child: Text('No data available.'));
-          }
+        List<DocumentSnapshot> logs = snapshot.data!.docs;
+
+        if (logs.isEmpty) {
+          return Center(child: Text('No data available.'));
+        }
 
         if (sortByTime) {
           logs.sort((a, b) {
-            final aTimestamp =
-                (a.data() as Map<String, dynamic>)['timestamp'] as Timestamp?;
-            final bTimestamp =
-                (b.data() as Map<String, dynamic>)['timestamp'] as Timestamp?;
+            final aTimestamp = a.get('timestamp') as Timestamp?;
+            final bTimestamp = b.get('timestamp') as Timestamp?;
             if (aTimestamp == null || bTimestamp == null) {
               return 0;
             }
@@ -85,15 +43,15 @@ class _LogsPageState extends State<LogsPage> {
           });
         } else {
           logs.sort((a, b) {
-            final aLiked =
-                (a.data() as Map<String, dynamic>)['liked'] as bool? ?? false;
-            final bLiked =
-                (b.data() as Map<String, dynamic>)['liked'] as bool? ?? false;
-            if (aLiked == bLiked) {
-              return 0;
-            }
-            return aLiked ? -1 : 1;
+            final aData = a.data() as Map<String, dynamic>;
+            final bData = b.data() as Map<String, dynamic>;
+
+            final aLiked = aData['liked'] as bool? ?? false;
+            final bLiked = bData['liked'] as bool? ?? false;
+
+            return aLiked == bLiked ? 0 : (aLiked ? -1 : 1);
           });
+        }
 
         return ListView.builder(
           scrollDirection: Axis.horizontal,
@@ -159,6 +117,43 @@ class _LogsPageState extends State<LogsPage> {
           },
         );
       },
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: ListView(
+        children: [
+          SizedBox(height: 15),
+          Padding(
+            padding: const EdgeInsets.all(10.0),
+            child: Text('Logs', style: TextStyle(fontSize: 30)),
+          ),
+          // Recently Added Section
+          SizedBox(height: 15),
+          Padding(
+            padding: const EdgeInsets.all(10.0),
+            child: Text(
+              "Recently Added",
+              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+            ),
+          ),
+          Container(
+              height: 220, child: _buildHorizontalLogList(sortByTime: true)),
+          SizedBox(height: 25),
+          // Most Liked Section
+          Padding(
+            padding: const EdgeInsets.all(10.0),
+            child: Text(
+              "Most Liked",
+              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+            ),
+          ),
+          Container(
+              height: 220, child: _buildHorizontalLogList(sortByTime: false)),
+        ],
+      ),
     );
   }
 }

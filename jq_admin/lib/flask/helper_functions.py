@@ -14,7 +14,7 @@ from joblib import load
 import uuid
 from datetime import datetime 
 
-openai.api_key = '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'
+openai.api_key = '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'
 collections_list = [
     'text_collection',
     'author_collection',
