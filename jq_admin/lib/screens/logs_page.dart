@@ -11,14 +11,6 @@ class _LogsPageState extends State<LogsPage> {
   late CollectionReference logsCollection;
   late Stream<QuerySnapshot> logsStream;
 
-  // Sorting options
-  static const List<String> sortingOptions = [
-    'Time',
-    'User Message',
-    'Liked/Disliked'
-  ];
-  String selectedSortingOption = 'Time';
-
   @override
   void initState() {
     super.initState();
@@ -26,118 +18,141 @@ class _LogsPageState extends State<LogsPage> {
     logsStream = logsCollection.snapshots();
   }
 
-  String formatTimestamp(Timestamp timestamp) {
-    final dateTime = timestamp.toDate();
-    final formattedDateTime =
-        DateFormat('yyyy-MM-dd HH:mm:ss').format(dateTime);
-    return formattedDateTime;
+  Widget _buildHorizontalLogList({required bool sortByTime}) {
+    return StreamBuilder<QuerySnapshot>(
+      stream: logsStream,
+      builder: (context, snapshot) {
+        if (!snapshot.hasData) {
+          return Center(child: CircularProgressIndicator());
+        }
+
+        List<DocumentSnapshot> logs = snapshot.data!.docs;
+
+        if (logs.isEmpty) {
+          return Center(child: Text('No data available.'));
+        }
+
+        if (sortByTime) {
+          logs.sort((a, b) {
+            final aTimestamp = a.get('timestamp') as Timestamp?;
+            final bTimestamp = b.get('timestamp') as Timestamp?;
+            if (aTimestamp == null || bTimestamp == null) {
+              return 0;
+            }
+            return bTimestamp.toDate().compareTo(aTimestamp.toDate());
+          });
+        } else {
+          logs.sort((a, b) {
+            final aData = a.data() as Map<String, dynamic>;
+            final bData = b.data() as Map<String, dynamic>;
+
+            final aLiked = aData['liked'] as bool? ?? false;
+            final bLiked = bData['liked'] as bool? ?? false;
+
+            return aLiked == bLiked ? 0 : (aLiked ? -1 : 1);
+          });
+        }
+
+        return ListView.builder(
+          scrollDirection: Axis.horizontal,
+          itemCount: logs.length,
+          itemBuilder: (context, index) {
+            final log = logs[index].data() as Map<String, dynamic>;
+            final documentId = logs[index].id;
+            final isUserMessage = log['isUserMessage'] ?? false;
+            final partitionName = log['partitionName'] ?? '';
+            final milvusData = log['milvusData'] ?? '';
+
+            final timestamp = log['timestamp'] != null
+                ? (log['timestamp'] as Timestamp).toDate()
+                : DateTime.now();
+
+            final formattedTimestamp =
+                '${timestamp.year}-${timestamp.month.toString().padLeft(2, '0')}-${timestamp.day.toString().padLeft(2, '0')} ${timestamp.hour.toString().padLeft(2, '0')}:${timestamp.minute.toString().padLeft(2, '0')}:${timestamp.second.toString().padLeft(2, '0')}';
+
+            return SizedBox(
+              width: 300,
+              child: ClipRect(
+                child: OverflowBox(
+                  alignment: Alignment.center,
+                  child: Container(
+                    margin: EdgeInsets.all(8.0),
+                    padding: EdgeInsets.all(16.0),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.grey.withOpacity(0.5),
+                          spreadRadius: 5,
+                          blurRadius: 7,
+                        )
+                      ],
+                      borderRadius: BorderRadius.circular(8.0),
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          log['text'] ?? '',
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                          maxLines: 3, // Adjust the number of lines as needed
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                        SizedBox(height: 10),
+                        Text('Document ID: $documentId'),
+                        if (!isUserMessage)
+                          Text('Liked: ${log['liked'] ?? false}'),
+                        if (!isUserMessage)
+                          Text('Disliked: ${log['disliked'] ?? false}'),
+                        Text('Is User Message: $isUserMessage'),
+                        Text('Partition Name: $partitionName'),
+                        Text('Milvus Data: $milvusData'),
+                        Text('Timestamp: $formattedTimestamp'),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            );
+          },
+        );
+      },
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Logs Page'),
-        actions: [
-          // Dropdown menu for sorting options
-          DropdownButton<String>(
-            value: selectedSortingOption,
-            onChanged: (String? newValue) {
-              setState(() {
-                selectedSortingOption = newValue!;
-              });
-            },
-            items: sortingOptions.map<DropdownMenuItem<String>>((String value) {
-              return DropdownMenuItem<String>(
-                value: value,
-                child: Text(value),
-              );
-            }).toList(),
+      body: ListView(
+        children: [
+          SizedBox(height: 15),
+          Padding(
+            padding: const EdgeInsets.all(10.0),
+            child: Text('Logs', style: TextStyle(fontSize: 30)),
           ),
-        ],
-      ),
-      body: StreamBuilder<QuerySnapshot>(
-        stream: logsStream,
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(child: CircularProgressIndicator());
-          }
-
-          if (snapshot.hasError) {
-            return Center(child: Text('Error: ${snapshot.error}'));
-          }
-
-          if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
-            return Center(child: Text('No data available.'));
-          }
-
-          final logs = snapshot.data!.docs;
-
-          // Sort the logs based on the selected sorting option
-          logs.sort((a, b) {
-            final logDataA = a.data() as Map<String, dynamic>;
-            final logDataB = b.data() as Map<String, dynamic>;
-
-            switch (selectedSortingOption) {
-              case 'Time':
-                final timestampA = logDataA['timestamp'] as Timestamp;
-                final timestampB = logDataB['timestamp'] as Timestamp;
-                return timestampA.compareTo(timestampB);
-
-              case 'User Message':
-                final isUserMessageA = logDataA['isUserMessage'] as bool;
-                final isUserMessageB = logDataB['isUserMessage'] as bool;
-                return isUserMessageA == isUserMessageB
-                    ? 0
-                    : isUserMessageA
-                        ? -1
-                        : 1;
-
-              case 'Liked/Disliked':
-                final likedA = logDataA['liked'] as bool? ?? false;
-                final likedB = logDataB['liked'] as bool? ?? false;
-                return likedA == likedB
-                    ? 0
-                    : likedA
-                        ? -1
-                        : 1;
-
-              default:
-                return 0;
-            }
-          });
-
-          return SingleChildScrollView(
-            child: DataTable(
-              columns: [
-                DataColumn(label: Text('Log ID')),
-                DataColumn(label: Text('Timestamp')),
-                DataColumn(label: Text('Message')),
-                DataColumn(label: Text('Is User Message')),
-                DataColumn(label: Text('Liked')),
-                // Add more DataColumn widgets for other fields
-              ],
-              rows: logs.map((doc) {
-                final logData = doc.data() as Map<String, dynamic>;
-                final timestamp = logData['timestamp'] as Timestamp;
-                final isUserMessage =
-                    logData['isUserMessage'] as bool? ?? false;
-                final liked = logData['liked'] as bool? ?? false;
-
-                return DataRow(
-                  cells: [
-                    DataCell(Text(doc.id)),
-                    DataCell(Text(formatTimestamp(timestamp))),
-                    DataCell(Text(logData['text'] ?? '')),
-                    DataCell(Text(isUserMessage ? 'Yes' : 'No')),
-                    DataCell(Text(liked ? 'Yes' : 'No')),
-                    // Add more DataCell widgets for other fields
-                  ],
-                );
-              }).toList(),
+          // Recently Added Section
+          SizedBox(height: 15),
+          Padding(
+            padding: const EdgeInsets.all(10.0),
+            child: Text(
+              "Recently Added",
+              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
             ),
-          );
-        },
+          ),
+          Container(
+              height: 220, child: _buildHorizontalLogList(sortByTime: true)),
+          SizedBox(height: 25),
+          // Most Liked Section
+          Padding(
+            padding: const EdgeInsets.all(10.0),
+            child: Text(
+              "Most Liked",
+              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+            ),
+          ),
+          Container(
+              height: 220, child: _buildHorizontalLogList(sortByTime: false)),
+        ],
       ),
     );
   }

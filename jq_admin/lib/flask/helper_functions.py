@@ -14,7 +14,7 @@ from joblib import load
 import uuid
 from datetime import datetime 
 
-openai.api_key = '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'
+openai.api_key = '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'
 collections_list = [
     'text_collection',
     'author_collection',
@@ -269,8 +269,8 @@ def generate_response(prompt, string_json):
 def ranking_partitions(vectors):
     return ['people_partition', 'documents_partition', 'social_posts_partition', "contacts_partition"]
     
-svm_model = load('C:/Users/user/Documents/3rd year/Summer/Thesis 1/JQ/jq_admin/lib/flask/models/svm_model.joblib')
-label_encoder = load('C:/Users/user/Documents/3rd year/Summer/Thesis 1/JQ/jq_admin/lib/flask/models/label_encoder.joblib')
+svm_model = load('lib/flask/models/svm_model.joblib')
+label_encoder = load('lib/flask/models/label_encoder.joblib')
 def rank_partitions(prompt_embedding):
     # Convert the prompt to an embedding
     

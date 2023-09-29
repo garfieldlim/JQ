@@ -1,13 +1,13 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:file_picker/file_picker.dart';
-import 'package:glassmorphism/glassmorphism.dart';
+
 import 'package:http/http.dart' as http;
+import 'package:jq_admin/widgets/glassmorphic.dart';
 import 'review.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'field_widgets.dart';
 import 'package:uuid/uuid.dart';
-import 'dart:convert';
 
 class UpsertingPage extends StatefulWidget {
   @override
@@ -23,68 +23,21 @@ class _UpsertingPageState extends State<UpsertingPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Color(0xff719382),
       body: _buildBody(),
     );
   }
 
   Widget _buildBody() {
-    return Container(
-      width: double.infinity,
-      height: double.infinity,
-      decoration: _backgroundDecoration(),
-      child: Padding(
-        padding: const EdgeInsets.all(35.0),
-        child: _buildGlassContainer(),
+    return Center(
+      child: GlassmorphicContainerWidget(
+        widthPercentage: 0.9,
+        heightPercentage: 0.9,
+        color1: Colors.white,
+        color2: Colors.white,
+        child: Padding(
+            padding: const EdgeInsets.all(50.0), child: _buildContentColumn()),
       ),
-    );
-  }
-
-  BoxDecoration _backgroundDecoration() {
-    return const BoxDecoration(
-      image: DecorationImage(
-        image: AssetImage("web/assets/bg.png"),
-        fit: BoxFit.cover,
-      ),
-    );
-  }
-
-  Widget _buildGlassContainer() {
-    return GlassmorphicContainer(
-      width: 1500,
-      height: 750,
-      borderRadius: 20,
-      blur: 20,
-      alignment: Alignment.bottomCenter,
-      border: 2,
-      linearGradient: _glassLinearGradient(),
-      borderGradient: _glassBorderGradient(),
-      child: Padding(
-        padding: const EdgeInsets.all(35),
-        child: _buildContentColumn(),
-      ),
-    );
-  }
-
-  LinearGradient _glassLinearGradient() {
-    return LinearGradient(
-      begin: Alignment.topLeft,
-      end: Alignment.bottomRight,
-      colors: [
-        const Color(0xFFeeeeee).withOpacity(0.1),
-        const Color(0xFFeeeeee).withOpacity(0.1),
-      ],
-      stops: [0.1, 1],
-    );
-  }
-
-  LinearGradient _glassBorderGradient() {
-    return LinearGradient(
-      begin: Alignment.topLeft,
-      end: Alignment.bottomRight,
-      colors: [
-        const Color(0xFFeeeeeee).withOpacity(0.5),
-        const Color((0xFFeeeeeee)).withOpacity(0.5),
-      ],
     );
   }
 
@@ -96,6 +49,7 @@ class _UpsertingPageState extends State<UpsertingPage> {
         _buildSchemaDropdown(),
         const SizedBox(height: 15),
         ..._buildSchemaBasedFields(),
+        const SizedBox(height: 15),
         _buildUploadButton(),
         _buildFileNameText(),
         const SizedBox(height: 15),
@@ -108,6 +62,13 @@ class _UpsertingPageState extends State<UpsertingPage> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
+        Row(
+          children: [
+            Icon(Icons.folder),
+            const SizedBox(width: 10),
+            Text("Upsert New Data")
+          ],
+        ),
         const Text(
           'Choose Schema:',
           style: TextStyle(color: Colors.white, fontSize: 25),

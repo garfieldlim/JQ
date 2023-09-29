@@ -48,6 +48,7 @@ dependencies:
   dropdown_button2: ^2.3.7
   any_link_preview: ^3.0.0
   cached_network_image: ^3.2.3
+  intl: ^0.18.1
   
 
 dev_dependencies:
@@ -79,6 +80,7 @@ flutter:
     - web/assets/jq.png
     - web/assets/logo.gif
     - web/assets/logo2.png
+    - web/assets/try.png
 
 
   # An image asset can refer to one or more resolution-specific "variants", see
