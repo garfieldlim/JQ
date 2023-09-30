@@ -12,6 +12,7 @@ from helper_functions import (
 )
 import json
 import datetime
+import time
 
 app = Flask(__name__)
 CORS(app)  # This will enable CORS for all routes
@@ -24,6 +25,41 @@ class DateTimeEncoder(json.JSONEncoder):
             return obj.isoformat()
         return super().default(obj)
 
+@app.route('/get_posts', methods=['GET'])
+def get_facebook_posts():
+    headers = {
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
+    }
+
+    try:
+        with open('posts.json', 'r', encoding='utf-8') as f:
+            existing_posts = json.load(f)
+    except FileNotFoundError:
+        existing_posts = []
+
+    existing_ids = {post['post_id'] for post in existing_posts}
+
+    posts = []
+    try:
+        for i, post in enumerate(get_posts('usjrforward', cookies="C:/Users/user/Documents/4th year/Thesis/scrape/cookies.json", pages=2, options={"headers": headers}), start=1):
+            if post['post_id'] in existing_ids:
+                print(f"Skipping duplicate post: {post['post_id']}")
+                continue
+            print(f"Count {i}: {post['text']}")
+            posts.append(post)
+            existing_ids.add(post['post_id'])
+            time.sleep(1)
+    except Exception as e:
+        print(f"Error: {e}")
+
+    # Append new posts to existing posts
+    existing_posts.extend(posts)
+
+    # Save the combined list of posts into the JSON file
+    with open('posts.json', 'w', encoding='utf-8') as f:
+        json.dump(existing_posts, f, cls=DateTimeEncoder, indent=4)
+
+    return jsonify(existing_posts)
 
 @app.route('/scrape_website', methods=['POST'])
 def scrape_website():

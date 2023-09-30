@@ -31,6 +31,13 @@ class _HomePageState extends State<HomePage> {
   int currentPartition = 0;
   bool isLoading = false;
   bool isTyping = false;
+  List<dynamic> posts = [];
+
+  @override
+  void initState() {
+    super.initState();
+    fetchPosts();
+  }
 
   void resetChat() {
     setState(() {
@@ -40,6 +47,18 @@ class _HomePageState extends State<HomePage> {
     });
 
     // Optionally: Remove chat messages from Cloud Firestore.
+  }
+
+  Future<void> fetchPosts() async {
+    final response =
+        await http.get(Uri.parse('http://127.0.0.1:7999/get_posts'));
+    if (response.statusCode == 200) {
+      setState(() {
+        posts = json.decode(response.body);
+      });
+    } else {
+      throw Exception('Failed to load posts');
+    }
   }
 
   Future<void> sendMessage(String message, {int? partition}) async {
@@ -217,6 +236,7 @@ class _HomePageState extends State<HomePage> {
         color2: Color(0xffafbc8f),
         child: Column(
           children: [
+            _buildFacebookPostsList(),
             _buildMessagesList(),
             ChatSuggestions(
               textController: textController,
@@ -250,6 +270,28 @@ class _HomePageState extends State<HomePage> {
           regenerateMessage: regenerateMessage,
           isLoading: isLoading,
         ),
+      ),
+    );
+  }
+
+  Widget _buildFacebookPostsList() {
+    return Container(
+      height: 150.0, // Set the desired height for the horizontal list
+      child: ListView.builder(
+        scrollDirection: Axis.horizontal,
+        itemCount: posts.length,
+        itemBuilder: (context, index) {
+          return Card(
+            margin: EdgeInsets.all(8.0),
+            child: Padding(
+              padding: EdgeInsets.all(16.0),
+              child: Text(
+                posts[index]['text'],
+                style: TextStyle(fontSize: 18.0),
+              ),
+            ),
+          );
+        },
       ),
     );
   }
