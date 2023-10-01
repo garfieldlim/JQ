@@ -1,5 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:jq_admin/screens/rubbish/admin_dashboard.dart';
 import 'package:jq_admin/screens/dashboard.dart';
 import 'package:jq_admin/screens/login.dart';
@@ -18,6 +19,7 @@ void main() async {
           appId: "1:311772432590:web:1bc805e7ab29b8daf5e89f",
           messagingSenderId: "311772432590",
           projectId: "josenianquiri-c3c63"));
+
   runApp(MyApp());
 }
 

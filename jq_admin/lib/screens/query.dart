@@ -263,7 +263,7 @@ class _HomePageState extends State<HomePage> {
         itemCount: messages.length + (isTyping ? 1 : 0),
         itemBuilder: (context, index) => MessageItem(
           index: index,
-          isTyping: isTyping, // Depending on your logic
+          isTyping: isTyping, 
           messages: messages,
           handleLikeDislike: handleLikeDislike,
           handleQuote: handleQuote,
@@ -276,7 +276,7 @@ class _HomePageState extends State<HomePage> {
 
   Widget _buildFacebookPostsList() {
     return Container(
-      height: 150.0, // Set the desired height for the horizontal list
+      height: 150.0, 
       child: ListView.builder(
         scrollDirection: Axis.horizontal,
         itemCount: posts.length,
