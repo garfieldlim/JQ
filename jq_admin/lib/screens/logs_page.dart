@@ -79,7 +79,7 @@ class _LogsPageState extends State<LogsPage> {
                     margin: EdgeInsets.all(8.0),
                     padding: EdgeInsets.all(16.0),
                     decoration: BoxDecoration(
-                      color: Colors.white,
+                      color: Colors.white, // containers background color
                       boxShadow: [
                         BoxShadow(
                           color: Colors.grey.withOpacity(0.5),
@@ -123,12 +123,17 @@ class _LogsPageState extends State<LogsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Color(0xffaebb9f),
       body: ListView(
         children: [
           SizedBox(height: 15),
           Padding(
             padding: const EdgeInsets.all(10.0),
-            child: Text('Logs', style: TextStyle(fontSize: 30)),
+            child: Text('Logs',
+                style: TextStyle(
+                  fontSize: 30,
+                  color: Colors.white,
+                )),
           ),
           // Recently Added Section
           SizedBox(height: 15),
@@ -136,22 +141,29 @@ class _LogsPageState extends State<LogsPage> {
             padding: const EdgeInsets.all(10.0),
             child: Text(
               "Recently Added",
-              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+              style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white),
             ),
           ),
           Container(
-              height: 220, child: _buildHorizontalLogList(sortByTime: true)),
+              height: 300, child: _buildHorizontalLogList(sortByTime: true)),
           SizedBox(height: 25),
           // Most Liked Section
           Padding(
             padding: const EdgeInsets.all(10.0),
             child: Text(
               "Most Liked",
-              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+              style: TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+                color: Colors.white,
+              ),
             ),
           ),
           Container(
-              height: 220, child: _buildHorizontalLogList(sortByTime: false)),
+              height: 300, child: _buildHorizontalLogList(sortByTime: false)),
         ],
       ),
     );

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 
 import 'package:glassmorphism/glassmorphism.dart';
 import 'package:jq_admin/widgets/glassmorphic.dart';
+import 'package:lottie/lottie.dart';
 
 import 'upserting.dart';
 
@@ -24,7 +25,7 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xff729482),
+      backgroundColor: Color(0xffAFBC8F),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -42,117 +43,143 @@ class _LoginPageState extends State<LoginPage> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
                       Expanded(
-                        child: Image(
-                          image: NetworkImage('assets/try.png'),
-                          fit: BoxFit.contain,
-                        ),
-                      ),
+                          child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: <Widget>[
+                            Image.asset('web/assets/logo.gif',
+                                width: 400, height: 400),
+                            // Padding(
+                            //   padding:
+                            //       const EdgeInsets.only(left: 20.0, right: 20),
+                            //   child: Text(
+                            //     'Josenian Quiri: A Virtual Assistant for USJ-R',
+                            //     style: TextStyle(
+                            //         fontSize: 24,
+                            //         color: Color(0xff729482),
+                            //         fontWeight: FontWeight.bold),
+                            //   ),
+                            // ),
+                          ])),
                       Expanded(
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: <Widget>[
-                            Container(
-                                width: 250,
+                        child: Container(
+                          color: Color(0xffE7D192),
+                          child: Column(
+                            children: <Widget>[
+                              SizedBox(height: 45),
+                              Container(
+                                width: 300,
                                 child: Image(
-                                    image: NetworkImage('assets/jq.png'))),
-                            Padding(
-                              padding: EdgeInsets.only(
-                                  left: 70.0, right: 70.0, top: 20.0),
-                              child: TextFormField(
-                                keyboardType: TextInputType.emailAddress,
-                                decoration: const InputDecoration(
-                                  hintText: 'Enter your email',
-                                  hintStyle:
-                                      TextStyle(color: Color(0xffaebb8f)),
-                                  labelText: 'Email',
-                                  labelStyle:
-                                      TextStyle(color: Color(0xffaebb8f)),
-                                  focusedBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(
-                                        color: Color(0xffe7d192), width: 2),
-                                  ),
-                                  enabledBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(
-                                        color: Color(0xffe7d192), width: 2),
-                                  ),
+                                  image: NetworkImage('assets/jq.png'),
                                 ),
-                                validator: (value) {
-                                  if (value == null || value.isEmpty) {
-                                    return 'Please enter your email';
-                                  }
-                                  return null;
-                                },
-                                onChanged: (value) {
-                                  _email = value;
-                                },
                               ),
-                            ),
-                            Padding(
-                              padding: EdgeInsets.only(
-                                  left: 70.0, right: 70.0, top: 20.0),
-                              child: TextFormField(
-                                obscureText: true,
-                                decoration: InputDecoration(
-                                  hintText: 'Enter your password',
-                                  hintStyle:
-                                      TextStyle(color: Color(0xffaebb8f)),
-                                  labelText: 'Password',
-                                  labelStyle:
-                                      TextStyle(color: Color(0xffaebb8f)),
-                                  focusedBorder: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(30),
-                                    borderSide: BorderSide(
-                                        color: Color(0xffe7d192), width: 2),
+                              SizedBox(height: 54),
+                              Padding(
+                                padding: EdgeInsets.only(
+                                    left: 70.0, right: 70.0, top: 20.0),
+                                child: TextFormField(
+                                  keyboardType: TextInputType.emailAddress,
+                                  decoration: InputDecoration(
+                                    filled: true,
+                                    fillColor: Color(0xffebd79c),
+                                    hintText: 'Enter your email',
+                                    hintStyle: TextStyle(color: Colors.white),
+                                    labelText: 'Email',
+                                    labelStyle: TextStyle(color: Colors.white),
+                                    focusedBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(15.0),
+                                      borderSide: BorderSide(
+                                        color: Color(0xffebd79c),
+                                        width: 2,
+                                      ),
+                                    ),
+                                    enabledBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(15.0),
+                                      borderSide: BorderSide(
+                                          color: Colors.transparent, width: 2),
+                                    ),
                                   ),
-                                  enabledBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(
-                                        color: Color(0xffe7d192), width: 2),
-                                  ),
-                                ),
-                                validator: (value) {
-                                  if (value == null || value.isEmpty) {
-                                    return 'Please enter your password';
-                                  }
-                                  return null;
-                                },
-                                onChanged: (value) {
-                                  _password = value;
-                                },
-                              ),
-                            ),
-                            SizedBox(height: 20),
-                            CupertinoButton(
-                              color: Color(0xffaebb8f),
-                              borderRadius: BorderRadius.circular(30),
-                              child: Text('Login',
-                                  style: TextStyle(color: Color(0xffe7d192))),
-                              onPressed: () async {
-                                if (_formKey.currentState!.validate()) {
-                                  try {
-                                    final userCredentials =
-                                        await _auth.signInWithEmailAndPassword(
-                                      email: _email,
-                                      password: _password,
-                                    );
-
-                                    if (userCredentials.user != null) {
-                                      Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                                UpsertingPage()),
-                                      );
-                                    } else {
-                                      print(
-                                          'Login failed. User credentials are null.');
+                                  validator: (value) {
+                                    if (value == null || value.isEmpty) {
+                                      return 'Please enter your email';
                                     }
-                                  } catch (e) {
-                                    print('Login failed: $e');
+                                    return null;
+                                  },
+                                  onChanged: (value) {
+                                    _email = value;
+                                  },
+                                ),
+                              ),
+                              Padding(
+                                padding: EdgeInsets.only(
+                                    left: 70.0, right: 70.0, top: 20.0),
+                                child: TextFormField(
+                                  obscureText: true,
+                                  decoration: InputDecoration(
+                                    filled: true,
+                                    fillColor: Color(0xffebd79c),
+                                    border: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(15.0),
+                                    ),
+                                    hintText: 'Enter your password',
+                                    hintStyle: TextStyle(color: Colors.white),
+                                    labelText: 'Password',
+                                    labelStyle: TextStyle(color: Colors.white),
+                                    focusedBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(15.0),
+                                      borderSide: BorderSide(
+                                          color: Color(0xfff3e4b0), width: 2),
+                                    ),
+                                    enabledBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(15.0),
+                                      borderSide: BorderSide(
+                                          color: Colors.transparent, width: 2),
+                                    ),
+                                  ),
+                                  validator: (value) {
+                                    if (value == null || value.isEmpty) {
+                                      return 'Please enter your password';
+                                    }
+                                    return null;
+                                  },
+                                  onChanged: (value) {
+                                    _password = value;
+                                  },
+                                ),
+                              ),
+                              SizedBox(height: 45),
+                              CupertinoButton(
+                                color: Color(0xff729482),
+                                borderRadius: BorderRadius.circular(30),
+                                child: Text('Login',
+                                    style: TextStyle(color: Color(0xffe7d192))),
+                                onPressed: () async {
+                                  if (_formKey.currentState!.validate()) {
+                                    try {
+                                      final userCredentials = await _auth
+                                          .signInWithEmailAndPassword(
+                                        email: _email,
+                                        password: _password,
+                                      );
+
+                                      if (userCredentials.user != null) {
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  UpsertingPage()),
+                                        );
+                                      } else {
+                                        print(
+                                            'Login failed. User credentials are null.');
+                                      }
+                                    } catch (e) {
+                                      print('Login failed: $e');
+                                    }
                                   }
-                                }
-                              },
-                            ),
-                          ],
+                                },
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                     ],

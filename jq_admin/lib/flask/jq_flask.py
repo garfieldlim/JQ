@@ -41,7 +41,7 @@ def get_facebook_posts():
 
     posts = []
     try:
-        for i, post in enumerate(get_posts('usjrforward', cookies="C:/Users/user/Documents/4th year/Thesis/scrape/cookies.json", pages=2, options={"headers": headers}), start=1):
+        for i, post in enumerate(get_posts('usjrforward', cookies="lib/flask/cookies.json", pages=2, options={"headers": headers}), start=1):
             if post['post_id'] in existing_ids:
                 print(f"Skipping duplicate post: {post['post_id']}")
                 continue
@@ -64,7 +64,7 @@ def get_facebook_posts():
 @app.route('/scrape_website', methods=['POST'])
 def scrape_website():
     url = request.json['url']
-    cookies_path = "C:/Users/user/Documents/3rd year/Summer/Thesis 1/JQ/jq_admin/lib/flask/cookies.json"
+    cookies_path = "lib/flask/cookies.json"
     
     scraped_data = [
         post for post in get_posts(post_urls=[url], cookies=cookies_path)

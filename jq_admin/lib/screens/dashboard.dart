@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:jq_admin/rubbish/upserting%20copy.dart';
+import 'package:jq_admin/screens/upserting.dart';
 
 import '../widgets/nav.dart';
 import 'logs_page.dart';
@@ -10,16 +10,15 @@ class Admin_dashboard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Color(0xffaebb9f),
       body: Row(
         children: [
-          // Left navigation bar
           Container(
             width: 70, // Width of the left nav bar
-            margin: EdgeInsets.only(top: 20, left: 20, bottom: 20),
-
+            margin: EdgeInsets.only(right: 34),
             decoration: BoxDecoration(
-              color: Color(0xffaebb9f), // Background color
-              borderRadius: BorderRadius.circular(20), // Rounded corners
+              color: Color(0xff719382), // Background color
+              borderRadius: BorderRadius.circular(15), // Rounded corners
             ),
             child: Column(
               children: [
