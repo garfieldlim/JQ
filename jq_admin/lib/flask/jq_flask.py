@@ -41,7 +41,7 @@ def get_facebook_posts():
 
     posts = []
     try:
-        for i, post in enumerate(get_posts('usjrforward', cookies="lib/flask/cookies.json", pages=2, options={"headers": headers}), start=1):
+        for i, post in enumerate(get_posts('usjrforward', cookies='lib/flask/cookies.json', pages=2, options={"headers": headers}), start=1):
             if post['post_id'] in existing_ids:
                 print(f"Skipping duplicate post: {post['post_id']}")
                 continue

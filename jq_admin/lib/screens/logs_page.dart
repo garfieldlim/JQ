@@ -79,12 +79,12 @@ class _LogsPageState extends State<LogsPage> {
                     margin: EdgeInsets.all(8.0),
                     padding: EdgeInsets.all(16.0),
                     decoration: BoxDecoration(
-                      color: Colors.white, // containers background color
+                      color: Color(0xffbec59a), // containers background color
                       boxShadow: [
                         BoxShadow(
-                          color: Colors.grey.withOpacity(0.5),
-                          spreadRadius: 5,
-                          blurRadius: 7,
+                          color: Colors.black.withOpacity(0.1),
+                          spreadRadius: 1,
+                          blurRadius: 130,
                         )
                       ],
                       borderRadius: BorderRadius.circular(8.0),
@@ -94,20 +94,43 @@ class _LogsPageState extends State<LogsPage> {
                       children: [
                         Text(
                           log['text'] ?? '',
-                          style: TextStyle(fontWeight: FontWeight.bold),
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              color: Color(0xff638a7e)),
                           maxLines: 3, // Adjust the number of lines as needed
                           overflow: TextOverflow.ellipsis,
                         ),
                         SizedBox(height: 10),
-                        Text('Document ID: $documentId'),
+                        Text(
+                          'Document ID: $documentId',
+                          style: TextStyle(color: Color(0xffffe7a0)),
+                        ),
                         if (!isUserMessage)
-                          Text('Liked: ${log['liked'] ?? false}'),
+                          Text(
+                            'Liked: ${log['liked'] ?? false}',
+                            style: TextStyle(color: Color(0xffffe7a0)),
+                          ),
                         if (!isUserMessage)
-                          Text('Disliked: ${log['disliked'] ?? false}'),
-                        Text('Is User Message: $isUserMessage'),
-                        Text('Partition Name: $partitionName'),
-                        Text('Milvus Data: $milvusData'),
-                        Text('Timestamp: $formattedTimestamp'),
+                          Text(
+                            'Disliked: ${log['disliked'] ?? false}',
+                            style: TextStyle(color: Color(0xffffe7a0)),
+                          ),
+                        Text(
+                          'Is User Message: $isUserMessage',
+                          style: TextStyle(color: Color(0xffffe7a0)),
+                        ),
+                        Text(
+                          'Partition Name: $partitionName',
+                          style: TextStyle(color: Color(0xffffe7a0)),
+                        ),
+                        Text(
+                          'Milvus Data: $milvusData',
+                          style: TextStyle(color: Color(0xffffe7a0)),
+                        ),
+                        Text(
+                          'Timestamp: $formattedTimestamp',
+                          style: TextStyle(color: Color(0xffffe7a0)),
+                        ),
                       ],
                     ),
                   ),
