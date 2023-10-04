@@ -27,10 +27,11 @@ class ChatSuggestions extends StatelessWidget {
             label: Text(suggestion),
             onPressed: () {
               textController.text = suggestion;
-              onSuggestionSelected(suggestion); 
+              onSuggestionSelected(suggestion);
             },
-            backgroundColor: Color(0xffe7d192),
-            side: BorderSide(width: 0, color: Colors.transparent),
+            backgroundColor: Color(0xffbec59a),
+            side: BorderSide(width: 1, color: Color(0xffdcd8b0)),
+            labelStyle: TextStyle(color: Colors.white),
           );
         }).toList(),
       ),

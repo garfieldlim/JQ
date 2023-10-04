@@ -32,6 +32,7 @@ class Admin_dashboard extends StatelessWidget {
                           builder: (context) => Admin_dashboard()),
                     );
                   },
+                  labelText: 'Logs',
                 ),
                 NavItem(
                   iconData: Icons.upload_file,
@@ -42,6 +43,7 @@ class Admin_dashboard extends StatelessWidget {
                       MaterialPageRoute(builder: (context) => UpsertingPage()),
                     );
                   },
+                  labelText: 'Upserting',
                 ),
                 NavItem(
                   iconData: Icons.menu_book,
@@ -53,6 +55,7 @@ class Admin_dashboard extends StatelessWidget {
                           builder: (context) => Admin_dashboard()),
                     );
                   },
+                  labelText: 'Knowlege base logs',
                 ),
                 Expanded(
                   child: Container(
@@ -63,6 +66,7 @@ class Admin_dashboard extends StatelessWidget {
                         print("Logout icon pressed");
                       },
                       color: Color(0xffe7d192),
+                      labelText: 'Logout',
                     ),
                   ),
                 ),

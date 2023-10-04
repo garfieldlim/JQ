@@ -57,8 +57,8 @@ class MessageItem extends StatelessWidget {
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(25),
                     color: message.isUserMessage
-                        ? Color.fromARGB(255, 237, 237, 237).withOpacity(0.5)
-                        : Color.fromARGB(255, 255, 255, 255).withOpacity(0.5),
+                        ? Color(0xffdcd8b0)
+                        : Color(0xffbec59a),
                     boxShadow: [
                       BoxShadow(
                         color: Colors.black.withOpacity(0.1),

@@ -218,9 +218,9 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
+        backgroundColor: Color(0xffafbc8f),
         floatingActionButton: buildFloatingActionButton(resetChat: resetChat),
-        floatingActionButtonLocation:
-            CustomFloatingActionButtonLocation(100.0, 70),
+        floatingActionButtonLocation: CustomFloatingActionButtonLocation(80, 0),
         extendBodyBehindAppBar: true,
         body: _buildBody(),
       ),
@@ -229,29 +229,23 @@ class _HomePageState extends State<HomePage> {
 
   Widget _buildBody() {
     return Center(
-      child: GlassmorphicContainerWidget(
-        widthPercentage: 0.9,
-        heightPercentage: 0.9,
-        color1: Color(0xffafbc8f),
-        color2: Color(0xffafbc8f),
-        child: Column(
-          children: [
-            _buildFacebookPostsList(),
-            _buildMessagesList(),
-            ChatSuggestions(
-              textController: textController,
-              onSuggestionSelected: (suggestion) {
-                sendMessage(suggestion);
-              },
-            ),
-            Divider(height: 1, color: Colors.white),
-            MessageInput(
-              textController: textController,
-              sendMessage: sendMessage,
-              currentPartition: currentPartition,
-            ),
-          ],
-        ),
+      child: Column(
+        children: [
+          _buildFacebookPostsList(),
+          _buildMessagesList(),
+          ChatSuggestions(
+            textController: textController,
+            onSuggestionSelected: (suggestion) {
+              sendMessage(suggestion);
+            },
+          ),
+          Divider(height: 1, color: Colors.white),
+          MessageInput(
+            textController: textController,
+            sendMessage: sendMessage,
+            currentPartition: currentPartition,
+          ),
+        ],
       ),
     );
   }
@@ -263,7 +257,7 @@ class _HomePageState extends State<HomePage> {
         itemCount: messages.length + (isTyping ? 1 : 0),
         itemBuilder: (context, index) => MessageItem(
           index: index,
-          isTyping: isTyping, 
+          isTyping: isTyping,
           messages: messages,
           handleLikeDislike: handleLikeDislike,
           handleQuote: handleQuote,
@@ -276,22 +270,38 @@ class _HomePageState extends State<HomePage> {
 
   Widget _buildFacebookPostsList() {
     return Container(
-      height: 150.0, 
-      child: ListView.builder(
-        scrollDirection: Axis.horizontal,
-        itemCount: posts.length,
-        itemBuilder: (context, index) {
-          return Card(
-            margin: EdgeInsets.all(8.0),
-            child: Padding(
-              padding: EdgeInsets.all(16.0),
-              child: Text(
-                posts[index]['text'],
-                style: TextStyle(fontSize: 18.0),
-              ),
+      color: Color(0xffbec59a),
+      child: ExpansionTile(
+        leading: Icon(
+          Icons.newspaper_rounded,
+          color: Colors.white,
+        ),
+        title: Text(
+          'Headlines',
+          style: TextStyle(color: Colors.white),
+        ),
+        children: <Widget>[
+          Container(
+            height: 150.0,
+            child: ListView.builder(
+              scrollDirection: Axis.horizontal,
+              itemCount: posts.length,
+              itemBuilder: (context, index) {
+                return Card(
+                  color: Color(0xffdcd8b0),
+                  margin: EdgeInsets.all(8.0),
+                  child: Padding(
+                    padding: EdgeInsets.all(16.0),
+                    child: Text(
+                      posts[index]['text'],
+                      style: TextStyle(fontSize: 18.0, color: Colors.white),
+                    ),
+                  ),
+                );
+              },
             ),
-          );
-        },
+          ),
+        ],
       ),
     );
   }
