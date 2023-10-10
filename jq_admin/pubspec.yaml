@@ -30,6 +30,8 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  jq_dashboard:
+    path: ../jq_dashboard
 
 
   # The following adds the Cupertino Icons font to your application.

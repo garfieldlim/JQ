@@ -11,6 +11,8 @@ import 'package:jq_admin/screens/upserting.dart';
 import 'package:jq_admin/screens/review.dart';
 import 'package:jq_admin/screens/query.dart';
 
+import 'screens/table.dart';
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
@@ -34,7 +36,7 @@ class MyApp extends StatelessWidget {
             ColorScheme.fromSeed(seedColor: Color.fromARGB(255, 255, 223, 107)),
         useMaterial3: true,
       ),
-      home: Admin_dashboard(),
+      home: DataTableDemo(),
       debugShowCheckedModeBanner: false,
     );
   }

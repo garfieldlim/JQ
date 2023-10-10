@@ -18,6 +18,75 @@ class _LogsPageState extends State<LogsPage> {
     logsStream = logsCollection.snapshots();
   }
 
+  void _showLogDetails(DocumentSnapshot log) {
+    showModalBottomSheet(
+      context: context,
+      builder: (BuildContext context) {
+        final data = log.data() as Map<String, dynamic>;
+
+        final isUserMessage = data['isUserMessage'] ?? false;
+        final partitionName = data['partitionName'] ?? '';
+        final milvusData = data['milvusData'] ?? '';
+        final timestamp = data['timestamp'] != null
+            ? (data['timestamp'] as Timestamp).toDate()
+            : DateTime.now();
+        final formattedTimestamp =
+            '${timestamp.year}-${timestamp.month.toString().padLeft(2, '0')}-${timestamp.day.toString().padLeft(2, '0')} ${timestamp.hour.toString().padLeft(2, '0')}:${timestamp.minute.toString().padLeft(2, '0')}:${timestamp.second.toString().padLeft(2, '0')}';
+
+        return Container(
+          decoration: BoxDecoration(
+            color: Color(0xffbec59a), // Change this to the desired color.
+            borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(20.0),
+              topRight: Radius.circular(20.0),
+            ),
+          ),
+          padding: EdgeInsets.all(16.0),
+          child: SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min, // To limit the height
+              children: [
+                Text("Text: ${data['text']}"),
+                SizedBox(height: 10),
+                Text("Document ID: ${log.id}"),
+                SizedBox(height: 10),
+                Text("Liked: ${data['liked'] ?? false}"),
+                Text(
+                  'Disliked: ${data['disliked'] ?? false}',
+                  style: TextStyle(color: Color(0xffffe7a0)),
+                ),
+                Text(
+                  'Is User Message: $isUserMessage',
+                  style: TextStyle(color: Color(0xffffe7a0)),
+                ),
+                Text(
+                  'Partition Name: $partitionName',
+                  style: TextStyle(color: Color(0xffffe7a0)),
+                ),
+                Text(
+                  'Milvus Data: $milvusData',
+                  style: TextStyle(color: Color(0xffffe7a0)),
+                ),
+                Text(
+                  'Timestamp: $formattedTimestamp',
+                  style: TextStyle(color: Color(0xffffe7a0)),
+                ),
+                SizedBox(height: 10),
+                ElevatedButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                  child: Text('Close'),
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
+
   Widget _buildHorizontalLogList({required bool sortByTime}) {
     return StreamBuilder<QuerySnapshot>(
       stream: logsStream,
@@ -70,68 +139,73 @@ class _LogsPageState extends State<LogsPage> {
             final formattedTimestamp =
                 '${timestamp.year}-${timestamp.month.toString().padLeft(2, '0')}-${timestamp.day.toString().padLeft(2, '0')} ${timestamp.hour.toString().padLeft(2, '0')}:${timestamp.minute.toString().padLeft(2, '0')}:${timestamp.second.toString().padLeft(2, '0')}';
 
-            return SizedBox(
-              width: 300,
-              child: ClipRect(
-                child: OverflowBox(
-                  alignment: Alignment.center,
-                  child: Container(
-                    margin: EdgeInsets.all(8.0),
-                    padding: EdgeInsets.all(16.0),
-                    decoration: BoxDecoration(
-                      color: Color(0xffbec59a), // containers background color
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.black.withOpacity(0.1),
-                          spreadRadius: 1,
-                          blurRadius: 130,
-                        )
-                      ],
-                      borderRadius: BorderRadius.circular(8.0),
-                    ),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          log['text'] ?? '',
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              color: Color(0xff638a7e)),
-                          maxLines: 3, // Adjust the number of lines as needed
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                        SizedBox(height: 10),
-                        Text(
-                          'Document ID: $documentId',
-                          style: TextStyle(color: Color(0xffffe7a0)),
-                        ),
-                        if (!isUserMessage)
+            return GestureDetector(
+              onTap: () {
+                _showLogDetails(logs[index]);
+              },
+              child: SizedBox(
+                width: 300,
+                child: ClipRect(
+                  child: OverflowBox(
+                    alignment: Alignment.center,
+                    child: Container(
+                      margin: EdgeInsets.all(8.0),
+                      padding: EdgeInsets.all(16.0),
+                      decoration: BoxDecoration(
+                        color: Color(0xffbec59a), // containers background color
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black.withOpacity(0.1),
+                            spreadRadius: 1,
+                            blurRadius: 130,
+                          )
+                        ],
+                        borderRadius: BorderRadius.circular(8.0),
+                      ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
                           Text(
-                            'Liked: ${log['liked'] ?? false}',
+                            log['text'] ?? '',
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                color: Color(0xff638a7e)),
+                            maxLines: 3, // Adjust the number of lines as needed
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                          SizedBox(height: 10),
+                          Text(
+                            'Document ID: $documentId',
                             style: TextStyle(color: Color(0xffffe7a0)),
                           ),
-                        if (!isUserMessage)
+                          if (!isUserMessage)
+                            Text(
+                              'Liked: ${log['liked'] ?? false}',
+                              style: TextStyle(color: Color(0xffffe7a0)),
+                            ),
+                          if (!isUserMessage)
+                            Text(
+                              'Disliked: ${log['disliked'] ?? false}',
+                              style: TextStyle(color: Color(0xffffe7a0)),
+                            ),
                           Text(
-                            'Disliked: ${log['disliked'] ?? false}',
+                            'Is User Message: $isUserMessage',
                             style: TextStyle(color: Color(0xffffe7a0)),
                           ),
-                        Text(
-                          'Is User Message: $isUserMessage',
-                          style: TextStyle(color: Color(0xffffe7a0)),
-                        ),
-                        Text(
-                          'Partition Name: $partitionName',
-                          style: TextStyle(color: Color(0xffffe7a0)),
-                        ),
-                        Text(
-                          'Milvus Data: $milvusData',
-                          style: TextStyle(color: Color(0xffffe7a0)),
-                        ),
-                        Text(
-                          'Timestamp: $formattedTimestamp',
-                          style: TextStyle(color: Color(0xffffe7a0)),
-                        ),
-                      ],
+                          Text(
+                            'Partition Name: $partitionName',
+                            style: TextStyle(color: Color(0xffffe7a0)),
+                          ),
+                          Text(
+                            'Milvus Data: $milvusData',
+                            style: TextStyle(color: Color(0xffffe7a0)),
+                          ),
+                          Text(
+                            'Timestamp: $formattedTimestamp',
+                            style: TextStyle(color: Color(0xffffe7a0)),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ),
