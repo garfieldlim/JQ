@@ -22,7 +22,7 @@ from joblib import load
 import uuid
 from datetime import datetime
 
-openai.api_key = "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"
+openai.api_key = "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"
 collections_list = [
     "text_collection",
     "author_collection",
@@ -363,10 +363,10 @@ def ranking_partitions(vectors):
 
 
 svm_model = load(
-    "/Users/garfieldgreglim/Documents/JQ/jq_admin/lib/flask/models/svm_model.joblib"
+    "lib/flask/models/svm_model.joblib"
 )
 label_encoder = load(
-    "/Users/garfieldgreglim/Documents/JQ/jq_admin/lib/flask/models/label_encoder.joblib"
+    "lib/flask/models/label_encoder.joblib"
 )
 
 
