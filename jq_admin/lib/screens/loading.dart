@@ -42,7 +42,7 @@ class _TypingIndicatorState extends State<TypingIndicator>
               width: 10,
               height: 10,
               decoration: BoxDecoration(
-                color: Color(0xffE5AA33),
+                color: Color(0xff),
                 borderRadius: BorderRadius.circular(5.0),
               ),
             ),
