@@ -3,6 +3,8 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 class SingleUpsertion extends StatefulWidget {
+  const SingleUpsertion({super.key});
+
   @override
   _SingleUpsertionState createState() => _SingleUpsertionState();
 }
@@ -28,7 +30,7 @@ class _SingleUpsertionState extends State<SingleUpsertion> {
   }
 
   Future<void> _sendDataToServer(Map<String, dynamic> data) async {
-    final url =
+    const url =
         'http://127.0.0.1:7999/receive_json'; // Replace with your server address
 
     final response = await http.post(
@@ -49,28 +51,28 @@ class _SingleUpsertionState extends State<SingleUpsertion> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Upsert People Data')),
+      appBar: AppBar(title: const Text('Upsert People Data')),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
           children: <Widget>[
             TextField(
               controller: _textController,
-              decoration: InputDecoration(labelText: 'Text'),
+              decoration: const InputDecoration(labelText: 'Text'),
             ),
             TextField(
               controller: _nameController,
-              decoration: InputDecoration(labelText: 'Name'),
+              decoration: const InputDecoration(labelText: 'Name'),
             ),
             TextField(
               controller: _positionController,
-              decoration: InputDecoration(labelText: 'Position'),
+              decoration: const InputDecoration(labelText: 'Position'),
             ),
             TextField(
               controller: _departmentController,
-              decoration: InputDecoration(labelText: 'Department'),
+              decoration: const InputDecoration(labelText: 'Department'),
             ),
-            ElevatedButton(onPressed: _handleSubmit, child: Text('Submit')),
+            ElevatedButton(onPressed: _handleSubmit, child: const Text('Submit')),
           ],
         ),
       ),

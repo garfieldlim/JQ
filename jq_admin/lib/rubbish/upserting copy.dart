@@ -9,6 +9,8 @@ import 'package:jq_admin/screens/review.dart';
 // import 'field_widgets.dart';
 
 class UpsertingPage extends StatefulWidget {
+  const UpsertingPage({super.key});
+
   @override
   _UpsertingPageState createState() => _UpsertingPageState();
 }
@@ -88,7 +90,7 @@ class _UpsertingPageState extends State<UpsertingPage> {
                   const Color(0xFFeeeeee).withOpacity(0.1),
                   const Color(0xFFeeeeee).withOpacity(0.1),
                 ],
-                stops: [
+                stops: const [
                   0.1,
                   1,
                 ]),
@@ -96,7 +98,7 @@ class _UpsertingPageState extends State<UpsertingPage> {
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
               colors: [
-                const Color(0xFFeeeeeee).withOpacity(0.5),
+                const Color(0xffeeeeeee).withOpacity(0.5),
                 const Color((0xFFeeeeeee)).withOpacity(0.5),
               ],
             ),
@@ -186,19 +188,19 @@ class _UpsertingPageState extends State<UpsertingPage> {
                       controller: _urlController,
                       decoration: InputDecoration(
                         labelText: 'Enter Facebook URL',
-                        labelStyle: TextStyle(color: Colors.white),
+                        labelStyle: const TextStyle(color: Colors.white),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(14.0),
                         ),
                         enabledBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(14.0),
                           borderSide:
-                              BorderSide(color: Colors.white, width: 2.0),
+                              const BorderSide(color: Colors.white, width: 2.0),
                         ),
                         focusedBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(14.0),
-                          borderSide: BorderSide(
-                              color: const Color.fromARGB(255, 85, 165, 87),
+                          borderSide: const BorderSide(
+                              color: Color.fromARGB(255, 85, 165, 87),
                               width: 2.0),
                         ),
                       ),
@@ -206,23 +208,22 @@ class _UpsertingPageState extends State<UpsertingPage> {
                     Center(
                       child: ElevatedButton(
                         style: ElevatedButton.styleFrom(
-                          primary: Colors.transparent,
-                          onPrimary: Color(0xff008400),
+                          foregroundColor: const Color(0xff008400), backgroundColor: Colors.transparent,
                           elevation: 0,
-                          side: BorderSide(color: Colors.white, width: 2),
+                          side: const BorderSide(color: Colors.white, width: 2),
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(25.0),
                           ),
                         ),
+                        onPressed: _pickFile,
                         child: const Text('Upload Data File',
                             style: TextStyle(fontSize: 18)),
-                        onPressed: _pickFile,
                       ),
                     ),
                     Center(
                       child: Text(
                         _fileName,
-                        style: TextStyle(
+                        style: const TextStyle(
                           color: Colors.white, // choose the color you prefer
                         ),
                       ),
@@ -234,24 +235,23 @@ class _UpsertingPageState extends State<UpsertingPage> {
                     Center(
                       child: ElevatedButton(
                         style: ElevatedButton.styleFrom(
-                          primary: Colors.transparent,
-                          onPrimary: Color(0xff008400),
+                          foregroundColor: const Color(0xff008400), backgroundColor: Colors.transparent,
                           elevation: 0,
-                          side: BorderSide(color: Colors.white, width: 2),
+                          side: const BorderSide(color: Colors.white, width: 2),
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(25.0),
                           ),
                         ),
+                        onPressed: _pickFile,
                         child: const Text('Upload Data File',
                             style: TextStyle(fontSize: 18)),
-                        onPressed: _pickFile,
                       ),
                     ),
                     const SizedBox(height: 30),
                     Center(
                       child: Text(
                         _fileName,
-                        style: TextStyle(
+                        style: const TextStyle(
                           color: Colors.white, // choose the color you prefer
                         ),
                       ),
@@ -261,10 +261,9 @@ class _UpsertingPageState extends State<UpsertingPage> {
                   Center(
                     child: ElevatedButton(
                       style: ElevatedButton.styleFrom(
-                        primary: Colors.transparent,
-                        onPrimary: Color(0xffD9A830),
+                        foregroundColor: const Color(0xffD9A830), backgroundColor: Colors.transparent,
                         elevation: 0,
-                        side: BorderSide(color: Colors.white, width: 2),
+                        side: const BorderSide(color: Colors.white, width: 2),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(25.0),
                         ),

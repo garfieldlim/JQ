@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
 class TypingIndicator extends StatefulWidget {
+  const TypingIndicator({super.key});
+
   @override
   _TypingIndicatorState createState() => _TypingIndicatorState();
 }
@@ -15,7 +17,7 @@ class _TypingIndicatorState extends State<TypingIndicator>
     super.initState();
 
     _controller =
-        AnimationController(duration: Duration(seconds: 2), vsync: this)
+        AnimationController(duration: const Duration(seconds: 2), vsync: this)
           ..repeat();
 
     // Create 3 dot animations with staggered timings
@@ -42,7 +44,7 @@ class _TypingIndicatorState extends State<TypingIndicator>
               width: 10,
               height: 10,
               decoration: BoxDecoration(
-                color: Color(0xff),
+                color: const Color(0x000000ff),
                 borderRadius: BorderRadius.circular(5.0),
               ),
             ),

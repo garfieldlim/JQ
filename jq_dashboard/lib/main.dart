@@ -1,23 +1,24 @@
 import 'package:flutter/material.dart';
 // importing admin_menu.dart from screens folder
-import 'package:jq_dashboard/screens/admin_menu.dart';
 import 'package:jq_dashboard/screens/table.dart';
 
 void main() {
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flask Integration',
       theme: ThemeData(
         colorScheme:
-            ColorScheme.fromSeed(seedColor: Color.fromARGB(255, 255, 223, 107)),
+            ColorScheme.fromSeed(seedColor: const Color.fromARGB(255, 255, 223, 107)),
         useMaterial3: true,
       ),
-      home: DataTableDemo(),
+      home: const DataTableDemo(),
       debugShowCheckedModeBanner: false,
     );
   }

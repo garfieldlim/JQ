@@ -13,8 +13,9 @@ from tqdm import tqdm
 from joblib import load
 import uuid
 from datetime import datetime 
+import copy
 
-openai.api_key = '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'
+openai.api_key = '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'
 collections_list = [
     'text_collection',
     'author_collection',
@@ -184,6 +185,76 @@ def populate_results(json_results_sorted, partition_names):
         for name in fields_list:
             result[name] = []
 
+    final_results = []
+
+    for name, collection in collections.items():
+        try:
+            # Prepare the query
+            output_fields = []
+            if name == 'text':
+                query_field = "text_id"
+                output_fields = [name, 'text_id', 'media', 'link']  # Include 'media' and 'link' here
+            else:
+                query_field = "uuid"
+                output_fields = [name]
+
+            query = f"{query_field} in {entity_ids}"
+
+            query_results = collection.query(
+                expr=query,
+                offset=0,
+                limit=len(entity_ids),
+                partition_names=[partition_names],
+                output_fields=output_fields,
+                consistency_level="Strong"
+            )
+
+            # Append the results to the relevant fields in the results dictionary
+            for query_result in query_results:
+                for result in json_results_sorted:
+                    if (name == 'text' and result["entity_id"] == query_result["text_id"]):
+                        # Append the 'media' and 'link' to the 'text' field
+                        text_with_media_link = query_result[name]
+                        if 'media' in query_result:
+                            text_with_media_link += " " + query_result['media']
+                        if 'link' in query_result:
+                            text_with_media_link += " " + query_result['link']
+                        result[name].append(text_with_media_link)
+                    elif (name != 'text' and result["entity_id"] == query_result["uuid"]):
+                        result[name].append(query_result[name])
+        except Exception as e:
+            print(f"Error with collection {name}: {str(e)}")
+
+    for result in json_results_sorted:
+        obj = {}
+        for item in result:
+            # If item is not 'entity_id', 'distance', or 'collection' and the item's value is not empty
+            if item not in ['entity_id', 'distance', 'collection'] and result[item]:
+                obj[item] = result[item]
+
+        # Concatenate all values that aren't associated with the 'collection' key
+        concatenated_values = ' '.join([str(v[0]) if isinstance(v, list) and v else str(v) for k, v in obj.items() if k != 'collection'])
+
+        if concatenated_values.strip():
+            final_results.append(concatenated_values)
+
+    # format final results with "Result {index}: " pattern
+    formatted_results = [f"Result {index+1}:  {value}" for index, value in enumerate(final_results)]
+    return '\n'.join(formatted_results)
+
+
+# def populate_results(json_results_sorted, partition_names):
+    # Load all collections beforehand
+    collections = {name: Collection(f"{name}_collection") for name in fields_list}
+
+    # Create a list of entity IDs for the query
+    entity_ids = [result["entity_id"] for result in json_results_sorted]
+
+    # Preparing an empty dictionary for each field in the results
+    for result in json_results_sorted:
+        for name in fields_list:
+            result[name] = []
+
     # Query for all relevant records at once
     for name, collection in collections.items():
         try:
@@ -238,12 +309,81 @@ def populate_results(json_results_sorted, partition_names):
     return '\n'.join(formatted_results)
 
 
+# not it \/
+# def populate_results(json_results_sorted, partition_names):
+    # Determine which collections we need based on the partition_names
+    needed_collections = set()
+    for partition in partition_names:
+        needed_collections.update(partitions[partition])
+    
+    # Load only the required collections
+    collections = {name: MockCollection(name) for name in needed_collections}
+
+    # Create a list of entity IDs for the query
+    entity_ids = [result["entity_id"] for result in json_results_sorted]
+
+    # Preparing an empty dictionary for each field in the results
+    for result in json_results_sorted:
+        for name in fields_list:
+            result[name] = []
+
+    # Query for all relevant records at once
+    for name, collection in collections.items():
+        try:
+            # Prepare the query
+            output_fields = []
+            if name == 'text':
+                query_field = "text_id"
+                output_fields = [name, 'text_id', 'media', 'link']  # Include 'media' and 'link' here
+            else:
+                query_field = "uuid"
+                output_fields = [name]
+
+            query_results = collection.query(
+                expr=f"{query_field} in {entity_ids}",
+                offset=0,
+                limit=len(entity_ids),
+                partition_names=partition_names,
+                output_fields=output_fields,
+                consistency_level="Strong"
+            )
+
+            # Append the results to the relevant fields in the results dictionary
+            for query_result in query_results:
+                for result in json_results_sorted:
+                    if (name == 'text' and result["entity_id"] == query_result["text_id"]):
+                        # Append the 'media' and 'link' to the 'text' field
+                        text_with_media_link = query_result[name]
+                        if 'media' in query_result:
+                            text_with_media_link += " " + query_result['media']
+                        if 'link' in query_result:
+                            text_with_media_link += " " + query_result['link']
+                        result[name].append(text_with_media_link)
+                    elif (name != 'text' and result["entity_id"] == query_result["uuid"]):
+                        result[name].append(query_result[name])
+
+            final_results = []
+            for result in json_results_sorted:
+                obj = {}
+                for item in result:
+                    # If item is not 'entity_id', 'distance', or 'collection' and the item's value is not empty
+                    if item not in ['entity_id', 'distance', 'collection'] and result[item]:
+                        obj[item] = result[item]
+                # Concatenate all values that aren't associated with the 'collection' key
+                concatenated_values = ' '.join([str(v) for k, v in obj.items() if k != 'collection'])
+                final_results.append(concatenated_values)
+        except Exception as e:
+            print(f"Error with collection {name}: {str(e)}")
+    # format final results with "Result {index}: " pattern
+    formatted_results = [f"Result {index+1}:  {value}" for index, value in enumerate(final_results)]
+    return '\n'.join(formatted_results)
+
 def generate_response(prompt, string_json):
     # Format the input as per the desired conversation format
     conversation = [
         {'role': 'system', 'content': """You are Josenian Quiri. University of San Jose- Recoletos' general knowledge base assistant. Refer to yourself as JQ. If there are links, give the link as well."""},
         {'role': 'user', 'content': prompt},
-        {'role': 'system', 'content': f'Here is the returned data from your knowledge base (note: select only the correct answer): \n{string_json[:4500]}]'},
+        {'role': 'system', 'content': f'Here is the returned data from your knowledge base (note: select only the correct answer): \n{string_json}]'},
         {'role': 'user', 'content': ''}
     ]
     
@@ -251,7 +391,7 @@ def generate_response(prompt, string_json):
     conversation_str = ''.join([f'{item["role"]}: {item["content"]}\n' for item in conversation])
 
     response = openai.ChatCompletion.create(
-      model="gpt-3.5-turbo",
+      model="gpt-4",
       messages=conversation,
       temperature=1,
       max_tokens=1000,
@@ -269,8 +409,8 @@ def generate_response(prompt, string_json):
 def ranking_partitions(vectors):
     return ['people_partition', 'documents_partition', 'social_posts_partition', "contacts_partition"]
     
-svm_model = load('lib/flask/models/svm_model.joblib')
-label_encoder = load('lib/flask/models/label_encoder.joblib')
+svm_model = load('jq_admin/lib/flask/models/svm_model.joblib')
+label_encoder = load('jq_admin/lib/flask/models/label_encoder.joblib')
 def rank_partitions(prompt_embedding):
     # Convert the prompt to an embedding
     
@@ -298,14 +438,14 @@ def refactor_date(input_date):
 
 def process_object(obj):
     # Create a 'uuid' attribute
-    obj['link']=obj.pop('url')
+    obj['link'] = obj.pop('url')
     obj.pop('schema')
     obj['partition_name'] = 'social_posts_partition'
     obj['uuid'] = str(uuid.uuid4())
     obj['date'] = obj.pop('time')
-    obj['date'] = refactor_date(obj['date'])
+    obj['date'] = refactor_date(obj['date'])  # Assuming refactor_date function is defined elsewhere
     # Create 'embeds' attribute by appending all values in the object
-    obj['embeds'] = [value for key, value in obj.items() if key != 'embeds' or key != 'text']
+    obj['embeds'] = [value for key, value in obj.items() if key != 'embeds' and key != 'text']
     obj['text_id'] = obj['uuid']  # Adding 'text_id' attribute
     # Check if 'embeds' has more than 100 words
     total_words = sum(len(str(value).split()) for value in obj['embeds'])
@@ -315,7 +455,7 @@ def process_object(obj):
         # Split into equal objects
         n_parts = total_words // 100
         chunk_size = len(obj['text']) // n_parts
-        obj['text'].append(obj['url'])
+        obj['text'] += obj['link']  # Adjusted this line
 
         for i in range(n_parts):
             chunk_obj = copy.deepcopy(obj)
@@ -344,8 +484,8 @@ def process_object(obj):
         date_object = {key: obj.get(key, None) for key in date_collection_keys}
         text_embeds_str = ' '.join(map(str, text_object['embeds']))
         date_embeds_str = ' '.join(map(str, date_object['embeds']))
-        text_object['embeds'] = get_embedding(text_embeds_str)
-        date_object['embeds'] = get_embedding(date_embeds_str)
+        text_object['embeds'] = get_embedding(text_embeds_str)  # Assuming get_embedding function is defined elsewhere
+        date_object['embeds'] = get_embedding(date_embeds_str)  # Assuming get_embedding function is defined elsewhere
         text_objects.append(text_object)
         date_objects.append(date_object)
         
@@ -357,7 +497,7 @@ def process_object(obj):
         for attribute in obj:
             if obj[attribute] is None:
                 obj[attribute] = ''
-    collection = Collection("text_collection")
+    collection = Collection("text_collection")  # Assuming Collection is defined elsewhere
     print(collection.insert(text_objects, 'social_posts_partition'))
     collection = Collection("date_collection")  # Fixed collection name
     print(collection.insert(date_objects, 'social_posts_partition'))  # Fixed variable name
@@ -380,6 +520,7 @@ def question_answer():
             if ranked_partitions is None:
                 print("No ranked_partitions returned. Check your ranking_partitions function.")
                 continue
+            print(f"Ranked partitions: {ranked_partitions}")
             partition = 0
             correct = 0
             while correct != 1:

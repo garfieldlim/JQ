@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:intl/intl.dart';
 
 class LogsPage extends StatefulWidget {
+  const LogsPage({super.key});
+
   @override
   _LogsPageState createState() => _LogsPageState();
 }
@@ -23,13 +24,13 @@ class _LogsPageState extends State<LogsPage> {
       stream: logsStream,
       builder: (context, snapshot) {
         if (!snapshot.hasData) {
-          return Center(child: CircularProgressIndicator());
+          return const Center(child: CircularProgressIndicator());
         }
 
         List<DocumentSnapshot> logs = snapshot.data!.docs;
 
         if (logs.isEmpty) {
-          return Center(child: Text('No data available.'));
+          return const Center(child: Text('No data available.'));
         }
 
         if (sortByTime) {
@@ -76,10 +77,10 @@ class _LogsPageState extends State<LogsPage> {
                 child: OverflowBox(
                   alignment: Alignment.center,
                   child: Container(
-                    margin: EdgeInsets.all(8.0),
-                    padding: EdgeInsets.all(16.0),
+                    margin: const EdgeInsets.all(8.0),
+                    padding: const EdgeInsets.all(16.0),
                     decoration: BoxDecoration(
-                      color: Color(0xffbec59a), // containers background color
+                      color: const Color(0xffbec59a), // containers background color
                       boxShadow: [
                         BoxShadow(
                           color: Colors.black.withOpacity(0.1),
@@ -94,42 +95,42 @@ class _LogsPageState extends State<LogsPage> {
                       children: [
                         Text(
                           log['text'] ?? '',
-                          style: TextStyle(
+                          style: const TextStyle(
                               fontWeight: FontWeight.bold,
                               color: Color(0xff638a7e)),
                           maxLines: 3, // Adjust the number of lines as needed
                           overflow: TextOverflow.ellipsis,
                         ),
-                        SizedBox(height: 10),
+                        const SizedBox(height: 10),
                         Text(
                           'Document ID: $documentId',
-                          style: TextStyle(color: Color(0xffffe7a0)),
+                          style: const TextStyle(color: Color(0xffffe7a0)),
                         ),
                         if (!isUserMessage)
                           Text(
                             'Liked: ${log['liked'] ?? false}',
-                            style: TextStyle(color: Color(0xffffe7a0)),
+                            style: const TextStyle(color: Color(0xffffe7a0)),
                           ),
                         if (!isUserMessage)
                           Text(
                             'Disliked: ${log['disliked'] ?? false}',
-                            style: TextStyle(color: Color(0xffffe7a0)),
+                            style: const TextStyle(color: Color(0xffffe7a0)),
                           ),
                         Text(
                           'Is User Message: $isUserMessage',
-                          style: TextStyle(color: Color(0xffffe7a0)),
+                          style: const TextStyle(color: Color(0xffffe7a0)),
                         ),
                         Text(
                           'Partition Name: $partitionName',
-                          style: TextStyle(color: Color(0xffffe7a0)),
+                          style: const TextStyle(color: Color(0xffffe7a0)),
                         ),
                         Text(
                           'Milvus Data: $milvusData',
-                          style: TextStyle(color: Color(0xffffe7a0)),
+                          style: const TextStyle(color: Color(0xffffe7a0)),
                         ),
                         Text(
                           'Timestamp: $formattedTimestamp',
-                          style: TextStyle(color: Color(0xffffe7a0)),
+                          style: const TextStyle(color: Color(0xffffe7a0)),
                         ),
                       ],
                     ),
@@ -146,12 +147,12 @@ class _LogsPageState extends State<LogsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xffaebb9f),
+      backgroundColor: const Color(0xffaebb9f),
       body: ListView(
         children: [
-          SizedBox(height: 15),
-          Padding(
-            padding: const EdgeInsets.all(10.0),
+          const SizedBox(height: 15),
+          const Padding(
+            padding: EdgeInsets.all(10.0),
             child: Text('Logs',
                 style: TextStyle(
                   fontSize: 30,
@@ -159,9 +160,9 @@ class _LogsPageState extends State<LogsPage> {
                 )),
           ),
           // Recently Added Section
-          SizedBox(height: 15),
-          Padding(
-            padding: const EdgeInsets.all(10.0),
+          const SizedBox(height: 15),
+          const Padding(
+            padding: EdgeInsets.all(10.0),
             child: Text(
               "Recently Added",
               style: TextStyle(
@@ -170,12 +171,12 @@ class _LogsPageState extends State<LogsPage> {
                   color: Colors.white),
             ),
           ),
-          Container(
+          SizedBox(
               height: 300, child: _buildHorizontalLogList(sortByTime: true)),
-          SizedBox(height: 25),
+          const SizedBox(height: 25),
           // Most Liked Section
-          Padding(
-            padding: const EdgeInsets.all(10.0),
+          const Padding(
+            padding: EdgeInsets.all(10.0),
             child: Text(
               "Most Liked",
               style: TextStyle(
@@ -185,7 +186,7 @@ class _LogsPageState extends State<LogsPage> {
               ),
             ),
           ),
-          Container(
+          SizedBox(
               height: 300, child: _buildHorizontalLogList(sortByTime: false)),
         ],
       ),

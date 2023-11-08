@@ -10,49 +10,49 @@ class Admin_dashboard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xffaebb9f),
+      backgroundColor: const Color(0xffaebb9f),
       body: Row(
         children: [
           Container(
             width: 70, // Width of the left nav bar
-            margin: EdgeInsets.only(right: 34),
+            margin: const EdgeInsets.only(right: 34),
             decoration: BoxDecoration(
-              color: Color(0xff719382), // Background color
+              color: const Color(0xff719382), // Background color
               borderRadius: BorderRadius.circular(15), // Rounded corners
             ),
             child: Column(
               children: [
                 NavItem(
                   iconData: Icons.home,
-                  color: Color(0xffe7d192),
+                  color: const Color(0xffe7d192),
                   onPressed: () {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => Admin_dashboard()),
+                          builder: (context) => const Admin_dashboard()),
                     );
                   },
                   labelText: 'Logs',
                 ),
                 NavItem(
                   iconData: Icons.upload_file,
-                  color: Color(0xffe7d192),
+                  color: const Color(0xffe7d192),
                   onPressed: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => UpsertingPage()),
+                      MaterialPageRoute(builder: (context) => const UpsertingPage()),
                     );
                   },
                   labelText: 'Upserting',
                 ),
                 NavItem(
                   iconData: Icons.menu_book,
-                  color: Color(0xffe7d192),
+                  color: const Color(0xffe7d192),
                   onPressed: () {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => Admin_dashboard()),
+                          builder: (context) => const Admin_dashboard()),
                     );
                   },
                   labelText: 'Knowlege base logs',
@@ -65,7 +65,7 @@ class Admin_dashboard extends StatelessWidget {
                       onPressed: () {
                         print("Logout icon pressed");
                       },
-                      color: Color(0xffe7d192),
+                      color: const Color(0xffe7d192),
                       labelText: 'Logout',
                     ),
                   ),
@@ -74,7 +74,7 @@ class Admin_dashboard extends StatelessWidget {
             ),
           ),
           // Main content
-          Expanded(
+          const Expanded(
             child: Center(
               child: LogsPage(),
             ),

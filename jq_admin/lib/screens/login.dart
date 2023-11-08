@@ -2,9 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-import 'package:glassmorphism/glassmorphism.dart';
 import 'package:jq_admin/widgets/glassmorphic.dart';
-import 'package:lottie/lottie.dart';
 
 import 'upserting.dart';
 
@@ -25,7 +23,7 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xffAFBC8F),
+      backgroundColor: const Color(0xffAFBC8F),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -37,8 +35,8 @@ class _LoginPageState extends State<LoginPage> {
                 child: GlassmorphicContainerWidget(
                   widthPercentage: 0.8,
                   heightPercentage: 0.8,
-                  color2: Color(0xffafbc8f),
-                  color1: Color(0xffafbc8f),
+                  color2: const Color(0xffafbc8f),
+                  color1: const Color(0xffafbc8f),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
@@ -62,39 +60,39 @@ class _LoginPageState extends State<LoginPage> {
                           ])),
                       Expanded(
                         child: Container(
-                          color: Color(0xffE7D192),
+                          color: const Color(0xffE7D192),
                           child: Column(
                             children: <Widget>[
-                              SizedBox(height: 45),
-                              Container(
+                              const SizedBox(height: 45),
+                              const SizedBox(
                                 width: 300,
                                 child: Image(
                                   image: NetworkImage('assets/jq.png'),
                                 ),
                               ),
-                              SizedBox(height: 54),
+                              const SizedBox(height: 54),
                               Padding(
-                                padding: EdgeInsets.only(
+                                padding: const EdgeInsets.only(
                                     left: 70.0, right: 70.0, top: 20.0),
                                 child: TextFormField(
                                   keyboardType: TextInputType.emailAddress,
                                   decoration: InputDecoration(
                                     filled: true,
-                                    fillColor: Color(0xffebd79c),
+                                    fillColor: const Color(0xffebd79c),
                                     hintText: 'Enter your email',
-                                    hintStyle: TextStyle(color: Colors.white),
+                                    hintStyle: const TextStyle(color: Colors.white),
                                     labelText: 'Email',
-                                    labelStyle: TextStyle(color: Colors.white),
+                                    labelStyle: const TextStyle(color: Colors.white),
                                     focusedBorder: OutlineInputBorder(
                                       borderRadius: BorderRadius.circular(15.0),
-                                      borderSide: BorderSide(
+                                      borderSide: const BorderSide(
                                         color: Color(0xffebd79c),
                                         width: 2,
                                       ),
                                     ),
                                     enabledBorder: OutlineInputBorder(
                                       borderRadius: BorderRadius.circular(15.0),
-                                      borderSide: BorderSide(
+                                      borderSide: const BorderSide(
                                           color: Colors.transparent, width: 2),
                                     ),
                                   ),
@@ -110,28 +108,28 @@ class _LoginPageState extends State<LoginPage> {
                                 ),
                               ),
                               Padding(
-                                padding: EdgeInsets.only(
+                                padding: const EdgeInsets.only(
                                     left: 70.0, right: 70.0, top: 20.0),
                                 child: TextFormField(
                                   obscureText: true,
                                   decoration: InputDecoration(
                                     filled: true,
-                                    fillColor: Color(0xffebd79c),
+                                    fillColor: const Color(0xffebd79c),
                                     border: OutlineInputBorder(
                                       borderRadius: BorderRadius.circular(15.0),
                                     ),
                                     hintText: 'Enter your password',
-                                    hintStyle: TextStyle(color: Colors.white),
+                                    hintStyle: const TextStyle(color: Colors.white),
                                     labelText: 'Password',
-                                    labelStyle: TextStyle(color: Colors.white),
+                                    labelStyle: const TextStyle(color: Colors.white),
                                     focusedBorder: OutlineInputBorder(
                                       borderRadius: BorderRadius.circular(15.0),
-                                      borderSide: BorderSide(
+                                      borderSide: const BorderSide(
                                           color: Color(0xfff3e4b0), width: 2),
                                     ),
                                     enabledBorder: OutlineInputBorder(
                                       borderRadius: BorderRadius.circular(15.0),
-                                      borderSide: BorderSide(
+                                      borderSide: const BorderSide(
                                           color: Colors.transparent, width: 2),
                                     ),
                                   ),
@@ -146,11 +144,11 @@ class _LoginPageState extends State<LoginPage> {
                                   },
                                 ),
                               ),
-                              SizedBox(height: 45),
+                              const SizedBox(height: 45),
                               CupertinoButton(
-                                color: Color(0xff729482),
+                                color: const Color(0xff729482),
                                 borderRadius: BorderRadius.circular(30),
-                                child: Text('Login',
+                                child: const Text('Login',
                                     style: TextStyle(color: Color(0xffe7d192))),
                                 onPressed: () async {
                                   if (_formKey.currentState!.validate()) {
@@ -166,7 +164,7 @@ class _LoginPageState extends State<LoginPage> {
                                           context,
                                           MaterialPageRoute(
                                               builder: (context) =>
-                                                  UpsertingPage()),
+                                                  const UpsertingPage()),
                                         );
                                       } else {
                                         print(

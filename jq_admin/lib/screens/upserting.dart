@@ -3,6 +3,8 @@ import 'package:lottie/lottie.dart';
 import 'schma_details.dart';
 
 class UpsertingPage extends StatefulWidget {
+  const UpsertingPage({super.key});
+
   @override
   _UpsertingPageState createState() => _UpsertingPageState();
 }
@@ -14,13 +16,13 @@ class _UpsertingPageState extends State<UpsertingPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xff719382),
+      backgroundColor: const Color(0xff719382),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 20.0),
         child: Column(
           children: [
-            SizedBox(height: 50),
-            Text(
+            const SizedBox(height: 50),
+            const Text(
               "Select a schema to upsert data",
               style: TextStyle(
                 color: Color(0xffE7D192),
@@ -85,7 +87,7 @@ class _UpsertingPageState extends State<UpsertingPage> {
               width: 350,
               height: 500,
               decoration: BoxDecoration(
-                color: isHovered ? Color(0xffebd79c) : Colors.transparent,
+                color: isHovered ? const Color(0xffebd79c) : Colors.transparent,
                 border: Border.all(color: Colors.white, width: 5),
                 borderRadius: BorderRadius.circular(25.0),
               ),
@@ -95,7 +97,7 @@ class _UpsertingPageState extends State<UpsertingPage> {
                       child: Text(
                         schema,
                         style:
-                            TextStyle(color: Color(0xffE7D192), fontSize: 18),
+                            const TextStyle(color: Color(0xffE7D192), fontSize: 18),
                         textAlign: TextAlign.center,
                       ),
                     ),
