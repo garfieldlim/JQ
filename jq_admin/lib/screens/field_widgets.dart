@@ -31,7 +31,7 @@ TextField _buildTextField(String label) {
     controller: controllers[label],
     decoration: InputDecoration(
       labelText: label,
-      labelStyle: TextStyle(color: Colors.white),
+      labelStyle: const TextStyle(color: Colors.white),
       border: _defaultInputBorder(),
       enabledBorder: _defaultInputBorder(),
       focusedBorder: _focusedInputBorder(),
@@ -42,7 +42,7 @@ TextField _buildTextField(String label) {
 InputBorder _defaultInputBorder() {
   return OutlineInputBorder(
     borderRadius: BorderRadius.circular(14.0),
-    borderSide: BorderSide(color: Colors.white, width: 2.0),
+    borderSide: const BorderSide(color: Colors.white, width: 2.0),
   );
 }
 
@@ -50,6 +50,6 @@ InputBorder _focusedInputBorder() {
   return OutlineInputBorder(
     borderRadius: BorderRadius.circular(14.0),
     borderSide:
-        BorderSide(color: const Color.fromARGB(255, 85, 165, 87), width: 2.0),
+        const BorderSide(color: Color.fromARGB(255, 85, 165, 87), width: 2.0),
   );
 }

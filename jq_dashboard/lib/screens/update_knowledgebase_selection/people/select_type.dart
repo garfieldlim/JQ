@@ -6,6 +6,8 @@ import 'package:jq_dashboard/screens/update_knowledgebase_selection/people/group
 import 'package:jq_dashboard/screens/update_knowledgebase_selection/people/single_upsertion.dart';
 
 class SelectTypePage extends StatefulWidget {
+  const SelectTypePage({super.key});
+
   @override
   _SelectTypePageState createState() => _SelectTypePageState();
 }
@@ -64,7 +66,7 @@ class _SelectTypePageState extends State<SelectTypePage> {
         const Color(0xFFeeeeee).withOpacity(0.1),
         const Color(0xFFeeeeee).withOpacity(0.1),
       ],
-      stops: [0.1, 1],
+      stops: const [0.1, 1],
     );
   }
 
@@ -73,7 +75,7 @@ class _SelectTypePageState extends State<SelectTypePage> {
       begin: Alignment.topLeft,
       end: Alignment.bottomRight,
       colors: [
-        const Color(0xFFeeeeeee).withOpacity(0.5),
+        const Color(0xffeeeeeee).withOpacity(0.5),
         const Color((0xFFeeeeeee)).withOpacity(0.5),
       ],
     );
@@ -93,17 +95,17 @@ class _SelectTypePageState extends State<SelectTypePage> {
 
   Widget _buildOptionButton(String title) {
     return ElevatedButton(
-      style: _buildElevatedButtonStyle(Colors.transparent, Color(0xffD9A830)),
-      child: Text(title, style: TextStyle(fontSize: 18)),
+      style: _buildElevatedButtonStyle(Colors.transparent, const Color(0xffD9A830)),
+      child: Text(title, style: const TextStyle(fontSize: 18)),
       onPressed: () {
         if (title == 'Group Upsertion (JSON)') {
           Navigator.of(context).push(
-            MaterialPageRoute(builder: (context) => GroupUpsertionPage()),
+            MaterialPageRoute(builder: (context) => const GroupUpsertionPage()),
           );
         } else if (title == 'Single Upsertion') {
           // Navigate to the SingleUpsertionPage once you've created it
           Navigator.of(context).push(
-            MaterialPageRoute(builder: (context) => SingleUpsertion()),
+            MaterialPageRoute(builder: (context) => const SingleUpsertion()),
           );
         }
         print('Selected option: $title');
@@ -113,10 +115,9 @@ class _SelectTypePageState extends State<SelectTypePage> {
 
   ButtonStyle _buildElevatedButtonStyle(Color primary, Color onPrimary) {
     return ElevatedButton.styleFrom(
-      primary: primary,
-      onPrimary: onPrimary,
+      foregroundColor: onPrimary, backgroundColor: primary,
       elevation: 0,
-      side: BorderSide(color: Colors.white, width: 2),
+      side: const BorderSide(color: Colors.white, width: 2),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(25.0),
       ),

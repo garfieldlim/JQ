@@ -6,7 +6,7 @@ class ReviewPage extends StatefulWidget {
   final String schema;
   final String? data;
 
-  ReviewPage(
+  const ReviewPage(
       {required this.schema, this.data, Key? key, required String filePath})
       : super(key: key);
 
@@ -40,48 +40,48 @@ class _ReviewPageState extends State<ReviewPage> {
       appBar: AppBar(),
       body: Container(
         width: 1500,
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
           image: DecorationImage(
             image: AssetImage("assets/bg.png"),
             fit: BoxFit.cover,
           ),
         ),
         child: Padding(
-          padding: EdgeInsets.all(16),
+          padding: const EdgeInsets.all(16),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               Text('Schema: ${widget.schema}'),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               if (widget.data != null) ...[
                 TextField(
                   controller: _textController,
                   maxLines: 5,
-                  decoration: InputDecoration(
+                  decoration: const InputDecoration(
                     border: OutlineInputBorder(),
                     labelText: 'Text',
                   ),
                 ),
-                SizedBox(height: 20),
+                const SizedBox(height: 20),
                 TextField(
                   controller: _timeController,
                   maxLines: 5,
-                  decoration: InputDecoration(
+                  decoration: const InputDecoration(
                     border: OutlineInputBorder(),
                     labelText: 'Time',
                   ),
                 ),
-                SizedBox(height: 20),
+                const SizedBox(height: 20),
                 TextField(
                   controller: _urlController,
                   maxLines: 5,
-                  decoration: InputDecoration(
+                  decoration: const InputDecoration(
                     border: OutlineInputBorder(),
                     labelText: 'Link',
                   ),
                 ),
               ],
-              SizedBox(height: 35),
+              const SizedBox(height: 35),
               Center(
                 child: ElevatedButton(
                   child: const Text(

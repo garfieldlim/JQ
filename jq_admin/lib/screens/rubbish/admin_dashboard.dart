@@ -4,6 +4,8 @@ import 'package:glassmorphism/glassmorphism.dart';
 import 'package:jq_admin/screens/logs_page.dart';
 
 class DashboardPage extends StatefulWidget {
+  const DashboardPage({super.key});
+
   @override
   _DashboardPageState createState() => _DashboardPageState();
 }
@@ -62,7 +64,7 @@ class _DashboardPageState extends State<DashboardPage> {
         const Color(0xFFeeeeee).withOpacity(0.1),
         const Color(0xFFeeeeee).withOpacity(0.1),
       ],
-      stops: [0.1, 1],
+      stops: const [0.1, 1],
     );
   }
 
@@ -71,7 +73,7 @@ class _DashboardPageState extends State<DashboardPage> {
       begin: Alignment.topLeft,
       end: Alignment.bottomRight,
       colors: [
-        const Color(0xFFeeeeeee).withOpacity(0.5),
+        const Color(0xffeeeeeee).withOpacity(0.5),
         const Color((0xFFeeeeeee)).withOpacity(0.5),
       ],
     );
@@ -93,13 +95,13 @@ class _DashboardPageState extends State<DashboardPage> {
 
   Widget _buildDashboardButton(String title) {
     return ElevatedButton(
-      style: _buildElevatedButtonStyle(Colors.transparent, Color(0xffD9A830)),
-      child: Text(title, style: TextStyle(fontSize: 18)),
+      style: _buildElevatedButtonStyle(Colors.transparent, const Color(0xffD9A830)),
+      child: Text(title, style: const TextStyle(fontSize: 18)),
       onPressed: () {
         if (title == 'Logs') {
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => LogsPage()),
+            MaterialPageRoute(builder: (context) => const LogsPage()),
           );
         } else {
           // Handle other button presses
@@ -111,14 +113,13 @@ class _DashboardPageState extends State<DashboardPage> {
 
   ButtonStyle _buildElevatedButtonStyle(Color primary, Color onPrimary) {
     return ElevatedButton.styleFrom(
-      primary: primary,
-      onPrimary: onPrimary,
+      foregroundColor: onPrimary, backgroundColor: primary,
       elevation: 0,
-      side: BorderSide(color: Colors.white, width: 2),
+      side: const BorderSide(color: Colors.white, width: 2),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(25.0),
       ),
-      padding: EdgeInsets.symmetric(horizontal: 100, vertical: 20),
+      padding: const EdgeInsets.symmetric(horizontal: 100, vertical: 20),
     );
   }
 }

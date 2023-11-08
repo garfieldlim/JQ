@@ -3,6 +3,8 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 
 class SingleUpsertionPage extends StatefulWidget {
+  const SingleUpsertionPage({super.key});
+
   @override
   _SingleUpsertionPageState createState() => _SingleUpsertionPageState();
 }
@@ -18,26 +20,26 @@ class _SingleUpsertionPageState extends State<SingleUpsertionPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("Single Upsertion for Documents")),
+      appBar: AppBar(title: const Text("Single Upsertion for Documents")),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
           children: [
             _buildTextField("Title", _titleController),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             _buildTextField("Text", _textController),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             _buildTextField("Author", _authorController),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             _buildTextField("Link", _linkController),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             _buildTextField("Date", _dateController),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             _buildTextField("Media", _mediaController),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             ElevatedButton(
               onPressed: _handleSubmit,
-              child: Text("Submit"),
+              child: const Text("Submit"),
             ),
           ],
         ),
@@ -50,7 +52,7 @@ class _SingleUpsertionPageState extends State<SingleUpsertionPage> {
       controller: controller,
       decoration: InputDecoration(
         labelText: label,
-        border: OutlineInputBorder(),
+        border: const OutlineInputBorder(),
       ),
     );
   }
@@ -72,7 +74,7 @@ class _SingleUpsertionPageState extends State<SingleUpsertionPage> {
   }
 
   Future<void> _sendDataToServer(Map<String, dynamic> data) async {
-    final url =
+    const url =
         'http://127.0.0.1:7999/receive_json'; // Replace with your server address
 
     final response = await http.post(

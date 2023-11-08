@@ -4,7 +4,7 @@ class MessageInput extends StatefulWidget {
   final TextEditingController textController;
   final Function(String) sendMessage;
 
-  MessageInput({
+  const MessageInput({super.key, 
     required this.textController,
     required this.sendMessage, required currentPartition,
   });
@@ -20,7 +20,7 @@ class _MessageInputState extends State<MessageInput> {
   Widget build(BuildContext context) {
     return Container(
       color: Colors.transparent,
-      padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
       child: Row(
         children: [
           Expanded(
@@ -35,8 +35,8 @@ class _MessageInputState extends State<MessageInput> {
                   widget.textController.clear();
                 }
               },
-              style: TextStyle(color: Colors.white),
-              decoration: InputDecoration(
+              style: const TextStyle(color: Colors.white),
+              decoration: const InputDecoration(
                 hintText: 'Type your message...',
                 hintStyle: TextStyle(color: Colors.white),
                 border: InputBorder.none,
@@ -54,7 +54,7 @@ class _MessageInputState extends State<MessageInput> {
                 widget.textController.clear();
               }
             },
-            icon: Icon(Icons.send),
+            icon: const Icon(Icons.send),
             color: Colors.white,
           ),
         ],

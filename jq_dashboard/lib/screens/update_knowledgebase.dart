@@ -10,6 +10,8 @@ import 'package:jq_dashboard/screens/update_knowledgebase_selection/people/selec
     as people;
 
 class UpdateKnowledgebasePage extends StatefulWidget {
+  const UpdateKnowledgebasePage({super.key});
+
   @override
   _UpdateKnowledgebasePageState createState() =>
       _UpdateKnowledgebasePageState();
@@ -69,7 +71,7 @@ class _UpdateKnowledgebasePageState extends State<UpdateKnowledgebasePage> {
         const Color(0xFFeeeeee).withOpacity(0.1),
         const Color(0xFFeeeeee).withOpacity(0.1),
       ],
-      stops: [0.1, 1],
+      stops: const [0.1, 1],
     );
   }
 
@@ -78,7 +80,7 @@ class _UpdateKnowledgebasePageState extends State<UpdateKnowledgebasePage> {
       begin: Alignment.topLeft,
       end: Alignment.bottomRight,
       colors: [
-        const Color(0xFFeeeeeee).withOpacity(0.5),
+        const Color(0xffeeeeeee).withOpacity(0.5),
         const Color((0xFFeeeeeee)).withOpacity(0.5),
       ],
     );
@@ -102,23 +104,23 @@ class _UpdateKnowledgebasePageState extends State<UpdateKnowledgebasePage> {
 
   Widget _buildPartitionButton(String title) {
     return ElevatedButton(
-      style: _buildElevatedButtonStyle(Colors.transparent, Color(0xffD9A830)),
-      child: Text(title, style: TextStyle(fontSize: 18)),
+      style: _buildElevatedButtonStyle(Colors.transparent, const Color(0xffD9A830)),
+      child: Text(title, style: const TextStyle(fontSize: 18)),
       onPressed: () {
         if (title == 'announcements') {
           Navigator.of(context).push(
             MaterialPageRoute(
-                builder: (context) => announcements.SelectTypePage()),
+                builder: (context) => const announcements.SelectTypePage()),
           );
         }
         if (title == 'documents') {
           Navigator.of(context).push(
-            MaterialPageRoute(builder: (context) => documents.SelectTypePage()),
+            MaterialPageRoute(builder: (context) => const documents.SelectTypePage()),
           );
         }
         if (title == 'people') {
           Navigator.of(context).push(
-            MaterialPageRoute(builder: (context) => people.SelectTypePage()),
+            MaterialPageRoute(builder: (context) => const people.SelectTypePage()),
           );
         }
         // Handle other partition selections here
@@ -129,10 +131,9 @@ class _UpdateKnowledgebasePageState extends State<UpdateKnowledgebasePage> {
 
   ButtonStyle _buildElevatedButtonStyle(Color primary, Color onPrimary) {
     return ElevatedButton.styleFrom(
-      primary: primary,
-      onPrimary: onPrimary,
+      foregroundColor: onPrimary, backgroundColor: primary,
       elevation: 0,
-      side: BorderSide(color: Colors.white, width: 2),
+      side: const BorderSide(color: Colors.white, width: 2),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(25.0),
       ),

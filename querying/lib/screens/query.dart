@@ -3,6 +3,8 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 class HomePage extends StatefulWidget {
+  const HomePage({Key? key}) : super(key: key);
+
   @override
   _HomePageState createState() => _HomePageState();
 }
@@ -47,9 +49,9 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xffFBDFA4),
+      backgroundColor: const Color(0xffFBDFA4),
       appBar: AppBar(
-        backgroundColor: Color(0xffE5AA33),
+        backgroundColor: const Color(0xffE5AA33),
         leading: Image.network('assets/logo2.png'),
       ),
       body: Column(
@@ -60,23 +62,23 @@ class _HomePageState extends State<HomePage> {
               itemBuilder: (context, index) {
                 final message = messages[index];
                 return Container(
-                  margin: EdgeInsets.all(20),
+                  margin: const EdgeInsets.all(20),
                   child: Row(
                     mainAxisAlignment: message.isUserMessage
                         ? MainAxisAlignment.end
                         : MainAxisAlignment.start,
                     children: [
                       Container(
-                        padding: EdgeInsets.all(16),
+                        padding: const EdgeInsets.all(16),
                         decoration: BoxDecoration(
                           color: message.isUserMessage
-                              ? Color(0xffE5AA33)
-                              : Color(0xff008400),
+                              ? const Color(0xffE5AA33)
+                              : const Color(0xff008400),
                           borderRadius: BorderRadius.circular(25),
                         ),
                         child: Text(
                           message.text,
-                          style: TextStyle(
+                          style: const TextStyle(
                             color: Colors.white,
                           ),
                         ),
@@ -87,18 +89,18 @@ class _HomePageState extends State<HomePage> {
               },
             ),
           ),
-          Divider(height: 1, color: Color(0xffA89E9E)),
+          const Divider(height: 1, color: Color(0xffA89E9E)),
           Container(
-            color: Color(0xffFBDFA4),
-            padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+            color: const Color(0xffFBDFA4),
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
             child: Row(
               children: [
                 Expanded(
                   child: TextField(
                     controller: textController,
-                    decoration: InputDecoration(
+                    decoration: const InputDecoration(
                       hintText: 'Type your message...',
-                      hintStyle: TextStyle(color: const Color(0xff8A8A8A)),
+                      hintStyle: TextStyle(color: Color(0xff8A8A8A)),
                       border: InputBorder.none,
                     ),
                   ),
@@ -109,7 +111,7 @@ class _HomePageState extends State<HomePage> {
                     textController.clear();
                     sendMessage(message);
                   },
-                  icon: Icon(Icons.send),
+                  icon: const Icon(Icons.send),
                   color: Colors.white,
                 ),
               ],

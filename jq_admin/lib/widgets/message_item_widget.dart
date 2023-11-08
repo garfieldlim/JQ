@@ -13,7 +13,7 @@ class MessageItem extends StatelessWidget {
   final Function regenerateMessage;
   final bool isLoading;
 
-  MessageItem({
+  const MessageItem({super.key, 
     required this.index,
     required this.isTyping,
     required this.messages,
@@ -25,8 +25,8 @@ class MessageItem extends StatelessWidget {
 
   Widget buildMessageItem(BuildContext context) {
     if (isTyping && index == messages.length) {
-      return Padding(
-        padding: const EdgeInsets.all(20.0),
+      return const Padding(
+        padding: EdgeInsets.all(20.0),
         child: TypingIndicator(),
       );
     }
@@ -42,7 +42,7 @@ class MessageItem extends StatelessWidget {
     return Column(
       children: [
         Container(
-          margin: EdgeInsets.all(20),
+          margin: const EdgeInsets.all(20),
           child: Row(
             mainAxisAlignment: message.isUserMessage
                 ? MainAxisAlignment.end
@@ -50,15 +50,15 @@ class MessageItem extends StatelessWidget {
             children: [
               Flexible(
                 child: Container(
-                  padding: EdgeInsets.all(16),
+                  padding: const EdgeInsets.all(16),
                   constraints: BoxConstraints(
                     maxWidth: MediaQuery.of(context).size.width * 0.7,
                   ),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(25),
                     color: message.isUserMessage
-                        ? Color(0xffdcd8b0)
-                        : Color(0xffbec59a),
+                        ? const Color(0xffdcd8b0)
+                        : const Color(0xffbec59a),
                     boxShadow: [
                       BoxShadow(
                         color: Colors.black.withOpacity(0.1),
@@ -77,8 +77,8 @@ class MessageItem extends StatelessWidget {
                           }
                         },
                         text: displayText,
-                        linkStyle: TextStyle(color: Colors.blue),
-                        style: TextStyle(color: Colors.white),
+                        linkStyle: const TextStyle(color: Colors.blue),
+                        style: const TextStyle(color: Colors.white),
                       ),
                       if (imageUrl.isNotEmpty)
                         Padding(
@@ -118,11 +118,10 @@ class MessageItem extends StatelessWidget {
         ),
         if (isLastMessage && !message.isUserMessage && index != 0)
           isLoading
-              ? CircularProgressIndicator()
+              ? const CircularProgressIndicator()
               : ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                    primary: Color(0xfff9dea6),
-                    onPrimary: Colors.white,
+                    foregroundColor: Colors.white, backgroundColor: const Color(0xfff9dea6),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(20),
                     ),
@@ -130,7 +129,7 @@ class MessageItem extends StatelessWidget {
                   onPressed: () {
                     regenerateMessage(message);
                   },
-                  child: Text('Regenerate'),
+                  child: const Text('Regenerate'),
                 ),
       ],
     );

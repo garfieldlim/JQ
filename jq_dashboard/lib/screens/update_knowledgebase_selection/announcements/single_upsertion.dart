@@ -6,6 +6,8 @@ import 'dart:convert';
 import 'package:jq_dashboard/screens/update_knowledgebase_selection/announcements/single_review.dart';
 
 class SingleUpsertionPage extends StatefulWidget {
+  const SingleUpsertionPage({super.key});
+
   @override
   _SingleUpsertionPageState createState() => _SingleUpsertionPageState();
 }
@@ -22,7 +24,7 @@ class _SingleUpsertionPageState extends State<SingleUpsertionPage> {
   }
 
   Widget _buildBody() {
-    return Container(
+    return SizedBox(
       width: double.infinity,
       height: double.infinity,
       child: Padding(
@@ -47,13 +49,13 @@ class _SingleUpsertionPageState extends State<SingleUpsertionPage> {
           const Color(0xFFeeeeee).withOpacity(0.1),
           const Color(0xFFeeeeee).withOpacity(0.1),
         ],
-        stops: [0.1, 1],
+        stops: const [0.1, 1],
       ),
       borderGradient: LinearGradient(
         begin: Alignment.topLeft,
         end: Alignment.bottomRight,
         colors: [
-          const Color(0xFFeeeeeee).withOpacity(0.5),
+          const Color(0xffeeeeeee).withOpacity(0.5),
           const Color((0xFFeeeeeee)).withOpacity(0.5),
         ],
       ),
@@ -71,7 +73,7 @@ class _SingleUpsertionPageState extends State<SingleUpsertionPage> {
       children: <Widget>[
         TextField(
           controller: _urlController,
-          decoration: InputDecoration(
+          decoration: const InputDecoration(
             labelText: 'Enter Facebook URL',
             labelStyle: TextStyle(color: Colors.white),
           ),
@@ -79,7 +81,7 @@ class _SingleUpsertionPageState extends State<SingleUpsertionPage> {
         const SizedBox(height: 20),
         ElevatedButton(
           onPressed: _sendUrlToServer,
-          child: Text('Continue'),
+          child: const Text('Continue'),
         ),
       ],
     );

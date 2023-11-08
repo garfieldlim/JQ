@@ -41,7 +41,7 @@ def get_facebook_posts():
 
     posts = []
     try:
-        for i, post in enumerate(get_posts('usjrforward', cookies='lib/flask/cookies.json', pages=2, options={"headers": headers}), start=1):
+        for i, post in enumerate(get_posts('usjrforward', cookies='jq_admin/lib/flask/cookies.json', pages=2, options={"headers": headers}), start=1):
             if post['post_id'] in existing_ids:
                 print(f"Skipping duplicate post: {post['post_id']}")
                 continue
@@ -64,7 +64,7 @@ def get_facebook_posts():
 @app.route('/scrape_website', methods=['POST'])
 def scrape_website():
     url = request.json['url']
-    cookies_path = "lib/flask/cookies.json"
+    cookies_path = "jq_admin/lib/flask/cookies.json"
     
     scraped_data = [
         post for post in get_posts(post_urls=[url], cookies=cookies_path)
@@ -106,8 +106,9 @@ def question_answer():
     final_results = populate_results(json_results_sorted, ranked_partitions[partition])
     if final_results is None:
         return jsonify({"error": "No final results returned. Check your populate_results function."})
-
+    print(final_results)
     generated_text = generate_response(prompt, final_results)
+    print(generated_text)
     if generated_text is None:
         return jsonify({"error": "No response generated. Check your generate_response function."})
 
@@ -115,7 +116,6 @@ def question_answer():
 @app.route("/get_data/<partition_name>", methods=["GET"])
 def get_data(partition_name):
     combined_data = combine_results_by_uuid(partition_name)
-    print("hi")
     table_data = create_table(combined_data, partition_name)
     print(table_data)
     return jsonify(table_data)
