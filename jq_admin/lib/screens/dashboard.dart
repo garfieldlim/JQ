@@ -3,6 +3,7 @@ import 'package:jq_admin/screens/upserting.dart';
 
 import '../widgets/nav.dart';
 import 'logs_page.dart';
+import 'table.dart';
 
 class Admin_dashboard extends StatelessWidget {
   const Admin_dashboard({super.key});
@@ -51,8 +52,7 @@ class Admin_dashboard extends StatelessWidget {
                   onPressed: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(
-                          builder: (context) => Admin_dashboard()),
+                      MaterialPageRoute(builder: (context) => DataTableDemo()),
                     );
                   },
                   labelText: 'Knowlege base logs',

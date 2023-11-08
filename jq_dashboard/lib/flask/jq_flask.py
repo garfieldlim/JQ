@@ -33,7 +33,7 @@ class DateTimeEncoder(json.JSONEncoder):
 @app.route("/scrape_website", methods=["POST"])
 def scrape_website():
     url = request.json["url"]
-    cookies_path = "/Users/garfieldgreglim/Documents/JQ/jq_admin/lib/flask/cookies.json"
+    cookies_path = "lib/flask/cookies.json"
 
     scraped_data = [post for post in get_posts(post_urls=[url], cookies=cookies_path)]
 
