@@ -95,6 +95,7 @@ def question_answer():
         return jsonify({"error": "No ranked partitions returned. Check your rank_partitions function."})
 
     partition = request.json.get('partition', 0)
+    partition_name = ranked_partitions[partition]
     results_dict = search_collections(vectors, [ranked_partitions[partition]])
     if results_dict is None:
         return jsonify({"error": "No results returned. Check your search_collections function."})
@@ -111,8 +112,12 @@ def question_answer():
     print(generated_text)
     if generated_text is None:
         return jsonify({"error": "No response generated. Check your generate_response function."})
-
-    return jsonify({"response": generated_text})
+    string_json = json.dumps(final_results, cls=DateTimeEncoder)
+    return jsonify({
+        "response": generated_text,
+        "milvusData": string_json,
+        "partitionName": partition_name
+    })
 @app.route("/get_data/<partition_name>", methods=["GET"])
 def get_data(partition_name):
     combined_data = combine_results_by_uuid(partition_name)
