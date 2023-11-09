@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
+import '../widgets/backbutton.dart';
 import 'schma_details.dart';
 
 class UpsertingPage extends StatefulWidget {
@@ -11,43 +12,54 @@ class _UpsertingPageState extends State<UpsertingPage> {
   final ValueNotifier<bool> isHoveredSocialPosts = ValueNotifier<bool>(false);
   final ValueNotifier<bool> isHoveredDocuments = ValueNotifier<bool>(false);
   final ValueNotifier<bool> isHoveredPeople = ValueNotifier<bool>(false);
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xff719382),
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 20.0),
-        child: Column(
-          children: [
-            SizedBox(height: 50),
-            Text(
-              "Select a schema to upsert data",
-              style: TextStyle(
-                color: Color(0xffE7D192),
-                fontSize: 34,
-                fontWeight: FontWeight.bold,
-              ),
-              textAlign: TextAlign.center,
-            ),
-            Expanded(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
+        backgroundColor: const Color(0xff719382),
+        body: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 20.0),
+          child: Column(
+            children: [
+              const SizedBox(height: 50),
+              Stack(
+                alignment: Alignment.center,
                 children: [
                   Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
-                      _buildOptionContainer("Social Posts"),
-                      _buildOptionContainer("Documents"),
-                      _buildOptionContainer("People"),
+                      BackButtonWidget(color: Color(0xffE7D192)),
+                      const SizedBox(width: 50),
                     ],
+                  ),
+                  const Text(
+                    "Select a schema to upsert data",
+                    style: TextStyle(
+                      color: Color(0xffE7D192),
+                      fontSize: 34,
+                      fontWeight: FontWeight.bold,
+                    ),
+                    textAlign: TextAlign.center,
                   ),
                 ],
               ),
-            ),
-          ],
-        ),
-      ),
-    );
+              Expanded(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        _buildOptionContainer("Social Posts"),
+                        _buildOptionContainer("Documents"),
+                        _buildOptionContainer("People"),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ));
   }
 
   Widget _buildOptionContainer(String schema) {

@@ -34,50 +34,61 @@ class _LogsPageState extends State<LogsPage> {
             '${timestamp.year}-${timestamp.month.toString().padLeft(2, '0')}-${timestamp.day.toString().padLeft(2, '0')} ${timestamp.hour.toString().padLeft(2, '0')}:${timestamp.minute.toString().padLeft(2, '0')}:${timestamp.second.toString().padLeft(2, '0')}';
 
         return Container(
-          decoration: BoxDecoration(
+          decoration: const BoxDecoration(
             color: Color(0xffbec59a), // Change this to the desired color.
             borderRadius: BorderRadius.only(
               topLeft: Radius.circular(20.0),
               topRight: Radius.circular(20.0),
             ),
           ),
-          padding: EdgeInsets.all(16.0),
+          padding: const EdgeInsets.all(16.0),
           child: SingleChildScrollView(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisSize: MainAxisSize.min, // To limit the height
               children: [
-                Text("Text: ${data['text']}"),
-                SizedBox(height: 10),
-                Text("Document ID: ${log.id}"),
-                SizedBox(height: 10),
-                Text("Liked: ${data['liked'] ?? false}"),
+                Text("Text: ${data['text']}",
+                    style: const TextStyle(color: Color(0xff7f9b8b))),
+                const SizedBox(height: 10),
+                Text("Document ID: ${log.id}",
+                    style: const TextStyle(color: Color(0xff7f9b8b))),
+                const SizedBox(height: 10),
+                Text("Liked: ${data['liked'] ?? false}",
+                    style: const TextStyle(color: Color(0xffffe7a0))),
                 Text(
                   'Disliked: ${data['disliked'] ?? false}',
-                  style: TextStyle(color: Color(0xffffe7a0)),
+                  style: const TextStyle(color: Color(0xffffe7a0)),
                 ),
                 Text(
                   'Is User Message: $isUserMessage',
-                  style: TextStyle(color: Color(0xffffe7a0)),
+                  style: const TextStyle(color: Color(0xffffe7a0)),
                 ),
                 Text(
                   'Partition Name: $partitionName',
-                  style: TextStyle(color: Color(0xffffe7a0)),
+                  style: const TextStyle(color: Color(0xffffe7a0)),
                 ),
                 Text(
                   'Milvus Data: $milvusData',
-                  style: TextStyle(color: Color(0xffffe7a0)),
+                  style: const TextStyle(color: Color(0xffffe7a0)),
                 ),
                 Text(
                   'Timestamp: $formattedTimestamp',
-                  style: TextStyle(color: Color(0xffffe7a0)),
+                  style: const TextStyle(color: Color(0xffffe7a0)),
                 ),
-                SizedBox(height: 10),
-                ElevatedButton(
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                  },
-                  child: Text('Close'),
+                const SizedBox(height: 10),
+                Center(
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      primary:
+                          Color(0xffe7d292), // This is the background color
+                      onPrimary:
+                          Color(0xffffe8a4), // This is the color of the text
+                    ),
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                    child: const Text('Close'),
+                  ),
                 ),
               ],
             ),
@@ -92,13 +103,13 @@ class _LogsPageState extends State<LogsPage> {
       stream: logsStream,
       builder: (context, snapshot) {
         if (!snapshot.hasData) {
-          return Center(child: CircularProgressIndicator());
+          return const Center(child: CircularProgressIndicator());
         }
 
         List<DocumentSnapshot> logs = snapshot.data!.docs;
 
         if (logs.isEmpty) {
-          return Center(child: Text('No data available.'));
+          return const Center(child: Text('No data available.'));
         }
 
         if (sortByTime) {
@@ -149,10 +160,11 @@ class _LogsPageState extends State<LogsPage> {
                   child: OverflowBox(
                     alignment: Alignment.center,
                     child: Container(
-                      margin: EdgeInsets.all(8.0),
-                      padding: EdgeInsets.all(16.0),
+                      margin: const EdgeInsets.all(8.0),
+                      padding: const EdgeInsets.all(16.0),
                       decoration: BoxDecoration(
-                        color: Color(0xffbec59a), // containers background color
+                        color: const Color(
+                            0xffbec59a), // containers background color
                         boxShadow: [
                           BoxShadow(
                             color: Colors.black.withOpacity(0.1),
@@ -167,42 +179,42 @@ class _LogsPageState extends State<LogsPage> {
                         children: [
                           Text(
                             log['text'] ?? '',
-                            style: TextStyle(
+                            style: const TextStyle(
                                 fontWeight: FontWeight.bold,
                                 color: Color(0xff638a7e)),
                             maxLines: 3, // Adjust the number of lines as needed
                             overflow: TextOverflow.ellipsis,
                           ),
-                          SizedBox(height: 10),
+                          const SizedBox(height: 10),
                           Text(
                             'Document ID: $documentId',
-                            style: TextStyle(color: Color(0xffffe7a0)),
+                            style: const TextStyle(color: Color(0xffffe7a0)),
                           ),
                           if (!isUserMessage)
                             Text(
                               'Liked: ${log['liked'] ?? false}',
-                              style: TextStyle(color: Color(0xffffe7a0)),
+                              style: const TextStyle(color: Color(0xffffe7a0)),
                             ),
                           if (!isUserMessage)
                             Text(
                               'Disliked: ${log['disliked'] ?? false}',
-                              style: TextStyle(color: Color(0xffffe7a0)),
+                              style: const TextStyle(color: Color(0xffffe7a0)),
                             ),
                           Text(
                             'Is User Message: $isUserMessage',
-                            style: TextStyle(color: Color(0xffffe7a0)),
+                            style: const TextStyle(color: Color(0xffffe7a0)),
                           ),
                           Text(
                             'Partition Name: $partitionName',
-                            style: TextStyle(color: Color(0xffffe7a0)),
+                            style: const TextStyle(color: Color(0xffffe7a0)),
                           ),
                           Text(
                             'Milvus Data: $milvusData',
-                            style: TextStyle(color: Color(0xffffe7a0)),
+                            style: const TextStyle(color: Color(0xffffe7a0)),
                           ),
                           Text(
                             'Timestamp: $formattedTimestamp',
-                            style: TextStyle(color: Color(0xffffe7a0)),
+                            style: const TextStyle(color: Color(0xffffe7a0)),
                           ),
                         ],
                       ),
@@ -220,42 +232,42 @@ class _LogsPageState extends State<LogsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xffaebb9f),
+      backgroundColor: const Color(0xffaebb9f),
       body: ListView(
         children: [
-          SizedBox(height: 15),
-          Padding(
-            padding: const EdgeInsets.all(10.0),
+          const SizedBox(height: 15),
+          const Padding(
+            padding: EdgeInsets.all(10.0),
             child: Text('Logs',
                 style: TextStyle(
                   fontSize: 30,
-                  color: Colors.white,
+                  color: Color(0xffffe8a4),
                 )),
           ),
           // Recently Added Section
-          SizedBox(height: 15),
-          Padding(
-            padding: const EdgeInsets.all(10.0),
+          const SizedBox(height: 15),
+          const Padding(
+            padding: EdgeInsets.all(10.0),
             child: Text(
               "Recently Added",
               style: TextStyle(
                   fontSize: 20,
                   fontWeight: FontWeight.bold,
-                  color: Colors.white),
+                  color: Color(0xffffe8a4)),
             ),
           ),
           Container(
               height: 300, child: _buildHorizontalLogList(sortByTime: true)),
-          SizedBox(height: 25),
+          const SizedBox(height: 25),
           // Most Liked Section
-          Padding(
-            padding: const EdgeInsets.all(10.0),
+          const Padding(
+            padding: EdgeInsets.all(10.0),
             child: Text(
               "Most Liked",
               style: TextStyle(
                 fontSize: 20,
                 fontWeight: FontWeight.bold,
-                color: Colors.white,
+                color: Color(0xffffe8a4),
               ),
             ),
           ),

@@ -52,6 +52,7 @@ dependencies:
   cached_network_image: ^3.2.3
   intl: ^0.18.1
   lottie: ^2.6.0
+  pedantic: 1.11.1
   
 
 dev_dependencies:
@@ -88,6 +89,8 @@ flutter:
     - web/assets/people.json
     - web/assets/documents.json
     - web/assets/login.json
+    - web/assets/loading.json
+    - web/assets/done.json
 
 
 

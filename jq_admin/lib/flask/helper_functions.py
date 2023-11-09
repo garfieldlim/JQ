@@ -14,7 +14,7 @@ from joblib import load
 import uuid
 from datetime import datetime 
 
-openai.api_key = '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'
+openai.api_key = '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'
 collections_list = [
     'text_collection',
     'author_collection',
@@ -315,6 +315,11 @@ def process_object(obj):
         # Split into equal objects
         n_parts = total_words // 100
         chunk_size = len(obj['text']) // n_parts
+        if obj['text'] == "'str' object has no attribute 'append'":
+            print("Received erroneous data")
+            return 
+        if not isinstance(obj['text'], list):
+            obj['text'] = [obj['text']]
         obj['text'].append(obj['url'])
 
         for i in range(n_parts):
