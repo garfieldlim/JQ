@@ -28,8 +28,8 @@ class _DataTableDemoState extends State<DataTableDemo> {
   };
 
   Future<void> fetchData(String partition) async {
-    final response = await http
-        .get(Uri.parse('http://192.168.68.101:7999/get_data/$partition'));
+    final response =
+        await http.get(Uri.parse('http://127.0.0.1:7999/get_data/$partition'));
     if (response.statusCode == 200) {
       var decodedData = json.decode(response.body);
       if (decodedData is Map<String, dynamic>) {
@@ -60,121 +60,179 @@ class _DataTableDemoState extends State<DataTableDemo> {
     double screenWidth = MediaQuery.of(context).size.width;
 
     return Scaffold(
-      backgroundColor: Color(0xffaebb9f),
-      body: Column(
-        children: [
-          DropdownButton<String>(
-            value: selectedPartition,
-            hint: Text('Select a partition'),
-            onChanged: (String? newValue) {
-              setState(() {
-                selectedPartition = newValue;
-                data = []; // Clear the previous data
-              });
-              if (newValue != null) {
-                fetchData(newValue); // Fetch data immediately after selection
-              }
-            },
-            items: partitions.map<DropdownMenuItem<String>>((String value) {
-              return DropdownMenuItem<String>(
-                value: value,
-                child: Text(value),
-              );
-            }).toList(),
-          ),
-          data.isNotEmpty
-              ? Expanded(
-                  child: SingleChildScrollView(
-                    scrollDirection: Axis.vertical,
+      appBar: AppBar(
+        leading: const BackButton(color: Color(0xffffe8a4)),
+        title: const Text(
+          'Knowledge Base Logs',
+          style: TextStyle(color: Color(0xffffe8a4)),
+        ),
+        backgroundColor: const Color(0xffbdc499),
+      ),
+      backgroundColor: const Color(0xffafbb8f),
+      body: Center(
+        child: Column(
+          children: [
+            SizedBox(
+              height: 10,
+            ),
+            Padding(
+              padding: const EdgeInsets.only(left: 75.0),
+              child: Align(
+                alignment: Alignment.topLeft,
+                child: DropdownButton<String>(
+                  dropdownColor: const Color(0xffbdc499),
+                  style: const TextStyle(
+                      color: Color(
+                          0xff638a7e)), // Default style for dropdown items
+                  icon: const Icon(Icons.arrow_downward,
+                      color: Color(0xff638a7e)), // Custom dropdown icon
+                  underline: Container(
+                    height: 2,
+                    color: const Color(0xff638a7e), // Underline color
+                  ),
+                  value: selectedPartition,
+                  hint: Text('Select a partition'),
+                  onChanged: (String? newValue) {
+                    setState(() {
+                      selectedPartition = newValue;
+                      data = [];
+                    });
+                    if (newValue != null) {
+                      fetchData(newValue);
+                    }
+                  },
+                  items:
+                      partitions.map<DropdownMenuItem<String>>((String value) {
+                    return DropdownMenuItem<String>(
+                        value: value,
+                        child: Text(
+                          value,
+                          style: const TextStyle(
+                              color: Color(
+                                  0xff638a7e)), // Override default style if needed
+                        ));
+                  }).toList(),
+                ),
+              ),
+            ),
+
+            data.isNotEmpty
+                ? Expanded(
                     child: SingleChildScrollView(
-                      scrollDirection: Axis.horizontal,
-                      child: Card(
-                        color: Colors.white,
-                        elevation: 5.0,
-                        child: DataTable(
-                          columnSpacing: screenWidth / 20,
-                          horizontalMargin: 5,
-                          sortColumnIndex: sortColumn == null
-                              ? null
-                              : table_fields[selectedPartition ?? '']
-                                  ?.indexOf(sortColumn!),
-                          sortAscending: sortAscending,
-                          columns: [
-                            DataColumn(
-                              label: Text('UUID'),
-                              onSort: (columnIndex, ascending) {
-                                _sortData('uuid', ascending);
-                              },
-                            ),
-                            ...?(table_fields[selectedPartition ?? ''] ?? [])
-                                    .map((field) => DataColumn(
-                                          label: Text(field.capitalize()),
-                                          onSort: (columnIndex, ascending) {
-                                            _sortData(field, ascending);
-                                          },
-                                        ))
-                                    .toList() ??
-                                [],
-                          ],
-                          rows: data.map((item) {
-                            return DataRow(
-                              cells: [
-                                DataCell(Text(item['uuid'] ?? '')),
-                                ...?(table_fields[selectedPartition ?? ''] ??
-                                            [])
-                                        .map((field) => DataCell(
-                                              Row(
-                                                children: [
-                                                  Expanded(
-                                                    child: Text(
-                                                      item[field]
-                                                                  .toString()
-                                                                  .length >
-                                                              50
-                                                          ? item[field]
-                                                                  .toString()
-                                                                  .substring(
-                                                                      0, 47) +
-                                                              "..."
-                                                          : item[field]
-                                                              .toString(),
-                                                      overflow:
-                                                          TextOverflow.ellipsis,
+                      scrollDirection: Axis.vertical,
+                      child: SingleChildScrollView(
+                        scrollDirection: Axis.horizontal,
+                        child: Card(
+                          color: const Color(0xffbec59a),
+                          elevation: 5.0,
+                          child: DataTable(
+                            columnSpacing: screenWidth / 20,
+                            horizontalMargin: 5,
+                            sortColumnIndex: sortColumn == null
+                                ? null
+                                : table_fields[selectedPartition ?? '']
+                                    ?.indexOf(sortColumn!),
+                            sortAscending: sortAscending,
+                            columns: [
+                              DataColumn(
+                                label: const Text(
+                                  'UUID',
+                                  style: TextStyle(color: Color(0xff638a7e)),
+                                ),
+                                onSort: (columnIndex, ascending) {
+                                  _sortData('uuid', ascending);
+                                },
+                              ),
+                              ...?(table_fields[selectedPartition ?? ''] ?? [])
+                                      .map((field) => DataColumn(
+                                            label: Text(
+                                              field.capitalize(),
+                                              style: const TextStyle(
+                                                  color: Color(0xff638a7e)),
+                                            ),
+                                            onSort: (columnIndex, ascending) {
+                                              _sortData(field, ascending);
+                                            },
+                                          ))
+                                      .toList() ??
+                                  [],
+                            ],
+                            rows: data.map((item) {
+                              return DataRow(
+                                cells: [
+                                  DataCell(Text(
+                                    item['uuid'] ?? '',
+                                    style: TextStyle(color: Color(0xffffe8a4)),
+                                  )),
+                                  ...?(table_fields[selectedPartition ?? ''] ??
+                                              [])
+                                          .map((field) => DataCell(
+                                                Row(
+                                                  children: [
+                                                    Expanded(
+                                                      child: Text(
+                                                        item[field]
+                                                                    .toString()
+                                                                    .length >
+                                                                50
+                                                            ? item[field]
+                                                                    .toString()
+                                                                    .substring(
+                                                                        0, 47) +
+                                                                "..."
+                                                            : item[field]
+                                                                .toString(),
+                                                        overflow: TextOverflow
+                                                            .ellipsis,
+                                                        style: TextStyle(
+                                                            color: Color(
+                                                                0xffffe8a4)),
+                                                      ),
                                                     ),
-                                                  ),
-                                                  if (item[field]
-                                                          .toString()
-                                                          .length >
-                                                      50)
-                                                    TextButton(
-                                                      onPressed: () {
-                                                        showDialog(
-                                                          context: context,
-                                                          builder: (context) =>
-                                                              AlertDialog(
-                                                            content: Text(item[
-                                                                    field]
-                                                                .toString()),
-                                                          ),
-                                                        );
-                                                      },
-                                                      child: Text('See More'),
-                                                    ),
-                                                ],
-                                              ),
-                                            ))
-                                        .toList() ??
-                                    [],
-                              ],
-                            );
-                          }).toList(),
+                                                    if (item[field]
+                                                            .toString()
+                                                            .length >
+                                                        50)
+                                                      TextButton(
+                                                        onPressed: () {
+                                                          showDialog(
+                                                            context: context,
+                                                            builder:
+                                                                (context) =>
+                                                                    AlertDialog(
+                                                              backgroundColor:
+                                                                  Color(
+                                                                      0xffffe8a4),
+                                                              content: Text(
+                                                                  item[field]
+                                                                      .toString(),
+                                                                  style: TextStyle(
+                                                                      color: Color(
+                                                                          0xff719382))),
+                                                            ),
+                                                          );
+                                                        },
+                                                        child: Text('See More',
+                                                            style: TextStyle(
+                                                                color: Color(
+                                                                    0xff638a5e))),
+                                                      ),
+                                                  ],
+                                                ),
+                                              ))
+                                          .toList() ??
+                                      [],
+                                ],
+                              );
+                            }).toList(),
+                          ),
                         ),
                       ),
                     ),
-                  ),
-                )
-              : Container() // Show an empty Container when no data is fetched
-        ],
+                  )
+                : Container() // Show an empty Container when no data is fetched
+          ],
+        ),
       ),
     );
   }

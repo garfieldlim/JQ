@@ -18,23 +18,40 @@ class _SchemaDetailsPageState extends State<SchemaDetailsPage> {
   final _urlController = TextEditingController();
   // String _fileName = 'No file uploaded';
   String? _fileContent, _scrapedData;
+  bool _isLoading = false;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xff719382),
-      appBar: AppBar(title: Text(widget.schema)),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            ..._buildSchemaBasedFields(),
-            const SizedBox(height: 20),
-            // _buildFileNameText(),
-            const SizedBox(height: 20),
-            _buildContinueButton(),
-          ],
+      backgroundColor: Color(0xff719382),
+      appBar: AppBar(
+        backgroundColor: const Color(0xffbdc499),
+        title: Text(
+          widget.schema,
+          style: TextStyle(color: Color(0xffffe8a4)),
         ),
+        leading: const BackButton(
+          color: Color(0xffffe8a4),
+        ),
+      ),
+      body: Center(
+        child: _isLoading
+            ? Image.asset('web/assets/logo.gif')
+            : Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Container(
+                    width: 300,
+                    padding: const EdgeInsets.all(16.0),
+                    child: Image.asset('web/assets/jq.png'),
+                  ),
+                  ..._buildSchemaBasedFields(),
+                  SizedBox(height: 20),
+                  // _buildFileNameText(),
+                  SizedBox(height: 20),
+                  _buildContinueButton(),
+                ],
+              ),
       ),
     );
   }
@@ -42,16 +59,21 @@ class _SchemaDetailsPageState extends State<SchemaDetailsPage> {
   List<Widget> _buildSchemaBasedFields() {
     List<Widget> widgets = getFieldsForSelectedSchema(widget.schema);
     if (widget.schema == 'Social Posts') {
-      widgets.add(TextField(
-        controller: _urlController,
-        decoration: InputDecoration(
-          labelText: 'Enter Facebook URL',
-          labelStyle: const TextStyle(color: Colors.white),
-          border: _buildInputBorderStyle(),
-          enabledBorder: _buildInputBorderStyle(),
-          focusedBorder: _buildFocusedInputBorderStyle(),
+      widgets.add(
+        Container(
+          width: 900,
+          child: TextField(
+            controller: _urlController,
+            decoration: InputDecoration(
+              labelText: 'Enter Facebook URL',
+              labelStyle: TextStyle(color: Colors.white),
+              border: _buildInputBorderStyle(),
+              enabledBorder: _buildInputBorderStyle(),
+              focusedBorder: _buildFocusedInputBorderStyle(),
+            ),
+          ),
         ),
-      ));
+      );
     }
     return widgets;
   }
@@ -83,7 +105,11 @@ class _SchemaDetailsPageState extends State<SchemaDetailsPage> {
   Widget _buildContinueButton() {
     return Center(
       child: ElevatedButton(
-        // You may need to adjust the styling here as per your needs
+        style: ElevatedButton.styleFrom(
+          primary: Color(0xffe7d292), // This is the background color
+          onPrimary: Color(0xffffe8a4), // This is the color of the text
+        ),
+        child: const Text('Continue', style: TextStyle(fontSize: 18)),
         onPressed: _handleContinuePress,
         // You may need to adjust the styling here as per your needs
         child: const Text('Continue', style: TextStyle(fontSize: 18)),
@@ -92,6 +118,10 @@ class _SchemaDetailsPageState extends State<SchemaDetailsPage> {
   }
 
   Future<void> _handleContinuePress() async {
+    setState(() {
+      _isLoading = true;
+    });
+
     print('Selected Schema: ${widget.schema}');
     print('File Content: $_fileContent');
     print('URL Text: ${_urlController.text}');
@@ -119,6 +149,10 @@ class _SchemaDetailsPageState extends State<SchemaDetailsPage> {
     } else {
       print('Please provide the data');
     }
+
+    setState(() {
+      _isLoading = false; // End loading once done
+    });
   }
 
   String _generateJsonData() {

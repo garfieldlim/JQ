@@ -4,13 +4,13 @@ class NavItem extends StatelessWidget {
   final IconData iconData;
   final VoidCallback onPressed;
   final Color color;
-  final String labelText; // This is now the tooltip text for the icon
+  final String labelText; 
 
   const NavItem({super.key, 
     required this.iconData,
     required this.onPressed,
     required this.color,
-    required this.labelText, // Initialize the labelText in the constructor
+    required this.labelText, 
   });
 
   @override
