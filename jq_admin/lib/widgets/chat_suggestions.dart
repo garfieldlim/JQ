@@ -10,7 +10,7 @@ class ChatSuggestions extends StatelessWidget {
     // ... add more suggestions as needed
   ];
 
-  ChatSuggestions({
+  const ChatSuggestions({super.key, 
     required this.textController,
     required this.onSuggestionSelected,
   });
@@ -18,7 +18,7 @@ class ChatSuggestions extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.only(bottom: 8.0),
+      padding: const EdgeInsets.only(bottom: 8.0),
       child: Wrap(
         spacing: 8.0, // space between chips
         runSpacing: 4.0, // space between lines
@@ -29,9 +29,9 @@ class ChatSuggestions extends StatelessWidget {
               textController.text = suggestion;
               onSuggestionSelected(suggestion);
             },
-            backgroundColor: Color(0xffbec59a),
-            side: BorderSide(width: 1, color: Color(0xffdcd8b0)),
-            labelStyle: TextStyle(color: Colors.white),
+            backgroundColor: const Color(0xffbec59a),
+            side: const BorderSide(width: 1, color: Color(0xffdcd8b0)),
+            labelStyle: const TextStyle(color: Colors.white),
           );
         }).toList(),
       ),

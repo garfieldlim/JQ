@@ -6,7 +6,7 @@ class NavItem extends StatelessWidget {
   final Color color;
   final String labelText; 
 
-  NavItem({
+  const NavItem({super.key, 
     required this.iconData,
     required this.onPressed,
     required this.color,

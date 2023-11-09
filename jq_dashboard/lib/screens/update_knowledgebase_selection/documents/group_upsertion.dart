@@ -5,6 +5,8 @@ import 'package:glassmorphism/glassmorphism.dart';
 import 'package:file_picker/file_picker.dart';
 
 class GroupUpsertionPage extends StatefulWidget {
+  const GroupUpsertionPage({super.key});
+
   @override
   _GroupUpsertionPageState createState() => _GroupUpsertionPageState();
 }
@@ -65,7 +67,7 @@ class _GroupUpsertionPageState extends State<GroupUpsertionPage> {
         const Color(0xFFeeeeee).withOpacity(0.1),
         const Color(0xFFeeeeee).withOpacity(0.1),
       ],
-      stops: [0.1, 1],
+      stops: const [0.1, 1],
     );
   }
 
@@ -74,7 +76,7 @@ class _GroupUpsertionPageState extends State<GroupUpsertionPage> {
       begin: Alignment.topLeft,
       end: Alignment.bottomRight,
       colors: [
-        const Color(0xFFeeeeeee).withOpacity(0.5),
+        const Color(0xffeeeeeee).withOpacity(0.5),
         const Color((0xFFeeeeeee)).withOpacity(0.5),
       ],
     );
@@ -95,7 +97,7 @@ class _GroupUpsertionPageState extends State<GroupUpsertionPage> {
   }
 
   Widget _buildFormatGuide() {
-    return Column(
+    return const Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
@@ -113,19 +115,18 @@ class _GroupUpsertionPageState extends State<GroupUpsertionPage> {
   Widget _buildUploadButton() {
     return Center(
       child: ElevatedButton(
-        style: _buildElevatedButtonStyle(Colors.transparent, Color(0xffD9A830)),
-        child: const Text('Upload JSON File', style: TextStyle(fontSize: 18)),
+        style: _buildElevatedButtonStyle(Colors.transparent, const Color(0xffD9A830)),
         onPressed: _pickFile,
+        child: const Text('Upload JSON File', style: TextStyle(fontSize: 18)),
       ),
     );
   }
 
   ButtonStyle _buildElevatedButtonStyle(Color primary, Color onPrimary) {
     return ElevatedButton.styleFrom(
-      primary: primary,
-      onPrimary: onPrimary,
+      foregroundColor: onPrimary, backgroundColor: primary,
       elevation: 0,
-      side: BorderSide(color: Colors.white, width: 2),
+      side: const BorderSide(color: Colors.white, width: 2),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(25.0),
       ),
@@ -135,7 +136,7 @@ class _GroupUpsertionPageState extends State<GroupUpsertionPage> {
   Widget _buildContinueButton() {
     return Center(
       child: ElevatedButton(
-        style: _buildElevatedButtonStyle(Colors.transparent, Color(0xffD9A830)),
+        style: _buildElevatedButtonStyle(Colors.transparent, const Color(0xffD9A830)),
         child: const Text('Continue', style: TextStyle(fontSize: 18)),
         onPressed: () {
           // Handle continue press

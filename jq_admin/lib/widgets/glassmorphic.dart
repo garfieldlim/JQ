@@ -8,7 +8,7 @@ class GlassmorphicContainerWidget extends StatelessWidget {
   final Color color1;
   final Color color2;
 
-  GlassmorphicContainerWidget({
+  const GlassmorphicContainerWidget({super.key, 
     required this.widthPercentage,
     required this.heightPercentage,
     required this.child,
@@ -32,7 +32,7 @@ class GlassmorphicContainerWidget extends StatelessWidget {
                 Colors.black.withOpacity(0.2), // Adjust color opacity as needed
             spreadRadius: 5,
             blurRadius: 130,
-            offset: Offset(0, 16), // Changes position of shadow
+            offset: const Offset(0, 16), // Changes position of shadow
           ),
         ],
       ),
@@ -50,7 +50,7 @@ class GlassmorphicContainerWidget extends StatelessWidget {
             color1,
             color2,
           ],
-          stops: [
+          stops: const [
             0.1,
             1,
           ],

@@ -1,8 +1,6 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:file_picker/file_picker.dart';
 import 'package:http/http.dart' as http;
-import 'package:jq_admin/widgets/glassmorphic.dart';
 import 'review.dart';
 import 'field_widgets.dart';
 import 'package:uuid/uuid.dart';
@@ -10,7 +8,7 @@ import 'package:uuid/uuid.dart';
 class SchemaDetailsPage extends StatefulWidget {
   final String schema;
 
-  SchemaDetailsPage({required this.schema});
+  const SchemaDetailsPage({super.key, required this.schema});
 
   @override
   _SchemaDetailsPageState createState() => _SchemaDetailsPageState();
@@ -83,7 +81,7 @@ class _SchemaDetailsPageState extends State<SchemaDetailsPage> {
   OutlineInputBorder _buildInputBorderStyle() {
     return OutlineInputBorder(
       borderRadius: BorderRadius.circular(14.0),
-      borderSide: BorderSide(color: Colors.white, width: 2.0),
+      borderSide: const BorderSide(color: Colors.white, width: 2.0),
     );
   }
 
@@ -91,7 +89,7 @@ class _SchemaDetailsPageState extends State<SchemaDetailsPage> {
     return OutlineInputBorder(
       borderRadius: BorderRadius.circular(14.0),
       borderSide:
-          BorderSide(color: const Color.fromARGB(255, 85, 165, 87), width: 2.0),
+          const BorderSide(color: Color.fromARGB(255, 85, 165, 87), width: 2.0),
     );
   }
 
@@ -113,6 +111,8 @@ class _SchemaDetailsPageState extends State<SchemaDetailsPage> {
         ),
         child: const Text('Continue', style: TextStyle(fontSize: 18)),
         onPressed: _handleContinuePress,
+        // You may need to adjust the styling here as per your needs
+        child: const Text('Continue', style: TextStyle(fontSize: 18)),
       ),
     );
   }
@@ -126,8 +126,7 @@ class _SchemaDetailsPageState extends State<SchemaDetailsPage> {
     print('File Content: $_fileContent');
     print('URL Text: ${_urlController.text}');
 
-    if (widget.schema != null &&
-        (_fileContent != null || _urlController.text.isNotEmpty)) {
+    if ((_fileContent != null || _urlController.text.isNotEmpty)) {
       if (widget.schema == 'Social Posts') {
         if (_urlController.text.isNotEmpty) await _sendUrlToServer();
         Navigator.push(
@@ -157,7 +156,7 @@ class _SchemaDetailsPageState extends State<SchemaDetailsPage> {
   }
 
   String _generateJsonData() {
-    var uuid = Uuid().v1(); // Generate a new UUID
+    var uuid = const Uuid().v1(); // Generate a new UUID
     Map<String, String> dataMap = {'uuid': uuid};
 
     // Assuming you have a controllers map here

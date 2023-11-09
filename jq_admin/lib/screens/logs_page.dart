@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:intl/intl.dart';
 
 class LogsPage extends StatefulWidget {
+  const LogsPage({super.key});
+
   @override
   _LogsPageState createState() => _LogsPageState();
 }
@@ -256,7 +257,7 @@ class _LogsPageState extends State<LogsPage> {
                   color: Color(0xffffe8a4)),
             ),
           ),
-          Container(
+          SizedBox(
               height: 300, child: _buildHorizontalLogList(sortByTime: true)),
           const SizedBox(height: 25),
           // Most Liked Section
@@ -271,7 +272,7 @@ class _LogsPageState extends State<LogsPage> {
               ),
             ),
           ),
-          Container(
+          SizedBox(
               height: 300, child: _buildHorizontalLogList(sortByTime: false)),
         ],
       ),

@@ -3,15 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:glassmorphism/glassmorphism.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter_linkify/flutter_linkify.dart';
-import 'dart:convert';
 
-import 'package:any_link_preview/any_link_preview.dart';
 import 'package:jq_admin/screens/loading.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class HomePage extends StatefulWidget {
+  const HomePage({super.key});
+
   @override
   _HomePageState createState() => _HomePageState();
 }
@@ -74,7 +73,7 @@ class _HomePageState extends State<HomePage> {
       );
 
       // Remove last message after receiving the response
-      if (messages.length > 0 && partition != null) {
+      if (messages.isNotEmpty && partition != null) {
         messages.removeLast();
       }
 
@@ -172,7 +171,7 @@ class _HomePageState extends State<HomePage> {
         floatingActionButton: FloatingActionButton(
           onPressed: resetChat,
           tooltip: 'Reset Chat',
-          child: Icon(Icons.refresh),
+          child: const Icon(Icons.refresh),
         ),
         floatingActionButtonLocation: CustomFloatingActionButtonLocation(100.0),
         extendBodyBehindAppBar: true,
@@ -209,7 +208,7 @@ class _HomePageState extends State<HomePage> {
         body: Container(
           width: double.infinity,
           height: double.infinity,
-          decoration: BoxDecoration(
+          decoration: const BoxDecoration(
             image: DecorationImage(
               image: AssetImage('web/assets/bg2.png'),
               fit: BoxFit.cover,
@@ -223,8 +222,8 @@ class _HomePageState extends State<HomePage> {
                   itemCount: messages.length + (isTyping ? 1 : 0),
                   itemBuilder: (context, index) {
                     if (isTyping && index == messages.length) {
-                      return Padding(
-                        padding: const EdgeInsets.all(20.0),
+                      return const Padding(
+                        padding: EdgeInsets.all(20.0),
                         child: TypingIndicator(),
                       );
                     }
@@ -245,7 +244,7 @@ class _HomePageState extends State<HomePage> {
                     return Column(
                       children: [
                         Container(
-                          margin: EdgeInsets.all(20),
+                          margin: const EdgeInsets.all(20),
                           child: Row(
                             mainAxisAlignment: message.isUserMessage
                                 ? MainAxisAlignment.end
@@ -253,7 +252,7 @@ class _HomePageState extends State<HomePage> {
                             children: [
                               Flexible(
                                 child: Container(
-                                  padding: EdgeInsets.all(16),
+                                  padding: const EdgeInsets.all(16),
                                   constraints: BoxConstraints(
                                     maxWidth:
                                         MediaQuery.of(context).size.width * 0.7,
@@ -261,9 +260,9 @@ class _HomePageState extends State<HomePage> {
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(25),
                                     color: message.isUserMessage
-                                        ? Color.fromARGB(255, 237, 237, 237)
+                                        ? const Color.fromARGB(255, 237, 237, 237)
                                             .withOpacity(0.5)
-                                        : Color.fromARGB(255, 255, 255, 255)
+                                        : const Color.fromARGB(255, 255, 255, 255)
                                             .withOpacity(0.5),
                                     boxShadow: [
                                       BoxShadow(
@@ -285,8 +284,8 @@ class _HomePageState extends State<HomePage> {
                                         },
                                         text: displayText,
                                         linkStyle:
-                                            TextStyle(color: Colors.blue),
-                                        style: TextStyle(color: Colors.white),
+                                            const TextStyle(color: Colors.blue),
+                                        style: const TextStyle(color: Colors.white),
                                       ),
                                       if (imageUrl.isNotEmpty)
                                         Padding(
@@ -332,11 +331,10 @@ class _HomePageState extends State<HomePage> {
                             !message.isUserMessage &&
                             index != 0)
                           isLoading
-                              ? CircularProgressIndicator()
+                              ? const CircularProgressIndicator()
                               : ElevatedButton(
                                   style: ElevatedButton.styleFrom(
-                                    primary: Color(0xfff9dea6),
-                                    onPrimary: Colors.white,
+                                    foregroundColor: Colors.white, backgroundColor: const Color(0xfff9dea6),
                                     shape: RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(20),
                                     ),
@@ -344,17 +342,17 @@ class _HomePageState extends State<HomePage> {
                                   onPressed: () {
                                     regenerateMessage(message);
                                   },
-                                  child: Text('Regenerate'),
+                                  child: const Text('Regenerate'),
                                 ),
                       ],
                     );
                   },
                 ),
               ),
-              Divider(height: 1, color: Colors.white),
+              const Divider(height: 1, color: Colors.white),
               Container(
                 color: Colors.transparent,
-                padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                 child: Row(
                   children: [
                     Expanded(
@@ -367,8 +365,8 @@ class _HomePageState extends State<HomePage> {
                             textController.clear();
                           }
                         },
-                        style: TextStyle(color: Colors.white),
-                        decoration: InputDecoration(
+                        style: const TextStyle(color: Colors.white),
+                        decoration: const InputDecoration(
                           hintText: 'Type your message...',
                           hintStyle: TextStyle(color: Colors.white),
                           border: InputBorder.none,
@@ -384,7 +382,7 @@ class _HomePageState extends State<HomePage> {
                           sendMessage(message);
                         }
                       },
-                      icon: Icon(Icons.send),
+                      icon: const Icon(Icons.send),
                       color: Colors.white,
                     ),
                   ],

@@ -3,6 +3,8 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 class DataTableDemo extends StatefulWidget {
+  const DataTableDemo({super.key});
+
   @override
   _DataTableDemoState createState() => _DataTableDemoState();
 }
@@ -60,12 +62,12 @@ class _DataTableDemoState extends State<DataTableDemo> {
     double screenWidth = MediaQuery.of(context).size.width;
     double screenHeight = MediaQuery.of(context).size.height;
     return Scaffold(
-      appBar: AppBar(title: Text('Data Table')),
+      appBar: AppBar(title: const Text('Data Table')),
       body: Column(
         children: [
           DropdownButton<String>(
             value: selectedPartition,
-            hint: Text('Select a partition'),
+            hint: const Text('Select a partition'),
             onChanged: (String? newValue) {
               setState(() {
                 selectedPartition = newValue;
@@ -85,7 +87,7 @@ class _DataTableDemoState extends State<DataTableDemo> {
                 fetchData(selectedPartition!);
               }
             },
-            child: Text('Fetch Data'),
+            child: const Text('Fetch Data'),
           ),
           Expanded(
             child: SingleChildScrollView(
@@ -103,13 +105,13 @@ class _DataTableDemoState extends State<DataTableDemo> {
                   sortAscending: sortAscending,
                   columns: [
                     DataColumn(
-                      label: Text('UUID'),
+                      label: const Text('UUID'),
                       onSort: (columnIndex, ascending) {
                         _sortData('uuid', ascending);
                       },
                     ),
                     // Add other columns based on the selected partition
-                    ...?table_fields[selectedPartition ?? '']
+                    ...table_fields[selectedPartition ?? '']
                             ?.map((field) => DataColumn(
                                   label: Text(field.capitalize()),
                                   onSort: (columnIndex, ascending) {
@@ -124,7 +126,7 @@ class _DataTableDemoState extends State<DataTableDemo> {
                       cells: [
                         DataCell(Text(item['uuid'] ?? '')),
                         // Add other cells based on the selected partition
-                        ...?table_fields[selectedPartition ?? '']
+                        ...table_fields[selectedPartition ?? '']
                                 ?.map((field) =>
                                     DataCell(Text(item[field] ?? '')))
                                 .toList() ??
@@ -144,6 +146,6 @@ class _DataTableDemoState extends State<DataTableDemo> {
 
 extension StringExtension on String {
   String capitalize() {
-    return "${this[0].toUpperCase()}${this.substring(1)}";
+    return "${this[0].toUpperCase()}${substring(1)}";
   }
 }

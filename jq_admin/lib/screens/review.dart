@@ -8,7 +8,7 @@ class ReviewPage extends StatefulWidget {
   final String schema;
   final String? data;
 
-  ReviewPage(
+  const ReviewPage(
       {required this.schema, this.data, Key? key, required String filePath})
       : super(key: key);
 

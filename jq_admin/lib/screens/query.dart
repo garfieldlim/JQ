@@ -3,14 +3,12 @@ import 'dart:convert';
 
 // Third-party package imports
 import 'package:flutter/material.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:jq_admin/widgets/chatMessage.dart';
 import 'package:jq_admin/widgets/chat_suggestions.dart';
 import 'package:jq_admin/widgets/customfloatingbutton.dart';
 import 'package:jq_admin/widgets/floatingactionbutton.dart';
-import 'package:jq_admin/widgets/glassmorphic.dart';
 import '../widgets/chat_input.dart';
 import '../widgets/message_item_widget.dart';
 
@@ -18,6 +16,8 @@ import '../widgets/message_item_widget.dart';
 // HomePage Stateful Widget
 //-------------------------------------
 class HomePage extends StatefulWidget {
+  const HomePage({super.key});
+
   @override
   _HomePageState createState() => _HomePageState();
 }
@@ -109,7 +109,7 @@ class _HomePageState extends State<HomePage> {
       );
 
       // Remove last message after receiving the response
-      if (messages.length > 0 && partition != null) {
+      if (messages.isNotEmpty && partition != null) {
         messages.removeLast();
       }
 
@@ -218,7 +218,7 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        backgroundColor: Color(0xffafbc8f),
+        backgroundColor: const Color(0xffafbc8f),
         floatingActionButton: buildFloatingActionButton(resetChat: resetChat),
         floatingActionButtonLocation: CustomFloatingActionButtonLocation(80, 0),
         extendBodyBehindAppBar: true,
@@ -239,7 +239,7 @@ class _HomePageState extends State<HomePage> {
               sendMessage(suggestion);
             },
           ),
-          Divider(height: 1, color: Colors.white),
+          const Divider(height: 1, color: Colors.white),
           MessageInput(
             textController: textController,
             sendMessage: sendMessage,
@@ -270,31 +270,31 @@ class _HomePageState extends State<HomePage> {
 
   Widget _buildFacebookPostsList() {
     return Container(
-      color: Color(0xffbec59a),
+      color: const Color(0xffbec59a),
       child: ExpansionTile(
-        leading: Icon(
+        leading: const Icon(
           Icons.newspaper_rounded,
           color: Colors.white,
         ),
-        title: Text(
+        title: const Text(
           'Headlines',
           style: TextStyle(color: Colors.white),
         ),
         children: <Widget>[
-          Container(
+          SizedBox(
             height: 150.0,
             child: ListView.builder(
               scrollDirection: Axis.horizontal,
               itemCount: posts.length,
               itemBuilder: (context, index) {
                 return Card(
-                  color: Color(0xffdcd8b0),
-                  margin: EdgeInsets.all(8.0),
+                  color: const Color(0xffdcd8b0),
+                  margin: const EdgeInsets.all(8.0),
                   child: Padding(
-                    padding: EdgeInsets.all(16.0),
+                    padding: const EdgeInsets.all(16.0),
                     child: Text(
                       posts[index]['text'],
-                      style: TextStyle(fontSize: 18.0, color: Colors.white),
+                      style: const TextStyle(fontSize: 18.0, color: Colors.white),
                     ),
                   ),
                 );
