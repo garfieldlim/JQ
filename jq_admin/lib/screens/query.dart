@@ -124,9 +124,10 @@ class _HomePageState extends State<HomePage> {
       if (response.statusCode == 200) {
         var data = jsonDecode(response.body);
         var responseData = data['response'] as String;
-        // var partitionName =
-        //     data['partitionName'] as String; // Get the partition name
-        // var milvusData = data['milvusData'] as String; // Get the Milvus data
+        var partitionName = data['partitionName']
+            as String; // Assume this is provided by the server
+        var milvusData = data['milvusData']
+            as String; // Assume this is provided by the server
 
         setState(() {
           messages.add(ChatMessage(
@@ -149,8 +150,8 @@ class _HomePageState extends State<HomePage> {
           'timestamp': DateTime.now().toUtc(),
           'liked': false,
           'disliked': false,
-          // 'partitionName': partitionName, // Store the partition name
-          // 'milvusData': milvusData, // Store the Milvus data
+          'partitionName': partitionName, // Store the partition name
+          'milvusData': milvusData, // Store the Milvus data
         });
 
         // Store the document ID in the ChatMessage object
