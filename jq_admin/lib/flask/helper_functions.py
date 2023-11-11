@@ -1,4 +1,12 @@
-from pymilvus import connections, DataType, CollectionSchema, FieldSchema, Collection, Partition, utility
+from pymilvus import (
+    connections,
+    DataType,
+    CollectionSchema,
+    FieldSchema,
+    Collection,
+    Partition,
+    utility,
+)
 from pymilvus import Milvus, DataType, Collection, MilvusException
 import openai
 import pandas as pd
@@ -12,87 +20,114 @@ import time
 from tqdm import tqdm
 from joblib import load
 import uuid
-import datetime 
+from datetime import datetime
 import copy
 from flask import jsonify
 from facebook_scraper import get_posts
 import json
 import os
 
-class DateTimeEncoder(json.JSONEncoder):
-    """Custom encoder for datetime objects."""
-    def default(self, obj):
-        if isinstance(obj, datetime.datetime):
-            return obj.isoformat()
-        return super().default(obj)
+openai.api_key = "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"
 collections_list = [
-    'text_collection',
-    'author_collection',
-    'title_collection',
-    'contact_collection',
-    'name_collection',
-    'position_collection',
-    'department_collection',
-    'date_collection',
+    "text_collection",
+    "author_collection",
+    "title_collection",
+    "contact_collection",
+    "name_collection",
+    "position_collection",
+    "department_collection",
+    "date_collection",
 ]
 fields_list = [
-    'text',
-    'author',
-    'title',
-    'contact',
-    'name',
-    'position',
-    'department',
-    'date',
+    "text",
+    "author",
+    "title",
+    "contact",
+    "name",
+    "position",
+    "department",
+    "date",
 ]
 collections_dict = {
-    "text_collection": ["uuid", "text_id", "text", "embeds", "media", "link", "partition_name"],
+    "text_collection": [
+        "uuid",
+        "text_id",
+        "text",
+        "embeds",
+        "media",
+        "link",
+        "partition_name",
+    ],
     "author_collection": ["uuid", "author", "embeds", "partition_name"],
     "title_collection": ["uuid", "title", "embeds", "partition_name"],
     "date_collection": ["uuid", "date", "embeds", "partition_name"],
     "contact_collection": ["uuid", "contact", "embeds", "partition_name"],
     "department_collection": ["uuid", "department", "embeds", "partition_name"],
     "name_collection": ["uuid", "name", "embeds", "partition_name"],
-    "position_collection": ["uuid", "position", "embeds", "partition_name"]
+    "position_collection": ["uuid", "position", "embeds", "partition_name"],
 }
 
 partitions = {
-    "documents_partition": ["text_collection", "author_collection", "title_collection", "date_collection"],
+    "documents_partition": [
+        "text_collection",
+        "author_collection",
+        "title_collection",
+        "date_collection",
+    ],
     "social_posts_partition": ["text_collection", "date_collection"],
-    "contacts_partition": ["name_collection", "text_collection", "contact_collection", "department_collection"],
-    "people_partition": ["text_collection","name_collection","position_collection","department_collection"],
+    "contacts_partition": [
+        "name_collection",
+        "text_collection",
+        "contact_collection",
+        "department_collection",
+    ],
+    "people_partition": [
+        "text_collection",
+        "name_collection",
+        "position_collection",
+        "department_collection",
+    ],
     "usjr_documents_partition": ["text_collection", "title_collection"],
-    "scs_documents_partition" : ["text_collection"],
-    "religious_admin_people_partition": ["text_collection","name_collection","position_collection"],
+    "scs_documents_partition": ["text_collection"],
+    "religious_admin_people_partition": [
+        "text_collection",
+        "name_collection",
+        "position_collection",
+    ],
 }
 # Check if the connection already exists
-if connections.has_connection('default'):
-    connections.remove_connection('default')  # Disconnect if it exists
+if connections.has_connection("default"):
+    connections.remove_connection("default")  # Disconnect if it exists
 
 # Now, reconnect with your new configuration
-connections.connect(alias='default', host='localhost', port='19530')
+connections.connect(alias="default", host="localhost", port="19530")
+
+
 # fasttext_model = fasttext.load_model("C:/Users/Jillian/Desktop/crawl-300d-2M-subword.bin")
 # fasttext_model = fasttext.load_model('/Users/garfieldgreglim/Library/Mobile Documents/com~apple~CloudDocs/Josenian-Query/Embedder/crawl-300d-2M-subword.bin')
 def average_pool(last_hidden_states: Tensor, attention_mask: Tensor) -> Tensor:
     last_hidden = last_hidden_states.masked_fill(~attention_mask[..., None].bool(), 0.0)
     return last_hidden.sum(dim=1) / attention_mask.sum(dim=1)[..., None]
 
+
 def get_embedding(text):
     # Load the tokenizer and model
-    tokenizer = AutoTokenizer.from_pretrained('intfloat/e5-large-v2')
-    model = AutoModel.from_pretrained('intfloat/e5-large-v2')
+    tokenizer = AutoTokenizer.from_pretrained("intfloat/e5-large-v2")
+    model = AutoModel.from_pretrained("intfloat/e5-large-v2")
 
     # Prefix the text with 'query: '
-    text = 'query: ' + text
+    text = "query: " + text
 
     # Tokenize the input text
-    inputs = tokenizer(text, max_length=512, padding=True, truncation=True, return_tensors='pt')
+    inputs = tokenizer(
+        text, max_length=512, padding=True, truncation=True, return_tensors="pt"
+    )
 
     # Generate model outputs
     outputs = model(**inputs)
 
     # Average pool the last hidden states and apply the attention mask
-    embeddings = average_pool(outputs.last_hidden_state, inputs['attention_mask'])
+    embeddings = average_pool(outputs.last_hidden_state, inputs["attention_mask"])
 
     # Normalize the embeddings
     embeddings = F.normalize(embeddings, p=2, dim=1)
@@ -101,18 +136,25 @@ def get_embedding(text):
     embeddings_list = embeddings.tolist()
 
     return embeddings_list[0]
+
+
 def remove_non_alphanumeric(text):
-    return re.sub(r'[^a-zA-Z0-9\s]', '', text)
+    return re.sub(r"[^a-zA-Z0-9\s]", "", text)
+
+
 def vectorize_query(query):
     return get_embedding(query.lower())
+
+
 def search_collections(vectors, partition_names):
     results_dict = {}
     search_params = {
-    "metric_type": "L2",  # Distance metric, can be L2, IP (Inner Product), etc.
-    "offset": 0,}
+        "metric_type": "L2",  # Distance metric, can be L2, IP (Inner Product), etc.
+        "offset": 0,
+    }
     for name in fields_list:
         try:
-            if name == 'text':
+            if name == "text":
                 collection = Collection(f"{name}_collection")
                 collection.load()
                 result = collection.search(
@@ -121,8 +163,8 @@ def search_collections(vectors, partition_names):
                     param=search_params,
                     limit=10,
                     partition_names=partition_names,
-                    output_fields=['uuid', 'text_id'],
-                    consistency_level="Strong"
+                    output_fields=["uuid", "text_id"],
+                    consistency_level="Strong",
                 )
                 results_dict[name] = result
             else:
@@ -134,54 +176,70 @@ def search_collections(vectors, partition_names):
                     param=search_params,
                     limit=10,
                     partition_names=partition_names,
-                    output_fields=['uuid'],
-                    consistency_level="Strong"
+                    output_fields=["uuid"],
+                    consistency_level="Strong",
                 )
                 results_dict[name] = result
         except MilvusException as e:
-            if 'partition name' in str(e) and 'not found' in str(e):
-                print(f"Partition '{partition_names}' not found in collection '{name}', skipping...")
+            if "partition name" in str(e) and "not found" in str(e):
+                print(
+                    f"Partition '{partition_names}' not found in collection '{name}', skipping..."
+                )
                 continue
             else:
                 raise e  # if it's a different kind of MilvusException, we still want to raise it
-    
+
     return results_dict
+
+
 def check_collection_dimension(collection):
     collection_params = collection.schema
-    vector_field = [field for field in collection_params.fields if field.dtype == DataType.FLOAT_VECTOR][0]
-    print(f"Dimension of vectors in collection '{collection.name}': {vector_field.params['dim']}")
+    vector_field = [
+        field
+        for field in collection_params.fields
+        if field.dtype == DataType.FLOAT_VECTOR
+    ][0]
+    print(
+        f"Dimension of vectors in collection '{collection.name}': {vector_field.params['dim']}"
+    )
+
+
 def process_results(results_dict):
     json_results = {}
 
     for collection_name, result in results_dict.items():
         for query_hits in result:
             for hit in query_hits:
-                if collection_name == 'text':
-                    id_field = 'entity_id'
-                    id_value = hit.entity.get('text_id')
+                if collection_name == "text":
+                    id_field = "entity_id"
+                    id_value = hit.entity.get("text_id")
                 else:
-                    id_field = 'entity_id'
+                    id_field = "entity_id"
                     id_value = hit.id
-                
+
                 # Create the result dictionary
                 result_dict = {
                     id_field: id_value,
                     "distance": hit.distance,
-                    "collection": collection_name
+                    "collection": collection_name,
                 }
 
                 # If the id_value is already in the results and the new distance is greater, skip
-                if id_value in json_results and json_results[id_value]["distance"] < hit.distance:
+                if (
+                    id_value in json_results
+                    and json_results[id_value]["distance"] < hit.distance
+                ):
                     continue
 
                 # Otherwise, update/insert the result
                 json_results[id_value] = result_dict
-                
+
             json_results_list = list(json_results.values())
-            json_results_sorted = sorted(json_results_list, key=lambda x: x['distance'])
-    
+            json_results_sorted = sorted(json_results_list, key=lambda x: x["distance"])
+
     return json_results_sorted
-    
+
+
 def populate_results(json_results_sorted, partition_names):
     # Load all collections beforehand
     collections = {name: Collection(f"{name}_collection") for name in fields_list}
@@ -200,9 +258,14 @@ def populate_results(json_results_sorted, partition_names):
         try:
             # Prepare the query
             output_fields = []
-            if name == 'text':
+            if name == "text":
                 query_field = "text_id"
-                output_fields = [name, 'text_id', 'media', 'link']  # Include 'media' and 'link' here
+                output_fields = [
+                    name,
+                    "text_id",
+                    "media",
+                    "link",
+                ]  # Include 'media' and 'link' here
             else:
                 query_field = "uuid"
                 output_fields = [name]
@@ -215,21 +278,24 @@ def populate_results(json_results_sorted, partition_names):
                 limit=len(entity_ids),
                 partition_names=[partition_names],
                 output_fields=output_fields,
-                consistency_level="Strong"
+                consistency_level="Strong",
             )
 
             # Append the results to the relevant fields in the results dictionary
             for query_result in query_results:
                 for result in json_results_sorted:
-                    if (name == 'text' and result["entity_id"] == query_result["text_id"]):
+                    if (
+                        name == "text"
+                        and result["entity_id"] == query_result["text_id"]
+                    ):
                         # Append the 'media' and 'link' to the 'text' field
                         text_with_media_link = query_result[name]
-                        if 'media' in query_result:
-                            text_with_media_link += " " + query_result['media']
-                        if 'link' in query_result:
-                            text_with_media_link += " " + query_result['link']
+                        if "media" in query_result:
+                            text_with_media_link += " " + query_result["media"]
+                        if "link" in query_result:
+                            text_with_media_link += " " + query_result["link"]
                         result[name].append(text_with_media_link)
-                    elif (name != 'text' and result["entity_id"] == query_result["uuid"]):
+                    elif name != "text" and result["entity_id"] == query_result["uuid"]:
                         result[name].append(query_result[name])
         except Exception as e:
             print(f"Error with collection {name}: {str(e)}")
@@ -238,21 +304,28 @@ def populate_results(json_results_sorted, partition_names):
         obj = {}
         for item in result:
             # If item is not 'entity_id', 'distance', or 'collection' and the item's value is not empty
-            if item not in ['entity_id', 'distance', 'collection'] and result[item]:
+            if item not in ["entity_id", "distance", "collection"] and result[item]:
                 obj[item] = result[item]
 
         # Concatenate all values that aren't associated with the 'collection' key
-        concatenated_values = ' '.join([str(v[0]) if isinstance(v, list) and v else str(v) for k, v in obj.items() if k != 'collection'])
+        concatenated_values = " ".join(
+            [
+                str(v[0]) if isinstance(v, list) and v else str(v)
+                for k, v in obj.items()
+                if k != "collection"
+            ]
+        )
 
         if concatenated_values.strip():
             final_results.append(concatenated_values)
 
     # format final results with "Result {index}: " pattern
-    formatted_results = [f"Result {index+1}:  {value}" for index, value in enumerate(final_results)]
-    return '\n'.join(formatted_results)
+    formatted_results = [
+        f"Result {index+1}:  {value}" for index, value in enumerate(final_results)
+    ]
+    return "\n".join(formatted_results)
 
-
-# def populate_results(json_results_sorted, partition_names):
+    # def populate_results(json_results_sorted, partition_names):
     # Load all collections beforehand
     collections = {name: Collection(f"{name}_collection") for name in fields_list}
 
@@ -269,9 +342,14 @@ def populate_results(json_results_sorted, partition_names):
         try:
             # Prepare the query
             output_fields = []
-            if name == 'text':
+            if name == "text":
                 query_field = "text_id"
-                output_fields = [name, 'text_id', 'media', 'link']  # Include 'media' and 'link' here
+                output_fields = [
+                    name,
+                    "text_id",
+                    "media",
+                    "link",
+                ]  # Include 'media' and 'link' here
             else:
                 query_field = "uuid"
                 output_fields = [name]
@@ -284,21 +362,24 @@ def populate_results(json_results_sorted, partition_names):
                 limit=len(entity_ids),
                 partition_names=[partition_names],
                 output_fields=output_fields,
-                consistency_level="Strong"
+                consistency_level="Strong",
             )
 
             # Append the results to the relevant fields in the results dictionary
             for query_result in query_results:
                 for result in json_results_sorted:
-                    if (name == 'text' and result["entity_id"] == query_result["text_id"]):
+                    if (
+                        name == "text"
+                        and result["entity_id"] == query_result["text_id"]
+                    ):
                         # Append the 'media' and 'link' to the 'text' field
                         text_with_media_link = query_result[name]
-                        if 'media' in query_result:
-                            text_with_media_link += " " + query_result['media']
-                        if 'link' in query_result:
-                            text_with_media_link += " " + query_result['link']
+                        if "media" in query_result:
+                            text_with_media_link += " " + query_result["media"]
+                        if "link" in query_result:
+                            text_with_media_link += " " + query_result["link"]
                         result[name].append(text_with_media_link)
-                    elif (name != 'text' and result["entity_id"] == query_result["uuid"]):
+                    elif name != "text" and result["entity_id"] == query_result["uuid"]:
                         result[name].append(query_result[name])
 
             final_results = []
@@ -306,25 +387,31 @@ def populate_results(json_results_sorted, partition_names):
                 obj = {}
                 for item in result:
                     # If item is not 'entity_id', 'distance', or 'collection' and the item's value is not empty
-                    if item not in ['entity_id', 'distance', 'collection'] and result[item]:
+                    if (
+                        item not in ["entity_id", "distance", "collection"]
+                        and result[item]
+                    ):
                         obj[item] = result[item]
                 # Concatenate all values that aren't associated with the 'collection' key
-                concatenated_values = ' '.join([str(v) for k, v in obj.items() if k != 'collection'])
+                concatenated_values = " ".join(
+                    [str(v) for k, v in obj.items() if k != "collection"]
+                )
                 final_results.append(concatenated_values)
         except Exception as e:
             print(f"Error with collection {name}: {str(e)}")
     # format final results with "Result {index}: " pattern
-    formatted_results = [f"Result {index+1}:  {value}" for index, value in enumerate(final_results)]
-    return '\n'.join(formatted_results)
+    formatted_results = [
+        f"Result {index+1}:  {value}" for index, value in enumerate(final_results)
+    ]
+    return "\n".join(formatted_results)
 
-
-# not it \/
-# def populate_results(json_results_sorted, partition_names):
+    # not it \/
+    # def populate_results(json_results_sorted, partition_names):
     # Determine which collections we need based on the partition_names
     needed_collections = set()
     for partition in partition_names:
         needed_collections.update(partitions[partition])
-    
+
     # Load only the required collections
     collections = {name: MockCollection(name) for name in needed_collections}
 
@@ -341,9 +428,14 @@ def populate_results(json_results_sorted, partition_names):
         try:
             # Prepare the query
             output_fields = []
-            if name == 'text':
+            if name == "text":
                 query_field = "text_id"
-                output_fields = [name, 'text_id', 'media', 'link']  # Include 'media' and 'link' here
+                output_fields = [
+                    name,
+                    "text_id",
+                    "media",
+                    "link",
+                ]  # Include 'media' and 'link' here
             else:
                 query_field = "uuid"
                 output_fields = [name]
@@ -354,21 +446,24 @@ def populate_results(json_results_sorted, partition_names):
                 limit=len(entity_ids),
                 partition_names=partition_names,
                 output_fields=output_fields,
-                consistency_level="Strong"
+                consistency_level="Strong",
             )
 
             # Append the results to the relevant fields in the results dictionary
             for query_result in query_results:
                 for result in json_results_sorted:
-                    if (name == 'text' and result["entity_id"] == query_result["text_id"]):
+                    if (
+                        name == "text"
+                        and result["entity_id"] == query_result["text_id"]
+                    ):
                         # Append the 'media' and 'link' to the 'text' field
                         text_with_media_link = query_result[name]
-                        if 'media' in query_result:
-                            text_with_media_link += " " + query_result['media']
-                        if 'link' in query_result:
-                            text_with_media_link += " " + query_result['link']
+                        if "media" in query_result:
+                            text_with_media_link += " " + query_result["media"]
+                        if "link" in query_result:
+                            text_with_media_link += " " + query_result["link"]
                         result[name].append(text_with_media_link)
-                    elif (name != 'text' and result["entity_id"] == query_result["uuid"]):
+                    elif name != "text" and result["entity_id"] == query_result["uuid"]:
                         result[name].append(query_result[name])
 
             final_results = []
@@ -376,66 +471,92 @@ def populate_results(json_results_sorted, partition_names):
                 obj = {}
                 for item in result:
                     # If item is not 'entity_id', 'distance', or 'collection' and the item's value is not empty
-                    if item not in ['entity_id', 'distance', 'collection'] and result[item]:
+                    if (
+                        item not in ["entity_id", "distance", "collection"]
+                        and result[item]
+                    ):
                         obj[item] = result[item]
                 # Concatenate all values that aren't associated with the 'collection' key
-                concatenated_values = ' '.join([str(v) for k, v in obj.items() if k != 'collection'])
+                concatenated_values = " ".join(
+                    [str(v) for k, v in obj.items() if k != "collection"]
+                )
                 final_results.append(concatenated_values)
         except Exception as e:
             print(f"Error with collection {name}: {str(e)}")
     # format final results with "Result {index}: " pattern
-    formatted_results = [f"Result {index+1}:  {value}" for index, value in enumerate(final_results)]
-    return '\n'.join(formatted_results)
+    formatted_results = [
+        f"Result {index+1}:  {value}" for index, value in enumerate(final_results)
+    ]
+    return "\n".join(formatted_results)
+
 
 def generate_response(prompt, string_json):
     # Format the input as per the desired conversation format
     conversation = [
-        {'role': 'system', 'content': """You are Josenian Quiri. University of San Jose- Recoletos' general knowledge base assistant. Refer to yourself as JQ. If there are links, give the link as well."""},
-        {'role': 'user', 'content': prompt},
-        {'role': 'system', 'content': f'Here is the returned data from your knowledge base (note: select only the correct answer): \n{string_json}]'},
-        {'role': 'user', 'content': ''}
+        {
+            "role": "system",
+            "content": """You are Josenian Quiri. University of San Jose- Recoletos' general knowledge base assistant. Refer to yourself as JQ. If there are links, give the link as well.""",
+        },
+        {"role": "user", "content": prompt},
+        {
+            "role": "system",
+            "content": f"Here is the returned data from your knowledge base (note: select only the correct answer): \n{string_json}]",
+        },
+        {"role": "user", "content": ""},
     ]
-    
-    # Convert the conversation to a string  
-    conversation_str = ''.join([f'{item["role"]}: {item["content"]}\n' for item in conversation])
+
+    # Convert the conversation to a string
+    conversation_str = "".join(
+        [f'{item["role"]}: {item["content"]}\n' for item in conversation]
+    )
 
     response = openai.ChatCompletion.create(
-      model="gpt-4",
-      messages=conversation,
-      temperature=1,
-      max_tokens=1000,
-      top_p=1,
-      frequency_penalty=0,
-      presence_penalty=0
+        model="gpt-4",
+        messages=conversation,
+        temperature=1,
+        max_tokens=1000,
+        top_p=1,
+        frequency_penalty=0,
+        presence_penalty=0,
     )
-    
-    # Extract the generated response from the API's response
-    generated_text = response['choices'][0]['message']['content']
 
+    # Extract the generated response from the API's response
+    generated_text = response["choices"][0]["message"]["content"]
 
     # Return the response
     return generated_text
+
+
 def ranking_partitions(vectors):
-    return ['people_partition', 'documents_partition', 'social_posts_partition', "contacts_partition"]
-    
-svm_model = load('jq_admin/lib/flask/models/svm_model.joblib')
-label_encoder = load('jq_admin/lib/flask/models/label_encoder.joblib')
+    return [
+        "people_partition",
+        "documents_partition",
+        "social_posts_partition",
+        "contacts_partition",
+    ]
+
+
+svm_model = load("jq_admin/lib/flask/models/svm_model.joblib")
+label_encoder = load("jq_admin/lib/flask/models/label_encoder.joblib")
+
+
 def rank_partitions(prompt_embedding):
     # Convert the prompt to an embedding
-    
+
     # Predict the class probabilities
     probabilities = svm_model.predict_proba([prompt_embedding])
-    
+
     # Get the classes and their corresponding probabilities
     classes_and_probabilities = zip(label_encoder.classes_, probabilities[0])
-    
+
     # Sort the classes by probability
     ranked_classes = sorted(classes_and_probabilities, key=lambda x: x[1], reverse=True)
-    
+
     # Extract the class names, ignoring the probabilities
     ranked_class_names = [item[0] for item in ranked_classes]
-    
+
     return ranked_class_names
+
 
 def refactor_date(input_date):
     # Parse the input date using datetime.datetime.strptime
@@ -445,44 +566,62 @@ def refactor_date(input_date):
     formatted_date = parsed_date.strftime("%Y-%m-%d %B %d %Y")
     return formatted_date
 
+
 def process_object(obj):
     # Create a 'uuid' attribute
-    obj['link'] = obj.pop('url')
-    obj.pop('schema')
-    obj['partition_name'] = 'social_posts_partition'
-    obj['uuid'] = str(uuid.uuid4())
-    obj['date'] = obj.pop('time')
-    obj['date'] = refactor_date(obj['date'])  # Assuming refactor_date function is defined elsewhere
+    obj["link"] = obj.pop("url")
+    obj.pop("schema")
+    obj["partition_name"] = "social_posts_partition"
+    obj["uuid"] = str(uuid.uuid4())
+    obj["date"] = obj.pop("time")
+    obj["date"] = refactor_date(
+        obj["date"]
+    )  # Assuming refactor_date function is defined elsewhere
     # Create 'embeds' attribute by appending all values in the object
-    obj['embeds'] = [value for key, value in obj.items() if key != 'embeds' and key != 'text']
-    obj['text_id'] = obj['uuid']  # Adding 'text_id' attribute
+    obj["embeds"] = [
+        value for key, value in obj.items() if key != "embeds" and key != "text"
+    ]
+    obj["text_id"] = obj["uuid"]  # Adding 'text_id' attribute
     # Check if 'embeds' has more than 100 words
-    total_words = sum(len(str(value).split()) for value in obj['embeds'])
-    
+    total_words = sum(len(str(value).split()) for value in obj["embeds"])
+
     obj_list = []
     if total_words > 100:
         # Split into equal objects
         n_parts = total_words // 100
-        chunk_size = len(obj['text']) // n_parts
-            return 
+        words_per_part = total_words // n_parts
+        words_processed = 0
 
         for i in range(n_parts):
             chunk_obj = copy.deepcopy(obj)
-            chunk_obj['embeds'] = obj['embeds'][i * chunk_size : (i + 1) * chunk_size]
-            chunk_obj['uuid'] = str(uuid.uuid4())
-            chunk_obj['text_id'] = obj['uuid']
+            words_in_chunk = obj["text"][
+                words_processed : words_processed + words_per_part
+            ]
+            chunk_obj["embeds"] = words_in_chunk
+            chunk_obj["uuid"] = str(uuid.uuid4())
+            chunk_obj["text_id"] = obj["uuid"]
             obj_list.append(chunk_obj)
+            words_processed += len(words_in_chunk.split())
 
-        # Handle remaining items if the chunks do not evenly divide the list
-        if len(obj['embeds']) % n_parts != 0:
+        # Handle remaining words if they don't evenly divide
+        remaining_words = obj["text"][words_processed:]
+        if remaining_words:
             chunk_obj = copy.deepcopy(obj)
-            chunk_obj['embeds'] = obj['embeds'][n_parts * chunk_size:]
-            chunk_obj['uuid'] = str(uuid.uuid4())
-            chunk_obj['text_id'] = obj['uuid']
+            chunk_obj["embeds"] = remaining_words
+            chunk_obj["uuid"] = str(uuid.uuid4())
+            chunk_obj["text_id"] = obj["uuid"]
             obj_list.append(chunk_obj)
     else:
         obj_list.append(obj)
-    text_collection_keys = ["uuid", "text_id", "text", "embeds", "media", "link", "partition_name"]
+    text_collection_keys = [
+        "uuid",
+        "text_id",
+        "text",
+        "embeds",
+        "media",
+        "link",
+        "partition_name",
+    ]
     date_collection_keys = ["uuid", "date", "embeds", "partition_name"]
 
     text_objects = []
@@ -491,25 +630,33 @@ def process_object(obj):
     for count, obj in enumerate(obj_list, 1):
         text_object = {key: obj.get(key, None) for key in text_collection_keys}
         date_object = {key: obj.get(key, None) for key in date_collection_keys}
-        text_embeds_str = ' '.join(map(str, text_object['embeds']))
-        date_embeds_str = ' '.join(map(str, date_object['embeds']))
-        text_object['embeds'] = get_embedding(text_embeds_str)  # Assuming get_embedding function is defined elsewhere
-        date_object['embeds'] = get_embedding(date_embeds_str)  # Assuming get_embedding function is defined elsewhere
+        text_embeds_str = " ".join(map(str, text_object["embeds"]))
+        date_embeds_str = " ".join(map(str, date_object["embeds"]))
+        text_object["embeds"] = get_embedding(
+            text_embeds_str
+        )  # Assuming get_embedding function is defined elsewhere
+        date_object["embeds"] = get_embedding(
+            date_embeds_str
+        )  # Assuming get_embedding function is defined elsewhere
         text_objects.append(text_object)
         date_objects.append(date_object)
-        
+
         print(f"COUNT {count}-")
         print(f"OBJ[{count}] text_object:", text_object)
         print(f"OBJ[{count}] date_object:", date_object)
-        print('\n')
+        print("\n")
     for obj in text_objects:
         for attribute in obj:
             if obj[attribute] is None:
-                obj[attribute] = ''
-    collection = Collection("text_collection")  # Assuming Collection is defined elsewhere
-    print(collection.insert(text_objects, 'social_posts_partition'))
+                obj[attribute] = ""
+    collection = Collection(
+        "text_collection"
+    )  # Assuming Collection is defined elsewhere
+    print(collection.insert(text_objects, "social_posts_partition"))
     collection = Collection("date_collection")  # Fixed collection name
-    print(collection.insert(date_objects, 'social_posts_partition'))  # Fixed variable name
+    print(
+        collection.insert(date_objects, "social_posts_partition")
+    )  # Fixed variable name
 
     return obj_list
 
@@ -613,42 +760,56 @@ def question_answer():
                 continue
             ranked_partitions = ranking_partitions(vectors)
             if ranked_partitions is None:
-                print("No ranked_partitions returned. Check your ranking_partitions function.")
+                print(
+                    "No ranked_partitions returned. Check your ranking_partitions function."
+                )
                 continue
             print(f"Ranked partitions: {ranked_partitions}")
             partition = 0
             correct = 0
             while correct != 1:
-                results_dict = search_collections(vectors, [ranked_partitions[partition]])
+                results_dict = search_collections(
+                    vectors, [ranked_partitions[partition]]
+                )
                 if results_dict is None:
-                    print("No results returned. Check your search_collections function.")
+                    print(
+                        "No results returned. Check your search_collections function."
+                    )
                     break
                 json_results_sorted = process_results(results_dict)
                 if json_results_sorted is None:
-                    print("No sorted results returned. Check your process_results function.")
+                    print(
+                        "No sorted results returned. Check your process_results function."
+                    )
                     break
-                final_results = populate_results(json_results_sorted, ranked_partitions[partition])
+                final_results = populate_results(
+                    json_results_sorted, ranked_partitions[partition]
+                )
                 if final_results is None:
-                    print("No final results returned. Check your populate_results function.")
+                    print(
+                        "No final results returned. Check your populate_results function."
+                    )
                     break
                 string_json = json.dumps(final_results)
                 display(string_json)
                 generated_text = generate_response(prompt, string_json)
                 if generated_text is None:
-                    print("No response generated. Check your generate_response function.")
+                    print(
+                        "No response generated. Check your generate_response function."
+                    )
                     break
                 print(f"JQ: {generated_text}")
                 correct = input("Is the answer correct? 1-Y, 0-N: ")
-                if correct not in ['0', '1']:
+                if correct not in ["0", "1"]:
                     print("Invalid input. Try again.")
-                elif partition <= 3 :
+                elif partition <= 3:
                     partition = partition + 1
                 else:
                     partition = 0
         except Exception as e:
             print(f"An error occurred: {e}")
 
-            
+
 # Assuming you have already imported all necessary modules and set up the environment
 
 # Define a dictionary that maps each collection to its desired field
@@ -660,7 +821,7 @@ desired_fields = {
     "department_collection": "department",
     "name_collection": "name",
     "position_collection": "position",
-    "date_collection": "date"
+    "date_collection": "date",
 }
 
 table_fields = {
@@ -682,7 +843,9 @@ table_fields = {
         "name",
         "position",
         "department",
-    ]}
+    ],
+}
+
 
 # Define a function to query all items in a collection based on partition_name
 def query_collection_by_partition(collection_name, partition_name):
@@ -692,41 +855,50 @@ def query_collection_by_partition(collection_name, partition_name):
     id_field = "text_id" if collection_name == "text_collection" else "uuid"
     res = collection.query(
         expr=f"partition_name == '{partition_name}'",
-        output_fields=[desired_fields[collection_name], id_field]
+        output_fields=[desired_fields[collection_name], id_field],
     )
     return res
+
 
 # Define a function to combine results by uuid (or text_id for text_collection)
 def combine_results_by_uuid(partition_name):
     combined_results = {}
-    
+
     # Loop through each collection in the given partition
     for collection_name in partitions[partition_name]:
         results = query_collection_by_partition(collection_name, partition_name)
-        
+
         # Loop through each result and store/combine in the combined_results dictionary
         for item in results:
             # Use text_id for text_collection and uuid for other collections
             id_key = "text_id" if collection_name == "text_collection" else "uuid"
             unique_id = item[id_key]
             field_name = desired_fields[collection_name]
-            
+
             # Initialize the unique_id entry with all desired fields set to empty strings
             if unique_id not in combined_results:
-                combined_results[unique_id] = {field: "" for field in table_fields[partition_name]}
-            
+                combined_results[unique_id] = {
+                    field: "" for field in table_fields[partition_name]
+                }
+
             # Append the value if it already exists for the unique_id
-            if field_name in combined_results[unique_id] and combined_results[unique_id][field_name]:
+            if (
+                field_name in combined_results[unique_id]
+                and combined_results[unique_id][field_name]
+            ):
                 combined_results[unique_id][field_name] += ", " + item[field_name]
             else:
                 combined_results[unique_id][field_name] = item[field_name]
-    
+
     return combined_results
+
 
 def create_table(combined_data, partition_name):
     table = {}
     for i, (uuid, data) in enumerate(combined_data.items()):
-        table[i] = {'uuid': uuid}
+        table[i] = {"uuid": uuid}
         for fieldname in table_fields[partition_name]:
-            table[i][fieldname] = data.get(fieldname, "")  # Use get() to handle missing fields
+            table[i][fieldname] = data.get(
+                fieldname, ""
+            )  # Use get() to handle missing fields
     return table
