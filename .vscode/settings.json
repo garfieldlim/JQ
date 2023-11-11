@@ -1,0 +1,5 @@
+{
+    "python.analysis.extraPaths": [
+        "./jq_admin/lib/newflask/utils"
+    ]
+}

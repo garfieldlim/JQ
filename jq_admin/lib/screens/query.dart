@@ -60,18 +60,6 @@ class _HomePageState extends State<HomePage> {
     // Optionally: Remove chat messages from Cloud Firestore.
   }
 
-  // Future<void> fetchPosts() async {
-  //   final response =
-  //       await http.get(Uri.parse('http://127.0.0.1:7999/get_posts'));
-  //   if (response.statusCode == 200) {
-  //     setState(() {
-  //       posts = json.decode(response.body);
-  //     });
-  //   } else {
-  //     throw Exception('Failed to load posts');
-  //   }
-  // }
-
   Future<List<dynamic>> fetchPosts() async {
     final response = await http.get(Uri.parse('http://127.0.0.1:7999/posts'));
 
@@ -90,7 +78,7 @@ class _HomePageState extends State<HomePage> {
       });
     }
 
-    final url = Uri.parse('http://127.0.0.1:7999 /query');
+    final url = Uri.parse('http://127.0.0.1:7999/query');
     final headers = {'Content-Type': 'application/json'};
 
     // Getting the previous answer from the bot
@@ -144,6 +132,7 @@ class _HomePageState extends State<HomePage> {
 
       if (response.statusCode == 200) {
         var data = jsonDecode(response.body);
+        print('Parsed response data: $data');
         var responseData = data['response'] as String;
         var partitionName = data['partitionName']
             as String; // Assume this is provided by the server
