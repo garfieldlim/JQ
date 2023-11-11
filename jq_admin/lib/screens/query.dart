@@ -36,7 +36,18 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
-    fetchPosts();
+    initPosts();
+  }
+
+  Future<void> initPosts() async {
+    try {
+      var fetchedPosts = await fetchPosts();
+      setState(() {
+        posts = fetchedPosts;
+      });
+    } catch (e) {
+      print('Failed to fetch posts: $e');
+    }
   }
 
   void resetChat() {
@@ -49,13 +60,23 @@ class _HomePageState extends State<HomePage> {
     // Optionally: Remove chat messages from Cloud Firestore.
   }
 
-  Future<void> fetchPosts() async {
-    final response =
-        await http.get(Uri.parse('http://127.0.0.1:7999/get_posts'));
+  // Future<void> fetchPosts() async {
+  //   final response =
+  //       await http.get(Uri.parse('http://127.0.0.1:7999/get_posts'));
+  //   if (response.statusCode == 200) {
+  //     setState(() {
+  //       posts = json.decode(response.body);
+  //     });
+  //   } else {
+  //     throw Exception('Failed to load posts');
+  //   }
+  // }
+
+  Future<List<dynamic>> fetchPosts() async {
+    final response = await http.get(Uri.parse('http://127.0.0.1:7999/posts'));
+
     if (response.statusCode == 200) {
-      setState(() {
-        posts = json.decode(response.body);
-      });
+      return json.decode(response.body);
     } else {
       throw Exception('Failed to load posts');
     }
@@ -295,7 +316,8 @@ class _HomePageState extends State<HomePage> {
                     padding: const EdgeInsets.all(16.0),
                     child: Text(
                       posts[index]['text'],
-                      style: const TextStyle(fontSize: 18.0, color: Colors.white),
+                      style:
+                          const TextStyle(fontSize: 18.0, color: Colors.white),
                     ),
                   ),
                 );
