@@ -1,1 +1,1 @@
-C:/Users/user/Documents/3rd year/Summer/Thesis 1/JQ/jq_admin/lib/flask/
+existing_ids = {post['post_id'] for post in existing_posts}

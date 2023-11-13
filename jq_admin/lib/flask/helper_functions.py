@@ -27,7 +27,14 @@ from facebook_scraper import get_posts
 import json
 import os
 
-openai.api_key = "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"
+class DateTimeEncoder(json.JSONEncoder):
+    """Custom encoder for datetime objects."""
+    def default(self, obj):
+        if isinstance(obj, datetime.datetime):
+            return obj.isoformat()
+        return super().default(obj)
+    
+openai.api_key = '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'
 collections_list = [
     "text_collection",
     "author_collection",
