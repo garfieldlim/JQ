@@ -4,9 +4,11 @@ class MessageInput extends StatefulWidget {
   final TextEditingController textController;
   final Function(String) sendMessage;
 
-  const MessageInput({super.key, 
+  const MessageInput({
+    super.key,
     required this.textController,
-    required this.sendMessage, required currentPartition,
+    required this.sendMessage,
+    required currentPartition,
   });
 
   @override
@@ -35,10 +37,10 @@ class _MessageInputState extends State<MessageInput> {
                   widget.textController.clear();
                 }
               },
-              style: const TextStyle(color: Colors.white),
+              style: const TextStyle(color: Color(0xff333333)),
               decoration: const InputDecoration(
                 hintText: 'Type your message...',
-                hintStyle: TextStyle(color: Colors.white),
+                hintStyle: TextStyle(color: Color(0xff333333)),
                 border: InputBorder.none,
               ),
             ),
@@ -55,7 +57,7 @@ class _MessageInputState extends State<MessageInput> {
               }
             },
             icon: const Icon(Icons.send),
-            color: Colors.white,
+            color: Color(0xfff2c87e),
           ),
         ],
       ),

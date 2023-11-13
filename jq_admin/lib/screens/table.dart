@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+
+import '../widgets/expandable.dart';
 
 class DataTableDemo extends StatefulWidget {
   @override
@@ -55,184 +58,208 @@ class _DataTableDemoState extends State<DataTableDemo> {
     }
   }
 
+  Future<void> _showEditDialog(Map<String, dynamic> item) async {
+    // Create a map to hold the text controllers for each field
+    Map<String, TextEditingController> _controllers = {};
+    for (String field in table_fields[selectedPartition] ?? []) {
+      _controllers[field] =
+          TextEditingController(text: item[field]?.toString() ?? '');
+    }
+
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false, // user must tap button to close the dialog
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Edit Item'),
+          content: SingleChildScrollView(
+            child: ListBody(
+              children: <Widget>[
+                Text('Edit the fields and tap update to save changes.'),
+                // Generate a TextField for each field
+                ..._controllers.keys.map((String field) {
+                  return TextField(
+                    controller: _controllers[field],
+                    decoration: InputDecoration(labelText: field.capitalize()),
+                  );
+                }).toList(),
+              ],
+            ),
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: Text('Cancel'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+            TextButton(
+              child: Text('Update'),
+              onPressed: () {
+                // Implement your update logic here
+                // For example, you might want to send a PUT request to your server with the updated data
+                Map<String, dynamic> updatedItem = {};
+                for (String field in _controllers.keys) {
+                  updatedItem[field] = _controllers[field]?.text;
+                }
+                print('Updated item: $updatedItem');
+                // TODO: Call setState and update the data list if necessary
+                // Close the dialog
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  void _deleteItem(BuildContext context, Map<String, dynamic> item) async {
+    final shouldDelete = await showDialog<bool>(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text('Delete Item'),
+        content: Text('Are you sure you want to delete this item?'),
+        actions: <Widget>[
+          TextButton(
+            child: Text('Cancel'),
+            onPressed: () => Navigator.of(context).pop(false), // Return false
+          ),
+          TextButton(
+            child: Text('Delete'),
+            onPressed: () => Navigator.of(context).pop(true), // Return true
+          ),
+        ],
+      ),
+    );
+
+    // If deletion is confirmed
+    if (shouldDelete ?? false) {
+      // Implement your delete logic here, e.g., send a DELETE request to the server
+      print('Delete item: ${item['uuid']}');
+      // For now, just remove the item from the local list and update the state
+      setState(() {
+        data.removeWhere((element) => element['uuid'] == item['uuid']);
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    double screenWidth = MediaQuery.of(context).size.width;
-
     return Scaffold(
+      backgroundColor: Color(0xfffff1e4),
       appBar: AppBar(
-        leading: const BackButton(color: Color(0xffffe8a4)),
-        title: const Text(
-          'Knowledge Base Logs',
-          style: TextStyle(color: Color(0xffffe8a4)),
+        backgroundColor: Color(0xfff2c87e),
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back),
+          onPressed: () {
+            Navigator.of(context).pop(); // Go back to previous screen
+          },
         ),
-        backgroundColor: const Color(0xffbdc499),
+        title: Text(
+          'Knowledge Base Logs',
+          style: TextStyle(color: Colors.white),
+        ),
       ),
-      backgroundColor: const Color(0xffafbb8f),
-      body: Center(
-        child: Column(
-          children: [
-            SizedBox(
-              height: 10,
-            ),
-            Padding(
-              padding: const EdgeInsets.only(left: 75.0),
-              child: Align(
-                alignment: Alignment.topLeft,
-                child: DropdownButton<String>(
-                  dropdownColor: const Color(0xffbdc499),
-                  style: const TextStyle(
-                      color: Color(
-                          0xff638a7e)), // Default style for dropdown items
-                  icon: const Icon(Icons.arrow_downward,
-                      color: Color(0xff638a7e)), // Custom dropdown icon
-                  underline: Container(
-                    height: 2,
-                    color: const Color(0xff638a7e), // Underline color
+      body: Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: DropdownButton<String>(
+              isExpanded: true,
+              value: selectedPartition,
+              onChanged: (newValue) {
+                setState(() {
+                  selectedPartition = newValue;
+                  data.clear();
+                  fetchData(selectedPartition!);
+                });
+              },
+              items: partitions.map((String value) {
+                return DropdownMenuItem<String>(
+                  value: value,
+                  // Apply the text style within DropdownMenuItem
+                  child: Text(
+                    value,
+                    style: TextStyle(
+                        color: Colors.white), // Change text color here
                   ),
-                  value: selectedPartition,
-                  hint: Text('Select a partition'),
-                  onChanged: (String? newValue) {
-                    setState(() {
-                      selectedPartition = newValue;
-                      data = [];
-                    });
-                    if (newValue != null) {
-                      fetchData(newValue);
-                    }
-                  },
-                  items:
-                      partitions.map<DropdownMenuItem<String>>((String value) {
-                    return DropdownMenuItem<String>(
-                        value: value,
-                        child: Text(
-                          value,
-                          style: const TextStyle(
-                              color: Color(
-                                  0xff638a7e)), // Override default style if needed
-                        ));
-                  }).toList(),
-                ),
-              ),
+                );
+              }).toList(),
+              hint: Text('Select a partition'),
+              dropdownColor: Color(0xffe7dba9),
+              iconEnabledColor: Colors.white,
+              style: TextStyle(color: Colors.white),
             ),
-
-            data.isNotEmpty
-                ? Expanded(
-                    child: SingleChildScrollView(
-                      scrollDirection: Axis.vertical,
-                      child: SingleChildScrollView(
-                        scrollDirection: Axis.horizontal,
-                        child: Card(
-                          color: const Color(0xffbec59a),
-                          elevation: 5.0,
-                          child: DataTable(
-                            columnSpacing: screenWidth / 20,
-                            horizontalMargin: 5,
-                            sortColumnIndex: sortColumn == null
-                                ? null
-                                : table_fields[selectedPartition ?? '']
-                                    ?.indexOf(sortColumn!),
-                            sortAscending: sortAscending,
-                            columns: [
-                              DataColumn(
-                                label: const Text(
-                                  'UUID',
-                                  style: TextStyle(color: Color(0xff638a7e)),
-                                ),
-                                onSort: (columnIndex, ascending) {
-                                  _sortData('uuid', ascending);
-                                },
-                              ),
-                              ...?(table_fields[selectedPartition ?? ''] ?? [])
-                                      .map((field) => DataColumn(
-                                            label: Text(
-                                              field.capitalize(),
-                                              style: const TextStyle(
-                                                  color: Color(0xff638a7e)),
-                                            ),
-                                            onSort: (columnIndex, ascending) {
-                                              _sortData(field, ascending);
-                                            },
-                                          ))
-                                      .toList() ??
-                                  [],
-                            ],
-                            rows: data.map((item) {
-                              return DataRow(
-                                cells: [
-                                  DataCell(Text(
-                                    item['uuid'] ?? '',
-                                    style: TextStyle(color: Color(0xffffe8a4)),
-                                  )),
-                                  ...?(table_fields[selectedPartition ?? ''] ??
-                                              [])
-                                          .map((field) => DataCell(
-                                                Row(
-                                                  children: [
-                                                    Expanded(
-                                                      child: Text(
-                                                        item[field]
-                                                                    .toString()
-                                                                    .length >
-                                                                50
-                                                            ? item[field]
-                                                                    .toString()
-                                                                    .substring(
-                                                                        0, 47) +
-                                                                "..."
-                                                            : item[field]
-                                                                .toString(),
-                                                        overflow: TextOverflow
-                                                            .ellipsis,
-                                                        style: TextStyle(
-                                                            color: Color(
-                                                                0xffffe8a4)),
-                                                      ),
-                                                    ),
-                                                    if (item[field]
-                                                            .toString()
-                                                            .length >
-                                                        50)
-                                                      TextButton(
-                                                        onPressed: () {
-                                                          showDialog(
-                                                            context: context,
-                                                            builder:
-                                                                (context) =>
-                                                                    AlertDialog(
-                                                              backgroundColor:
-                                                                  Color(
-                                                                      0xffffe8a4),
-                                                              content: Text(
-                                                                  item[field]
-                                                                      .toString(),
-                                                                  style: TextStyle(
-                                                                      color: Color(
-                                                                          0xff719382))),
-                                                            ),
-                                                          );
-                                                        },
-                                                        child: Text('See More',
-                                                            style: TextStyle(
-                                                                color: Color(
-                                                                    0xff638a5e))),
-                                                      ),
-                                                  ],
-                                                ),
-                                              ))
-                                          .toList() ??
-                                      [],
-                                ],
-                              );
-                            }).toList(),
-                          ),
-                        ),
+          ),
+          // Headers for the table
+          if (selectedPartition != null)
+            Row(
+              children: table_fields[selectedPartition]!
+                  .map(
+                    (header) => Expanded(
+                      child: Container(
+                        padding: EdgeInsets.all(8),
+                        color: Color(0xffe7dba9),
+                        child: Text(header.capitalize()),
                       ),
                     ),
                   )
-                : Container() // Show an empty Container when no data is fetched
-          ],
-        ),
+                  .toList(),
+            ),
+          // The list of rows in the table
+          Expanded(
+            child: ListView.builder(
+              itemCount: data.length,
+              itemBuilder: (context, index) {
+                final item = data[index];
+                return Slidable(
+                  key: ValueKey(item['uuid']),
+                  startActionPane: ActionPane(
+                    motion: const ScrollMotion(),
+                    children: [
+                      SlidableAction(
+                        onPressed: (BuildContext context) =>
+                            _showEditDialog(item),
+                        backgroundColor: Color(0xFFFE4A49),
+                        foregroundColor: Colors.white,
+                        icon: Icons.edit,
+                        label: 'Edit',
+                      ),
+                    ],
+                  ),
+                  endActionPane: ActionPane(
+                    motion: const ScrollMotion(),
+                    children: [
+                      SlidableAction(
+                        onPressed: (context) => _deleteItem(context, item),
+                        backgroundColor: Color(0xFF21B7CA),
+                        foregroundColor: Colors.white,
+                        icon: Icons.delete,
+                        label: 'Delete',
+                      ),
+                    ],
+                  ),
+                  child: Row(
+                    children: table_fields[selectedPartition]!
+                        .map(
+                          (field) => Expanded(
+                            child: Container(
+                              padding: EdgeInsets.all(8),
+                              child: field == 'text'
+                                  ? ExpandableText(
+                                      text: item[field]?.toString() ?? '')
+                                  : Text(item[field]?.toString() ?? ''),
+                            ),
+                          ),
+                        )
+                        .toList(),
+                  ),
+                );
+              },
+            ),
+          ),
+        ],
       ),
     );
   }

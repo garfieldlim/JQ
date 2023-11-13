@@ -11,21 +11,21 @@ class Admin_dashboard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xffaebb9f),
+      backgroundColor: const Color(0xfffff1e4),
       body: Row(
         children: [
           Container(
-            width: 70, // Width of the left nav bar
+            width: 70,
             margin: const EdgeInsets.only(right: 34),
             decoration: BoxDecoration(
-              color: const Color(0xff719382), // Background color
+              color: const Color(0xfff2c873),
               borderRadius: BorderRadius.circular(15), // Rounded corners
             ),
             child: Column(
               children: [
                 NavItem(
                   iconData: Icons.home,
-                  color: const Color(0xffe7d192),
+                  color: const Color(0xff969d7b),
                   onPressed: () {
                     Navigator.push(
                       context,
@@ -37,18 +37,19 @@ class Admin_dashboard extends StatelessWidget {
                 ),
                 NavItem(
                   iconData: Icons.upload_file,
-                  color: const Color(0xffe7d192),
+                  color: const Color(0xff969d7b),
                   onPressed: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => const UpsertingPage()),
+                      MaterialPageRoute(
+                          builder: (context) => const UpsertingPage()),
                     );
                   },
                   labelText: 'Upserting',
                 ),
                 NavItem(
                   iconData: Icons.menu_book,
-                  color: const Color(0xffe7d192),
+                  color: const Color(0xff969d7b),
                   onPressed: () {
                     Navigator.push(
                       context,
@@ -65,7 +66,7 @@ class Admin_dashboard extends StatelessWidget {
                       onPressed: () {
                         print("Logout icon pressed");
                       },
-                      color: const Color(0xffe7d192),
+                      color: const Color(0xff969d7b),
                       labelText: 'Logout',
                     ),
                   ),

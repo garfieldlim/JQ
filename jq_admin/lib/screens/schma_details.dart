@@ -23,15 +23,15 @@ class _SchemaDetailsPageState extends State<SchemaDetailsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xff719382),
+      backgroundColor: Color(0xff969d7b),
       appBar: AppBar(
-        backgroundColor: const Color(0xffbdc499),
+        backgroundColor: const Color(0xfffff1e4),
         title: Text(
           widget.schema,
-          style: TextStyle(color: Color(0xffffe8a4)),
+          style: TextStyle(color: Color(0xfff2c87e)),
         ),
         leading: const BackButton(
-          color: Color(0xffffe8a4),
+          color: Color(0xfff2c87e),
         ),
       ),
       body: Center(
@@ -81,15 +81,14 @@ class _SchemaDetailsPageState extends State<SchemaDetailsPage> {
   OutlineInputBorder _buildInputBorderStyle() {
     return OutlineInputBorder(
       borderRadius: BorderRadius.circular(14.0),
-      borderSide: const BorderSide(color: Colors.white, width: 2.0),
+      borderSide: const BorderSide(color: Color(0xfff2c87e), width: 2.0),
     );
   }
 
   OutlineInputBorder _buildFocusedInputBorderStyle() {
     return OutlineInputBorder(
       borderRadius: BorderRadius.circular(14.0),
-      borderSide:
-          const BorderSide(color: Color.fromARGB(255, 85, 165, 87), width: 2.0),
+      borderSide: const BorderSide(color: Color(0xfff2c87e), width: 2.0),
     );
   }
 

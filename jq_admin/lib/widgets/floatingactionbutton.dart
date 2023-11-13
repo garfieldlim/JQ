@@ -4,9 +4,9 @@ Widget buildFloatingActionButton({required Function() resetChat}) {
   return FloatingActionButton(
       onPressed: resetChat,
       tooltip: 'Reset Chat',
-      backgroundColor: const Color(0xffdcd8b0),
+      backgroundColor: const Color(0xfff2c87e),
       child: const Icon(
         Icons.refresh,
-        color: Colors.white,
+        color: Color(0xff969d7b),
       ));
 }

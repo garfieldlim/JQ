@@ -10,7 +10,8 @@ class ChatSuggestions extends StatelessWidget {
     // ... add more suggestions as needed
   ];
 
-  const ChatSuggestions({super.key, 
+  const ChatSuggestions({
+    super.key,
     required this.textController,
     required this.onSuggestionSelected,
   });
@@ -29,8 +30,8 @@ class ChatSuggestions extends StatelessWidget {
               textController.text = suggestion;
               onSuggestionSelected(suggestion);
             },
-            backgroundColor: const Color(0xffbec59a),
-            side: const BorderSide(width: 1, color: Color(0xffdcd8b0)),
+            backgroundColor: const Color(0xff969d7b),
+            side: const BorderSide(width: 1, color: Color(0xfff2c87e)),
             labelStyle: const TextStyle(color: Colors.white),
           );
         }).toList(),
