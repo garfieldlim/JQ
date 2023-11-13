@@ -22,7 +22,7 @@ def get_facebook_posts():
     existing_posts = []
     existing_ids = set()
 
-    posts_json_path = "C:/Users/user/Documents/3rd year/Summer/Thesis 1/JQ/posts.json"
+    posts_json_path = "jq_admin/posts.json"
 
     # Attempt to read existing posts from the JSON file
     if os.path.isfile(posts_json_path):
@@ -42,7 +42,7 @@ def get_facebook_posts():
         for i, post in enumerate(
             get_posts(
                 "usjrforward",
-                cookies="C:/Users/user/Documents/3rd year/Summer/Thesis 1/JQ/jq_admin/lib/flask/cookies.json",
+                cookies="lib/newflask/cookies.json",
                 pages=2,
                 options={"headers": headers},
             ),
@@ -69,7 +69,7 @@ def get_facebook_posts():
 
 
 def update_posts_json():
-    posts_json_path = "C:/Users/user/Documents/3rd year/Summer/Thesis 1/JQ/posts.json"  # Assuming posts.json is in the current working directory
+    posts_json_path = "lib/posts.json"  # Assuming posts.json is in the current working directory
 
     # If posts.json exists, delete it and write the new posts
     if os.path.isfile(posts_json_path):

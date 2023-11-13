@@ -18,7 +18,7 @@ class _UpsertingPageState extends State<UpsertingPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: const Color(0xff719382),
+        backgroundColor: const Color(0xfffff1e4),
         body: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20.0),
           child: Column(
@@ -29,14 +29,14 @@ class _UpsertingPageState extends State<UpsertingPage> {
                 children: [
                   Row(
                     children: [
-                      BackButtonWidget(color: Color(0xffE7D192)),
+                      BackButtonWidget(color: Color(0xfff2c87e)),
                       const SizedBox(width: 50),
                     ],
                   ),
                   const Text(
                     "Select a schema to upsert data",
                     style: TextStyle(
-                      color: Color(0xffE7D192),
+                      color: Color(0xff7a8066),
                       fontSize: 34,
                       fontWeight: FontWeight.bold,
                     ),
@@ -99,8 +99,8 @@ class _UpsertingPageState extends State<UpsertingPage> {
               width: 350,
               height: 500,
               decoration: BoxDecoration(
-                color: isHovered ? const Color(0xffebd79c) : Colors.transparent,
-                border: Border.all(color: Colors.white, width: 5),
+                color: isHovered ? const Color(0xfff2c87e) : Colors.transparent,
+                border: Border.all(color: Color(0xff969d7b), width: 5),
                 borderRadius: BorderRadius.circular(25.0),
               ),
               child: isHovered
@@ -108,8 +108,8 @@ class _UpsertingPageState extends State<UpsertingPage> {
                   : Center(
                       child: Text(
                         schema,
-                        style:
-                            const TextStyle(color: Color(0xffE7D192), fontSize: 18),
+                        style: const TextStyle(
+                            color: Color(0xffE7D192), fontSize: 18),
                         textAlign: TextAlign.center,
                       ),
                     ),

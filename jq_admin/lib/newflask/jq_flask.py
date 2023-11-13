@@ -44,7 +44,7 @@ class DateTimeEncoder(json.JSONEncoder):
         return super().default(obj)
 
 
-@app.route("/get_posts", methods=["GET"])
+@app.route("/posts", methods=["GET"])
 def get_facebook_posts():
     headers = {
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
@@ -63,8 +63,8 @@ def get_facebook_posts():
         for i, post in enumerate(
             get_posts(
                 "usjrforward",
-                cookies="jq_admin/lib/flask/cookies.json",
-                pages=2,
+                cookies="lib/newflask/cookies.json",
+                pages=5,
                 options={"headers": headers},
             ),
             start=1,
@@ -86,14 +86,14 @@ def get_facebook_posts():
     with open("posts.json", "w", encoding="utf-8") as f:
         json.dump(existing_posts, f, cls=DateTimeEncoder, indent=4)
 
-
-#     return jsonify(existing_posts)
+    print(existing_posts)
+    return jsonify(existing_posts)
 
 
 @app.route("/scrape_website", methods=["POST"])
 def scrape_website():
     url = request.json["url"]
-    cookies_path = "jq_admin/lib/flask/cookies.json"
+    cookies_path = "lib/newflask/cookies.json"
 
     scraped_data = [post for post in get_posts(post_urls=[url], cookies=cookies_path)]
 

@@ -27,7 +27,7 @@ from facebook_scraper import get_posts
 import json
 import os
 
-openai.api_key = "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"
+openai.api_key = "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"
 collections_list = [
     "text_collection",
     "author_collection",
@@ -534,8 +534,8 @@ def ranking_partitions(vectors):
     ]
 
 
-svm_model = load("jq_admin/lib/flask/models/svm_model.joblib")
-label_encoder = load("jq_admin/lib/flask/models/label_encoder.joblib")
+# svm_model = load("/lib/flask/models/svm_model.joblib")
+# label_encoder = load("/lib/flask/models/label_encoder.joblib")
 
 
 def rank_partitions(prompt_embedding):
