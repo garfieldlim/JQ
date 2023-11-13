@@ -13,7 +13,8 @@ class MessageItem extends StatelessWidget {
   final Function regenerateMessage;
   final bool isLoading;
 
-  const MessageItem({super.key, 
+  const MessageItem({
+    super.key,
     required this.index,
     required this.isTyping,
     required this.messages,
@@ -57,8 +58,8 @@ class MessageItem extends StatelessWidget {
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(25),
                     color: message.isUserMessage
-                        ? const Color(0xffdcd8b0)
-                        : const Color(0xffbec59a),
+                        ? const Color(0xfff2c87e)
+                        : const Color(0xff969d7b),
                     boxShadow: [
                       BoxShadow(
                         color: Colors.black.withOpacity(0.1),
@@ -97,20 +98,32 @@ class MessageItem extends StatelessWidget {
                 ),
               ),
               if (!message.isUserMessage && index != 0) ...[
-                IconButton(
-                  icon: Icon(Icons.thumb_up,
-                      color: message.liked ? Colors.green : Colors.grey),
-                  onPressed: () => handleLikeDislike(index, true),
+                Tooltip(
+                  message: 'Like',
+                  child: IconButton(
+                    icon: Icon(Icons.thumb_up,
+                        color: message.liked ? Colors.green : Colors.grey),
+                    onPressed: () => handleLikeDislike(index, true),
+                  ),
                 ),
-                IconButton(
-                  icon: Icon(Icons.thumb_down,
-                      color: message.disliked ? Colors.red : Colors.grey),
-                  onPressed: () => handleLikeDislike(index, false),
+                Tooltip(
+                  message: 'Dislike',
+                  child: IconButton(
+                    icon: Icon(Icons.thumb_down,
+                        color: message.disliked ? Colors.red : Colors.grey),
+                    onPressed: () => handleLikeDislike(index, false),
+                  ),
                 ),
-                IconButton(
-                  icon: Icon(Icons.format_quote,
-                      color: message.quoted ? Colors.blue : Colors.grey),
-                  onPressed: () => handleQuote(index),
+                Tooltip(
+                  message:
+                      'Reply', // Text that will be shown on hover/long-press
+                  child: IconButton(
+                    icon: Icon(
+                      Icons.reply,
+                      color: message.quoted ? Colors.blue : Colors.grey,
+                    ),
+                    onPressed: () => handleQuote(index),
+                  ),
                 ),
               ],
             ],
@@ -121,7 +134,8 @@ class MessageItem extends StatelessWidget {
               ? const CircularProgressIndicator()
               : ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                    foregroundColor: Colors.white, backgroundColor: const Color(0xfff9dea6),
+                    foregroundColor: Colors.white,
+                    backgroundColor: const Color(0xfff9dea6),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(20),
                     ),

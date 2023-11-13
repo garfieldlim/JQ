@@ -23,7 +23,7 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xffAFBC8F),
+      backgroundColor: const Color(0xfffff1e4),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -60,7 +60,7 @@ class _LoginPageState extends State<LoginPage> {
                           ])),
                       Expanded(
                         child: Container(
-                          color: const Color(0xffE7D192),
+                          color: const Color(0xfff2c87e),
                           child: Column(
                             children: <Widget>[
                               const SizedBox(height: 45),
@@ -78,11 +78,14 @@ class _LoginPageState extends State<LoginPage> {
                                   keyboardType: TextInputType.emailAddress,
                                   decoration: InputDecoration(
                                     filled: true,
-                                    fillColor: const Color(0xffebd79c),
+                                    fillColor: const Color.fromARGB(
+                                        255, 242, 206, 144),
                                     hintText: 'Enter your email',
-                                    hintStyle: const TextStyle(color: Colors.white),
+                                    hintStyle:
+                                        const TextStyle(color: Colors.white),
                                     labelText: 'Email',
-                                    labelStyle: const TextStyle(color: Colors.white),
+                                    labelStyle:
+                                        const TextStyle(color: Colors.white),
                                     focusedBorder: OutlineInputBorder(
                                       borderRadius: BorderRadius.circular(15.0),
                                       borderSide: const BorderSide(
@@ -114,14 +117,17 @@ class _LoginPageState extends State<LoginPage> {
                                   obscureText: true,
                                   decoration: InputDecoration(
                                     filled: true,
-                                    fillColor: const Color(0xffebd79c),
+                                    fillColor: const Color.fromARGB(
+                                        255, 242, 206, 144),
                                     border: OutlineInputBorder(
                                       borderRadius: BorderRadius.circular(15.0),
                                     ),
                                     hintText: 'Enter your password',
-                                    hintStyle: const TextStyle(color: Colors.white),
+                                    hintStyle:
+                                        const TextStyle(color: Colors.white),
                                     labelText: 'Password',
-                                    labelStyle: const TextStyle(color: Colors.white),
+                                    labelStyle:
+                                        const TextStyle(color: Colors.white),
                                     focusedBorder: OutlineInputBorder(
                                       borderRadius: BorderRadius.circular(15.0),
                                       borderSide: const BorderSide(

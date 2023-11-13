@@ -10,6 +10,7 @@ import 'package:jq_admin/widgets/chat_suggestions.dart';
 import 'package:jq_admin/widgets/customfloatingbutton.dart';
 import 'package:jq_admin/widgets/floatingactionbutton.dart';
 import '../widgets/chat_input.dart';
+import '../widgets/headlines.dart';
 import '../widgets/message_item_widget.dart';
 
 //-------------------------------------
@@ -60,18 +61,6 @@ class _HomePageState extends State<HomePage> {
     // Optionally: Remove chat messages from Cloud Firestore.
   }
 
-  // Future<void> fetchPosts() async {
-  //   final response =
-  //       await http.get(Uri.parse('http://127.0.0.1:7999/get_posts'));
-  //   if (response.statusCode == 200) {
-  //     setState(() {
-  //       posts = json.decode(response.body);
-  //     });
-  //   } else {
-  //     throw Exception('Failed to load posts');
-  //   }
-  // }
-
   Future<List<dynamic>> fetchPosts() async {
     final response = await http.get(Uri.parse('http://127.0.0.1:7999/posts'));
 
@@ -90,7 +79,7 @@ class _HomePageState extends State<HomePage> {
       });
     }
 
-    final url = Uri.parse('http://127.0.0.1:7999 /query');
+    final url = Uri.parse('http://127.0.0.1:7999/query');
     final headers = {'Content-Type': 'application/json'};
 
     // Getting the previous answer from the bot
@@ -128,7 +117,38 @@ class _HomePageState extends State<HomePage> {
         headers: headers,
         body: body,
       );
+      if (response.statusCode == 200) {
+        // Parse the JSON response
+        var data = jsonDecode(response.body);
 
+        // Confirm the JSON structure matches your expectation
+        if (data.containsKey('response')) {
+          // Extract the response message
+          var serverMessage = data['response'];
+
+          // Create a new ChatMessage object with the server response
+          var newMessage = ChatMessage(
+            text: serverMessage,
+            isUserMessage: false,
+            liked: false,
+            disliked: false,
+            id: DateTime.now()
+                .millisecondsSinceEpoch
+                .toString(), // Generate a unique ID
+          );
+
+          // Add the new message to the list and update the UI
+          setState(() {
+            messages.add(newMessage);
+          });
+        } else {
+          print(
+              'Error: The expected "response" field is missing in the server data');
+        }
+      } else {
+        print(
+            'Error: HTTP request failed with status code: ${response.statusCode}');
+      }
       // Remove last message after receiving the response
       if (messages.isNotEmpty && partition != null) {
         messages.removeLast();
@@ -144,6 +164,7 @@ class _HomePageState extends State<HomePage> {
 
       if (response.statusCode == 200) {
         var data = jsonDecode(response.body);
+        print('Parsed response data: $data');
         var responseData = data['response'] as String;
         var partitionName = data['partitionName']
             as String; // Assume this is provided by the server
@@ -240,7 +261,7 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        backgroundColor: const Color(0xffafbc8f),
+        backgroundColor: const Color(0xfffff1e4),
         floatingActionButton: buildFloatingActionButton(resetChat: resetChat),
         floatingActionButtonLocation: CustomFloatingActionButtonLocation(80, 0),
         extendBodyBehindAppBar: true,
@@ -253,7 +274,7 @@ class _HomePageState extends State<HomePage> {
     return Center(
       child: Column(
         children: [
-          _buildFacebookPostsList(),
+          FacebookPostsList(posts: posts),
           _buildMessagesList(),
           ChatSuggestions(
             textController: textController,
@@ -261,7 +282,7 @@ class _HomePageState extends State<HomePage> {
               sendMessage(suggestion);
             },
           ),
-          const Divider(height: 1, color: Colors.white),
+          const Divider(height: 1, color: Color(0xff969d7b)),
           MessageInput(
             textController: textController,
             sendMessage: sendMessage,
@@ -286,45 +307,6 @@ class _HomePageState extends State<HomePage> {
           regenerateMessage: regenerateMessage,
           isLoading: isLoading,
         ),
-      ),
-    );
-  }
-
-  Widget _buildFacebookPostsList() {
-    return Container(
-      color: const Color(0xffbec59a),
-      child: ExpansionTile(
-        leading: const Icon(
-          Icons.newspaper_rounded,
-          color: Colors.white,
-        ),
-        title: const Text(
-          'Headlines',
-          style: TextStyle(color: Colors.white),
-        ),
-        children: <Widget>[
-          SizedBox(
-            height: 150.0,
-            child: ListView.builder(
-              scrollDirection: Axis.horizontal,
-              itemCount: posts.length,
-              itemBuilder: (context, index) {
-                return Card(
-                  color: const Color(0xffdcd8b0),
-                  margin: const EdgeInsets.all(8.0),
-                  child: Padding(
-                    padding: const EdgeInsets.all(16.0),
-                    child: Text(
-                      posts[index]['text'],
-                      style:
-                          const TextStyle(fontSize: 18.0, color: Colors.white),
-                    ),
-                  ),
-                );
-              },
-            ),
-          ),
-        ],
       ),
     );
   }
