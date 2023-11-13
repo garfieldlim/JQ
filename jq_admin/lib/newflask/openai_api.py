@@ -5,8 +5,8 @@ from config import OPENAI_API_KEY
 def generate_response(prompt, string_json):
     # Format the input as per the desired conversation format
     openai.api_key = OPENAI_API_KEY
-    print("\nTHIS IS THE KNOWLEDGEBASE RESPONSE: ", string_json)
-    print("\nTHIS IS THE PROMPT: ", prompt)
+    print(f"Prompt: {prompt}.")
+
     conversation = [
         {
             "role": "system",
@@ -26,7 +26,7 @@ def generate_response(prompt, string_json):
     )
 
     response = openai.ChatCompletion.create(
-        model="gpt-4-1106-preview",
+        model="gpt-4",
         messages=conversation,
         temperature=1,
         max_tokens=1000,
@@ -37,6 +37,6 @@ def generate_response(prompt, string_json):
 
     # Extract the generated response from the API's response
     generated_text = response["choices"][0]["message"]["content"]
-
+    print("This is generated text, ", generated_text)
     # Return the response
     return generated_text

@@ -114,10 +114,10 @@ def sort_results(results_dict):
     # Convert the results to a list and sort them by distance
     json_results_list = list(json_results.values())
     json_results_sorted = sorted(
-        json_results_list, key=lambda x: x["distance"], reverse=True
+        json_results_list, key=lambda x: x["distance"], reverse=False
     )
     print("sort_results done")
-    return json_results_sorted
+    return json_results_sorted[:10]
 
 
 def initialize_collections():
@@ -188,10 +188,17 @@ def update_results_with_query_data(results, query_results):
 
 def format_final_results(results):
     """
-    Concatenate values from the results and format them for display.
+    Concatenate values from the results, sort by 'distance', take the top 10, and format them for display.
     """
+    print("THESE ARE THE RESULTS: ", results)
+    # Sort results by 'distance'
+    sorted_results = sorted(results, key=lambda x: x["distance"])
+
+    # Take top 10 shortest distances
+    top_10_results = sorted_results[:10]
+
     final_results = []
-    for index, result in enumerate(results):
+    for index, result in enumerate(top_10_results):
         # Filter out control fields and empty lists
         filtered_result = {
             k: v
@@ -206,7 +213,7 @@ def format_final_results(results):
         )
 
         if concatenated_values.strip():
-            formatted_result = f"Result {index + 1}: {concatenated_values}"
+            formatted_result = f"Result {index + 1}: {concatenated_values}, Distance: {result['distance']}, Collection: {result['collection']}"
             final_results.append(formatted_result)
     print("Formatted final results")
     return "\n".join(final_results)

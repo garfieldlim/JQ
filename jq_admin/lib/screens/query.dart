@@ -138,9 +138,7 @@ class _HomePageState extends State<HomePage> {
           );
 
           // Add the new message to the list and update the UI
-          setState(() {
-            messages.add(newMessage);
-          });
+          setState(() {});
         } else {
           print(
               'Error: The expected "response" field is missing in the server data');

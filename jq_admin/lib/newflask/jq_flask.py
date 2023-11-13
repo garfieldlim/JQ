@@ -149,9 +149,7 @@ def question_answer():
                 "error": "No final results returned. Check your populate_results function."
             }
         )
-    print(final_results)
     generated_text = generate_response(prompt, final_results)
-    print(generated_text)
     if generated_text is None:
         return jsonify(
             {"error": "No response generated. Check your generate_response function."}
