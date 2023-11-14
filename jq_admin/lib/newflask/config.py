@@ -3,7 +3,7 @@ from joblib import load
 # config.py
 MILVUS_HOST = "localhost"
 MILVUS_PORT = "19530"
-OPENAI_API_KEY = "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"
+OPENAI_API_KEY = "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"
 TOKENIZER_PATH = "intfloat/e5-large-v2"
 
 SVM_MODEL = load(
