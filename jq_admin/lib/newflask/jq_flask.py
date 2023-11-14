@@ -14,6 +14,7 @@ from database import (
 )
 
 from embeddings import vectorize_query
+from headlines import update_posts_json
 from knowledgebase_crud import (
     combine_results_by_uuid,
     create_table,
@@ -35,65 +36,70 @@ if connections.has_connection("default"):
 connections.connect(alias="default", host="localhost", port="19530")
 
 
-class DateTimeEncoder(json.JSONEncoder):
-    """Custom encoder for datetime objects."""
+# class DateTimeEncoder(json.JSONEncoder):
+#     """Custom encoder for datetime objects."""
 
-    def default(self, obj):
-        if isinstance(obj, datetime.datetime):
-            return obj.isoformat()
-        return super().default(obj)
+#     def default(self, obj):
+#         if isinstance(obj, datetime.datetime):
+#             return obj.isoformat()
+#         return super().default(obj)
 
 
-@app.route("/posts", methods=["GET"])
-def get_facebook_posts():
-    headers = {
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
-    }
+# @app.route("/posts", methods=["GET"])
+# def get_facebook_posts():
+#     headers = {
+#         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
+#     }
 
-    try:
-        with open("posts.json", "r", encoding="utf-8") as f:
-            existing_posts = json.load(f)
-    except FileNotFoundError:
-        existing_posts = []
+#     try:
+#         with open("posts.json", "r", encoding="utf-8") as f:
+#             existing_posts = json.load(f)
+#     except FileNotFoundError:
+#         existing_posts = []
 
-    existing_ids = {post["post_id"] for post in existing_posts}
+#     existing_ids = {post["post_id"] for post in existing_posts}
 
-    posts = []
-    try:
-        for i, post in enumerate(
-            get_posts(
-                "usjrforward",
-                cookies="lib/newflask/cookies.json",
-                pages=5,
-                options={"headers": headers},
-            ),
-            start=1,
-        ):
-            if post["post_id"] in existing_ids:
-                print(f"Skipping duplicate post: {post['post_id']}")
-                continue
-            print(f"Count {i}: {post['text']}")
-            posts.append(post)
-            existing_ids.add(post["post_id"])
-            time.sleep(1)
-    except Exception as e:
-        print(f"Error: {e}")
+#     posts = []
+#     try:
+#         for i, post in enumerate(
+#             get_posts(
+#                 "usjrforward",
+#                 cookies="lib/newflask/cookies.json",
+#                 pages=5,
+#                 options={"headers": headers},
+#             ),
+#             start=1,
+#         ):
+#             if post["post_id"] in existing_ids:
+#                 print(f"Skipping duplicate post: {post['post_id']}")
+#                 continue
+#             print(f"Count {i}: {post['text']}")
+#             posts.append(post)
+#             existing_ids.add(post["post_id"])
+#             time.sleep(1)
+#     except Exception as e:
+#         print(f"Error: {e}")
 
-    #     # Append new posts to existing posts
-    #     existing_posts.extend(posts)
+#     #     # Append new posts to existing posts
+#     #     existing_posts.extend(posts)
 
-    # Save the combined list of posts into the JSON file
-    with open("posts.json", "w", encoding="utf-8") as f:
-        json.dump(existing_posts, f, cls=DateTimeEncoder, indent=4)
+#     # Save the combined list of posts into the JSON file
+#     with open("posts.json", "w", encoding="utf-8") as f:
+#         json.dump(existing_posts, f, cls=DateTimeEncoder, indent=4)
 
-    print(existing_posts)
-    return jsonify(existing_posts)
+#     print(existing_posts)
+#     return jsonify(existing_posts)
+update_posts_json()
 
+@app.route('/posts')
+def get_posts():
+    directory = 'C:/Users/user/Documents/3rd year/Summer/Thesis 1/JQ'  # Directory path where posts.json is located
+    return send_from_directory(directory, 'posts.json')
 
 @app.route("/scrape_website", methods=["POST"])
 def scrape_website():
     url = request.json["url"]
-    cookies_path = "lib/newflask/cookies.json"
+    cookies_path = "C:/Users/user/Documents/3rd year/Summer/Thesis 1/JQ/jq_admin/lib/newflask/cookies.json"
 
     scraped_data = [post for post in get_posts(post_urls=[url], cookies=cookies_path)]
 

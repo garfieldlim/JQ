@@ -7,8 +7,8 @@ OPENAI_API_KEY = "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"
 TOKENIZER_PATH = "intfloat/e5-large-v2"
 
 SVM_MODEL = load(
-    "lib/newflask/models/svm_model.joblib"
+    "C:/Users/user/Documents/3rd year/Summer/Thesis 1/JQ/jq_admin/lib/newflask/models/svm_model.joblib"
 )
 LABEL_ENCODER = load(
-    "lib/newflask/models/label_encoder.joblib"
+    "C:/Users/user/Documents/3rd year/Summer/Thesis 1/JQ/jq_admin/lib/newflask/models/label_encoder.joblib"
 )
