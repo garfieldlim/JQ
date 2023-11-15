@@ -118,38 +118,7 @@ class _HomePageState extends State<HomePage> {
         headers: headers,
         body: body,
       );
-      if (response.statusCode == 200) {
-        // Parse the JSON response
-        var data = jsonDecode(response.body);
 
-        // Confirm the JSON structure matches your expectation
-        if (data.containsKey('response')) {
-          // Extract the response message
-          var serverMessage = data['response'];
-
-          // Create a new ChatMessage object with the server response
-          var newMessage = ChatMessage(
-            text: serverMessage,
-            isUserMessage: false,
-            liked: false,
-            disliked: false,
-            id: DateTime.now()
-                .millisecondsSinceEpoch
-                .toString(), // Generate a unique ID
-          );
-
-          // Add the new message to the list and update the UI
-          setState(() {
-            messages.add(newMessage);
-          });
-        } else {
-          print(
-              'Error: The expected "response" field is missing in the server data');
-        }
-      } else {
-        print(
-            'Error: HTTP request failed with status code: ${response.statusCode}');
-      }
       // Remove last message after receiving the response
       if (messages.isNotEmpty && partition != null) {
         messages.removeLast();
