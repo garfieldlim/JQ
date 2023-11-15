@@ -4,7 +4,7 @@ from config import OPENAI_API_KEY
 
 def generate_response(prompt, string_json):
     # Format the input as per the desired conversation format
-    openai.api_key = OPENAI_API_KEY
+    openai.api_key_path  = OPENAI_API_KEY
     print("\nTHIS IS THE KNOWLEDGEBASE RESPONSE: ", string_json)
     print("\nTHIS IS THE PROMPT: ", prompt)
     conversation = [
