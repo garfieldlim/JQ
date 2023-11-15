@@ -42,28 +42,10 @@ class _HomePageState extends State<HomePage> {
 
   Future<void> initPosts() async {
     try {
-      var fetchedPostsForward = await fetchPosts("usjrforward");
-      var fetchedPostsOfficial = await fetchPosts("usjr.official");
-
-      // Add a prefix to each headline based on its source
-      var postsWithPrefixForward = fetchedPostsForward.map((post) {
-        post['text'] = "usjrforward: ${post['text']}";
-        return post;
-      }).toList();
-
-      var postsWithPrefixOfficial = fetchedPostsOfficial.map((post) {
-        post['text'] = "usjr.official: ${post['text']}";
-        return post;
-      }).toList();
-
-      // Combine the posts from both sources
-      var combinedPosts = [
-        ...postsWithPrefixForward,
-        ...postsWithPrefixOfficial
-      ];
+      var fetchedPosts = await fetchPosts();
 
       setState(() {
-        posts = combinedPosts;
+        posts = fetchedPosts;
       });
     } catch (e) {
       print('Failed to fetch posts: $e');
@@ -80,9 +62,8 @@ class _HomePageState extends State<HomePage> {
     // Optionally: Remove chat messages from Cloud Firestore.
   }
 
-  Future<List<dynamic>> fetchPosts(String source) async {
-    final response =
-        await http.get(Uri.parse('http://127.0.0.1:7999/posts?source=$source'));
+  Future<List<dynamic>> fetchPosts() async {
+    final response = await http.get(Uri.parse('http://127.0.0.1:7999/posts'));
 
     if (response.statusCode == 200) {
       return json.decode(response.body);
