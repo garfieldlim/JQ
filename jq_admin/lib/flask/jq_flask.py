@@ -23,6 +23,10 @@ CORS(app)  # This will enable CORS for all routes
 
 class DateTimeEncoder(json.JSONEncoder):
     """Custom encoder for datetime objects."""
+    def default(self, obj):
+        if isinstance(obj, datetime.datetime):
+            return obj.isoformat()
+        return super().default(obj)
 
     def default(self, obj):
         if isinstance(obj, datetime.datetime):
