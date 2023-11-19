@@ -19,6 +19,7 @@ from facebook_scraper import get_posts
 import json
 import os
 
+openai.api_key_path = 'C:/Users/user/Documents/4th year/Thesis/api_key.txt'
 class DateTimeEncoder(json.JSONEncoder):
     """Custom encoder for datetime objects."""
     def default(self, obj):
@@ -418,8 +419,8 @@ def generate_response(prompt, string_json):
 def ranking_partitions(vectors):
     return ['people_partition', 'documents_partition', 'social_posts_partition', "contacts_partition"]
     
-svm_model = load('jq_admin/lib/flask/models/svm_model.joblib')
-label_encoder = load('jq_admin/lib/flask/models/label_encoder.joblib')
+svm_model = load('C:/Users/user/Documents/3rd year/Summer/Thesis 1/JQ/jq_admin/lib/flask/models/svm_model.joblib')
+label_encoder = load('C:/Users/user/Documents/3rd year/Summer/Thesis 1/JQ/jq_admin/lib/flask/models/label_encoder.joblib')
 def rank_partitions(prompt_embedding):
     # Convert the prompt to an embedding
     
@@ -464,7 +465,7 @@ def process_object(obj):
         # Split into equal objects
         n_parts = total_words // 100
         chunk_size = len(obj['text']) // n_parts
-            return 
+            # return 
 
         for i in range(n_parts):
             chunk_obj = copy.deepcopy(obj)

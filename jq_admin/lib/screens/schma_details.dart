@@ -112,7 +112,7 @@ class _SchemaDetailsPageState extends State<SchemaDetailsPage> {
         child: const Text('Continue', style: TextStyle(fontSize: 18)),
         onPressed: _handleContinuePress,
         // You may need to adjust the styling here as per your needs
-        child: const Text('Continue', style: TextStyle(fontSize: 18)),
+        // child: const Text('Continue', style: TextStyle(fontSize: 18)),
       ),
     );
   }

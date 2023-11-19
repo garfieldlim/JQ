@@ -20,12 +20,12 @@ app = Flask(__name__)
 CORS(app)  # This will enable CORS for all routes
 
 
-# class DateTimeEncoder(json.JSONEncoder):
-#     """Custom encoder for datetime objects."""
-#     def default(self, obj):
-#         if isinstance(obj, datetime.datetime):
-#             return obj.isoformat()
-#         return super().default(obj)
+class DateTimeEncoder(json.JSONEncoder):
+    """Custom encoder for datetime objects."""
+    def default(self, obj):
+        if isinstance(obj, datetime.datetime):
+            return obj.isoformat()
+        return super().default(obj)
 
 # @app.route('/get_posts', methods=['GET'])
 # def get_facebook_posts():
