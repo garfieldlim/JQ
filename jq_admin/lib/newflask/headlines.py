@@ -37,49 +37,34 @@ def get_facebook_posts():
             os.rename(posts_json_path, corrupted_path)
             print(f"Renamed corrupted file to {corrupted_path}")
 
-    posts = []
-    try:
-        for i, post in enumerate(
-            get_posts(
-                "usjrforward",
-                cookies="C:/Users/user/Documents/3rd year/Summer/Thesis 1/JQ/jq_admin/lib/newflask/cookies.json",
-                pages=2,
-                options={"headers": headers},
-            ),
-            start=1,
-        ):
-            if post["post_id"] in existing_ids:
-                print(f"Skipping duplicate post: {post['post_id']}")
-                continue
-            print(f"Count {i}: {post['text']}")
-            posts.append(post)
-            existing_ids.add(post["post_id"])
-            time.sleep(1)
-    except Exception as e:
-        print(f"Error: {e}")
+    def fetch_and_tag_posts(page_name, tag):
+        posts = []
+        try:
+            for i, post in enumerate(get_posts(
+                    page_name,
+                    cookies="C:/Users/user/Documents/3rd year/Summer/Thesis 1/JQ/jq_admin/lib/newflask/cookies.json",
+                    pages=1,
+                    options={"headers": headers},
+            ),start=1):
+                if post["post_id"] not in existing_ids:
+                    post["text"] = f"{tag}: {post['text']}"
+                    print(f"Count {i}: {post['text']}")
+                    posts.append(post)
+                    existing_ids.add(post["post_id"])
+                    time.sleep(1)
+        except Exception as e:
+            print(f"Error fetching posts from {page_name}: {e}")
+        return posts
 
-    try:
-        for i, post in enumerate(
-            get_posts(
-                "usjr.official",
-                cookies="C:/Users/user/Documents/3rd year/Summer/Thesis 1/JQ/jq_admin/lib/newflask/cookies.json",
-                pages=2,
-                options={"headers": headers},
-            ),
-            start=1,
-        ):
-            if post["post_id"] in existing_ids:
-                print(f"Skipping duplicate post: {post['post_id']}")
-                continue
-            print(f"Count {i}: {post['text']}")
-            posts.append(post)
-            existing_ids.add(post["post_id"])
-            time.sleep(1)
-    except Exception as e:
-        print(f"Error: {e}")
+    # Fetch posts from usjrforward and usjr.official
+    posts_from_forward = fetch_and_tag_posts("usjrforward", "usjrforward")
+    posts_from_official = fetch_and_tag_posts("usjr.official", "usjr.official")
+
+    # Combine the posts from both sources
+    combined_posts = posts_from_forward + posts_from_official
 
     # Append new posts to existing posts
-    existing_posts.extend(posts)
+    existing_posts.extend(combined_posts)
 
     # Save the combined list of posts into the JSON file
     with open("posts.json", "w", encoding="utf-8") as f:
