@@ -40,14 +40,15 @@ def get_facebook_posts():
     def fetch_and_tag_posts(page_name, tag):
         posts = []
         try:
-            for post in get_posts(
+            for i, post in enumerate(get_posts(
                     page_name,
                     cookies="C:/Users/user/Documents/3rd year/Summer/Thesis 1/JQ/jq_admin/lib/newflask/cookies.json",
                     pages=1,
                     options={"headers": headers},
-            ):
+            ),start=1):
                 if post["post_id"] not in existing_ids:
                     post["text"] = f"{tag}: {post['text']}"
+                    print(f"Count {i}: {post['text']}")
                     posts.append(post)
                     existing_ids.add(post["post_id"])
                     time.sleep(1)
