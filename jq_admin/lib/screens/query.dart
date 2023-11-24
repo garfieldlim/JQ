@@ -129,17 +129,13 @@ class _HomePageState extends State<HomePage> {
         isTyping = false;
       });
 
-      // Save the chat messages in Cloud Firestore
-      final collection = FirebaseFirestore.instance.collection('chat_messages');
-
       if (response.statusCode == 200) {
         var data = jsonDecode(response.body);
-        print('Parsed response data: $data');
         var responseData = data['response'] as String;
-        var partitionName = data['partitionName']
-            as String; // Assume this is provided by the server
-        var milvusData = data['milvusData']
-            as String; // Assume this is provided by the server
+        var milvusData =
+            jsonEncode(data['milvusData']); // Extract from response
+        var partitionName =
+            data['partitionName'] as String; // Extract from response
 
         setState(() {
           messages.add(ChatMessage(
@@ -147,29 +143,9 @@ class _HomePageState extends State<HomePage> {
             isUserMessage: false,
             liked: false,
             disliked: false,
-            id: collection.doc().id, // Store the document ID
+            milvusData: milvusData, // Set here
+            partitionName: partitionName, // Set here
           ));
-        });
-
-        var userMessageDoc = await collection.add({
-          'text': message,
-          'isUserMessage': true,
-          'timestamp': DateTime.now().toUtc(),
-        });
-        var botMessageDoc = await collection.add({
-          'text': responseData,
-          'isUserMessage': false,
-          'timestamp': DateTime.now().toUtc(),
-          'liked': false,
-          'disliked': false,
-          'partitionName': partitionName, // Store the partition name
-          'milvusData': milvusData, // Store the Milvus data
-        });
-
-        // Store the document ID in the ChatMessage object
-        setState(() {
-          messages[messages.length - 2].id = userMessageDoc.id;
-          messages[messages.length - 1].id = botMessageDoc.id;
         });
       } else {
         print('Error: ${response.statusCode}');
@@ -190,24 +166,35 @@ class _HomePageState extends State<HomePage> {
   }
 
   void handleLikeDislike(int index, bool isLiked) {
-    if (messages[index].id != null) {
+    if (index > 0 && index < messages.length) {
+      var userMessage = messages[index - 1];
+      var botMessage = messages[index];
+
       setState(() {
-        if (isLiked) {
-          messages[index].liked = true;
-          messages[index].disliked = false;
-        } else {
-          messages[index].liked = false;
-          messages[index].disliked = true;
-        }
+        botMessage.liked = isLiked;
+        botMessage.disliked = !isLiked;
       });
 
-      final collection = FirebaseFirestore.instance.collection('chat_messages');
-      collection.doc(messages[index].id).update({
-        'liked': isLiked,
-        'disliked': !isLiked,
-      });
+      var endpoint = botMessage.id == null
+          ? 'http://127.0.0.1:7999/save_chat_message'
+          : 'http://127.0.0.1:7999/update_chat_message_like_dislike';
+
+      http.post(
+        Uri.parse(endpoint),
+        headers: {'Content-Type': 'application/json'},
+        body: jsonEncode({
+          'userMessageId': userMessage.id,
+          'botMessageId': botMessage.id,
+          'userMessage': userMessage.toJson(),
+          'botMessage': botMessage.toJson(),
+          'liked': isLiked,
+          'disliked': !isLiked,
+          'milvusData': botMessage.milvusData,
+          'partitionName': botMessage.partitionName ?? '',
+        }),
+      );
     } else {
-      print('Error: Document ID is null.');
+      print('Error: Index out of bounds or Document ID is null.');
     }
   }
 

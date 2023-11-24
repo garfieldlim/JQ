@@ -21,6 +21,9 @@ from knowledgebase_crud import (
     process_object,
 )
 from openai_api import generate_response
+import firebase_admin
+from firebase_admin import credentials
+from firebase_admin import firestore
 
 app = Flask(__name__)
 CORS(app)  # This will enable CORS for all routes
@@ -36,13 +39,13 @@ if connections.has_connection("default"):
 connections.connect(alias="default", host="localhost", port="19530")
 
 
-# class DateTimeEncoder(json.JSONEncoder):
-#     """Custom encoder for datetime objects."""
+class DateTimeEncoder(json.JSONEncoder):
+    """Custom encoder for datetime objects."""
 
-#     def default(self, obj):
-#         if isinstance(obj, datetime.datetime):
-#             return obj.isoformat()
-#         return super().default(obj)
+    def default(self, obj):
+        if isinstance(obj, datetime.datetime):
+            return obj.isoformat()
+        return super().default(obj)
 
 
 # @app.route("/posts", methods=["GET"])
@@ -89,6 +92,45 @@ connections.connect(alias="default", host="localhost", port="19530")
 
 #     print(existing_posts)
 #     return jsonify(existing_posts)
+cred = credentials.Certificate("C:/Users/user/Documents/3rd year/Summer/Thesis 1/JQ/jq_admin/lib/newflask/utils/josenianquiri-c3c63-firebase-adminsdk-r8ews-1dd8ff0c6e.json")
+firebase_admin.initialize_app(cred)
+
+@app.route("/save_chat_message", methods=["POST"])
+def save_chat_message():
+    data = request.json
+    db = firestore.client()
+
+    # Save user message
+    user_message_ref = db.collection('chat_messages').document()    
+    user_message_data = data['userMessage']
+    user_message_data['isUserMessage'] = True
+    user_message_ref.set(user_message_data)
+
+    # Save bot message
+    bot_message_ref = db.collection('chat_messages').document()
+    bot_message_data = data['botMessage']
+    bot_message_data['liked'] = data.get('liked', False)
+    bot_message_data['disliked'] = data.get('disliked', False)
+    bot_message_data['isUserMessage'] = False
+    bot_message_data['partitionName'] = data.get('partitionName', '')
+    bot_message_data['milvusData'] = data.get('milvusData', {})    
+    bot_message_ref.set(bot_message_data)
+
+    return jsonify({"status": "success", "user_message_id": user_message_ref.id, "bot_message_id": bot_message_ref.id})
+
+@app.route("/update_chat_message_like_dislike", methods=["POST"])
+def update_chat_message_like_dislike():
+    data = request.json
+    db = firestore.client()
+
+    # Update bot message like/dislike status
+    bot_message_id = data.get('botMessageId')
+    if bot_message_id:
+        bot_message_ref = db.collection('chat_messages').document(bot_message_id)
+        bot_message_ref.update({'liked': data.get('liked', False), 'disliked': data.get('disliked', False)})
+
+    return jsonify({"status": "success"})
+
 update_posts_json()
 
 @app.route('/posts')
@@ -135,6 +177,7 @@ def question_answer():
 
     partition = request.json.get("partition", 0)
     results_dict = search_collections(vectors, [ranked_partitions[partition]])
+    partition_name = ranked_partitions[partition]
     if results_dict is None:
         return jsonify(
             {"error": "No results returned. Check your search_collections function."}
@@ -162,7 +205,12 @@ def question_answer():
         return jsonify(
             {"error": "No response generated. Check your generate_response function."}
         )
-    return jsonify({"response": generated_text})
+    # string_json = json.dumps(final_results, cls=DateTimeEncoder)
+    return jsonify({
+        "response": generated_text,
+        "milvusData": final_results,
+        "partitionName": partition_name
+    })
 
 
 @app.route("/get_data/<partition_name>", methods=["GET"])
