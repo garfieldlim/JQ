@@ -9,6 +9,7 @@ import 'package:jq_admin/widgets/chatMessage.dart';
 import 'package:jq_admin/widgets/chat_suggestions.dart';
 import 'package:jq_admin/widgets/customfloatingbutton.dart';
 import 'package:jq_admin/widgets/floatingactionbutton.dart';
+import 'package:uuid/uuid.dart';
 import '../widgets/chat_input.dart';
 import '../widgets/headlines.dart';
 import '../widgets/message_item_widget.dart';
@@ -30,9 +31,13 @@ class _HomePageState extends State<HomePage> {
   ];
   TextEditingController textController = TextEditingController();
   int currentPartition = 0;
+  int flag = 0;
   bool isLoading = false;
   bool isTyping = false;
   List<dynamic> posts = [];
+  var uuid = Uuid();
+  var userMessageId;
+  var botMessageId;
 
   @override
   void initState() {
@@ -147,6 +152,7 @@ class _HomePageState extends State<HomePage> {
             partitionName: partitionName, // Set here
           ));
         });
+        flag = 1;
       } else {
         print('Error: ${response.statusCode}');
       }
@@ -175,16 +181,21 @@ class _HomePageState extends State<HomePage> {
         botMessage.disliked = !isLiked;
       });
 
-      var endpoint = botMessage.id == null
-          ? 'http://127.0.0.1:7999/save_chat_message'
-          : 'http://127.0.0.1:7999/update_chat_message_like_dislike';
+      var endpoint = 'http://127.0.0.1:7999/update_chat_message_like_dislike';
+
+      if (flag == 1) {
+        endpoint = 'http://127.0.0.1:7999/save_chat_message';
+        userMessageId = "Chat${uuid.v4()}";
+        botMessageId = "Chat${uuid.v4()}";
+        flag = 0;
+      }
 
       http.post(
         Uri.parse(endpoint),
         headers: {'Content-Type': 'application/json'},
         body: jsonEncode({
-          'userMessageId': userMessage.id,
-          'botMessageId': botMessage.id,
+          'userMessageId': userMessageId,
+          'botMessageId': botMessageId,
           'userMessage': userMessage.toJson(),
           'botMessage': botMessage.toJson(),
           'liked': isLiked,

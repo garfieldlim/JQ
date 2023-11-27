@@ -4,6 +4,7 @@ class ChatMessage {
   bool liked;
   bool disliked;
   String? id;
+  String? foreignId;
   bool quoted;
   String? milvusData; // Nullable field
   String? partitionName; // Nullable field
@@ -17,13 +18,14 @@ class ChatMessage {
     this.quoted = false,
     this.milvusData,
     this.partitionName,
+    this.foreignId,
   });
 
   Map<String, dynamic> toJson() {
     var map = <String, dynamic>{
       'text': text,
       'isUserMessage': isUserMessage,
-      // 'id': id, // Optionally include if needed
+      'id': id, // Optionally include if needed
     };
 
     if (!isUserMessage) {
