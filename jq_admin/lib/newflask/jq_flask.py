@@ -22,7 +22,7 @@ from knowledgebase_crud import (
 )
 from openai_api import generate_response
 import firebase_admin
-from firebase_admin import credentials
+
 from firebase_admin import firestore
 
 app = Flask(__name__)
@@ -30,6 +30,8 @@ CORS(app)  # This will enable CORS for all routes
 from pymilvus import (
     connections,
 )
+
+from config import CRED, MAIN_POSTS_JSON_PATH, COOKIES_PATH
 
 # Check if the connection already exists
 if connections.has_connection("default"):
@@ -48,52 +50,8 @@ class DateTimeEncoder(json.JSONEncoder):
         return super().default(obj)
 
 
-# @app.route("/posts", methods=["GET"])
-# def get_facebook_posts():
-#     headers = {
-#         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
-#     }
+firebase_admin.initialize_app(CRED)
 
-#     try:
-#         with open("posts.json", "r", encoding="utf-8") as f:
-#             existing_posts = json.load(f)
-#     except FileNotFoundError:
-#         existing_posts = []
-
-#     existing_ids = {post["post_id"] for post in existing_posts}
-
-#     posts = []
-#     try:
-#         for i, post in enumerate(
-#             get_posts(
-#                 "usjrforward",
-#                 cookies="lib/newflask/cookies.json",
-#                 pages=5,
-#                 options={"headers": headers},
-#             ),
-#             start=1,
-#         ):
-#             if post["post_id"] in existing_ids:
-#                 print(f"Skipping duplicate post: {post['post_id']}")
-#                 continue
-#             print(f"Count {i}: {post['text']}")
-#             posts.append(post)
-#             existing_ids.add(post["post_id"])
-#             time.sleep(1)
-#     except Exception as e:
-#         print(f"Error: {e}")
-
-#     #     # Append new posts to existing posts
-#     #     existing_posts.extend(posts)
-
-#     # Save the combined list of posts into the JSON file
-#     with open("posts.json", "w", encoding="utf-8") as f:
-#         json.dump(existing_posts, f, cls=DateTimeEncoder, indent=4)
-
-#     print(existing_posts)
-#     return jsonify(existing_posts)
-cred = credentials.Certificate("lib/newflask/utils/josenianquiri-c3c63-firebase-adminsdk-r8ews-1dd8ff0c6e.json")
-firebase_admin.initialize_app(cred)
 
 @app.route("/save_chat_message", methods=["POST"])
 def save_chat_message():
@@ -101,60 +59,68 @@ def save_chat_message():
     db = firestore.client()
 
     # Save user message
-    user_message_data = data['userMessage']
-    user_message_ref = db.collection('chat_messages').document(data['userMessageId'])    
-    user_message_data['id'] = user_message_ref.id
-    user_message_data['isUserMessage'] = True    
+    user_message_data = data["userMessage"]
+    user_message_ref = db.collection("chat_messages").document(data["userMessageId"])
+    user_message_data["id"] = user_message_ref.id
+    user_message_data["isUserMessage"] = True
 
     # Save bot message
-    bot_message_data = data['botMessage']
-    bot_message_ref = db.collection('chat_messages').document(data['botMessageId'])    
-    bot_message_data['id'] = bot_message_ref.id
-    bot_message_data['foreignId'] = user_message_ref.id
-    user_message_data['foreignId'] = bot_message_ref.id
-    bot_message_data['liked'] = data.get('liked', False)
-    bot_message_data['disliked'] = data.get('disliked', False)
-    bot_message_data['isUserMessage'] = False
-    bot_message_data['partitionName'] = data.get('partitionName', '')
-    bot_message_data['milvusData'] = data.get('milvusData', {})
+    bot_message_data = data["botMessage"]
+    bot_message_ref = db.collection("chat_messages").document(data["botMessageId"])
+    bot_message_data["id"] = bot_message_ref.id
+    bot_message_data["foreignId"] = user_message_ref.id
+    user_message_data["foreignId"] = bot_message_ref.id
+    bot_message_data["liked"] = data.get("liked", False)
+    bot_message_data["disliked"] = data.get("disliked", False)
+    bot_message_data["isUserMessage"] = False
+    bot_message_data["partitionName"] = data.get("partitionName", "")
+    bot_message_data["milvusData"] = data.get("milvusData", {})
     bot_message_ref.set(bot_message_data)
     user_message_ref.set(user_message_data)
 
     return jsonify({"status": "success"})
+
 
 @app.route("/update_chat_message_like_dislike", methods=["POST"])
 def update_chat_message_like_dislike():
     data = request.json
     db = firestore.client()
     print(data)
-    
-    bot_message_id = data.get('botMessageId')    
+
+    bot_message_id = data.get("botMessageId")
     if bot_message_id:
-        bot_message_ref = db.collection('chat_messages').document(bot_message_id)
+        bot_message_ref = db.collection("chat_messages").document(bot_message_id)
 
         # Check if the document exists
         if bot_message_ref.get().exists:
-            bot_message_ref.update({'liked': data.get('liked', False), 'disliked': data.get('disliked', False)})
+            bot_message_ref.update(
+                {
+                    "liked": data.get("liked", False),
+                    "disliked": data.get("disliked", False),
+                }
+            )
             return jsonify({"status": "success"})
         else:
             return jsonify({"status": "failure", "message": "Document not found"})
     else:
         return jsonify({"status": "failure", "message": "Missing botMessageId"})
-    
+
     return jsonify({"status": "error"})
 
 
-update_posts_json()
+# update_posts_json()
 
-@app.route('/posts')
+
+@app.route("/posts")
 def get_posts():
-    directory = 'C:/Users/Jillian/Documents/JQ'  # Directory path where posts.json is located
-    return send_from_directory(directory, 'posts.json')
+    directory = MAIN_POSTS_JSON_PATH  # Directory path where posts.json is located
+    return send_from_directory(directory, "posts.json")
+
 
 @app.route("/scrape_website", methods=["POST"])
 def scrape_website():
     url = request.json["url"]
-    cookies_path = "lib/newflask/cookies.json"
+    cookies_path = COOKIES_PATH
 
     scraped_data = [post for post in get_posts(post_urls=[url], cookies=cookies_path)]
 
@@ -211,19 +177,21 @@ def question_answer():
                 "error": "No final results returned. Check your populate_results function."
             }
         )
-    print(final_results)
+    # print(final_results)
     generated_text = generate_response(prompt, final_results)
-    print(generated_text)
+    # print(generated_text)
     if generated_text is None:
         return jsonify(
             {"error": "No response generated. Check your generate_response function."}
         )
     # string_json = json.dumps(final_results, cls=DateTimeEncoder)
-    return jsonify({
-        "response": generated_text,
-        "milvusData": final_results,
-        "partitionName": partition_name
-    })
+    return jsonify(
+        {
+            "response": generated_text,
+            "milvusData": final_results,
+            "partitionName": partition_name,
+        }
+    )
 
 
 @app.route("/get_data/<partition_name>", methods=["GET"])

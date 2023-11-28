@@ -15,7 +15,6 @@ def get_embedding(text):
 
     # Prefix the text with 'query: '
     text = "query: " + text
-
     # Tokenize the input text
     inputs = tokenizer(
         text, max_length=512, padding=True, truncation=True, return_tensors="pt"
