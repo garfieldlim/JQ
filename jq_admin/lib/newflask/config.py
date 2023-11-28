@@ -23,4 +23,4 @@ POSTS_JSON_PATH = "/Users/garfieldgreglim/Documents/JQ/jq_admin/posts.json"
 
 COOKIES_PATH = "/Users/garfieldgreglim/Documents/JQ/jq_admin/lib/newflask/cookies.json"
 
-MAIN_POSTS_JSON_PATH = "/Users/garfieldgreglim/Documents/JQ/posts.json"
+MAIN_POSTS_JSON_PATH = "/Users/garfieldgreglim/Documents/JQ"

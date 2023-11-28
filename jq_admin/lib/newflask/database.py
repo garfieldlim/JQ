@@ -219,7 +219,7 @@ def populate_results(json_results_sorted, partition_names):
     query_results = query_collections(collections, entity_ids, partition_names)
     update_results_with_query_data(json_results_sorted, query_results)
     print("Populated results with sorted json results")
-    return format_final_results(json_results_sorted)
+    return format_final_results(json_results_sorted[-10:])
 
 
 def rank_partitions(prompt_embedding):
