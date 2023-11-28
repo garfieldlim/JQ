@@ -92,7 +92,7 @@ class DateTimeEncoder(json.JSONEncoder):
 
 #     print(existing_posts)
 #     return jsonify(existing_posts)
-cred = credentials.Certificate("C:/Users/user/Documents/3rd year/Summer/Thesis 1/JQ/jq_admin/lib/newflask/utils/josenianquiri-c3c63-firebase-adminsdk-r8ews-1dd8ff0c6e.json")
+cred = credentials.Certificate("lib/newflask/utils/josenianquiri-c3c63-firebase-adminsdk-r8ews-1dd8ff0c6e.json")
 firebase_admin.initialize_app(cred)
 
 @app.route("/save_chat_message", methods=["POST"])
@@ -148,13 +148,13 @@ update_posts_json()
 
 @app.route('/posts')
 def get_posts():
-    directory = 'C:/Users/user/Documents/3rd year/Summer/Thesis 1/JQ'  # Directory path where posts.json is located
+    directory = 'C:/Users/Jillian/Documents/JQ'  # Directory path where posts.json is located
     return send_from_directory(directory, 'posts.json')
 
 @app.route("/scrape_website", methods=["POST"])
 def scrape_website():
     url = request.json["url"]
-    cookies_path = "C:/Users/user/Documents/3rd year/Summer/Thesis 1/JQ/jq_admin/lib/newflask/cookies.json"
+    cookies_path = "lib/newflask/cookies.json"
 
     scraped_data = [post for post in get_posts(post_urls=[url], cookies=cookies_path)]
 
