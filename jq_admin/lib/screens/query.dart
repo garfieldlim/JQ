@@ -3,6 +3,7 @@ import 'dart:convert';
 
 // Third-party package imports
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:jq_admin/widgets/chatMessage.dart';
@@ -45,17 +46,26 @@ class _HomePageState extends State<HomePage> {
     initPosts();
   }
 
-  Future<void> initPosts() async {
-    try {
-      var fetchedPosts = await fetchPosts();
+  // Future<void> initPosts() async {
+  //   try {
+  //     var fetchedPosts = await fetchPosts();
 
-      setState(() {
-        posts = fetchedPosts;
-      });
-    } catch (e) {
-      print('Failed to fetch posts: $e');
-    }
-  }
+  //     setState(() {
+  //       posts = fetchedPosts;
+  //     });
+  //   } catch (e) {
+  //     print('Failed to fetch posts: $e');
+  //   }
+  // }
+  Future<void> initPosts() async {
+  String data = await rootBundle.loadString('web/assets/posts.json');
+  List<dynamic> fetchedPosts = json.decode(data);
+
+  setState(() {
+    posts = fetchedPosts;
+  });
+}
+
 
   void resetChat() {
     setState(() {

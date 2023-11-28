@@ -92,6 +92,7 @@ flutter:
     - web/assets/login.json
     - web/assets/loading.json
     - web/assets/done.json
+    - web/assets/posts.json
 
 
 
