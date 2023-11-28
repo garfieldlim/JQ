@@ -3,6 +3,7 @@ import os
 import time
 from facebook_scraper import get_posts
 import json
+from config import POSTS_JSON_PATH, COOKIES_PATH
 
 
 class DateTimeEncoder(json.JSONEncoder):
@@ -22,7 +23,7 @@ def get_facebook_posts():
     existing_posts = []
     existing_ids = set()
 
-    posts_json_path = "C:/Users/user/Documents/3rd year/Summer/Thesis 1/JQ/jq_admin/jq_admin/posts.json"
+    posts_json_path = POSTS_JSON_PATH
 
     # Attempt to read existing posts from the JSON file
     if os.path.isfile(posts_json_path):
@@ -40,12 +41,15 @@ def get_facebook_posts():
     def fetch_and_tag_posts(page_name, tag):
         posts = []
         try:
-            for i, post in enumerate(get_posts(
+            for i, post in enumerate(
+                get_posts(
                     page_name,
-                    cookies="C:/Users/user/Documents/3rd year/Summer/Thesis 1/JQ/jq_admin/lib/newflask/cookies.json",
+                    cookies=COOKIES_PATH,
                     pages=1,
                     options={"headers": headers},
-            ),start=1):
+                ),
+                start=1,
+            ):
                 if post["post_id"] not in existing_ids:
                     post["text"] = f"{tag}: {post['text']}"
                     print(f"Count {i}: {post['text']}")
@@ -74,7 +78,9 @@ def get_facebook_posts():
 
 
 def update_posts_json():
-    posts_json_path = "C:/Users/user/Documents/3rd year/Summer/Thesis 1/JQ/jq_admin/posts.json"  # Assuming posts.json is in the current working directory
+    posts_json_path = (
+        POSTS_JSON_PATH  # Assuming posts.json is in the current working directory
+    )
 
     # If posts.json exists, delete it and write the new posts
     if os.path.isfile(posts_json_path):
