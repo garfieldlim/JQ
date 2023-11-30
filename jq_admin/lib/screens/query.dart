@@ -46,26 +46,25 @@ class _HomePageState extends State<HomePage> {
     initPosts();
   }
 
-  // Future<void> initPosts() async {
-  //   try {
-  //     var fetchedPosts = await fetchPosts();
-
-  //     setState(() {
-  //       posts = fetchedPosts;
-  //     });
-  //   } catch (e) {
-  //     print('Failed to fetch posts: $e');
-  //   }
-  // }
   Future<void> initPosts() async {
-  String data = await rootBundle.loadString('web/assets/posts.json');
-  List<dynamic> fetchedPosts = json.decode(data);
+    try {
+      var fetchedPosts = await fetchPosts();
 
-  setState(() {
-    posts = fetchedPosts;
-  });
-}
+      setState(() {
+        posts = fetchedPosts;
+      });
+    } catch (e) {
+      print('Failed to fetch posts: $e');
+    }
+  }
+//   Future<void> initPosts() async {
+//   String data = await rootBundle.loadString('web/assets/posts.json');
+//   List<dynamic> fetchedPosts = json.decode(data);
 
+//   setState(() {
+//     posts = fetchedPosts;
+//   });
+// }
 
   void resetChat() {
     setState(() {

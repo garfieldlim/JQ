@@ -67,7 +67,7 @@ class _FacebookPostsListState extends State<FacebookPostsList> {
               'All',
               'FORWARD Publications',
               'University of San Jose- Recoletos',
-            ] // Replace with actual usernames
+            ] 
                 .map<DropdownMenuItem<String>>((String value) {
               return DropdownMenuItem<String>(
                 value: value,
@@ -85,7 +85,7 @@ class _FacebookPostsListState extends State<FacebookPostsList> {
                 return GestureDetector(
                   onTap: () => _launchURL(post['post_url']),
                   child: Card(
-                    color: const Color(0xffdcd8b0),
+                    color: const Color(0xff969d7b),
                     margin: const EdgeInsets.all(8.0),
                     child: Padding(
                       padding: const EdgeInsets.all(35.0),
@@ -93,11 +93,15 @@ class _FacebookPostsListState extends State<FacebookPostsList> {
                         child: Row(
                           children: [
                             if (post['image'] != null)
-                              Image.network(
-                                post['image'],
-                                fit: BoxFit.cover,
-                                height: 200.0,
-                                width: 200.0,
+                              ClipRRect(
+                                borderRadius: BorderRadius.circular(
+                                    15.0), 
+                                child: Image.network(
+                                  post['image'],
+                                  fit: BoxFit.cover,
+                                  height: 200.0,
+                                  width: 200.0,
+                                ),
                               ),
                             Container(
                               width: 400.0,
@@ -107,7 +111,7 @@ class _FacebookPostsListState extends State<FacebookPostsList> {
                                 textAlign: TextAlign.justify,
                                 style: const TextStyle(
                                   fontSize: 18.0,
-                                  color: Color(0xff333333),
+                                  color: Color(0xfffff1e4),
                                 ),
                               ),
                             ),

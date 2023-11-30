@@ -34,14 +34,16 @@ class _LogsPageState extends State<LogsPage> {
       body: ListView(
         children: [
           const SizedBox(height: 15),
-          const Padding(
+          Padding(
             padding: EdgeInsets.all(10.0),
             child: Center(
-              child: Text('Logs',
-                  style: TextStyle(
-                    fontSize: 30,
-                    color: Color(0xff7a8066),
-                  )),
+              child: Padding(
+                padding: EdgeInsets.all(10.0),
+                child: Image.asset(
+                  'web/assets/jq.png',
+                  height: 150,
+                ),
+              ),
             ),
           ),
           // Recently Added Section
@@ -103,8 +105,8 @@ class _LogsPageState extends State<LogsPage> {
             child: buildHorizontalLogList(
                 logsStream: logsStream,
                 sortByTime: false,
-                sortByLikes: true,
-                sortByDislikes: false,
+                sortByLikes: false,
+                sortByDislikes: true,
                 showLogDetails: navigateToLogDetails),
           ),
         ],

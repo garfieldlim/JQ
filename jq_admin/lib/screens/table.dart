@@ -15,6 +15,10 @@ class _DataTableDemoState extends State<DataTableDemo> {
   String? selectedPartition;
   String? sortColumn;
   bool sortAscending = true;
+  int currentPage = 1;
+  int itemsPerPage = 10;
+  int get _startIndexOfPage => (currentPage - 1) * itemsPerPage;
+  int get _endIndexOfPage => _startIndexOfPage + itemsPerPage;
 
   final List<String> partitions = [
     "documents_partition",
@@ -30,9 +34,12 @@ class _DataTableDemoState extends State<DataTableDemo> {
     "people_partition": ["text", "name", "position", "department"],
   };
 
-  Future<void> fetchData(String partition) async {
-    final response =
-        await http.get(Uri.parse('http://127.0.0.1:7999/get_data/$partition'));
+  Future<void> fetchData(String partition, {int page = 1}) async {
+    // Construct the URL with query parameters for pagination
+    final url = Uri.parse(
+        'http://127.0.0.1:7999/get_data/$partition?page=$page&itemsPerPage=$itemsPerPage');
+    final response = await http.get(url);
+
     if (response.statusCode == 200) {
       var decodedData = json.decode(response.body);
       if (decodedData is Map<String, dynamic>) {
@@ -41,6 +48,8 @@ class _DataTableDemoState extends State<DataTableDemo> {
           _sortData(sortColumn, sortAscending); // Sort data after fetching
         });
       }
+    } else {
+      // Handle error or unsuccessful status code
     }
   }
 
@@ -76,11 +85,16 @@ class _DataTableDemoState extends State<DataTableDemo> {
             child: ListBody(
               children: <Widget>[
                 Text('Edit the fields and tap update to save changes.'),
-                // Generate a TextField for each field
                 ..._controllers.keys.map((String field) {
                   return TextField(
                     controller: _controllers[field],
                     decoration: InputDecoration(labelText: field.capitalize()),
+                    maxLines: field == 'text'
+                        ? null
+                        : 1, // Unlimited lines for 'text' field
+                    keyboardType: field == 'text'
+                        ? TextInputType.multiline
+                        : TextInputType.text,
                   );
                 }).toList(),
               ],
@@ -96,16 +110,23 @@ class _DataTableDemoState extends State<DataTableDemo> {
             TextButton(
               child: Text('Update'),
               onPressed: () {
-                // Implement your update logic here
-                // For example, you might want to send a PUT request to your server with the updated data
                 Map<String, dynamic> updatedItem = {};
                 for (String field in _controllers.keys) {
-                  updatedItem[field] = _controllers[field]?.text;
+                  updatedItem[field] = _controllers[field]?.text ?? '';
                 }
-                print('Updated item: $updatedItem');
-                // TODO: Call setState and update the data list if necessary
-                // Close the dialog
-                Navigator.of(context).pop();
+
+                // Update the item in the data list
+                int indexToUpdate = data
+                    .indexWhere((element) => element['uuid'] == item['uuid']);
+                if (indexToUpdate != -1) {
+                  setState(() {
+                    data[indexToUpdate] = updatedItem;
+                  });
+                }
+
+                // Optionally, send updated data to server...
+
+                Navigator.of(context).pop(); // Close the dialog
               },
             ),
           ],
@@ -207,57 +228,96 @@ class _DataTableDemoState extends State<DataTableDemo> {
                   )
                   .toList(),
             ),
-          // The list of rows in the table
+
           Expanded(
             child: ListView.builder(
-              itemCount: data.length,
+              itemCount: _endIndexOfPage <= data.length
+                  ? itemsPerPage
+                  : data.length - _startIndexOfPage,
               itemBuilder: (context, index) {
-                final item = data[index];
-                return Slidable(
-                  key: ValueKey(item['uuid']),
-                  startActionPane: ActionPane(
-                    motion: const ScrollMotion(),
-                    children: [
-                      SlidableAction(
-                        onPressed: (BuildContext context) =>
-                            _showEditDialog(item),
-                        backgroundColor: Color(0xFFFE4A49),
-                        foregroundColor: Colors.white,
-                        icon: Icons.edit,
-                        label: 'Edit',
+                final actualIndex = _startIndexOfPage + index;
+                final item = data[actualIndex];
+                return DecoratedBox(
+                  decoration: BoxDecoration(
+                    border: Border(
+                      bottom: BorderSide(
+                        color: Colors.grey, // Set your border color here
+                        width: 2.0, // Set your border width here
                       ),
-                    ],
+                    ),
                   ),
-                  endActionPane: ActionPane(
-                    motion: const ScrollMotion(),
-                    children: [
-                      SlidableAction(
-                        onPressed: (context) => _deleteItem(context, item),
-                        backgroundColor: Color(0xFF21B7CA),
-                        foregroundColor: Colors.white,
-                        icon: Icons.delete,
-                        label: 'Delete',
-                      ),
-                    ],
-                  ),
-                  child: Row(
-                    children: table_fields[selectedPartition]!
-                        .map(
-                          (field) => Expanded(
-                            child: Container(
-                              padding: EdgeInsets.all(8),
-                              child: field == 'text'
-                                  ? ExpandableText(
-                                      text: item[field]?.toString() ?? '')
-                                  : Text(item[field]?.toString() ?? ''),
+                  child: Slidable(
+                    key: ValueKey(item['uuid']),
+                    startActionPane: ActionPane(
+                      motion: const ScrollMotion(),
+                      children: [
+                        SlidableAction(
+                          onPressed: (BuildContext context) =>
+                              _showEditDialog(item),
+                          backgroundColor: Color(0xFFA7C7E7),
+                          foregroundColor: Colors.white,
+                          icon: Icons.edit,
+                          label: 'Edit',
+                        ),
+                      ],
+                    ),
+                    endActionPane: ActionPane(
+                      motion: const ScrollMotion(),
+                      children: [
+                        SlidableAction(
+                          onPressed: (context) => _deleteItem(context, item),
+                          backgroundColor: Color(0xFFFF6B6B),
+                          foregroundColor: Colors.white,
+                          icon: Icons.delete,
+                          label: 'Delete',
+                        ),
+                      ],
+                    ),
+                    child: Row(
+                      children: table_fields[selectedPartition]!
+                          .map(
+                            (field) => Expanded(
+                              child: Container(
+                                padding: EdgeInsets.all(8),
+                                child: field == 'text'
+                                    ? ExpandableText(
+                                        text: item[field]?.toString() ?? '')
+                                    : Text(item[field]?.toString() ?? ''),
+                              ),
                             ),
-                          ),
-                        )
-                        .toList(),
+                          )
+                          .toList(),
+                    ),
                   ),
                 );
               },
             ),
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              IconButton(
+                icon: Icon(Icons.arrow_back),
+                onPressed: currentPage > 1
+                    ? () {
+                        setState(() {
+                          currentPage--;
+                          fetchData(selectedPartition!, page: currentPage);
+                        });
+                      }
+                    : null,
+              ),
+              Text('Page $currentPage'),
+              IconButton(
+                icon: Icon(Icons.arrow_forward),
+                onPressed: () {
+                  setState(() {
+                    currentPage++;
+                    fetchData(selectedPartition!, page: currentPage);
+                  });
+                },
+              ),
+            ],
           ),
         ],
       ),

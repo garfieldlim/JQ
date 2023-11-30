@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:jq_admin/screens/upserting.dart';
 
 import '../widgets/nav.dart';
+import 'login.dart';
 import 'logs_page.dart';
 import 'table.dart';
 
@@ -64,7 +65,12 @@ class Admin_dashboard extends StatelessWidget {
                     child: NavItem(
                       iconData: Icons.logout,
                       onPressed: () {
-                        print("Logout icon pressed");
+                        Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) =>
+                                  LoginPage()), 
+                        );
                       },
                       color: const Color(0xff969d7b),
                       labelText: 'Logout',

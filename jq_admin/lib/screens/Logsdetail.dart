@@ -11,44 +11,73 @@ class LogDetailsPage extends StatelessWidget {
     final data = logSnapshot.data() as Map<String, dynamic>;
 
     return Scaffold(
-      appBar: AppBar(title: Text("Log Details")),
-      body: Padding(
-        padding: EdgeInsets.all(8.0),
-        child: Table(
-          border: TableBorder.all(),
-          columnWidths: const <int, TableColumnWidth>{
-            0: FixedColumnWidth(120.0),
-            1: FlexColumnWidth(),
-          },
-          defaultVerticalAlignment: TableCellVerticalAlignment.middle,
-          children: [
-            TableRow(
-              children: [
-                Padding(
-                  padding: EdgeInsets.all(8.0),
-                  child: Text('Field',
-                      style: TextStyle(fontWeight: FontWeight.bold)),
-                ),
-                Padding(
-                  padding: EdgeInsets.all(8.0),
-                  child: Text('Value',
-                      style: TextStyle(fontWeight: FontWeight.bold)),
-                ),
-              ],
+      backgroundColor: const Color(0xfffff1e4),
+      appBar: AppBar(
+        title: Text("Log Details", style: TextStyle(color: Color(0XFFF2C87E))),
+        backgroundColor: Color(0xff969D7B),
+      ),
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: EdgeInsets.symmetric(horizontal: 100.0, vertical: 10.0),
+          child: Table(
+            border: TableBorder.all(
+              color: Color(0xff969D7B), // Change border color here
+              width: 1.0, // Change border width here
             ),
-            ...data.entries.map((entry) => TableRow(
-                  children: [
-                    Padding(
-                      padding: EdgeInsets.all(8.0),
-                      child: Text(entry.key),
+            columnWidths: const <int, TableColumnWidth>{
+              0: FixedColumnWidth(120.0),
+              1: FlexColumnWidth(),
+            },
+            defaultVerticalAlignment: TableCellVerticalAlignment.middle,
+            children: [
+              TableRow(
+                children: [
+                  Padding(
+                    padding: EdgeInsets.all(8.0),
+                    child: Text(
+                      'Field',
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        color: Color(0xffF2C87E), // Change text color here
+                      ),
                     ),
-                    Padding(
-                      padding: EdgeInsets.all(8.0),
-                      child: Text(entry.value.toString()),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.all(8.0),
+                    child: Text(
+                      'Value',
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        color: Color(0xffF2C87E), // Change text color here
+                      ),
                     ),
-                  ],
-                )),
-          ],
+                  ),
+                ],
+              ),
+              ...data.entries.map((entry) => TableRow(
+                    children: [
+                      Padding(
+                        padding: EdgeInsets.all(8.0),
+                        child: Text(
+                          entry.key,
+                          style: TextStyle(
+                            color: Color(0xff797979), // Change text color here
+                          ),
+                        ),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.all(8.0),
+                        child: Text(
+                          entry.value.toString(),
+                          style: TextStyle(
+                            color: Color(0xff797979), // Change text color here
+                          ),
+                        ),
+                      ),
+                    ],
+                  )),
+            ],
+          ),
         ),
       ),
     );
