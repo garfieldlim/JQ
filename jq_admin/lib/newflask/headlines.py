@@ -3,7 +3,7 @@ import os
 import time
 from facebook_scraper import get_posts
 import json
-from config import POSTS_JSON_PATH, COOKIES_PATH
+from config import (POSTS_JSON_PATH, COOKIES_PATH)
 
 
 class DateTimeEncoder(json.JSONEncoder):
@@ -52,7 +52,7 @@ def get_facebook_posts():
             ):
                 if post["post_id"] not in existing_ids:
                     post["text"] = f"{tag}: {post['text']}"
-                    print(f"Count {i}: {post['text']}")
+                    # print(f"Count {i}: {post['text']}")
                     posts.append(post)
                     existing_ids.add(post["post_id"])
                     time.sleep(1)
@@ -78,9 +78,7 @@ def get_facebook_posts():
 
 
 def update_posts_json():
-    posts_json_path = (
-        POSTS_JSON_PATH  # Assuming posts.json is in the current working directory
-    )
+    posts_json_path = POSTS_JSON_PATH  # Assuming posts.json is in the current working directory
 
     # If posts.json exists, delete it and write the new posts
     if os.path.isfile(posts_json_path):
