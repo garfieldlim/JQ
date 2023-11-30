@@ -22,8 +22,8 @@ from knowledgebase_crud import (
 )
 from openai_api import generate_response
 import firebase_admin
-from firebase_admin import credentials
 from firebase_admin import firestore
+from config import (CRED, MAIN_POSTS_JSON_PATH, COOKIES_PATH)
 
 app = Flask(__name__)
 CORS(app)  # This will enable CORS for all routes
@@ -46,68 +46,28 @@ class DateTimeEncoder(json.JSONEncoder):
         if isinstance(obj, datetime.datetime):
             return obj.isoformat()
         return super().default(obj)
-
-
-# @app.route("/posts", methods=["GET"])
-# def get_facebook_posts():
-#     headers = {
-#         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
-#     }
-
-#     try:
-#         with open("posts.json", "r", encoding="utf-8") as f:
-#             existing_posts = json.load(f)
-#     except FileNotFoundError:
-#         existing_posts = []
-
-#     existing_ids = {post["post_id"] for post in existing_posts}
-
-#     posts = []
-#     try:
-#         for i, post in enumerate(
-#             get_posts(
-#                 "usjrforward",
-#                 cookies="lib/newflask/cookies.json",
-#                 pages=5,
-#                 options={"headers": headers},
-#             ),
-#             start=1,
-#         ):
-#             if post["post_id"] in existing_ids:
-#                 print(f"Skipping duplicate post: {post['post_id']}")
-#                 continue
-#             print(f"Count {i}: {post['text']}")
-#             posts.append(post)
-#             existing_ids.add(post["post_id"])
-#             time.sleep(1)
-#     except Exception as e:
-#         print(f"Error: {e}")
-
-#     #     # Append new posts to existing posts
-#     #     existing_posts.extend(posts)
-
-#     # Save the combined list of posts into the JSON file
-#     with open("posts.json", "w", encoding="utf-8") as f:
-#         json.dump(existing_posts, f, cls=DateTimeEncoder, indent=4)
-
-#     print(existing_posts)
-#     return jsonify(existing_posts)
-cred = credentials.Certificate("C:/Users/user/Documents/3rd year/Summer/Thesis 1/JQ/jq_admin/lib/newflask/utils/josenianquiri-c3c63-firebase-adminsdk-r8ews-1dd8ff0c6e.json")
+    
+cred = CRED
 firebase_admin.initialize_app(cred)
 
+from datetime import datetime as timedate
 @app.route("/save_chat_message", methods=["POST"])
 def save_chat_message():
     data = request.json
     db = firestore.client()
 
+    timestamp = timedate.now().isoformat()
+
     # Save user message
     user_message_data = data['userMessage']
+    user_message_data['timestamp'] = timestamp
     user_message_ref = db.collection('chat_messages').document(data['userMessageId'])    
     user_message_data['id'] = user_message_ref.id
     user_message_data['isUserMessage'] = True    
 
     # Save bot message
     bot_message_data = data['botMessage']
+    bot_message_data['timestamp'] = timestamp
     bot_message_ref = db.collection('chat_messages').document(data['botMessageId'])    
     bot_message_data['id'] = bot_message_ref.id
     bot_message_data['foreignId'] = user_message_ref.id
@@ -126,8 +86,7 @@ def save_chat_message():
 def update_chat_message_like_dislike():
     data = request.json
     db = firestore.client()
-    print(data)
-    
+        
     bot_message_id = data.get('botMessageId')    
     if bot_message_id:
         bot_message_ref = db.collection('chat_messages').document(bot_message_id)
@@ -148,13 +107,13 @@ update_posts_json()
 
 @app.route('/posts')
 def get_posts():
-    directory = 'C:/Users/user/Documents/3rd year/Summer/Thesis 1/JQ'  # Directory path where posts.json is located
+    directory = MAIN_POSTS_JSON_PATH  # Directory path where posts.json is located
     return send_from_directory(directory, 'posts.json')
 
 @app.route("/scrape_website", methods=["POST"])
 def scrape_website():
     url = request.json["url"]
-    cookies_path = "C:/Users/user/Documents/3rd year/Summer/Thesis 1/JQ/jq_admin/lib/newflask/cookies.json"
+    cookies_path = COOKIES_PATH
 
     scraped_data = [post for post in get_posts(post_urls=[url], cookies=cookies_path)]
 
