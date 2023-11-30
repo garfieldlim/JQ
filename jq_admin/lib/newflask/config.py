@@ -19,8 +19,6 @@ CRED = credentials.Certificate(
     "/Users/garfieldgreglim/Documents/JQ/jq_admin/lib/newflask/utils/josenianquiri-c3c63-firebase-adminsdk-r8ews-1dd8ff0c6e.json"
 )
 
-POSTS_JSON_PATH = "/Users/garfieldgreglim/Documents/JQ/jq_admin/posts.json"
+POSTS_JSON_PATH = "/Users/garfieldgreglim/Documents/JQ/jq_admin/web/assets/posts.json"
 
 COOKIES_PATH = "/Users/garfieldgreglim/Documents/JQ/jq_admin/lib/newflask/cookies.json"
-
-MAIN_POSTS_JSON_PATH = "/Users/garfieldgreglim/Documents/JQ"

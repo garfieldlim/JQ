@@ -31,7 +31,7 @@ from pymilvus import (
     connections,
 )
 
-from config import CRED, MAIN_POSTS_JSON_PATH, COOKIES_PATH
+from config import CRED, COOKIES_PATH, POSTS_JSON_PATH
 
 # Check if the connection already exists
 if connections.has_connection("default"):
@@ -39,15 +39,6 @@ if connections.has_connection("default"):
 
 # Now, reconnect with your new configuration
 connections.connect(alias="default", host="localhost", port="19530")
-
-
-class DateTimeEncoder(json.JSONEncoder):
-    """Custom encoder for datetime objects."""
-
-    def default(self, obj):
-        if isinstance(obj, datetime.datetime):
-            return obj.isoformat()
-        return super().default(obj)
 
 
 firebase_admin.initialize_app(CRED)
@@ -108,12 +99,12 @@ def update_chat_message_like_dislike():
     return jsonify({"status": "error"})
 
 
-# update_posts_json()
+update_posts_json()
 
 
 @app.route("/posts")
 def get_posts():
-    directory = MAIN_POSTS_JSON_PATH  # Directory path where posts.json is located
+    directory = POSTS_JSON_PATH  # Directory path where posts.json is located
     return send_from_directory(directory, "posts.json")
 
 
