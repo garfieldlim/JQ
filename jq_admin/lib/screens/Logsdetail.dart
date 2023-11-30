@@ -19,64 +19,124 @@ class LogDetailsPage extends StatelessWidget {
       body: SingleChildScrollView(
         child: Padding(
           padding: EdgeInsets.symmetric(horizontal: 100.0, vertical: 10.0),
-          child: Table(
-            border: TableBorder.all(
-              color: Color(0xff969D7B), // Change border color here
-              width: 1.0, // Change border width here
-            ),
-            columnWidths: const <int, TableColumnWidth>{
-              0: FixedColumnWidth(120.0),
-              1: FlexColumnWidth(),
-            },
-            defaultVerticalAlignment: TableCellVerticalAlignment.middle,
-            children: [
-              TableRow(
-                children: [
-                  Padding(
-                    padding: EdgeInsets.all(8.0),
-                    child: Text(
-                      'Field',
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        color: Color(0xffF2C87E), // Change text color here
-                      ),
-                    ),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.all(8.0),
-                    child: Text(
-                      'Value',
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        color: Color(0xffF2C87E), // Change text color here
-                      ),
-                    ),
-                  ),
-                ],
+          child: Container(
+            alignment: Alignment.center,
+            child: Table(
+              border: TableBorder.all(
+                color: Color(0xff969D7B), // Change border color here
+                width: 1.0, // Change border width here
               ),
-              ...data.entries.map((entry) => TableRow(
+              columnWidths: const <int, TableColumnWidth>{
+                0: FixedColumnWidth(120.0),
+                1: FlexColumnWidth(),
+              },
+              defaultVerticalAlignment: TableCellVerticalAlignment.middle,
+              children: [
+                const TableRow(
+                  children: [
+                    Padding(
+                      padding: EdgeInsets.all(8.0),
+                      child: Text(
+                        'Field',
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          color: Color(0xffF2C87E), // Change text color here
+                        ),
+                      ),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.all(8.0),
+                      child: Text(
+                        'Value',
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          color: Color(0xffF2C87E), // Change text color here
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                ...data.entries.map((entry) {
+                  final key = entry.key;
+                  final value = entry.value.toString();
+                  return TableRow(
                     children: [
                       Padding(
-                        padding: EdgeInsets.all(8.0),
+                        padding: const EdgeInsets.all(8.0),
                         child: Text(
-                          entry.key,
+                          key,
                           style: TextStyle(
                             color: Color(0xff797979), // Change text color here
                           ),
                         ),
                       ),
                       Padding(
-                        padding: EdgeInsets.all(8.0),
-                        child: Text(
-                          entry.value.toString(),
-                          style: TextStyle(
-                            color: Color(0xff797979), // Change text color here
-                          ),
-                        ),
+                        padding: const EdgeInsets.all(8.0),
+                        child: key == 'milvusData' &&
+                                value.length >
+                                    50 // Check if it's the Milvus data field
+                            ? Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    value.substring(
+                                        0, 50), // Show the first 50 characters
+                                    style: const TextStyle(
+                                      color: Color(
+                                          0xff797979), // Change text color here
+                                    ),
+                                  ),
+                                  TextButton(
+                                    onPressed: () {
+                                      // Implement a function to show more Milvus data
+                                      // For example, you can show a dialog with the full Milvus data
+                                      showDialog(
+                                        context: context,
+                                        builder: (context) => AlertDialog(
+                                          title: Text('Full Milvus Data'),
+                                          content: SingleChildScrollView(
+                                            child: Text(
+                                              value, // Show the full Milvus data here
+                                              style: TextStyle(
+                                                color: Color(
+                                                    0xff797979), // Change text color here
+                                              ),
+                                            ),
+                                          ),
+                                          actions: [
+                                            ElevatedButton(
+                                              child: Text('Close'),
+                                              onPressed: () {
+                                                Navigator.of(context).pop();
+                                              },
+                                            ),
+                                          ],
+                                        ),
+                                      );
+                                    },
+                                    child: Text(
+                                      'See More',
+                                      style: TextStyle(
+                                        color: Color(
+                                            0xfff2c87e), // Change button text color here
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              )
+                            : Text(
+                                value,
+                                style: TextStyle(
+                                  color: Color(
+                                      0xff797979), // Change text color here
+                                ),
+                              ),
                       ),
                     ],
-                  )),
-            ],
+                  );
+                }),
+              ],
+            ),
           ),
         ),
       ),
