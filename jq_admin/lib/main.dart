@@ -31,13 +31,13 @@ class MyApp extends StatelessWidget {
       title: 'Josenian Quiri',
       theme: ThemeData(
         // Add the fontFamily property here
-        fontFamily: 'JosefinSans',
+        fontFamily: 'Lato',
         visualDensity: VisualDensity.adaptivePlatformDensity,
         colorScheme: ColorScheme.fromSeed(
             seedColor: const Color.fromARGB(255, 255, 223, 107)),
         useMaterial3: true,
       ),
-      home: Admin_dashboard(),
+      home: HomePage(),
       debugShowCheckedModeBanner: false,
     );
   }
