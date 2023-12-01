@@ -5,6 +5,7 @@ from pymilvus import (
     DataType,
     Collection,
 )
+import os
 
 
 def similarity_search(
@@ -173,22 +174,31 @@ def query_collections(collections, entity_ids, partition_names):
 
 def update_results_with_query_data(results, query_results):
     """
-    Update the results with data from the query results.
+    Update the results with data from the query results, appending 'link' and 'media' fields
+    from the 'text' collection to the 'text' field.
     """
     for name, collection_results in query_results.items():
         for query_result in collection_results:
             for result in results:
                 entity_id = result["entity_id"]
+
                 if name == "text" and entity_id == query_result["text_id"]:
-                    result[name].append(query_result.get(name, ""))
+                    # Append text, link, and media if they exist
+                    result["text"].append(query_result.get("text", ""))
+                    if "link" in query_result:
+                        result["links"] = query_result["link"]
+                    if "media" in query_result:
+                        result["media"] = query_result["media"]
+
                 elif name != "text" and entity_id == query_result.get("uuid", ""):
                     result[name].append(query_result.get(name, ""))
+
     print("Updated results with data from query_results")
 
 
 def format_final_results(results):
     """
-    Concatenate values from the results and format them for display.
+    Concatenate field names and values from the results and format them for display.
     """
     final_results = []
     for index, result in enumerate(results):
@@ -199,10 +209,10 @@ def format_final_results(results):
             if k not in ["entity_id", "distance", "collection"] and v
         }
 
-        # Concatenate non-empty values, taking the first element if a list
+        # Concatenate field names and non-empty values, taking the first element if a list
         concatenated_values = " ".join(
-            str(next(iter(v), v)) if isinstance(v, list) else str(v)
-            for v in filtered_result.values()
+            f"{k}: {next(iter(v), v) if isinstance(v, list) else v}"
+            for k, v in filtered_result.items()
         )
 
         if concatenated_values.strip():
@@ -212,13 +222,42 @@ def format_final_results(results):
     return "\n".join(final_results)
 
 
+def save_to_file(data, filename):
+    """Function to save data to a file, creating directory if it doesn't exist."""
+    # Extract directory from the filename
+    directory = os.path.dirname(filename)
+
+    # Create the directory if it does not exist
+    if not os.path.exists(directory):
+        os.makedirs(directory)
+
+    # Now, save the file
+    with open(filename, "w") as file:
+        file.write(str(data))
+
+
 def populate_results(json_results_sorted, partition_names):
     collections = initialize_collections()
     entity_ids = extract_entity_ids(json_results_sorted)
     prepare_result_fields(json_results_sorted)
     query_results = query_collections(collections, entity_ids, partition_names)
+    save_to_file(query_results, "data/query_results.txt")
+    save_to_file(json_results_sorted, "data/update_results_with_query_data.txt")
     update_results_with_query_data(json_results_sorted, query_results)
+
     print("Populated results with sorted json results")
+
+    # Example usage:
+    # query_results = ... # Get the query results from the function
+
+    # update_results_with_query_data = ... # Get the updated results from the function
+
+    # json_results_sorted = ... # Assuming this is already defined and populated
+    final_results = format_final_results(
+        json_results_sorted[-10:]
+    )  # Get the final formatted results
+    save_to_file(final_results, "data/final_results.txt")
+
     return format_final_results(json_results_sorted[-10:])
 
 
