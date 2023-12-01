@@ -77,7 +77,8 @@ class _HomePageState extends State<HomePage> {
   }
 
   Future<List<dynamic>> fetchPosts() async {
-    final response = await http.get(Uri.parse('http://127.0.0.1:7999/posts'));
+    final response =
+        await http.get(Uri.parse('http://192.168.68.114:7999/posts'));
 
     if (response.statusCode == 200) {
       return json.decode(response.body);
@@ -94,7 +95,7 @@ class _HomePageState extends State<HomePage> {
       });
     }
 
-    final url = Uri.parse('http://127.0.0.1:7999/query');
+    final url = Uri.parse('http://192.168.68.114:7999/query');
     final headers = {'Content-Type': 'application/json'};
 
     // Getting the previous answer from the bot
@@ -190,10 +191,11 @@ class _HomePageState extends State<HomePage> {
         botMessage.disliked = !isLiked;
       });
 
-      var endpoint = 'http://127.0.0.1:7999/update_chat_message_like_dislike';
+      var endpoint =
+          'http://192.168.68.114:7999/update_chat_message_like_dislike';
 
       if (flag == 1) {
-        endpoint = 'http://127.0.0.1:7999/save_chat_message';
+        endpoint = 'http://192.168.68.114:7999/save_chat_message';
         userMessageId = "Chat${uuid.v4()}";
         botMessageId = "Chat${uuid.v4()}";
         flag = 0;

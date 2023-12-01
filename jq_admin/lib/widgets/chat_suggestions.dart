@@ -5,8 +5,8 @@ class ChatSuggestions extends StatelessWidget {
   final Function(String) onSuggestionSelected;
   static const List<String> chatSuggestions = [
     "Who is the VP of Finance?",
-    "Yermum",
-    "Lets go",
+    // "Who is the President of USJ-R?",
+    // "Who is the VP of Academics?",
     // ... add more suggestions as needed
   ];
 

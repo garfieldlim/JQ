@@ -23,13 +23,24 @@ Widget buildHorizontalLogList({
 
         if (sortByTime) {
           logs.sort((a, b) {
-            final Timestamp? aTimestamp = a.get('timestamp') as Timestamp?;
-            final Timestamp? bTimestamp = b.get('timestamp') as Timestamp?;
-            if (aTimestamp != null && bTimestamp != null) {
+            final aTimestamp = a.get('timestamp');
+            final bTimestamp = b.get('timestamp');
+
+            if (aTimestamp is Timestamp && bTimestamp is Timestamp) {
+              // Both timestamps are 'Timestamp' type
               return bTimestamp.toDate().compareTo(aTimestamp.toDate());
-            } else {
-              return 0;
+            } else if (aTimestamp is String && bTimestamp is String) {
+              // Both timestamps are 'String' type, so parse them to DateTime
+              final aDateTime = DateTime.tryParse(aTimestamp);
+              final bDateTime = DateTime.tryParse(bTimestamp);
+
+              if (aDateTime != null && bDateTime != null) {
+                return bDateTime.compareTo(aDateTime);
+              }
             }
+
+            // If unable to compare, return 0 (no change in order)
+            return 0;
           });
         } else if (sortByLikes) {
           logs.sort((a, b) {
@@ -64,7 +75,9 @@ Widget buildHorizontalLogList({
             final milvusData = logData['milvusData'] ?? '';
 
             final timestamp = logData['timestamp'] != null
-                ? (logData['timestamp'] as Timestamp).toDate()
+                ? (logData['timestamp'] is Timestamp
+                    ? (logData['timestamp'] as Timestamp).toDate()
+                    : DateTime.now())
                 : DateTime.now();
 
             final formattedTimestamp =
