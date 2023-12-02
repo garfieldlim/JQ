@@ -23,7 +23,7 @@ from knowledgebase_crud import (
 from openai_api import generate_response
 import firebase_admin
 from firebase_admin import firestore
-from config import (CRED, MAIN_POSTS_JSON_PATH, COOKIES_PATH)
+from config import CRED, MAIN_POSTS_JSON_PATH, COOKIES_PATH
 
 app = Flask(__name__)
 CORS(app)  # This will enable CORS for all routes
@@ -48,11 +48,14 @@ class DateTimeEncoder(json.JSONEncoder):
         if isinstance(obj, datetime.datetime):
             return obj.isoformat()
         return super().default(obj)
-    
+
+
 cred = CRED
 firebase_admin.initialize_app(cred)
 
 from datetime import datetime as timedate
+
+
 @app.route("/save_chat_message", methods=["POST"])
 def save_chat_message():
     data = request.json
@@ -61,24 +64,24 @@ def save_chat_message():
     timestamp = timedate.now().isoformat()
 
     # Save user message
-    user_message_data = data['userMessage']
-    user_message_data['timestamp'] = timestamp
-    user_message_ref = db.collection('chat_messages').document(data['userMessageId'])    
-    user_message_data['id'] = user_message_ref.id
-    user_message_data['isUserMessage'] = True    
+    user_message_data = data["userMessage"]
+    user_message_data["timestamp"] = timestamp
+    user_message_ref = db.collection("chat_messages").document(data["userMessageId"])
+    user_message_data["id"] = user_message_ref.id
+    user_message_data["isUserMessage"] = True
 
     # Save bot message
-    bot_message_data = data['botMessage']
-    bot_message_data['timestamp'] = timestamp
-    bot_message_ref = db.collection('chat_messages').document(data['botMessageId'])    
-    bot_message_data['id'] = bot_message_ref.id
-    bot_message_data['foreignId'] = user_message_ref.id
-    user_message_data['foreignId'] = bot_message_ref.id
-    bot_message_data['liked'] = data.get('liked', False)
-    bot_message_data['disliked'] = data.get('disliked', False)
-    bot_message_data['isUserMessage'] = False
-    bot_message_data['partitionName'] = data.get('partitionName', '')
-    bot_message_data['milvusData'] = data.get('milvusData', {})
+    bot_message_data = data["botMessage"]
+    bot_message_data["timestamp"] = timestamp
+    bot_message_ref = db.collection("chat_messages").document(data["botMessageId"])
+    bot_message_data["id"] = bot_message_ref.id
+    bot_message_data["foreignId"] = user_message_ref.id
+    user_message_data["foreignId"] = bot_message_ref.id
+    bot_message_data["liked"] = data.get("liked", False)
+    bot_message_data["disliked"] = data.get("disliked", False)
+    bot_message_data["isUserMessage"] = False
+    bot_message_data["partitionName"] = data.get("partitionName", "")
+    bot_message_data["milvusData"] = data.get("milvusData", {})
     bot_message_ref.set(bot_message_data)
     user_message_ref.set(user_message_data)
 
@@ -89,8 +92,8 @@ def save_chat_message():
 def update_chat_message_like_dislike():
     data = request.json
     db = firestore.client()
-        
-    bot_message_id = data.get('botMessageId')    
+
+    bot_message_id = data.get("botMessageId")
     if bot_message_id:
         bot_message_ref = db.collection("chat_messages").document(bot_message_id)
 
@@ -111,13 +114,13 @@ def update_chat_message_like_dislike():
     return jsonify({"status": "error"})
 
 
-# update_posts_json()
+update_posts_json()
 
 
 @app.route("/posts")
 def get_posts():
     directory = MAIN_POSTS_JSON_PATH  # Directory path where posts.json is located
-    return send_from_directory(directory, 'posts.json')
+    return send_from_directory(directory, "posts.json")
 
 
 @app.route("/scrape_website", methods=["POST"])

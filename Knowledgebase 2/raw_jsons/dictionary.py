@@ -58,37 +58,3 @@ partitions = {
         "department_collection",
     ],
 }
-
-
-desired_fields = {
-    "text_collection": "text",
-    "title_collection": "title",
-    "author_collection": "author",
-    "contact_collection": "contact",
-    "department_collection": "department",
-    "name_collection": "name",
-    "position_collection": "position",
-    "date_collection": "date",
-}
-
-table_fields = {
-    "documents_partition": [
-        "text",
-        "author",
-        "title",
-        "date",
-    ],
-    "social_posts_partition": ["text", "date"],
-    "contacts_partition": [
-        "name",
-        "text",
-        "contact",
-        "department",
-    ],
-    "people_partition": [
-        "text",
-        "name",
-        "position",
-        "department",
-    ],
-}
