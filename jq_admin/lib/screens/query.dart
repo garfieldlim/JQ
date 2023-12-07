@@ -77,8 +77,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   Future<List<dynamic>> fetchPosts() async {
-    final response =
-        await http.get(Uri.parse('http://192.168.68.114:7999/posts'));
+    final response = await http.get(Uri.parse('http://127.0.0.1:7999/posts'));
 
     if (response.statusCode == 200) {
       return json.decode(response.body);

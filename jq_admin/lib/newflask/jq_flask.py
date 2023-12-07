@@ -190,6 +190,7 @@ def question_answer():
         return jsonify(
             {"error": "No response generated. Check your generate_response function."}
         )
+    print(generated_text)
     # string_json = json.dumps(final_results, cls=DateTimeEncoder)
     return jsonify(
         {
