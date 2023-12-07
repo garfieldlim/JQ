@@ -1,0 +1,19 @@
+
+Ox
+
+CORRECTIONS:
+1. Replace "Gnibversity" with "Guibersity".
+2. Change "Basak Pardo, Cebu City, Philippines" to "Banilad Campus, Guibersity of San Jose-Recoletos, Cebu City, Philippines".
+3. Remove the comma before "Tel." and add a space after "No.".
+4. Change "College of Information, Computer and Communications Technology" to "College of Information and Communications Technology (CICT)".
+5. Replace "EDP-generated assessment slip or the official receipt" with "Official receipt".
+6. Remove the underscore before each starting time in the schedule table.
+7. Change "L" and "E" to "AM" and "PM", respectively.
+8. Remove the double slash before the starting times.
+9. Remove the curly braces around October 22, 2019.
+10. Add a space after each comma in the schedule table.
+11. Change "FINAL EXAMINATION SCHEDULE" to "Final Examination Schedule".
+12. Replace "PERMIT" with "PASSED".
+13. Add a space before and after each vertical bar ("|").
+14. Remove the underscore before and after each time range in the schedule table.
+15. Change "not later than October 30, 2019" to "on or before October 31, 2019".

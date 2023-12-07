@@ -1,0 +1,61 @@
+KNOW ALL MEN BY THESE PRESENTS:
+
+This MEMORANDUM OF AGREEMENT (MOA) entered into, and executed by and
+between:
+
+The DEPARTMENT OF SCIENCE AND TECHNOLOGY
+- ADVANCED SCIENCE AND TECHNOLOGY INSTITUTE
+(DOST-ASTI) hereinafter referred to, as the “DOST-ASTI” with
+principal office address at ASTI Bldg., U.P. Technology Park
+Complex, C.P. Garcia Avenue, Diliman, Quezon City and
+represented in this Agreement by its Director, FRANZ A. DE
+LEON, Ph.D..;
+
+-and-
+
+The UNIVERSITY OF SAN JOSE — RECOLETOS
+hereinafter referred to, as the “USJ-R” with principal office
+address at Magallanes Street, 6000, Cebu City, Philippines and
+represented in this Agreement by its University President, Rev.
+Fr. EDUARDO S. CELIZ JR., OAR
+
+(DOST-ASTI and USJ-R are hereinafter referred to as the
+“Parties’)
+
+WITNESSETH:
+
+WHEREAS, the USJ-R promotes cultural, professional and spiritual opportunities for
+human resource development, knowledge and technology generation, and environmental
+stewardship in addition to its commitment to provide quality Christian community-oriented
+education to transform individuals be responsive leaders of the society;
+
+WHEREAS, pursuant to its mandate, the DOST-ASTI implements scientific research and
+development programs and projects in the advanced fields of Information and Communications
+Technology (ICT) and Microelectronics in support of local and national development;
+
+WHEREAS, the USJ-R is a Gospel and community-oriented educational institution
+dedicated in producing leaders in research and development programs through innovative integral
+formation, that will exemplify the Augustinian Recollect charism and core values;
+
+WHEREAS, the DOST-ASTI has engaged in a research project titled “ASTI -
+AUTOMATED LABELING MACHINE (ASTI-ALaM)”, which aims to develop an optimized
+workflow for developing machine learning models and an online model store, herein referred to
+as the “PROJECT,” for hosting the developed models for usage in different application domains;
+
+WHEREAS, the DOST-ASTI and the School of Computer Studies of USJ-R, hereinafter
+referred to as the “USJ-R SCS’, agree to collaborate with each other to ensure the success of
+this scientific and social endeavor.
+
+NOW, THEREFORE, for and in consideration of the foregoing premises and the mutual
+covenants hereunder stipulated and in compliance with Republic Act No. 10173 or the Data
+Privacy Act of 2012 (the “DPA”) and Republic Act No. 10055 of 2009 or the Technology Transfer
+Act of 2009 and its Implementing Rules and Regulations, the parties have agreed to carry out the
+following terms and conditions within the framework of this MOA:
+
+I. OBLIGATIONS OF THE PARTIES
+A. The DOST-ASTI shall:
+
+. 1. assist USJ-R faculty in designing and planning the professional course/s on
+Abpea deep learning and its related topics
+
+/ ‘

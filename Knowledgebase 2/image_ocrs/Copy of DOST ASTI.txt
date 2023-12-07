@@ -1,0 +1,279 @@
+MEMORANDUM OF AGREEMENT
+KNOW ALL MEN BY THESE PRESENTS:
+
+‘This MEMORANDUM OF AGREEMENT (MOA) entered into, and executed by and
+between:
+
+‘The DEPARTMENT OF SCIENCE AND TECHNOLOGY
++ ADVANCED SCIENCE AND TECHNOLOGY INSTITUTE
+(00ST-AST) hereinafer referred to, 26 the “DOST-ASTI" with
+Principal ofice address at ASTI Blég, U.P. Technology Park
+Complex, CP. Garcia Avenue, Dilman, Quezon Cty and
+represented in this Agreement by its Director, FRANZ A. DE
+LEON, Ph.D.;
+
+ond.
+
+‘The UNIVERSITY OF SAN JOSE - RECOLETOS
+hereinafter refered to, as the “USJ-R" with principal office
+‘address at Magallanes Street, 6000, Cebu City, Phiippines and
+‘epresented inthis Agreement by its University President, Rev.
+Fr. EDUARDO 8. CELIZ JR, OAR
+
+(DOST-ASTI and USJ-R are hereinafter referred to as the
+"Paries')
+
+WITNESSETH:
+
+WHEREAS, the USJ-R promotes cultural, professional and spiritual opportunites for
+human resource development, knowiedge and technology generation, and. environmental
+stewardship in addition to its commitment to provide quality Christian community-erieted
+‘education to transform indviduals be responsive leaders of the society,
+
+WHEREAS, pursuant to its mandate, the DOST-ASTI implements scentfic research and
+development programs and projects in the advanced fields of Information and Communications
+Technology (ICT) and Microelectronics in support of local and national development;
+
+WHEREAS, the USJ-R is a Gospel and communiy-oriented educational institution
+{dedicated in producing leaders in research and development programs through innovative integral
+formation, that will exempity the Augustinian Recollect charism and core values;
+
+WHEREAS, the DOST-ASTI has engaged in a research project tiled “ASTI -
+AUTOMATED LABELING MACHINE (ASTI-ALaM)", which aims to develop an optimized
+Workflow for developing machine learning models and an online model store, herein referred to
+48 the “PROJECT,” for hosting the developed models for usage in different application domains;
+
+WHEREAS, the DOST-ASTI and the School of Computer Studies of USJ-R, hereinafter
+referred to as the “USJ-R SCS", agree to collaberate with each other to ensure the success of
+this seientfic and social endeavor
+
+NOW, THEREFORE, for and in consideration ofthe foregoing premises and the mutual
+Covenants hereunder stipulated and in compliance with Republic Act No. 10173 or the Data
+Privacy Act of 2012 (the “DPA’) and Republic Act No. 10058 of 2009 or the Technology Transfer
+‘Act of 2009 and its Implementing Rules and Regulations, the parties have agreed to carryout the
+{olowing terms and condtions within the framework ofthis MOA:
+
+OBLIGATIONS OF THE PARTIES
+KNOW ALL MEN BY THESE PRESENTS:
+
+‘This MEMORANDUM OF AGREEMENT (MOA) entered into, and executed by and
+between
+
+‘The DEPARTMENT OF SCIENCE AND TECHNOLOGY
+= ADVANCED SCIENCE AND TECHNOLOGY INSTITUTE
+{DOST-AST) hereinafter referred to, as the “DOST-AST!" with
+brincipal office address at ASTI Bldg, U.P. Technology Park
+Complex, C.P. Garcia Avenue, Diliman, Quezon City and
+represented in this Agreement by its Director, FRANZ A. DE
+LEON, Ph.0.
+
+-and-
+
+‘Tho UNIVERSITY OF SAN JOSE ~ RECOLETOS
+hereinafter refered to, as the “USJ-R" with principal office
+‘address at Magallanes Street, 6000, Cebu City, Philppines and
+‘represented inthis Agreement by its University President, Rev.
+Fr. EDUARDO S. CELIZ JR., OAR
+
+{DOST-ASTI and USJ-R are hereinafter referred to 9s the
+"Panies")
+
+WITNESSETH:
+
+WHEREAS, the USJ-R promotes cultural, professional and spiritual opportunities for
+human resource development, knowiedge and technology generation, and’ environmental
+stewardship in addition to its commitment to provide quality Christian community-oriented
+‘education to transform individuals be responsive leaders ofthe society;
+
+WHEREAS, pursuant to its mandate, the DOST-ASTI implements scientic research and
+development programs and projects in the advanced fields of Information and Communications
+Technology (ICT) and Microelectronics in support of local and national development;
+
+WHEREAS, the USJ-R is @ Gospel and community-oriented educational institution
+{dedicated in producing leaders in research and development program through innovative integral
+‘formation, that will exemplty the Augustinian Recollectcharism and core values;
+
+WHEREAS, the DOST-ASTI has engaged in a research project tiled “ASTI -
+AUTOMATED LABELING MACHINE (ASTL-ALaM)", which aims to develop an optimized
+‘workflow for developing machine learning models and an online model store, herein referred 10
+288 the "PROJECT, "for hosting the developed models for usage in different application domains;
+
+WHEREAS, the DOST-ASTI and the School of Computer Studies of USJ-R, hereinafter
+referred to as the “USJ-R SCS", agree to colaborate with each other to ensure the success of
+this scientific and social endeavor.
+
+NOW, THEREFORE, for and in consideration of the foregoing premises and the mutual
+Covenants hereunder stipulated and in compliance with Republic Act No. 10173 or the Data
+Privacy Act of 2012 (the “DPA") and Republic Act No. 10055 of 2008 or the Technology Transfer
+‘Act of 2008 and its Implementing Rules and Regulations, the parties have agreed to cary out the
+{folowing terms and conditions within the framework ofthis MOA:
+
+| OBLIGATIONS OF THE PARTIES.
+‘A. The DOST.ASTI shal:
+
+- 41. assist USJ-R faculy in designing and planning the professional coursels on
+Aig deep learning and its related topics
+7
+
+‘conduct knowledge transfer ectiviies for USJ-R faculty necessary to pero
+the actvties ofthe professional coursals
+
+provide remote access to its computing resources sufficient to perform the
+‘Scivties related to the professional courses.
+
+Gefine the use case application's to be contributed to the PROJECT
+
+lead the conduct of research including drafting and publication of any scientific
+discovery or knowledge related tothe use case application's.
+
+Introduce advanced topics, such as. hyperparameter optimization and
+‘geographic information system (GIS), which are related to the use case
+‘plications andlor the research conduct.
+
+Collaborate wih USJ-R for future Al-based research and projects.
+
+B The USJ-R SCS shal
+
+1
+
+‘assign at least one professional course every term/semester with at least
+‘twenty (20) enrolled ITICS students,
+
+provide at least one facuity who will commit to handing the courses.
+
+provide at least twenty (20) desktop computers with internet access.
+
+‘design the course and draft asylabus based onthe training andlor workshops.
+provided by DOST-AST
+
+‘2dopt the use case application's defined by DOST-ASTI in the activites ofthe
+courses.
+
+Collaborate with USJ-R forthe ongoing and future Al-based research and
+
+Projects
+‘sist DOST-AST! inthe dissemination ofthe PROJECT, its Model Store,
+‘and athe knowledge transfer activities from DOST-ASTI by hosting these
+events
+
+IL INTELLECTUAL PROPERTY
+
+‘The provisions of the Philippine Technology Transfer Act of 2008 (R. A. No. 10055) and its
+Implementing Rules and Regulations (Joint DOST-IPO A. O. No. 01-209), as amended, the
+Department of Science and Technology Intelectual Properly Policy, as amended (00ST
+‘Administrative Order No. 16-2019), and other related laws, rules and policies, shall be deemed
+incorporated inthis MOA and must, therefore, be complied with by the parties herein,
+
+ll, TERMS OF DATA USAGE
+
+1, Alldata collected rom the ASTL-ALaM System shallbe transmitted, consoidsted, and
+stored in the ALaM Model Store server located at DOST-ASTIs High-Performance
+Computing (HPC) fecity.
+
+2, The USJ-R SCS shall have access to the data that will be generated from their
+‘experiments that will be conducted using the ASTIALAM System unti September
+
+2028
+
+3. The USJ-R SCS shall allow the DOST-ASTI to use their data forthe improvement of
+the implementation of the succeeding versions of the ASTI-ALaM System until
+September 2024,
+
+IV. ASSIGNMENT
+
+[No party shall assign this MOA to another party without the prior writen consent ofthe
+‘thar Otherwise, such assignment shal be considered void and shal terminate this MOA,
+
+\V. AMENDMENT
+
++ Nomodéication or amendment to the terms and conditions ofthis MOA shall be valid uniess
+Set out in writing and signed by the authorized representatives ofthe parties. Should there
+bean amendment both parties wil notify the other party at least one (1) month in advance.
+VI. EFFECTIVITY AND TERMINATION
+
+‘This MOA shall take effect from the date of signing and shall remain in force fora period
+‘of two (2) years, subject to renewal by mutual agreement between the parties. In any
+‘event, he USU-R shall, ints discretion, have the right o terminate this MOA by serving &
+‘seven (7)-day writen notice to DOST-AST.
+
+VIL. FORCE MAJEURE
+
+No party shall be made liable, in any way, for falure to observe or perform any provision
+ofthis MOA if such failure is caused by force majeure, such as, without imitation, any law,
+‘ule or regulation f any constituted public author, failure of any governmental approval
+required for full perfomance, evil isorder or commation, labor disturbances or labor
+disputes of any kind, accidents, energy or other conservation measures, explosions,
+failure of uilties, mechanical breakdowns, material shortages. diseases ox such other
+‘occurrences beyond the control ofthe partyin dfauit
+
+VIL VENUE OF ACTION
+
+fa dispute of any kind should arise between the parties in connection with or arse out of
+this MOA, the partes shall make every effort to resolve such dispute amicably. H after ten
+(10) days, the parties have failed to resolve their dispute, the mater shall be submited to
+the Office of the Government Corporate Counsel for arbitration pursuant to Presidential
+Decree No. 242. Any and all actions arising from arbitration or other modes of dispute
+settiement as agreed upon by the parties shall be brought by the aggrieved party
+‘exclusively before the proper court in Quezon City,
+
+IX, COMPLETENESS OF THE AGREEMENT
+‘This MOA contains all the agreements ofthe parties and replaces and supersedes any
+
+tor understanding, communications, and representations, whether verbal or writen,
+between the parties
+
+X. SEPARABILITY
+Inthe event that any or any part ofthe provisions contained in this MOA is determined to
+be invalid, unlawful, or unenforceable to any extent, such term, condtion, or provision shall
+
+be severed fom the remaining provisions which shall continue tobe valid and enforceable
+to the fullest extent permitted by law.
+
+IN WITNESS WHEREOF, the patties hereto have signed this Agreement this
+‘at
+
+ADVANCED SCIENCE AND TECHNOLOGY UNIVERSITY OF SAN JOSE-RECOLETOS
+INSTITUTE
+
+Aue _
+FRANZ. BE LEON, Ph.D. Rey. Fr. EDUARDO 8. CELIZ JR, OAR
+Drector, DOST-ASTT University President, USJ-R
+
+‘SIGNED IN THE PRESENCE OF:
+
+a f fn
+Republic ofthe Philippines)
+Quezon Cty )
+
+BEFORE ME, a Notary Pubic or andinine QUEZONCITY ng 21 DEL 2022
+ay of 2022, personaly appeared
+
+Name. ‘Govtlssued iD | —Tesued on Tesued at
+
+FRANZA.DELEON, PhD. |PassportNo. | July25,2018 | DFAManiia
+eOBIS1A,
+
+‘Rev. Fr. EDUARDO. CELIZ | Passport No. | June 12, 2022 | DFA Manila
+JR, OAR 04912660.
+
+‘Al known to me to be the same persons, who executed the foregoing instrument and they
+‘acknowledged to me that the same Is thek free and voluntary act and deed, as well as the
+voluntary acto the insttutons/agencies they represent
+
+This instrument consists of 7 pages, including this page wherein the acknowledgment is writen,
+‘duly signed by the parties involved and their witnesses, on each and every page here.
+
+WITNESS MY HAND AND SEAL, on the date and the place fst writen above
+
+NOTARY PUBLIC
+Doc No ary. gOGHt06 Zoouvan
+Page No
+
+conta hee are NPA
+Saree ow Gieeiioinor nt seoe we coro
+
+PIROR Ne, ENS 1022 RIN S22 27
+
+‘ AERA ADIT aScBNCRMIOS
+Aue ‘es: 31 Hanan 9. Cab, QC.
+

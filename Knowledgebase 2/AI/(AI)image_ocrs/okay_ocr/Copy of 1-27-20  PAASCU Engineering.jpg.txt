@@ -1,0 +1,9 @@
+CORRECTIONS:
+- Add an apostrophe to "OFFIC" and "PRESDIENT."
+- Capitalize the first letter of each word in the heading.
+- Change "VISIT IVIL ENGINEERING PROGRA|" to "VISIT OF THE CIVIL ENGINEERING PROGRAM".
+- Add a space between the date and subject.
+- Replace the comma after "2020" with a period.
+- Change "In this connection, therefore," to "Considering this circumstance,".
+- Replace "you will extend" with "your support and cooperation."
+- Add a semicolon between the two phrases in the last sentence.

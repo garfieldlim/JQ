@@ -1,0 +1,24 @@
+I have made some corrections in the given text:
+UNIVERSITY OF SAN JOSE-RECOLETOS
+General Student Master List for 2nd Semester 2022-2023 - BA Comm
+
+Student No. | Student Name | Program ID | Year Level
+------------------------------------------------------
+3rd Year    | ALIGUAY, HANNAH FRANCISCA G. | O06BACOM | 3
+             | ANORAGE, CHIGUT ANN t. | O6BACOM | 3
+             | ANGULO, FRITZIE MAE C. | Q6BACOM | 3
+             | ARBUES, SOPHIA MELLICA | O6BACOM | 3
+             | BURGOS, GABRIEL CARL . | O06BACOM | 3
+             | DIANA, MA. VICTORIA G. | 06BACOM | 3
+             | FERNANDEZ, LATRELL MATHEAU C. | O06BACOM | 3
+             | FERNANDEZ, XETH MIKHAIL S. | O06BACOM | 3
+             | FLORES, ROSELLE KAYE L. | O06BACOM | 3
+             | GERARMAN, MARIEL C. | O6BACOM | 3
+             | GERMAN, ANGELA EMERIE MAE V. | O6BACOM | 3
+             | GONZALES, MISSY GEM D. | O6BACOM | 3
+             | GUIOGUIO, NINA MARIE B. | O6BACOM | 3
+             | JUSOY, CRISTIE ANNE | O06BACOM | 3
+             | LACATARIA, CATHERINE A. | O06BACOM | 3
+             | MACALALAD, MARIAARNELA D. | O06BACOM | 3
+             | MADURA, STEFANY P. | O06BACOM | 3
+             | MEJIA, ARIS EMMAN

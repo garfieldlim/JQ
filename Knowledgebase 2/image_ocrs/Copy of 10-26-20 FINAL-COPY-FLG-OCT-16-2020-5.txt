@@ -1,0 +1,1702 @@
+[nteriority Nationalism Service Pioneerism.
+Untegrity Retiabitity [Excellence
+
+University of San Jose -Recoletos
+omer. Lopez and Magallanes St, Cebu hy Philppines 600
+
+Se
+
+USJ-R GUIDELINES ON
+THE IMPLEMENTATION
+OF FLEXIBLE LEARNING
+
+Effective Academic Year 2020-2021
+‘TABLE OF CONTENTS
+
+T Rationale 5
+1 Definition of Terms 6
+UL General Guidelines 9
+Vv Implementing Policies and Procedures 1
+w fd ‘Requirements and Qualifications For Flexible | 12
+Learning
+w | 2 Categorization of Learners according to is
+Availability of Devices, Internet Connectivity,
+and Level of Digital Literacy
+w 3 Facilitating Effective Online Teaching and Tt
+Learning
+Ww) 3 [ar ‘Online Semester Terms rw
+IV_|_3 | 32 | Most Essential Learning Outcomes 15
+W_| 3 [33 | Synchronous Virtual Learning Arrangement _| 15
+IV_|_3_ [34 | Asynchronous Virtual Learning Arrangement | 16.
+w | 3 [35 Social and Emotional Online Learning 16
+Climate
+wl 4 Rules and Discipline 7
+Ww | 4 [at Behavioral Expectations 17
+w | 4 [42 ‘Academic Integrity a7
+Ww] 4 [43 Online Classroom Rules 17
+Ww] 4 [4a “Teacher Organization 18
+ws ‘Assessment, 20
+Ww) 5 [Sa Formative and Summative Online 20
+Assessments
+Ww | 5 [52 | Grading 2
+W_| 6 ‘Communication 21
+Ww) 6 [et Communicating Announcements 21
+wl) 6 [62 Follow-up and Consultation Time 21
+w [7 Tntegration of Non-Academic 21
+Formation Programs
+w | 8 ‘Adelante LMS Team 2
+Ww_|8 [et ‘Adelante LMS Administrator 22
+Ww} 8 [a2 ‘Assistant Adelante LMS Administrator 23
+Ww) 8 [es Ed Tech Champions 23
+Ww_| 8 [ea ‘Adelante LMS SIS Support 24
+wl} 8 [as ‘Adelante LMS IT Support 24
+w | 9 Orientation for Faculty and 24
+Students
+w | 9 [or Faculty Teacher Orientation 24
+
+3
+
+v ‘Students Orientation 25
+Vv Support Services for Teachers and Students 26
+via Capability Building for 26
+
+Faculty/Teachers
+v2 “Technical Support for Faculty 26
+v2 [aa IT Virtual Help Desk, 26
+v2 22 “Technical Assistance for External 26
+Ls
+vi ‘Monitoring/Evaluation for Ea
+Faculty/Teachers
+v4 US[-R Virtual Services of Offices/Departments | 27
+vi Enhancing the Collaboration with Other 27
+Institutions and the Government
+Vir Security Measures and Compliance 28
+vit ‘On Copyright Infringements 28
+vi 2 (On Cyber Safety 28
+vi 3 (On Data Privacy. 28
+vill Other Related Policies 29
+vir) 1 Reservation 29
+vi) 2 re-Enrollment Evaluation 30
+vil) 3 Enrollment 30
+‘Appendices 32
+‘Appendix 1 Categorization of Learners Survey 33
+Appendix 2 ‘Organizational Forms of Online Teaching 35
+‘Appendix 3 Instructional and Social Organizations of | 36
+Learning
+‘Appendix 4 Classification of Learning Methods for Different | 38
+Participants
+‘Appendix 5 ‘Students’ Netiquette Guidelines for Online 3
+Classes
+‘Appendix 6 Teachers’ Netiquette Guidelines for Online @
+Classes
+Bibliography 5
+
+1 RATIONALE
+
+‘The United Nations Educational, Scientific, and Cultural Organization
+(UNESCO) has developed a Global Action Programme to create a new set of
+Sustainable Development Goals as a blueprint for a sustainable world (UNESCO,
+2014), SDG number 4: Quality Education, promotes inclusive and action-oriented
+programs to fight against emerging catastrophes, enabling academic institutions to
+develop a continuing program for learning by embracing inclusivity by utilizing
+varied modalities and learning approaches and integrating Information and
+
+Communication Technology (ICT),
+
+{As the modern view suggests, 21st-century teachers must embark on change
+by providing students with new opportunities to learn. With that, educational
+technology reinforces situated learning and social constructivism (Ford & Lott,
+2011), Such a theory connotes that the learners’ experiences effectively enable
+their development and interests (Bada & Olusegun, 2015). Situated Learning
+‘Theory suggests that educational technology can provide long experiences in
+virtual environments (Bell, Maeng & Binns, 2013) Industry 4.0 highlights creative
+and exciting lesson interactions using various technology tools through varied,
+flexible learning modalities. The integration of ICT in classes provides new
+pedagogy for the teaching and learning process as part of the educational paradigm
+shift (Singh et al, 2019)
+
+‘The Corona Virus Disease 2019 (CoVid-19) negatively impacts biodiversity,
+
+economy, society, and most especially in educational institutions and learners
+Presidential Proclamation No. 922 placed the country under the state of Public
+Health Emergency. To help fight the spread of COVID-19, the Inter-Agency Task
+Force (IATF), Department of Health (DOH), and other National Government
+Agencies (NGAs) collaborate with the Local Government Units (LGUs) for minimal
+movement among people. Hence, this results in the prohibition of face-to-face oF
+
+physical classes among all educational institutions. Distant flexible learning using
+varied modalities integrating ICT is then encouraged to be an alternative for
+teaching and learning delivery.
+
+Given these conditions, and guided by "Caritas et Scientia,” the University
+of San Jose-Recoletos continues to serve the community through its already
+existing “Virtual US}-R" program by using various technology tools in the "new
+normal." Adhering to CHED's minimum requirements for flexible learning and the
+University's academic program's internationalization, USJ-R migrates and shifts all
+its operations, services, and classes online. The University implements flexible
+learning using MODIFIED HYBRID LEARNING modality powered by its own
+‘Adelante Learning Management System (LMS). Carrying out its mission of "Quality
+Christian Community-Oriented Education," USJ-R continues to address the learning
+community's needs. Its remote facilities and highly competent and well-trained
+teachers shift to "Flexible Teaching-learning Modalities." Equipped with print and.
+digital educational resources, the University caters tothe students’ needs wherever
+
+they are in the country. US}-R continues to build its mission by providing a quality
+
+education for the people here and beyond.
+
+1. DEFINITION OF TERMS
+
+For purposes of these guidelines, the following terms are defined:
+
+1, Adelante Learning Management System (LMS) is a leaning
+‘management platform used by the University.
+
+2. Augustinian pedagogy is a teaching method based on the necessary
+formation process that carries a responsibility towards life. The process
+gives equal importance to form the will spiritual, intellectual, and moral
+dimensions. itis founded on love, which serves as the leading force for
+its process and development. Love enthralls and inspires any activity to
+learn, giving it meaning and leads towards man's aspiration ~ come
+
+closer to God's love.
+10,
+
+1
+
+Asynchronous refers to learning events that do not happen at the same
+place and simultaneously.
+
+Blended learning is a modality of educational delivery that combines
+traditional classroom-based instruction and online learning approaches.
+Copyright infringement refers to a violation of the copyright of an
+individual or organization,
+
+Faculty/Teacher is an individual who provides instruction in USJ-R. A
+believer in man and his possibilities; considers oneselfa mediator. From
+a friendly, humane, and sympathetic perspective, arouses the dialogue
+that leads the student towards knowledge and truth, The
+faculty's/teacher's mission is based on the absolute belief that love
+empowers knowledge and empowers love.
+
+Flexibility refers to offering choices in the educational atmosphere and
+talloringa given course to address individual students’ needs.
+
+Flexible learning is the design and delivery of courses, programs, and
+learning interventions that address learners’ unique needs in terms of
+place, pace, process, and learning products. It involves using
+clectronic/digital and non-digital/non-electronic technology. It covers
+face-to-face learning and out-of-classroom learning modes of delivery or
+combination of methods of delivery. It ensures the continuity of
+Inclusive and accessible education when traditional teaching modes are
+not feasible, as in national emergencies.
+
+Formative assessment refers to the various ways teachers use to
+evaluate students’ learning needs and academic progress during a
+lesson, unit, or course.
+
+Intellectual Property Right (IPR) is the right given to individuals over
+their minds' creations, including copyrights, patents, utility models, and
+trademarks.
+
+Learning Management System (LMS) refers to software tools designed
+to manage open and distance learning services. It provides three main
+user functions - teacher, student, and administrator. Itis a system aimed
+
+7
+12,
+
+13,
+
+4,
+
+15,
+
+16,
+
+17,
+
+18,
+
+19,
+
+20.
+
+at managing online learning services, eg, the provision and management
+of course content, students’ enrollment, and grading.
+
+Modified hybrid learning emphasizes the utilization of synchronous
+and asynchronous tools to encapsulate teaching and learning not
+necessarily through face to face but through virtual interaction.
+
+Most Essential Learning Outcome (MELO) refers to statements that
+specify what students will know, do, or demonstrate the outcomes upon
+completing a course or program.
+
+Online learning refers to synchronous or asynchronous learning
+environments using different digital/electronic devices with internet
+access. Students can be anywhere to learn and interact with
+faculty/teachers and other students.
+
+‘The online learning approach refers to correlative assumptions
+dealing with online teaching,
+
+Online learning methodologies refer to the series of related acts or
+procedures performed by both teachers and students online to attain the
+lesson objectives.
+
+Online teaching and learning strategies refer to the teacher's art of
+devising and employing online learning to achieve the course outcomes,
+Open Educational Resources (OER) are educational materials
+Introduced with a free license or public domain. Anyone can legally and
+freely copy, adapt, use, and re-share these resources. ‘These materials
+Include audio, video, animation, projects, curricula, tests, and
+assignments.
+
+‘The student is an individual studying in USJ-R. A lover of truth and
+therefore pursues it from his restlessness and responsible freedom.
+Humble and receptive, but conversant and participative. Begin one's
+journey in self-knowledge to direct his life and transcendence.
+Summative assessment evaluates students’ learning, skills acquisition,
+and academic achievement after completing a defined instructional
+
+period.
+21. Synchronous refers to an event of learning in which a group of people is
+engaged in learning simultaneously in any form, whether it is online or
+
+‘meeting physically.
+
+UI, GENERAL GUIDELINES
+
+Im line with the Vision, Mission, and Goals (VMG) of the University of San
+Jose-Recoletos (US}-R) and adherence to CMO No.4, s. 2020, the “Guidelines on the
+Implementation of Flexible Learning” set by the Commission on Higher Education
+(CHED), Department of Education (DepEd), Legal Education Board (LEB), Technical
+Education and Skills Development Authority (TESDA) and other related
+government agencies, US} shall:
+
+1. consider from the perspective that a flexible learning-teaching
+design is rooted in students’ needs. Its main objective isto provide
+learners with the most flexibility on the learning content,
+schedules, access, and innovative assessment, making use of digital
+and non-digital tools;
+
+2. continue to exercise their judgment/academic freedom to deploy
+available flexible learning and other alternative modes of delivery
+in place of in-campus learning/face-to-face modality. The exercise
+of discretion by USJ-R and its faculty/teacher must be reasonable,
+transparent, and the delivered content are outcomes-based
+validated;
+
+3. adopt flexible learning that complements outcomes-based
+education, which allows flexibility in employing various means of
+delivery and assessment as long as they can show the achievement
+of the set learning outcomes for each program;
+
+4, review all the curricular offerings in terms of learning content, and
+
+make the necessary adjustments or modifications in the course
+
+9
+contents/requirements, determine alternative options in the
+design, pedagogy, and assessment mechanisms that students may
+avail through various modalities;
+
+enliven the curriculum with gospel values, exemplify the
+
+Augustinian charism and Josenian core values - Interiority,
+Nationalism, Service, Pioneerism, Integrity, and Reliability
+(INSPIRE) - in the pursuit ofits vision, mission, and goals based on
+an integral process aimed at bringing to light and energizing
+through the cognitive force of love all the latent potentialities in
+the student;
+
+6. decide on the most viable form of flexible learning and teaching
+that can be utilized based on their capability, existing condition,
+national government agency guidelines, and local government unit
+advisories;
+
+7. establish means for student and teacher engagement
+communication, which may include Short Message Services (SMS),
+electronic mail (email), chat instant messaging, and other means
+whichever is convenient, appropriate, and available to ensure
+personalized, effective, efficient, and timely mentoring and
+feedback mechanisms;
+
+‘8 provide mechanisms to inform and orient learners on the learning
+system to be implemented, which may be in the form of course
+packages for students and accessible online and offline. Course
+packages may include course syllabi, study guides, learning
+activities, the available repository of learning resources, schedule
+of lessons/consultations, assessments, monitoring of students
+engagement, and mechanics of submission of requirements,
+grading system, feedback portals, student support systems, and
+the like, to assist students in managing their study time and
+‘maximizing their learning; provide methods and procedures for
+
+the transition of Flexible Learning in disseminating to all its
+
+10
+10.
+
+1.
+
+12.
+
+13.
+
+stakeholders which may be in the form of the policy document
+(eg, primer, guidebook), implement mechanisms for students to
+receive/access digital course packages/instructional_ materials
+through digital platforms;
+
+encourage the optimum use of technology to support learning and
+teaching:
+
+a. Determination of the technology level of students in
+delivering the programs;
+
+b. Provision of a multi-media or learning resource center
+to technically support to faculty members in
+developing IT-enabled and IT-related instructional
+materials
+
+€ Access/Utilization of electronic library or available
+OER as a reference in various flexible learning
+pedagogies and disciplinal content; and
+
+4. Utilization of the Adelante Learning Management
+System (LMS);
+
+implement and explore grants or support capacity building
+programs for administrators, faculty, and staff on transitioning to
+flexible learning:
+
+ensure that health and safety protocols are maintained at all times
+and establish a means to remind students, faculty/teachers, and
+other school personnel of the health and safety protocols through
+a display of digital reminders
+
+explore partnerships with relevant agencies and organizations to
+strengthen or complement existing resources, infrastructure, or
+connectivity to ensure undisrupted learning of the students; and
+join/form consortia/coalition/networking to facilitate capacity
+
+building programs and sharing of resources
+
+n
+IV, _ IMPLEMENTING POLICIES AND PROCEDURES
+
+‘These implementing policies and procedures provide the details on how to
+
+implement the general guidelines mentioned above fully.
+
+‘Requirements and Qualifications for Flexible Learning
+
+Table 1
+Requirements and Qualifications for Flexible Learning,
+for Faculty/Teacher and Student
+
+3 Teachingand | The culty /teacher The student
+Learning On | a4 attendedthetrainingin | a. hasbeen given
+Factitating | Adelante LM frientation on Adelante
+Flexible 422 can facitate online | LMS
+Learning learning (Technology ‘22 caninteract with online
+
+Enhanced Learning) learning (Technology
+
+423 has access to elearning. | Enhanced Learning),
+resources 103 has access toelearning
+424 has the competencies in | resources;
+
+‘managing virtual learning | a4 is mindful ofthe ethical
+environments Standards in virtual learning
+5 cannavigatevaried | environments: and
+Learning Management | a.5can navigate varied
+Systems and technology | Learning Management
+tools and systems and technology
+‘is mindfl ofthe ethicat | tools
+Standards in virtual learning
+
+environments,
+
+1B Technology | Hardware: Tartare
+Requirements | AtleasthasaDesktop/ | Atleasthasa
+
+Laptop (Syearsold or | ‘Smartphone (android
+tess] 103)
+Internet EA. Minima Speed Minimum Speed
+Connection Five (5) Megabitsper | One (1) Megabits per
+second (Mbps) Second (Mbps)
+2. Minimum Data 2, Minimum Data
+Allocation ‘location:
+20 Gigabytes (GB) 15 Gigabytes (6B)
+allocation per month allocation per month
+
+2
+2. Categorization of Learners according to Availability of
+Devices, Internet Connectivity, and Level of Digital Literacy
+
+24
+
+22
+
+At the start of the class, students will be required to
+answer the Categorization of Leamers Survey (Appendix 1)
+to determine their technology access for flexible learning,
+‘The survey result will be used as a basis for the
+faculty/teacher to select appropriate methods, approaches,
+and possible interventions suitable to students’ needs to
+achieve optimum learning
+
+‘The categories are the following:
+
+24.1 High-level Technology - has complete access to the
+world- wide web through various technology tools
+for learning such as laptops, mobile phones, tablets,
+or desktop.
+
+24.2 Mid-level Technology ~ has access to the world-
+wide web using mobile phones as a source for
+searching the information,
+
+2.1.3 Low-level technology - has limited to no access to
+technology. Students in this category are advised to
+enroll upon the return of actual face to face learning
+as university courses demands high level and mid
+
+level technology requirements.
+
+‘To assist the students based on their categories, each
+school/department must design its flexible teaching and
+learning schemes. These technologies will facilitate students!
+learning in achieving the outcomes intended for every
+course. Appendices 2, 3, and 4 are the reference guides of
+
+suggested designs,
+
+a
+Flexible Learning and Teaching Schemes
+
+Table2
+
+High-ievel Laptops, Fast | Proficient | Onlineand
+‘Technology smartphones offline activities
+tablets; desktops more onenline
+
+‘etivities
+
+Mediunvievel | Mastiyavalable | Slow | Advanced | Onlineand
+‘Technology smartphones offline activites
+Towle Some Toworne | Beginner | SalFinstructionat
+‘Technology | smartphones oro | Internet modules/mosty
+technology | connection ‘offline activites
+
+3. Eacilitating Effective Online Teaching and Learning
+
+Facilitating online teaching and learning needs the same
+energy and willingness from the faculty/teacher. However, it will
+require their utmost patience and resourcefulness on the
+technology tools to use. The faculty/teacher must serve as an
+Initiator of the flexible curriculum. The best way to facilitate
+effective online teaching and learning is to use effective and
+efficient approaches, procedures, and technology tools and
+applications to assist the faculty /teacher in the online, flexible, and
+blended learning modalities.
+
+Here are the key components of classroom management,
+and procedures to guide the faculty in facilitating classes in an
+online setting
+3.1 Online Semester Terms
+
+USI-R flexible modality continues to adhere to the
+
+usual semester terms ~ Prelim, Midterm, and Finals, which
+
+“
+32
+
+33
+
+will be scheduled by the Vice-President for Academics and
+the University Registrar. Each term still concludes with an
+evaluation administered through online/flexible means in
+the new normal. Out of the number of learning hours
+expected in a semester, part of it must be dedicated to
+synchronous virtual meetings with the students to foster
+personalized engagement despite learners’ distance from the
+faculty teacher.
+
+Most Essential Learning Outcomes (MELO)
+
+Part of scheduling concerns is the faculty's entire plan
+for the semester. While planning for the courses to be
+handled throughout the whole semester, the faculty/teacher
+‘ust identify the MELO in each course. The identification of
+the MELOs assists faculty/teacher in determining the
+‘outcomes that must be achieved extensively by the students
+during the semester. The MELO must be from the set of
+program /course intended learning outcomes.
+‘Synchronous Virtual Learning Arrangement
+
+Al faculty/teachers shall observe the minimum and
+‘maximum number of virtual learning sessions with students
+per week, as determined by the respective deans/principals
+‘This scheme gives both the teacher and students ample time
+to perform other offline activities. Simultaneously, meeting
+virtually, they share needed instructions and competencies
+and clarify essential concepts (Appendix 2).
+
+Alongside the Adelante LMS, Microsoft Teams, Google
+Meet, Zoom, Messenger Rooms, and Skype are the most
+common applications for education-related purposes. The
+faculty teacher should use visual means to present the day's
+
+‘outcomes or topics during the virtual clas.
+
+15
+3.4 Asynchronous Virtual Learning Arrangement
+‘The remaining learning hours of the week's classes on a
+particular course will be dedicated to the students!
+asynchronous academic work. The faculty/teacher must set
+weekly lesson activities and tasks that the students can
+flexibly do.
+3.5. Social and Emotional Online Learning Climate
+‘Along with the academic requirements, the students’
+social and emotional states are also critical and should be
+given due consideration. While transitioning to the new
+normal, one should be mindful of the world crisis everyone
+
+faces. With this, the faculty/teacher must advocate for a
+
+desirable online learning climate through the following
+
+procedures:
+
+3.5.1 The faculty/teacher must assure students that their
+well-being is equally essential and complete output
+and tasks.
+
+3.5.2 While the school has set standards; the teacher must
+understand every student's unique situations.
+
+3.5.3. The faculty/teacher must be sensitive to the students!
+academic, behavioral, and emotional problems
+during this crisis and must not pass judgment. The
+faculty teacher must take appropriate steps to assist
+and refer the student to the Student Development
+
+and Placement Center (SDPC) for counseling.
+
+3.54 While students are expected to participate in the
+synchronous activity, they may be excused for valid
+reasons for absence. However, teachers give other
+activities requirements for students to make up for
+
+their absence.
+
+16
+355
+
+35.6
+
+35.7
+
+35.8
+
+When assigning asynchronous tasks to the students,
+the faculty/teacher must ensure that students can
+reasonably perform these within the course's time.
+‘The faculty/teacher may set deadlines for graded
+activities. However, work submitted beyond the
+deadline may still be accepted and graded by the
+faculty teacher ifthey can provide valid reasons.
+Should there be signs of cyberbullying or
+discrimination; the faculty/teacher should stop right
+away. The Student Affairs Office should also be
+informed whenever there are cases where teachers,
+cannot settle immediately.
+
+‘The faculty/teacher and students must strictly
+observe the guidelines and provisions set under the
+Anti Sexual Harassment Act (RA 7877) and Safe
+Spaces Act (RA 11313)
+
+Rulesand Discipline
+
+4.1 Behavioral Expectations
+
+Students and teachers must observe proper conduct
+
+during online classes as stipulated in the student and faculty
+
+‘manuals, respectively.
+
+4.2 Academic Integrity
+
+Everyone must observe academic integrity by avoiding
+
+all intellectual dishonesty forms and adhering to the
+
+University's intellectual property policy.
+
+43° Online Classroom Rules
+
+‘The faculty/teacher shall set classroom rules in
+
+synchronous and asynchronous modes for students to follow,
+
+‘to maintain a positive and respectful learning climate in an
+
+Fa
+online setting, and to minimize disruptions along the way.
+
+‘The rules must likewise conform to the Student Manual
+
+For synchronous virtual classes, faculty/teacher must
+
+decide on rules about when to speak or engage, turn on and,
+
+‘off the microphones and videos, and when internet
+
+connectivity is low.
+
+For asynchronous activities, the faculty/teacher must
+
+set rules on what students can post in-class chat, including.
+
+guidelines on group/individual work, submissions, and
+
+44 Teacher Organization
+44. Setting Up of E-Class
+
+442
+
+The Adelante LMS is used to facilitate the
+delivery of instruction in a flexible learning
+environment. Teachers must update their electronic
+classes regularly through the LMS, Likewise, the
+faculty/teacher must attend meetings/feedbacking
+sessions with the Ed Tech Champions to address
+LMS concerns.
+Routines
+
+Because of the online setup of the classes,
+using routine activities is more useful than ever.
+Routines speed up the teacher's delivery of
+instruction and students’ learning. These routines
+intertwine with the class rules.
+
+‘The routines that the faculty/teacher must
+decide to set forthe class may include the following:
+
++ starting and ending the class with a
+prayer
+
++ checking students’ attendance
+
+18
++ asking and answering a virtual class
+question
++ assessing students’ performance
++ giving peer feedback and receiving
+own feedback
++ collecting outputs from students
+443 Course Syllabi
+‘The course syllabi must include online delivery
+‘modes and processes used in the class.
+444 Instructional Technique
+As US}-R adopts synchronous and
+asynchronous delivery modes, the teachers are free
+to decide on the use of varied teaching strategies,
+which may include the following
++ Direct Instruction/Lecture
++ Case Study
+* Debate
+* Discussion
++ Student-led Discovery
++ Experiential Learning
+# Academic Games or Composition
++ Brainstorming
+Drill and Practice
+# Independent Study
++ Collaborative Learning
+‘The methods mentioned may be integrated
+into the lesson development using the modi
+
+hybrid learning approach, whether synchronous or
+asynchronous (Appendices 3 & 4).
+
+19
+5
+
+Assessment
+5. Formative and Summative Online Assessment
+Teachers must conduct formative and summative
+online assessments to determine whether the expected
+outcomes are achieved. Before considering formal
+assessment, the faculty/teacher must ensure that the module
+content's flow is not just presenting content but also
+facilitating its learning. During constructive learning by the
+students, the faculty/teacher can do formative assessments,
+‘The summative assessment may be given once ensured that
+students understand the module. Some guidelines teachers
+‘may consider in each type of assessment are:
+
+Table3
+Formative and Summative Online Assessment
+
+Formative ‘Summative
+{along the process oflearning) | (end ofthe learning process, graded)
+
+Understanding tysome eters, and |" Sscssment™[objective, subjective, ae
+
+teflecon student lear performance type) alined with the
+ourse/enson outcomes.
+
+tndeoringltc loner’ | «Cone een cones of he mde
+
+2
+
+5.2 Grading
+‘The Grading System must adhere to the University
+Manual and the standards and guidelines set by each
+
+school/department.
+
+6. Communication
+Communication is crucial in the online delivery of classes
+because of the flexibility of schedules. At the beginning of the
+semester, schools/departments must create an open communication
+channel with its students to the schools/departments to facilitate
+smooth-sailing endorsements of subjects.
+6.1 Communicating Announcements
+The faculty/teacher must seta routine in
+disseminating announcements, reminders, and updates.
+6.2. Follow Up and Consultation Time
+‘The faculty/teacher must have a designated schedule
+
+during the week to follow-up and consult with students.
+
+7. Integration of Non-Academic Formation Programs
+‘As a Recollect institution, the University aims for the holistic
+formation of Josenians inspired by St. Augustine's pedagogical
+approach to forming a person's mind and heart. The following are
+the offices that collaborate to take care of students! spiritual,
+psycho-social, discipline, and socio-civi formation:
+Campus Ministry Office (CMO)
+b. Student Development and Placement Center
+(soc)
+Student Affairs Office (5A0)
+Athletics Office (AO)
+
+€. Nom-Formal Education and Community Outreach
+
+Program (INFECOP)
+
+a
+‘These offices shall work hand in hand with the Academic
+
+formation offices to achieve the schoo!’s vision, mission, and goals.
+
+Adelante LMS Team
+
+‘The team comprises the LMS Administrator, Assistant LMS
+‘Administrator, Ed Tech Champions, SIS Support, and IT Support
+‘The school board appoints the team members and is under the
+
+supervision of the Vice-President for Academics.
+
+8.1 Adelante LMS Administrator
+
+‘The LMS Administrator ensures stable LMS operations and
+
+performs the following functions:
+
+8.1.1 Sets-up LMS org units;
+
+8.1.2 Creates user accounts for faculty and students;
+
+8.1.3 Bulk creation of courses based on Student Information
+System (SIS) course offerings
+
+8.14 Bulk enrollment faculty and students to course
+offerings from SIS enrollment data;
+
+8.1.5 Creates college course template for bulk course copy to
+course offerings:
+
+8.1.6 Manages roles and permissions; grants access to deans
+and chairs for monitoring courses offered in their
+respective schools/departments;
+
+8.1.7 Coordinates with the external LMS provider on URL
+‘masking/ vanity URL;
+
+8.1.8 Provides technical support to faculty and students to
+address issues/concerns escalated by the Ed Tech
+Champions; and
+
+18.1.9 Generates relevant reports based on log data,
+
+2
+{8.2 Assistant Adelante LMS Administrator
+
+‘The Assistant LMS Administrator assists the | LMS
+‘Administrator in the operations and has the following specific
+functions:
+
+8.2.1 Takes charge of the institutional email concerns for
+faculty and students. Coordinate with IT Support
+Service personnel in the creation of USJ-R email
+addresses;
+
+8.2.2 Assists the faculty members in content creation and
+migration;
+
+8.2.3 Manages User Accounts ~ checks if all accounts were
+enrolled to org units and accommodate concerns
+related to changes to user account details and user
+authentication (login issues, password resets, and the
+like); and
+
+8.2.4 Sets - up MS Teams PLC for each school/department.
+
+8.3 Ed Tech Champion
+
+‘The Eid Tech Champion has the following functions:
+
+8.3.1 Ensures that all faculty members of assigned schools
+have activated their respective institutional email
+addresses;
+
+8.3.2 Assists and monitors faculty registration to the
+external LMS provider to access “Guided Training"
+inclusive of self-guided content and instructor-guided
+training webinars on instructor tools/workflows;
+
+8.3.3 Assists faculty in content creation and migration;
+
+8.3.4 Manages Adelante LMS helpline for teachers through
+
+MS Teams PLC to address concerns/issues on LMS;
+
+2
+8.3.5 Manages Adelante LMS helpline for students through
+Facebook (Fb) page to address concerns/issues on
+LMS; and
+
+8.3.6 Manages homepage for assigned schools and
+
+departments; display announcements and relevant
+
+Information about the school/department.
+
+‘8.4 Adelante LMS SIS Support
+‘The SIS support provides access to relevant SIS data by
+
+generating pre-formatted csv files for bulk tools management.
+
+84 Adelante LMS ITSupport
+
+‘The IT support writes a script to retrieve enrollment
+data from SIS, provided database connection, and configures the
+server to use adelantelmsusjredu.ph as the main URL to access the
+
+LMS and email notifications using the US}-R domain address.
+
+9. Orientation for Faculty and students
+9.1 Faculty/Teacher Orientation
+The chairs/deans/principals of the different schools
+shall provide orientation to their faculty/teachers. The
+orientation includes the following:
+9.1.1 Number of units load and class density;
+9.12 Additional qualifications to handle flexible learning
+modalities;
+9.1.3 Faculty/Teacher’s devices and minimum internet
+connection required for flexible learning;
+9.14 Use of schoo! facilities internet subsidy;
+9.15 Number of hours allocated for virtual learning
+environment (eg, virtual face-to-face using
+Microsoft Teams, Zoom, Google Meet, and the like);
+
+2m
+92.
+
+9.1.6 Utilization of Adelante LMS; and
+
+9.7 Available guides facilitate the delivery of programs
+through online learning (eg, Netiquette for
+Students/Teachers (Appendices 5 & 6), and the like)
+
+Students Orientation
+‘The students shall be given orientation on the following
+9.2.1 University Vision, Mission, Goals, and Core Values
+
+During the opening of classes, all teachers shall
+conduct subject-class orientation, including the Vision,
+Mission, Goals, and Core Values of the University
+
+9.22. Understanding Flexible Teaching-Learning
+
+At the start of the semester, the students are
+given a session to understand modified hybrid
+teachingc-learning in the flexible teaching-learning
+environment.
+
+9.2.3 Adelante Learning Management System
+
+A session is given to students on the Adelante
+Learning Management System at the beginning of the
+semester.
+
+9.24 Course Requirements and Class Rules,
+
+All faculty/teachers shall provide proper and
+appropriate orientation to all students enrolled in the
+class at the start of the semester, summer classes, or
+academic year. Among others, it includes the
+following
+
+a. Minimum hardware and internet.
+connection requirements;
+b. Categorization of learners for
+
+differentiated learning activities;
+
+Fy
+© Class rules and policies including
+etiquette;
+
+4. time allocation for virtual face-to-face
+
+€. Modes of delivery;
+
+f. Submission of requirements;
+
+Assessments and evaluation; and
+
+hh. Academic/Other forms of support
+
+(eg, e-resources, Helpline, and the like)
+
+\V. _ SUPPORT SERVICES FOR TEACHERS AND STUDENTS
+
+US}-R shall provide support services to both faculty/teachers and students
+
+‘Among others, these services include the following:
+
+1. Capability Building for Faculty/Teachers
+Alteachers shall undergo training on the following:
+1.1 Flexible learning anchored on the Augustinian Pedagogy; and
+1.2 Utilization ofthe Adelante LMS.
+
+2. Technical Support for Faculty and Students
+24 LMSHelpline
+‘A virtual helpline is available to support
+faculty/teachers and students on LMS problems and
+2.2. Technical Assistance for External LMS
+According to the terms and conditions of the service
+agreement, USJ-R shall be given the necessary technical
+
+support for LMS use.
+
+a
+3. Monitoring/Evaluation for Faculty/Teachers
+There shall be periodic monitoring, evaluation, and
+
+feedback on instruction delivery by the faculty /teacher.
+
+4, US/-R Virtual Services of Offices/Departments
+‘The faculty teachers and students can also avail of the
+following virtual services:
+
+4.1 E-library and other available Online Educational Resources
+(OER) as references in various online flexible learning
+pedagogies and disciplinal content;
+
+4.2. Innovation and Technology Support Office (ITSO) services on
+Patent Search, Patent and Utility Model Application Drafting,
+and other Intellectual property (LP.)_protection-related
+
+4.3 Quality Assurance software (like Grammarly and Turnitin)
+and other software for data analytics for research and
+publication undertakings; and.
+
+44 Virtual services ofall non-academic offices.
+
+ENHANCING THE COLLABORATION WITH OTHER INSTITUTIONS
+AND THE GOVERNMENT
+
+US}-Ris open to collaboration with other HEls, government agencies, industry
+partners, and other institutions to ensure high-quality instruction. Among others,
+the collaboration includes differentiated learning and effective learning outcomes
+ina flexible learning environment. Among others, the collaboration may involve
+discussion and sharing of flexible learning modalities, self-directed/regulated
+learning, scientific and technological support, spiritual, socio-civic, psycho-
+
+spiritual, and psycho-virtual support.
+
+2
+VIL _ SECURITY MEASURES AND COMPLIANCE
+
+1. On Copyright Infringements
+Everyone is expected to observe academic integrity based
+
+‘on the guidelines stipulated in the University's Intellectual Policies.
+
+2. On Cyber Safety
+In recognition of the vital role of information and
+the
+
+communications technology, especially in this “new norm:
+University provides a conducive environment to the application
+and development of information and communications technology
+as well as the necessity of protecting the confidentiality and
+Integrity University's systems, networks and databases stored
+therein from misuse, abuse, and illegal access.
+
+The University shall likewise help protect all
+administrators, faculty, employees, students, and other
+stakeholders against cyber-attacks and threats. The University
+shall carry out the provisions on the individual prohibited and
+punishable acts under the Revised Penal Code and the Cybererime
+Prevention Act of 2012 (R.A. No, 10175), Anti-Child Pornography
+‘Act of 2009 (RA. No. 9775), and the Anti-Photo and Video
+Voyeurism Act of 2009 (R.A. No. 9995).
+
+3. OnData Privacy
+US}-R shall have an active Data Privacy Committee to
+ensure adherence to the Data Privacy Act of 2012 (R.A. No, 10173),
+including the following guidelines:
+BAL. Administrators, employees, faculty/teachers, students, and
+fother stakeholders shall be mindful of the University's
+
+protocols in handling personal information;
+
+28
+3.2. Faculty/Teachers, parents, and students shall be given
+proper orientation on the location of house meetings and
+general housekeeping rules for using age-appropriate online
+platforms: if possible:
+
+3.3. The background shall be bland so that there shall be no
+additional information that can be taken about the location;
+and
+
+34, There is no personal or sensitive data visible during the
+‘meeting.
+
+3.5 No administrators, employees, faculty/teachers, and
+students can upload class discussions on the internet unless
+permitted to do so by proper authorities. They should not
+keep recordings of virtual educational meetings unless
+considered necessary to achieve specific learning objectives.
+Recordings ofthese virtual meetings shall be tagged as highly
+confidential and allowed to be stored only within the
+specified duration.
+
+3.6 The data subjects shall only use institutional email addresses
+‘when using any platform facility ofthe University. The
+platform must manage the identification of accounts and log-
+
+VIIL OTHER RELATED POLICIES
+
+PRE-ENROLMENT EVALUATION, REGISTRATION, AND ENROLMENT
+
+1. Registration
+Students’ registration fora particular___ term
+(trimester/semester/summer/academic year) is conducted before
+enrollment according to the respective departments’ schedules. New
+students shall register with the department by accomplishing the
+
+Fy
+reservation form and paying the corresponding non-refundable
+
+reservation fee, which shall be deductible from the enrolment fee.
+
+Pre-Enrolment Evaluation
+
+Before enrollment, all students must undergo the pre-
+enrollment evaluation through the School Information Service
+(S18) portal by logging in to their accounts. Students select the
+courses they intend to enroll in the following term.
+
+‘The “officer of the day" evaluates the selected courses,
+
+srades, and compliance of the pre-requisite courses.
+
+Enrolment
+
+3.1 New students with approved applications for admission may
+proceed with their enrollment during the designated
+schedules,
+
+3.2. Continuing students (old students) must first undergo the
+online pre-enroliment evaluation by logging in to the School
+Information Service (SIS) portal at edp.usjr.eduph before
+enrolling during the scheduled enrollment period
+
+3.3. Transferees shall submit a duly accomplished application
+form to the Special Admissions Committee (SAC) thru the
+Student Affairs Office of his intention to transfer. After
+approval of SAC’s application, the applicant shall log in to the
+new applicants’ SIS portal and proceed to the enrollment
+process.
+
+3.4 Retumees must first apply for Official Subject Evaluation
+(OSE) from the Registrar's Office at least one week before
+enrollment. Submit online the requirements (OSE and
+Certificate of Good Moral Conduct) school admission
+
+‘committee for evaluation and processing.
+3.5 Students who intend to shift to a new degree program must
+first apply for pre-enrollment evaluation thru their SIS
+
+account before enrolling in the desired new degree program,
+
+‘The enrollment schedules, requirements, qualifications, and
+the step-by-step guide on the process and other enrollment
+related concerns are posted at the US}-R website and the US|-R
+
+Official Facebook Page.
+
+a
+@ {US}-R GUIDELINES ON THE IMPLEMENTATION OF FLEXIBLE LEARNING
+
+APPENDICES
+US}-R GUIDELINES ON THE IMPLEMENTATION OF FLEXIBLE LEARNING
+
+APPENDIX 1
+
+Categorization of Learners Survey
+
+Name: Date:
+Time of Class: cours
+Teacher:
+
+Introduction: This evaluation tool assists the teachers/faculty members ofthe University of
+San Jose - Recoletos in determining the three types of students based on their internet
+accessibility and technology availability.
+
+Instruction: Kindly answer the following questions by putting a checkmark on whichever
+statement applies to you.
+
+1. What is your level of connectivity at home?
+Fall access (can easily open and download videos, join virtual meetings and
+‘conferences without connection disruption)
+Limited access (can open and sometimes download pictures and PDF files,
+‘but can hardly join virtual meetings and conferences)
+No access at all
+
+2, What is your internet connection in your residence?
+Wired (eg, DSL, Fiber)
+
+Wireless (Broadband, pocket Wi-Fi, and the like)
+
+Cellular Data
+
+3. What gadgets or technology tools are available at home to conduct online classes?
+"Smartphones
+Laptop
+Tablet or iPad
+Desktop
+Others, please specify
+
+33
+4. What modality of learning will you prefer?
+
+Synchronous Learning (learning that happens in real-time in a specific virtual place
+through a specific online medium at a specific time)
+
+Asynehronous learning (learning that happens on a scheduled basis where students
+are provided contents and learning tasks that they need to accomplish based on their
+pacing)
+
+Modular Approach (refers toa learning delivery where learning takes place when the
+teacher and the students are geographically remote from each other during instruction.
+‘The learners use self-learning modules in print and digital format)
+
+‘The Basis for Evaluation:
+Tn this category, students are dassified ar those who have full access
+to internet connections. They can rely on fast Wi-Fi networks to
+
+HIGH-LEVEL access, browse, or su the web using the internet.
+
+‘TECHNOLOGY
+Tn this category, students are classified as those who have LIMITED
+access to internet connections. Most of the students under this
+category do not have their Wi-Fi network. Sometimes, they rely on
+
+MIDDLE-LEvEL | ™bile data in which the speed depends on the location they are in.
+
+‘TECHNOLOGY
+Tn this category, students are dassified as those who donot have
+access to the internet at all. Students at this level are advised to enroll
+
+LOW-LEVEL upon the return of actual face to face learning as courses demand high
+
+TECHNOLOGY jaye} and mid-level technology requirements.
+
+US|-R GUIDELINES ON THE IMPLEMENTATION OF FLEXIBLE LEARNING
+
+APPENDIX 2
+
+ORGANIZATION FORMS OF ONLINE TEACHING
+
+Tbe [Ue | Eg | Vinal | Tester autie | Foose
+sieaneg |sranne | icing | wace [optic te | homey
+seg | pte | mans | Stn
+oon pace | bac
+Stone
+Powe
+‘on repuies fieemeg | tes [seme | apsieatpaaans | fauens | arse
+SqSat | Seerewe | stowed | omate [iat mien [ot | ce
+‘slime | fein | sotmas | cope | Sareairgies | equtnd | tangs
+(aay Shasecar
+‘eens teeny
+| sey cane
+sey
+oe
+
+SE SR FeO SG BET TA OT INSTI,
+
+a
+@ US}-R GUIDELINES ON THE IMPLEMENTATION OF FLEXIBLE LEARNING
+
+APPENDIX 3
+
+INSTRUCTIONAL AND SOCIAL ORGANIZATIONS OF LEARNING
+
+teehing staesy manly fete on teaersrace
+fevurenent forthe lesen ov econ” The satgy
+coy impart rows 9 us ep by ep
+
+pene Sy
+
+ragarat sd selnprovennt Studer at ened
+pe asigred purer. These meee Seige the
+
+way
+
+leur in 3 tray mghe esigt atbowang
+spat etraoges snaps
+
+peat
+
+Ler ae prope in ou ak. Sortie he pg
+‘tenes gyator mp be ghen steer preston
+
+Inca alters res a, ane
+
+te rar aug peng snd ang abst 3 op oe
+
+36
+inmewom way
+
+penta aang
+
+fans 0 app he Iaring in new tuatons. Teaches ned
+
+“a as toe
+
+‘cam The sat determine hich nd au
+fenton conmercaly male, adm computer
+
+eaaring
+
+lesnt acested to wot agent of etm an
+Frese rary wae odo sams sree 3
+[ge mtrf eshte een geese, ty are ced
+
+orm of nspedent sy rey, ster she eee
+pine at lar pace. Tar xml ker sages
+
+‘A form of independent study whereby,
+alter the teacher explains a task, learners
+Practice it. For example after students are
+shown how to use Ohm's Law, they are
+asked to make calculations of current,
+resistance and voltage.
+
+SE RG RS BGS DE TTA OE TRNAS OE,
+
+a7
+
+@ US}-R GUIDELINES ON THE IMPLEMENTATION OF FLEXIBLE LEARNING
+
+APPENDIX 4
+
+CLASSIFICATION OF LEARNING METHODS FOR DIFFERENT PARTICIPANTS.
+
+nvidewerrdemand ie sfallsipines
+‘ondicpinary tools fspecte daca an ering ot
+
+Mprertevel taming | experimental operation sie
+
+Tata a EY Tearing orc OFeS
+resources webates Mier tev iearing
+Mphertevet iain | esring cenros of experience
+sl medion forums cen questions, vd the scquion
+
+Mprertevliaring | Gtemotions atte
+
+taal pre tevliaring
+Tay eermngbeedan | Wagan iearing | Tasso pis that Gare 3
+
+projectone period tcorplete, coverings wide
+‘ange of complex operations
+
+Tamnantis —|Calabarve omarion aT io fea cneapt oF
+
+pre tevliaring
+
+Tana an eating Fee eon Bring Teo Dpto in aan ef ig NTO
+
+8
+@ US}-R GUIDELINES ON THE IMPLEMENTATION OF FLEXIBLE LEARNING
+
+APPENDIX 5
+
+STUDENT'S NETIQUETTE GUIDELINES FOR ONLINE CLASSES
+
+A student needs to recognize that certain behaviors in a virtual classroom
+are expected, especially in communicating or interacting with students and the
+
+teacher. The following are the guidelines for online classes:
+
+1. Attend virtual/online sessions regularly.
+
+‘Be accountable for students’ learning, Make sure that all virtual
+sessions set are available and known to all students. These meetings are
+essential avenues that help students to unlock difficult concepts or topics
+and to make clarifications from you regarding the given assignments tasks.
+Before starting the session, log into the virtual room to have ample time to
+fix technical issues.
+
+2. Observe proper dress code.
+
+Wear appropriate attire as if you are attending the class physically.
+‘The teacher may request to share your sereen through video to engage in
+the discussions.
+
+3. Choose a good location.
+
+Look for an area conducive to the teaching-learning process, which
+also provides the best intemet connectivity. Likewise, ensure no
+distractions and inappropriate background within the workspace while the
+virtual session is ongoing, Make sure that no other individuals are visible on
+the camera.
+
+4, Mute your microphone.
+If there is no quiet place for the virtual session, the teacher should
+
+be informed about the situation through the chatbox. In this case, the
+
+29
+microphone should be muted the whole time except when requested to
+participate.
+5. Engage fully.
+
+Focus your attention on the class and be an active learner. Engage in
+the learning session fully to ensure optimum learning out of the
+Virtual/online session. Avoid side conversations with other individuals
+through other means of communication.
+
+6. Stay on topics.
+
+Raise questions and comments relevant to the topics at hand and the
+
+learning objectives of the day.
+7. Respect opinions.
+
+Ifthere isa need to disagree during discussions/interactions, show
+respect, acknowledge the argument’ valid points, and be tactful with your
+comments.
+
+8. Use small letters in posts.
+
+Do not type your posts in ALL CAPS. You will look like you are
+
+shouting
+9. Observe proper decorum.
+
+Whenever there is an opportunity, show courtesy and say the magic
+words like “good morning,” “please,” “excuse me,” and “thank you.
+
+Atall times, observe propriety in both conduct and appearance (eg,
+no smoking, drinking alcoholic beverages)
+
+10. Reach out to your teachers.
+Do not hesitate to reach out to your teachers during their designated
+consultation time. They are always ready to help, even virtually
+11, Ask permission for recordings.
+Unless authorized, sereenshots and recordings ofthe virtual session
+are strictly prohibited, They are tagged as highly confidential. If permitted,
+the recordings are only for personal consumption and can only be stored
+
+‘within a specified duration,
+12, Request to upload a discussion.
+
+‘No one can upload class discussions on the internet unless permitted
+to do so by the University’s proper authorities.
+
+413. Use the learning platforms appropriately.
+
+It would be best to interact with other individuals in the virtual
+classroom environment provided for this purpose. Do not attempt or aid
+any attempt by another person, to interact with other individuals outside
+‘of the virtual earning environment.
+
+14, Do not share personal data.
+
+‘The sharing of personal data of anyone in the virtual class is
+prohibited. ‘These data include telephone numbers, email addresses,
+photos, and the like.
+
+15. Check email and other posts.
+CCheck your email and other posts regularly for updates. The teacher
+
+may have some clar
+
+ications concerning the discussion during the virtual
+session or maybe giving further instructions for the assignment.
+16. Adhere to the University Rules and Regulations.
+Ima virtual class, observe proper behavior based on the guidelines
+stipulated in the Student Manual
+
+a
+@ US}-R GUIDELINES ON THE IMPLEMENTATION OF FLEXIBLE LEARNING
+
+APPENDIX 6
+
+‘TEACHER'S NETIQUETTE GUIDELINES FOR ONLINE CLASSES
+
+Virtual etiquette or “netiquette" is a code that concerns "good" behavior for
+any communications or interactions online. Every teacher is expected to observe
+proper netiquette in conducting online classes. The following guidelines must be
+
+‘observed during the virtual/online classes:
+
+1. Attend virtual/online sessions regularly.
+Be accountable for students’ learning. Make sure that all virtual
+sessions set are available and known to all students. These meetings are
+essential avenues that help students to unlock dificult concepts or topics
+and to make clarifications from you regarding the given assignments /tass.
+Before starting the session, og in to the virtual room to have ample time to
+fix technical issues.
+2. Observe proper dress code.
+Wear appropriate attire as if you are attending the class physically.
+‘The teacher may share the screen through video to engage the students in
+the discussions.
+3. Choose a good location.
+Look for an area conducive to the teaching-learning process, which
+‘also. provides the best intemet connectivity. Likewise, ensure no
+distractions and inappropriate background within the workspace while the
+virtual session is ongoing. Make sure that no other individuals are visible
+‘on the camera. Other members of the family /household should also be
+
+Informed to get thelr support and cooperation.
+
+2
+4, "Mute" isa NO..NO...for teachers.
+
+‘The teacher is expected to have the microphone switched on during
+the entire duration of the virtual session. He/she is not excused for having a
+location with many noise distractions. One is accountable for the optimum
+learning of students in a particular virtual/online session. The location
+serves as the instruction area where learning must be conducive.
+
+5. Engage fully.
+
+Be a facilitator. Engage in the learning session fully to ensure
+students’ optimum learning out of the virtual session. Avoid side
+conversations with other individuals through other means _ of
+communication,
+
+6. Stay on topics.
+
+Raise questions and comments relevant to the topics at hand and the
+
+learning objectives of the day.
+7. Respect opinions.
+
+Ifthere isa need to disagree during discussions/interactions, show
+respect, acknowledge the argument’ valid points, and be tactful with your
+comments.
+
+8. Use small letters in posts.
+
+Do not type your posts in ALL CAPS. You will look like you are
+
+shouting
+9. Observe proper decorum.
+
+Whenever there is an opportunity, show courtesy and say the magic
+words like “good morning,” “please,” “excuse me,” and “thank you.
+
+Atall times, observe propriety in both conduct and appearance (eg,
+no smoking, drinking alcoholic beverages)
+
+10.Reach out to your students.
+Reach out to your students. Ensure that you are willing to help even
+virtually. Post your consultation time and make yourselves available
+
+‘during these periods.
+
+a
+11, Ask permission for recordings.
+Unless authorized, sereenshots and recordings ofthe virtual session
+are strictly prohibited, They are tagged as highly confidential. If permitted,
+the recordings are only for personal consumption and can only be stored
+‘within a specified duration,
+12, Request to upload a discussion.
+No one can upload class discussions on the internet unless
+permitted to do so by the University’s proper authorities.
+413. Use the learning platforms appropriately.
+
+It would be best to interact with other individuals in the virtual
+classroom environment provided for this purpose. Do not attempt or aid
+any attempt by another person, to interact with other individuals outside
+‘of the virtual earning environment.
+
+14, Do not share personal data.
+
+‘The sharing of personal data of anyone in the virtual class is
+prohibited. ‘These data include telephone numbers, email addresses,
+photos, and the like.
+
+15. Check email and other posts.
+CCheck your email and other posts regularly for updates. The teacher
+
+may have some clar
+
+ications concerning the discussion during the virtual
+session or maybe giving further instructions for the assignment.
+16. Adhere to the University Rules and Regulations.
+na virtual class, observe proper behavior based on the Student and
+
+Faculty Manuals guidelines.
+Bibliography
+
+Anti-Child Pornography Act. (2008). 14" Congress: 3 Regular Session. Metro Manila
+Retrieved from Official Gazette of the Republic ofthe Philippines.
+‘nttps://wivw offcialgazette.gov.ph/2009/11/17/republic-actno-9775-s-2009/
+
+Anti-Photo and Video Voyeurism Act. (2010). 14" Congress: 3 Regular Session. Metro
+Manila, Retrieved from PNP Anti-Cybercrime Group.
+
+bnttos://pnpacg.ph/main/images/downloads/LegalReferences/RAS99S pdf
+
+[Anti-Sexual Harassment Act. (1995). 9" Congress: 3" Regular Session. Metro Manila.
+Retrieved from Official Gazette of the Republic ofthe Philippines.
+hnetpsi//wwwofficialgazette.gov.ph/1995/02/14/republic-act-no-7877/
+
+Bada, S. 0. (2015). Constructivism learning theory: A paradigm for teaching and learning,
+Journal of Research & Method in Education, 5(6), 65-70. hite:/fesriourals relist:
+Iemepapers/Vol5%20Issue-6/Version-1/105616570,pdt
+
+Bell, RL, Maeng, J. L, & Binns. C. (2013, January 25). Learning in context: Technology
+Integration n a teacher preporation program informed by situated learning
+theory. Wiley Online Library. bttps://doi.org/10.1002/tea.21075
+
+Commission on Higher Education. (2020). Guidelines on the implementation of flexible
+learning
+
+(CMO No. 4, s. 2020). https://ched.gov.ph/wp-content/uploads/CMO-No.-4-s.2020-
+
+Guldelines-on-the-Implementation-of-Fexible-Learning.pdf
+
+4s
+Cybercrime Prevention Act. (2012). 15" Congress: 2" Regular Session. Metro Manila
+Retrieved from Official Gazette of the Republic ofthe Philippines.
+|netpsi//wwwofficialgazette.gov.ph/2012/09/12/republic-act-no-10175/
+
+Data Privacy Act. (2012) 15" Congress: 2 Regular Session, Metro Manila. Retrieved
+{rom National Privacy Commission. https://www.privacy.gov.ph/data-privacy-
+act/
+
+Ford, K, & Lott, L. (n.d). The impact of technology on constructivist pedagogies.
+EDTECH.
+hitos://sites google, com/a/boisestate.edu/edtechtheories/the-impact-of-
+technology-on-constructivist-pedagogies-1
+
+Office ofthe President of the Philippines. (2020). Declaring a state of public health
+‘emergency throughout the Philippines (Presidential Proclamation No. 922)
+Official Gazette ofthe Republic of the Philippines.
+http://www officialgazette.gov.ph/downloads/2020/03mar/20200308-PROC-
+922-RRD.pdf
+
+Bicalde, RR. (2020). COVID-19 and labour law: Philippines. Italian Labour Law e-
+Journal, 1313)
+hntps://dol.org/10.6092/issn.1561-8048/10800
+
+Safe Spaces Act. (2018). 17" Congress: 3 Regular Session. Metro Manila. Retrieved
+from Official Gazette of the Republic of the Philippines.
+http://www officialgazette-gov-ph/downloads/2019/04apr/20190417-RA-
+
+11313-RAD pdf
+
+6
+Singh, D,, Agustl, A, Anzueto, A, Barnes, P.J., Bourbeau, J, Cell,8.R, Criner, G.J.,
+Frith, P., Halpin, D.M.G., Han, M.,M. Varela, M.V.L, Martinez, F, Montes de
+(Oca, M., Papi, A, Pavord,|.D., Roche, N, Sin, D.D., Stockley, R, Vestbo, 1,
+Vogelmeier, €(2019). Global strategy for the diagnosis, management, and
+prevention of chronic obstructive lung disease: The gold science committee
+report 2039. European Respiratory Journal, $3(5):1800164.
+https://dol.org/10.1183/13993003,00164-2019
+
+‘Smart Learning Institute of Beijing Normal University. (2020). Handbook on facilitating
+flexible learning during educational disruption: The Chinese experience in
+‘maintaining —undisrupted learning in. COVID-19 outbreak.
+hnttps:/ite.unesco.org/wp-content/uploads/2020/03/Handbook-on-Facilitating-
+
+Flexible-Learning-in-COVID-19-Outbreak-SLIBNU-V1.2-20200315.pdf
+
+UNESCO. (2014). UNESCO roadmap for implementing the global action programme on
+education for sustoinable development.
+hitos://unesdoc.unesco.org/ark:/48223/of0000230514
+
+University of San Jose-Recoletos. (2011 }. Faculty manual
+
+University of San Jose Recoletos. (2012 ). Student manual.
+
+a
+WORKING COMMITTEE
+
+CHAIRMAN Rev. Fr. Leo G. Alaras, OAR
+CO-CHAIRMEN Dr. Julieta M. Catipay
+
+Dr. Edgar R. Detoya
+MEMBERS Dr. Jestoni P. Babia
+
+Atty. Mae Elaine T. Bathan
+Atty. Jonathan P. Capanas
+‘Mr. Dexter Joseph B. Cuevas
+Dr. Gregg Victor D. Gabison
+Dr. Nelbha Y. Iglesia
+Dr. Dennis A. Kilongkilong
+Ms. Duint N. Lim
+Dr. Glenn G. Pajares
+Ms. Ligoria B. Pingul
+Dr. Agnes C. Sequiiio
+Dr. Audrey D. Verano
+Atty, Raymiejella S, Viagedor
+CONSULTANTS:
+‘Academics Rev. Fr. Leo G. Alaras, OAR
+Non-Academics Formation Programs:
+Rev. Fr. Arian Josef M. Ocheda, OAR
+Rev. Fr. Roy B, Baluarte, OAR
+
+Recommending Approval:
+
+nev. cbr onn
+
+Vice-President fr Academics
+
+Approved by
+
+exe EEE aaomn
+Pra
+
+48

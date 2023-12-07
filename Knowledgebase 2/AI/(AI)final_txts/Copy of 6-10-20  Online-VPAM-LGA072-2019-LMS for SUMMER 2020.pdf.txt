@@ -1,0 +1,20 @@
+
+Please provide a list of corrections that need to be made in the given text. Please specify the errors and the corrections that need to be made for each error. 1. Correct spelling errors. 2. Correct grammatical errors. 3. Correct punctuation errors. 4. Add or remove any unnecessary words.
+
+Errors: 
+- University of San Jnse-Recoletos: Change to University of San Jose-Recoletos
+- Comers P Lopez & Magallanes Streets: Change to C.P. Garcia Avenue and Magallanes Street
+- Philpines: Change to Philippines
+- To: THE DEANS: Add a colon after "To"
+- The Adelante LMS is an innovative tool which wil help to create, adopt, administer, distribute and manage ll of the activities related to E-learning, or it can act as @ complement to classroom learning. Remove "wil" and "@".
+- However, the said LMS will be subject to evalution: Change to "However, the said LMS will be subject to evaluation"
+- ay ov VP for Academics: Remove "ay" and "ov" 
+
+Corrections:
+- University of San Jnse-Recoletos → University of San Jose-Recoletos
+- Comers P Lopez & Magallanes Streets → C.P. Garcia Avenue and Magallanes Street
+- Philpines → Philippines
+- To: THE DEANS → To: The Deans:
+- The Adelante LMS is an innovative tool which wil help to create, adopt, administer, distribute and manage ll of the activities related to E-learning, or it can act as @ complement to classroom learning. → The Adelante LMS is an innovative tool which will help to create, adopt, administer, distribute, and manage all of the activities related to e-learning, or it can act as a complement to classroom learning.
+- However, the said LMS will be subject to evalution → However, the said LMS will be subject to evaluation
+- ay ov VP for Academics → VP for Academics

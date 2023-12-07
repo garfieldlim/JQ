@@ -1,0 +1,10 @@
+PLEASE NOTE THE FOLLOWING GRAMMAR CORRECTIONS:
+
+1. "Gniversity" should be corrected to "University".
+2. Remove the underscores before and after the dates and times in the document.
+3. Remove the extra spaces between words.
+4. Change the email address format to use "@" instead of ":" as the separator.
+5. Correct the misspelled word "Recoletos".
+6. Add commas in the date "January 06, 2019."
+7. Capitalize proper nouns and abbreviations (e.g., RITTC, USJR).
+8. Remove unnecessary spaces, line breaks, and extra punctuation marks.

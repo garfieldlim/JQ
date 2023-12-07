@@ -1,0 +1,30 @@
+To correct the grammar in the provided text, I would suggest making the following changes:
+
+- Capitalize proper nouns such as "University of San Jose-Recoletos" and "CS Thesis Writing".
+- Correct the formatting of the table to ensure consistency and readability.
+- Remove unnecessary punctuation marks and symbols, such as colons and asterisks.
+- Use clear and concise language for course titles and descriptions.
+
+Here is the corrected version of the text:
+
+University of San Jose-Recoletos
+First Semester 2019-2020
+
+CICCT June 26, 2019 (Wed) 9:06 am
+Page 5 of 5
+Offer# Days Time Room Allocation Status Available Block Code Faculty Units Contact Hours
+
+1101723 SAD System Analysis and Design 3.0 units 3.0 hours -
+
+11031 Thurs 12:00 pm - 1:30 pm BCL8 30 24 6 Ductudnon, Marisa www.
+No. of Sections: 1 30 24 6
+
+1101744 CS Thesis Writing 1 course 1.0 unit(s) 1.0 hour(s)
+
+11068 Mon-Fri Ee O PE N **e FLD 40 6 34 Cavunzon, Jovelyn www.
+No. of Sections: 1 40 6 34
+
+1101705 Web Development 3.0 unit(s) 3.0 hour(s)
+11005 Mon-Wed 8:30am - 10:00am 313 35 34 Cvunzon, Lee G www.
+11010 Mon-Wed 9:00 am - 10:30am BCL4 30 9 21 Mandalan, Boderick A
+11007 Thurs 10:30 am - 12:00 pm BCL4 32 32 0 Pandalan, Rover

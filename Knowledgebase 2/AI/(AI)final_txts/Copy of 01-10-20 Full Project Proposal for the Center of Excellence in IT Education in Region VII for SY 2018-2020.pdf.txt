@@ -1,0 +1,19 @@
+- 2 -
+
+3. PROJECT DESCRIPTION
+This proposal is for the establishment of a Student In-Campus Internship and Immersion’ Software Development Engagement Program in the College of Information, Computer and Communications Technology (CICCT) of the University of San Jose – Recoletos (USJR). This program aims to provide students with software development experience in a simulated work environment without the need for them to go physically to an office outside the school premises.
+
+4. PROJECT OBJECTIVES
+The main objective of this project is to develop highly competitive Computer Science (CS) and Information Technology (IT) graduates by providing them with real-world experience in software development through a work-immersion program that does not require students to leave the campus premises. The secondary objectives are:
+
+1. To provide the industry partners of the university with potential candidates for employment;
+2. To strengthen the linkages between the academe and the industry; and
+3. To encourage innovation and creativity among students in the development of software applications that solve real-world problems.
+
+5. PROJECT ACTIVITIES
+The proposed project includes the following activities:
+a. Visiting Professors Program - Invitation and selection of faculty members who will be visiting professors in the specialization areas mentioned. Scheduling and facilitation of workshops. Assessment evaluation of the professor fellowship.
+b. Off-Campus Delivery Course/Workshops - Coordination with regional partners for off-campus course offerings and workshops. Scheduling and facilitation of workshops. Assessment evaluation of the workshop proper.
+c. Faculty Immersion Program - Informing the university president through Campus Planning of the conversion of rooms BRO1 and 2 into a co-working space. Identification of research conferences for participation. Participation in research conferences and publication.
+d. Student In-Campus Internship - Sending invitations to interested visiting professors, potential companies and company liaisons. Selection of faculty members who will act as company liaisons. Coordination with partnering companies for an internship program that is not location dependent.
+e. Project Engagements - Recruitment and assignment of qualified faculty members and students to identified projects. Scoping of project requirements, creation of MOAs/NDAs. Creation of project timelines and workflows. Establishment of schemes for quality ass

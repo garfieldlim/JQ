@@ -1,0 +1,18 @@
+/IT Department,
+College of Information,
+Computer and Communication Technology
+
+This text is an agreement between Etchworks Digital Hammer Inc. and the University of San Jose-Recolets (USJ-R). The document is signed by representatives from both parties, Ms. Donna Paige Lim from Etchworks and Victor D. Gabison from USJ-R. The signatures are witnessed by someone from the IT Department of the College of Information, Computer and Communication Technology at USJ-R.
+
+Here is the corrected version:
+
+IN WITNESS WHEREOF, the parties hereto have signed this Agreement on this day of [Date] [City].
+
+ETCHWORKS DIGITAL HAMMER INC.
+UNIVERSITY OF SAN JOSE-RECOLETS (USJ-R)
+(ETCHWORKS) (USJ-R)
+By: By:
+Ms. Donna Paige Lim Victor D. Gabison
+Executive Director Dean, College of Information, Computer and Communication Technology
+
+SIGNED IN THE PRESENCE OF [Witness Name] From the IT Department, College of Information, Computer and Communication Technology.

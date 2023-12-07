@@ -1,0 +1,44 @@
+
+The sentence "ae ae seen ae would like to reatest tie your eres a 4 change in some of our faculty loads" is unreadable and should be rewritten. A possible correction could be: "We have seen the information regarding the changes in some of our faculty loads, and we would like to request your approval."
+
+The sentence "adjustment is due te the department. reine are the information of the previous one a subjects and schedules:" also needs to be corrected. A possible correction could be: "The adjustment is due to the department. Please provide us with the information on the changes in subject and schedules:"
+
+In the table, there are some issues that need to be fixed. The first row of the table has an extra space before the subject code, which should be removed. Additionally, the column headers "OFFER SUBJECT" and "CODE CODE" need to be corrected. A possible correction for "CODE CODE" could be "SUBJECT CODE".
+
+The following is the corrected version of the text:
+
+December 5, 8
+
+REV. FR. LE LARAS, OAR
+Vice-President for Academics
+USJR, Cebu City
+
+Dear Fr. Alaras:
+
+Greetings!
+
+We have seen the information regarding the changes in some of our faculty loads, and we would like to request your approval. Please provide us with the updated subject descriptions, times, and teachers' names for the following subjects:
+
+OFFER SUBJECT
+SUBJECT CODE
+
+SUBJECT DESCRIPTION
+
+TIME
+TEACHER
+
+11018 i PROG 2 Computer Programming 2
+
+10:30 AM - 01:00 PM
+
+MIRO, MA.
+
+Respectfully yours,
+
+DR. C. CUIZON
+Chairperson, CS/IT/IS Department
+
+Noted by:
+
+DR. GREGG VICTOR D. GABISON
+Dean, CICCT

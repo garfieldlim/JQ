@@ -1,0 +1,450 @@
+University of San Jose - Recoletos
+
+Corners P. Lopez & Magallanes Sureets, Cebu City 6000, Philippines
+
+Cotege of Information, Computer and Communizations Technology
+December 18, 2017
+
+DR. PATRICIA B, LICUANAN
+Chairperson
+‘Commission on Higher Education (CHED)
+
+CEBU CTY
+
+‘Through: DR. FREDDIE T. BERNAL rate :
+Regional Director VED |.
+cHED? at Ob
+
+dave I
+<a
+
+Dear Dr. Licuanan:
+
+The University of San Jose-Recoletos - Basak Campus. is nil
+‘submitting our Full Project Proposal for the Center of Excellence in IT Education
+In Region Vil for SY 2018-2020,
+
+‘Attached is the full project proposal which includ
+your review and approval:
+
+the following documents for
+
+= Project Proposal Form (ITCOE Form 1)
+= Work and Financial Plan (ITCOE Form 2)
+
+Thank you.
+
+Respectfully yours,
+Py Gute Soe
+
+br. VICTOR D. GABISON
+Dean, CICCT «
+
+Noted by:
+
+REV. FR.
+
+President
+
+cx: VP Academies
+ITCOE Fox +
+
+ity of San Jose-Recoletos
+
+College of Information, Computer and Communications Technology
+Basak Campus, Cebu City
+
+C? Project
+
+(Create, Collaborate and Commercialize)
+PROJECT PROPOSAL FORM (ITCOE FORM 1)
+
+4. TITLE
+a. PROJECT TITLE
+C#(Create, Collaborate and Commercialize) Project
+b, IMPLEMENTING OFFICE
+
+University of San Jose-Recoletos (USJ-R)
+
+¢. PROJECT FUNDING SOURCE
+CHED - 0PS
+
+2. BRIEF DESCRIPTION AND RATIONALE
+
+‘The College of Information, Computer and Communications Technology
+(CICCT) as designated by the Commission on Higher Education (CHED) as Center
+‘of Excellence in IT Education, commit to provide access to relevant, responsive
+‘and quality IT education through continuous development to support the delivery
+of quality instruction, research and community extension. It aims to be a catalyst
+to sustainable development in the local and national community through the
+Creation of innovative products, collaboration with partner industries and HEIs and
+‘widest distribution of innovative solutions to problems in the community.
+
+‘The college has gamered numerous awards in different startup and technology
+‘competitions such as the Philippine Startup Challenge, Smart SWEEP awards,
+Accenture Program the Future and many others. These awards are made possible
+through the active research and development initiative of the college and the
+strong support of the administration,
+
+In order to achieve sustainable development and continuous production of
+novel ideas and researches, there is a need for mechanism to support the growth
+(of potential technology-based enterprises and faciltate speedy commercialization
+of research outputs. The college is pushing forward for the:
+
+lishment of a
+technology business incubator (TB!) and co-working space which will serve as
+avenue for faculty and students to produce commercially-viable innovations,
+
+The C? Project’ strategic focus isto work with innovators in technology specific
+areas:
+
+* Decision Support System and Data Mining ~ creation of applications in
+‘support of enhanced data-driven decision making for SME development,
+* Wearable Technology and Mobile Innovations - creation of innovative
+‘mobile applications with integration of wearable devices to address
+
+‘pressing community problems.
+‘+ Game Development - creation of mobile and web-based games,
+
+3. OBJECTIVES
+
+The project aims to enhance the capability of USJR-CICCT and assist
+other HE''s in Region 7 to create, collaborate and commercialize innovative
+software products.
+
+Specifically, the project seeks to do the following
+
+‘a, Promote collaboration in research and assist partner HEI's in
+‘expanding their capacity to develop innovative solutions and creative
+works through visiting professor! expert mentoring and off-
+campus course programs,
+
+'. Establish a sustainable software development unit managed by
+dedicated team of researchers and developers composed of tained
+faculty, experienced alumni, students and industry mentors.
+
+© Acquisition of equipment and upgrading of facilities to support R&D
+initiatives to include commercialization of market viable research
+outputs.
+
+4d. Increat
+
+research productivity of faculty by providing monetary
+‘support for faculty de-oading, research presentation and publication.
+©. Prepare students for the veal world by engaging them in actual
+Software development projects from actual clients and industry
+partners through in-campus internship.
+
+4, PROJECT COMPONENTS:
+{In this project, the following are the components:
+
+‘A. RESEARCH CAPABILITY BUILDING THROUGH MENTOR-MENTEE
+PROGRAM (MM PRO)
+
+The Mentor-Mentee Program (MM Pro) is a research capability
+Program designed to upgrade faculty competencies in writing research
+Papers and disseminate the result through presentation and publication
+‘The program wil include series of seminar/workshops on research writing
+‘and publication and technical topics inline with Cs strategic focus.
+
+MM Pro will also cater to faculty or researchers from other HEI's
+subject to a selection criteria. Expected outputs from this program are as
+follows:
+
++ At least 20 faculty or researchers participated the research
+‘capacity building program
+‘+ For each schoolyear, from 2018 to 2020
+
+© At least one (1) presentation from the participants in an
+intemational conference per school
+
+© At least three (3) presentation from the participants in a
+local conference per schoo!
+
+(© Atleast two (1) paper publication in an ISI-indexed journal
+andlor at least two (2) paper publications in a CHED-
+recognized journal per schoo!
+
+A the very least, the invoive faculty members will be made to
+
+undergo actual exercises in developing research concepts and
+‘methodologies, validation and testing; and papers for publication.
+8B. MENTORSHIP THROUGH VISITING PROFESSOR FELLOWSHIP AND
+(OFF-CAMPUS DELIVERY COURSE PROGRAMS
+
+To develop and strengthen the expertise of our faculty members in
+
+the identified areas of specialization, engagement by mentorship through
+
+the visiting professors from other countries, regions or experts from industry
+
+10 deliver short courses and workshops that can |
+
+1d 10 the integration of
+‘new and innovative research ideas both in their teaching content and
+researches. This can also lead to possible joint research projects and other
+
+-academic—cotabor dea of seyiting foreignor other
+experienced local university professors sharing his or her expetience,
+expertise and advice regarding research, teaching and other professional
+development issues with less experienced colleagues.
+
+‘The other form of engagement in this component, isto involve the
+Schooled! trained faculty members in the visiting professor fellowshi
+where he will be made to extend developmental ofampus continuing
+education courses/ workshops to other HEIs. In this sense, the topics
+elivered during the visiting professor scheme will be resonated further
+‘The venue will be preferably in another province within the region or nearby
+venues in the province of Cebu, This shail be hosted by an HEI who
+Provides the use ofthe venue, specifically the computer laboratory for fee.
+Expenses for the speaker trainer, transportation and meals both for the
+speaker and participants will be shouldered by the funds provided through
+this COE engagement.
+
+©. CREATION OF A CO-WORKING FACILITY EQUIPPED WITH THE
+NEEDED COMPUTING RESOURCES
+
+‘The concept of co-working is centered on the shared values:
+
+‘community, openness, collaboration, accessibility and sustainability. A co-
+
+‘working space is shared working environment for people who need space
+
+‘and infrastructure to perform their work and may not necessarily working for
+
+‘@ company. The establishment of such space will serve as a venue for
+faculty, students and alumni to develop ideas, share interests and
+collaborate on projects.
+
+It is essential that the proposed co-working space wil mirror the
+selupl arrangement of atypical industry co-working space so as to create
+an atmosphere be-fites to a realistic computing working scenario, where
+the provision of computing resources like undisturbed intemet both wired or
+wireless, relax and comforting furnishings and other computing resources
+
+allowing for a collaborative and innovative-teading engagement. The
+
+proposal will cover-the retiofiting. purchase of computing resources (mobile
+
+°.
+
+‘and workstations) and cloud resources in order for the facility to be
+‘operational. To make sure that the operation and function of the facility is
+up {0 the expectation, a team comprised of a facilty OIC, facuity and
+students will be identified
+
+‘The space will utiize the present R&D Laboratories (BRO1 and
+'BRD2), located at the 4° Floor of St. Ezekiel Moreno Bldg, USJ-R, Basak
+Campus. This will be the venue of the proposed co-working space, where
+the industry faculty immersion, in-house software development unit and in-
+campus student internship program.
+
+INDUSTRY FACULTY IMMERSION AND IN-HOUSE SOFTWARE
+DEVELOPMENT UNIT
+
+~ With the creation of a co-working space, involved faculty members
+‘an undertake remote (teleccmmting) software development based onthe
+requirements set by parmer_—industies!)_companies
+This scheme is already a common practice especialy inthe outsourcing
+space spectcally in sofware development. However, establishing it in an
+academic venue is stil tobe desired, Inthis kind of engagement, the remote
+software development or outsourcing mode! wil be estabished to respond
+to software development requests ofthe partner companies, government
+and also intemal sotware sevices requirements ofthe university, This set
+sustaining initiative wil provide faculty members industry immersion
+‘experience without leaving the school premises by working on projects
+uring defined duty schedule.
+
+Capstone projects and theses are a good source of innovative ideas,
+Aside from engaging in software development requests, the unit will also
+assist previous winners and entries to startup competitions define and
+‘shape the idea so that they evolve to viable business ventures.
+
+Faculty members engaged in projects through faculty immersion will
+be able to deliver high quality and industry-relevant instruction.
+
+. STUDENT IN-CAMPUS INTI
+
+SHIP
+
+Cons
+
+nt to the faculty immersion’ in-house software development
+Unit this proposal also looks into the establishment of a student In-Campus
+Telecommuting scheme, This is patterned after Germany's established
+University cooperation, where the University provides a space where
+lnternship happens in a designated venue in the University and the partner
+‘company provides resources, project timelines and designates a liaison
+‘This a classical example where it has become a common internship
+immersion work style in IT companies seeking for a good production of
+CSIIT graduates from universities,
+
+‘The in-campus internship is a program designed to provide students,
+.with_ software. development experience in 2 simulated work-environment
+without the need to go physically to an office outside the school premises.
+‘The co-working space will serve as the venue forthe internship.
+
+This program is open to senior students who are applying for an open
+Position in the software development unit (SOU) oF apply for a company
+which allows telecommuting.
+5. PROJECT ACTIVITIES
+
+ACTIVITIES.
+
+' Meniorstip Brough Vising Preiessar
+| Fotowane
+
+‘Sending ofinviations to inerested
+Visiting professors in the
+‘specialization areas mentoned
+
+2 Scheduling of asses! workshop
+3.
+
+‘Sending of invilas to potential
+
+[a Biase wonhop Paper
+
+‘5, Assessment evaluation othe
+professor fellowship
+
+8. Send-off of visting professors
+
+'B OffCampus Delivery Course’ Topic
+Programs! Workshops
+
+1. Coordinate wth regional
+
+2, Scheduling of of-campus course”
+workshops.
+
+Ciass! workshop proper
+
+‘Assessment evaluation ofthe off
+
+ACTIVES.
+
+1. Sending of viation and selecion
+of facully members who took part,
+[ir speciatzation capacity tang
+
+2 Scheduling and fvilaion ofthe
+Speaker vainer
+
+'3_Delivery ofthe waning’ workshop
+
+Planning and identification of
+research conferences for
+particpation
+
+5. Parlipation in Research
+‘conference ana Pubication
+
+ACTIVITIES
+1. informing the offeo of the President
+through Property administration offca/ |
+Campus Planning of the conversion of
+'BRO1 and 2 9s a Co-working space i
+
+ee
+oe
+1 ee
+
+soTwes a ss
+
+T. Teeny" possible project engagements
+fang its requrements. in and outside
+(Gartner agencies and industry) the | |
+campus. This coud aio include areview | | |
+‘of past student IT projects/ CS Theses. | | |_|
+
+2 Recruit and assign qualiied Facully |||
+members and students to. identified | |
+projects I
+
+3 Scoping OT ienied projects. Ths wa |
+
+]
+
+Include the creation of MOA's/ NDA's.
+
+© Creation “of Project. Timelines and
+doiwerabies i
+
+‘5 Establish schemes on qualiy assurance ]
+(lesting and validation) vie-2-vs project
+requirements |
+
+& Immersion’ Software Development
+Engagement
+
+ACTIVITIES. 2018,
+
+Setup meetings wh companies wing ||| |
+inerosted to angoge in remote ote |
+|
+
+Intemsnip development projects
+
+2 Setup MOA or rules of engagement with |
+partnered organizations
+
+3 Identity project leads or Walser, who wil |
+serve as coordinator! representative of |
+the company
+
+4 Establisn project plans, schedules and
+doiwerabies
+
+[5 imtersew and sleeion of student interns |
+I Campus Engagement | |
+7. Assess! evauale the condict of the |) 1
+
+tnagea taser itemshp peogram wh | |
+the spectic organization uy li J
+
+6, FINANCIAL REQUIREMENTS
+a. Total Project Funding Requirement - P3,000,000,00
+
+7. WORK AND FINANCIAL PLAN
+‘a. (see attached: Work and Financial Plan ITCOE Form 2)
+
+8, PROPONENT INFORMATION
+
+a. LEAD PROPONENT
+
+~ Dr. Gregg Victor Gabison
+
+Dean, College of Information, Computer and
+‘Communications Technology (CICCT) USJ-R
+
+b. PROJECT LEADER
+Ms. Jovelyn C. Cuizon
+
+Chairperson, CS/IT Department
+College of ICCT, USJ-R
+. Technology Leads
+|. Data Mining and Decision Support System
+Ms, Marisa Buctuanon
+= Ms. Josephine Petralba
+{i Wearable Technology and Mobile Innovations.
+~ Mr, Roderick Bandalan
+Mr. Mark Cedrick Antonino
+li, Game Development
+Engr. Vicente ill Patalita
+1d. Co-working Facility Office in Charge (OIC)
+~ Engr. Carmel Tejana
+@. COOPERATING AGENCIES
+
++ Engr. Gary Tanael
+CHED Regional Office 7, ICT Supervisor
+evra somuaswonsvors oo 27
+fee ER TACOS A TERETE a
+lrousmrracuny emerson wo kuousesonwec cence et| 2s.
+err i
+Pron o : , smooua
+
+| eee ere
+
+pec |
+

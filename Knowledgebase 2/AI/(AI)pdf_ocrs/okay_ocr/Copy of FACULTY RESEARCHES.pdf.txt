@@ -1,0 +1,3 @@
+‘An Efficient Image Compression Algorithm | NCITE 2014 | Buctuanon, Marisa | October |
+Based on Wavelet Transform 2014 | Mambajao, Camiguin,
+Philippines

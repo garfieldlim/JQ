@@ -1,0 +1,11 @@
+P.S. Please take note that there is an error in the table, that is 4 units for EFCOM
+Subject Code: | Subject Description | Day Time | Room | Unit | Block
+EFCOM | Effective Communication | TTH _|_ 99:00 AM - 10:30 AM MAIN | 3.0 | 1711
+EFCOM | Effective Communication | TTH 01:30 PM - 03:00 PM B30] S012
+13
+EFCOM | Effective Communication | MWE 10:30 AM - 11:30 AM B30] 3.0 &amp;
+CSIo]
+EFCOM | Effective Communication | MWF | 09:30 AM - 10:30 AM BS301: | 40| Fis
+| Subject Description | day Time
+FILIPINO | Pagbasa 1 Pagsulat tungo sa | MWE | 11:30 AM - 12:30 PM
+2 Pananaliksik

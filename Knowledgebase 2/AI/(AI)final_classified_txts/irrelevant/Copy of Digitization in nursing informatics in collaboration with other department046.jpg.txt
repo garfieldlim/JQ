@@ -1,0 +1,26 @@
+b) Electronic Health Records (EHRs): Expand the existing EHR module to include hands-on training in using
+popular EHR software, such as EPIC and Cerner, and discussing best practices for data entry and
+management.
+
+c) Data Analytics: Introduce a new module on data analytics, covering basic statistics, data visualization,
+and quality improvement methodologies to empower nursing students to analyze healthcare data and drive
+improvements in patient care.
+
+d) Telehealth Practices: Incorporate a telehealth module that covers the principles and practice of remote
+patient monitoring, virtual consultations, and telemedicine technologies.
+
+e) Cybersecurity and Privacy: Develop a module focused on cybersecurity and privacy in healthcare,
+covering topics such as HIPAA compliance, data encryption, and best practices for protecting sensitive
+health information.
+
+f) Interprofessional Collaboration: Enhance the existing interprofessional education module to emphasize
+collaborative practice in the digital age, including effective communication strategies, teamwork, and
+leadership skills.
+
+Conclusion
+
+In conclusion, incorporating digitalization into the nursing informatics curriculum is essential for preparing
+nursing students to navigate the digital landscape effectively. The proposed enhancements aim to develop
+students' digital literacy, data management skills, telehealth competence, cybersecurity awareness, and
+interprofessional collaboration skills, equipping them with the necessary knowledge and skills to excel in
+the modern healthcare system.

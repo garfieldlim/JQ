@@ -1,0 +1,12 @@
+
+10 5-4-3-2-1 7 6 8 9 |
+
+CORRECTIONS:
+1. Replace "ACKNOWLEDGEMENT" with "Acknowledgement".
+2. Add a space between "By:" and the name of the person appearing before the notary public.
+3. Change "UNIVERSITY OF SAN JOSE-RECOLETOS" to "University of San Jose-Recoletos".
+4. Correct the format of the DFA NCR South stamp, by adding the appropriate text and removing unnecessary punctuation.
+5. Replace "|" with "." at the end of each line.
+6. Add a comma after the series of 2018 in the notary public's jurisdiction statement.
+7. Remove the underline from the address of the law office.
+8. Change the font size to 12 and adjust spacing as necessary.

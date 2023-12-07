@@ -1,0 +1,21 @@
+Please correct the following text and provide only the corrected version. The text is a letter addressed to Mr. John Smith, a former employee of XYZ Company.
+
+Dear Sir/Madam,
+I am writing to inform you that we are pleased to offer you an appointment as a Sales Representative for our company starting from January 2023. Your position will be subject to satisfactory completion of the pre-employment requirements, including medical examination and background check. You will be required to work in our office located at 1234 ABC Street, Anytown, USA.
+
+We look forward to having you onboard with us and we hope that you will accept this offer. Please let us know if you have any questions or concerns. We appreciate your interest in joining our team and wish you the best of luck.
+
+Thank you for considering this opportunity.
+Sincerely,
+XYZ Company
+
+Dear Mr. Smith,
+
+We are pleased to offer you an appointment as a Sales Representative with our company starting from January 2023. Your position will be subject to satisfactory completion of pre-employment requirements, including medical examination and background check. You will be required to work in our office located at 1234 ABC Street, Anytown, USA.
+
+We look forward to having you onboard with us and hope that you will accept this offer. If you have any questions or concerns, please let us know. We appreciate your interest in joining our team and wish you the best of luck.
+
+Thank you for considering this opportunity.
+
+Sincerely,
+XYZ Company.

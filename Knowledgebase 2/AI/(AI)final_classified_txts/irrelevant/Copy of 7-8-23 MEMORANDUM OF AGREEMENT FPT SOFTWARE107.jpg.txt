@@ -1,0 +1,42 @@
+
+NOW, THEREFORE, the parties hereto agree as follows:
+
+1. Collaboration Objectives:
+FPT SOFTWARE and USJ-R shall collaborate in any one or more of the following areas:
+a) Research and Development;
+b) Project Mentoring;
+c) Training;
+d) Consultancy.
+
+2. Duration: The term of this MOA shall be effective from the date hereof until
+terminated by either party upon a written notice to the other party, at least thirty
+(30) days prior to the intended termination date.
+
+3. Mutual Obligations:
+a) FPT SOFTWARE shall provide technical expertise in the agreed area of collaboration.
+b) USJ-R shall provide the necessary resources such as manpower and facilities for
+the implementation of the project or program, subject to its policies on the use
+of its facilities, and abide with all requirements set forth by the University’s
+policy.
+
+4. Intellectual Property Rights: The parties agree that any intellectual property
+generated from this collaboration shall be owned jointly by FPT SOFTWARE and
+USJ-R, except for confidential information which will remain the sole property of
+the disclosing party.
+
+5. Liability: Each party shall be responsible for its own acts or omissions and
+shall hold the other party harmless from any liability arising therefrom.
+
+6. Termination: This MOA may be terminated by either party without liability upon
+written notice to the other party, at least thirty (30) days prior to the intended
+termination date.
+
+IN WITNESS WHEREOF, the parties have executed this Memorandum of Agreement on the dates and places first written below:
+
+FPT SOFTWARE PHILIPPINES
+DO TRAN ANH VU
+Managing Director
+
+UNIVERSITY OF SAN JOSE-RECOLETOS
+REV. FR. EDUARDO S. CELIZ, JR., OAR
+President

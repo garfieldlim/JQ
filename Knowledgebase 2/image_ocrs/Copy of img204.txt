@@ -1,0 +1,35 @@
+INITIAL REVIEW OF THE PROPOSED CURRICULUM IN BS EMC
+(As of January 14, 2020)
+
+Summary of Findings:
+
+Le
+
+The proposed curriculum is compliant with the minimum requirements as per
+CMO No. 02, series of 2014.
+
+. The format of the Program Curriculum is not consistent with the prescribed
+
+institutional format of the 2018 curriculum.
+
+. The proposed curriculum has a total of 36 units of General Education courses as
+
+per CMO No. 20, series of 2013 [not 57 units as provided in CMO No. 02, series
+of 2014].
+
+. The following courses are not found in the curriculum plotting: DISCRETE 1 (3)
+
+and EFCOM (3)
+
+. DIGITAL 1, a prerequisite subject in NET 1 [Data Communications and
+
+Networking 1] is not found in the curriculum plotting nor in the program
+curriculum.
+
+. The Curriculum Plotting and the Program Curriculum have entries which need
+
+review/adjustment as indicated in the draft.
+
+. The Curriculum Plotting has no column for prerequisite courses.
+
+L. fbetlang

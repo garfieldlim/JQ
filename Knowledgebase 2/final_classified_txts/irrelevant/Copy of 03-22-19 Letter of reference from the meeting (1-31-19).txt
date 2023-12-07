@@ -1,0 +1,55 @@
+~, University of San Jose-Recoletus
+‘ Corners P. Lopez & Magallanes Streets, Cebu City, Philippines 6000
+
+March 8, 2019
+
+DR. JULIETA CATIPAY
+QA Director
+USJ-R Cebu City
+
+Dear Dr. Catipay,
+
+iach A lng |,
+This is in reference to a meeting last January 31, called and facilitated by your office.
+
+As discussed, below are the action items that we are to execute, along with its respective
+timeline:
+
+e Mr. Jesse Susada of CPRDS will create/ identify the different columns/ fields that
+will serve as our basis for the researches/ journals worked out by the identified
+faculty, timeline will be March, 2019.
+
+e The following faculty members will be provided de-loading in undertaking the web
+application development this Summer 2019:
+
+o Mrs. Marisa Buctuanon, a faculty of CICCT will take charge in developing
+the module that will be integrated with the present Web app for Admin/
+Faculty Evaluation. Reason for this strategy is, it’s easier to integrate into
+the existing app, considering that authority rule structure is already in place
+and is “user empowered driven” already, which works well best in attaining
+content creation.
+
+Timeline for this will be:
+« Early April for the integration of the columns/ fields identified by
+Mr. Susada and the creation of Database Schema
+« April and early May will be the web applications development
+« Mid May will be the testing/ deployment and walkthrough of the
+identified users
+
+o Mr. Roderick Bandalan, a faculty of CICCT will take charge in the
+development of the “seminars attended by the faculty” module and will be
+assisted by EDP in extracting the existing data of the data contained in the
+old HRIS module that is not web based.
+
+In moving forward Dr. Choll, please do advise what will be our next move, as we
+are already preparing loads for this summer. Thank you.
+
+nZavec VICTOR D. GABISON
+
+Dean, College of ICCT
+
+God Speed and Adelante!
+
+Noted by:
+
+(2

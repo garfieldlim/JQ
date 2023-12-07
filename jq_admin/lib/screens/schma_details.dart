@@ -188,7 +188,7 @@ class _SchemaDetailsPageState extends State<SchemaDetailsPage> {
       body: jsonEncode({'url': _urlController.text}),
       headers: {'Content-Type': 'application/json; charset=UTF-8'},
     );
-
+    print("Response status: ${response.statusCode}");
     if (response.statusCode == 200) {
       _scrapedData = response.body;
     } else {

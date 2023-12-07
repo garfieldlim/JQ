@@ -1,0 +1,82 @@
+7.
+
+conduct knowledge transfer activities Tor UsuJ-R Tacuity necessary to perrorm
+the activities of the professional course/s.
+
+provide remote access to its computing resources sufficient to perform the
+activities related to the professional course/s.
+
+define the use case application/s to be contributed to the PROJECT
+
+lead the conduct of research including drafting and publication of any scientific
+discovery or knowledge related to the use case application/s.
+
+introduce advanced topics, such as hyperparameter optimization and
+geographic information system (GIS), which are related to the use case
+applications and/or the research conduct.
+
+collaborate with USJ-R for future Al-based research and projects.
+
+B. The USJ-R SCS shall:
+
+i.
+
+WON
+
+on
+
+2
+
+assign at least one professional course every term/semester with at least
+twenty (20) enrolled IT/CS students.
+
+provide at least one faculty who will commit to handling the course/s.
+
+provide at least twenty (20) desktop computers with internet access.
+
+design the course and draft a syllabus based on the training and/or workshops
+provided by DOST-ASTI.
+
+adopt the use case application/s defined by DOST-ASTi in the activities of the
+course/s.
+
+collaborate with USJ-R for the ongoing and future Al-based research and
+projects.
+
+assist DOST-ASTI in the dissemination of the PROJECT, its Model Store,
+and all the knowledge transfer activities from DOST-ASTI by hosting these
+events.
+
+ll. INTELLECTUAL PROPERTY
+
+The provisions of the Philippine Technology Transfer Act of 2009 (R. A. No. 10055) and its
+Implementing Rules and Regulations (Joint DOST-IPO A. O. No. 01-2019), as amended, the
+Department of Science and Technology Intellectual Property Policy, as amended (DOST
+Administrative Order No. 16-2019), and other related laws, rules and policies, shall be deemed
+incorporated in this MOA and must, therefore, be complied with by the parties herein.
+
+lll. TERMS OF DATA USAGE
+
+1. Alldata collected from the ASTI-ALaM System shall be transmitted, consolidated, and
+stored in the ALaM Model Store server located at DOST-ASTI's High-Performance ~
+Computing (HPC) facility.
+
+2. The USJ-R SCS shall have access to the data that will be generated from their
+experiments that will be conducted using the ASTI-ALaM System until September
+
+2024
+
+3. The USJ-R SCS shall allow the DOST-ASTI to use their data for the improvement of
+the implementation of the succeeding versions of the ASTI-ALaM System until
+September 2024.
+
+IV. ASSIGNMENT
+
+No party shall assign this MOA to another party without the prior written consent of the
+other. Otherwise, such assignment shall be considered void and shall terminate this MOA.
+
+V. AMENDMENT
+
+No modification or amendment to the terms and conditions of this MOA shall be valid unless
+set out in writing and signed by the authorized representatives of the parties. Should there
+be an amendment, both parties will notify the other party at least one (1) month in advance.

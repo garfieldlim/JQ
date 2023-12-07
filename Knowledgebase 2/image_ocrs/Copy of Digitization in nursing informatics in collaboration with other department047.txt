@@ -1,0 +1,37 @@
+b) Health Information Systems: Expand the curriculum to include in-depth coverage of electronic health
+records (EHRs), computerized physician order entry (CPOE) systems, and clinical decision support
+systems (CDSS). This module should focus on EHR documentation, data entry standards, interoperability,
+and data analysis.
+
+c) Telehealth and Telemedicine: Introduce students to telehealth and telemedicine technologies, including
+virtual care platforms, remote monitoring devices, and mobile health applications. Provide hands-on
+experience through simulated telehealth consultations and discuss the advantages, challenges, and ethical
+implications of remote healthcare delivery.
+
+d) Data Analytics and Informatics: Incorporate a module that emphasizes data management, analytics, and
+visualization techniques in nursing practice. Students should learn how to collect and interpret data, identity
+trends, and apply findings to improve patient outcomes and optimize healthcare processes.
+
+| e) Cybersecurity and Privacy: Integrate a segment dedicated to cybersecurity principles, patient privacy,
+and data protection measures. This module should cover best practices for secure data exchange, risk
+assessment, and strategies to mitigate cyber threats and breaches.
+
+f) Interprofessional Collaboration: Emphasize the importance of interprofessional collaboration in the digital
+age. Foster teamwork skills by engaging nursing students in collaborative projects with students from other
+healthcare disciplines, such as medical, pharmacy, and allied health programs.
+
+Teaching Methods and Resources
+
+To ensure effective delivery of the enhanced curriculum, the following teaching methods and resources are
+recommended:
+
+a) Practical Exercises: Offer hands-on practice sessions where students can familiarize themselves with
+digital tools, EHR systems, telehealth platforms, and data analytics software.
+
+b) Collaborate with our School of Computer Engineering, ICCT.
+
+c) Invite guest lecturers from healthcare organizations, technology companies, and regulatory bodies to
+provide real-world insights and share their experiences regarding digitalization in nursing informatics.
+
+d) Case Studies and Problem-Based Learning: Incorporate case studies and problem
+

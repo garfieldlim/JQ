@@ -1,0 +1,44 @@
+
+A. DOST-ASTI Obligations
+
+1. To provide technical assistance to the USJ-R SCS in developing machine learning models using
+the ASTI-ALaM as the project’s platform and for the hosting of the developed models on an online
+model store;
+
+2. To provide training, workshops and seminars that would enable the students and faculty of
+USJ-R SCS to develop their skills in machine learning, artificial intelligence and deep learning,
+and other related technologies;
+
+3. To share with USJ-R the research outputs and publications resulting from the project; and
+
+4. To provide necessary intellectual property rights clearance for all intellectual properties
+generated in the course of the project.
+
+B. USJ-R Obligations
+
+1. To provide technical assistance to DOST-ASTI in developing machine learning models using
+the ASTI-ALaM as the project’s platform and for the hosting of the developed models on an online
+model store;
+
+2. To allow use of the facilities, resources and personnel of USJ-R SCS that would support the
+project activities, subject to the conditions stipulated in this MOA and other relevant guidelines
+and policies;
+
+3. To provide necessary intellectual property rights clearance for all intellectual properties
+generated in the course of the project; and
+
+4. To ensure the protection and preservation of data privacy and security of the participants and
+data subjects, subject to the conditions stipulated in this MOA and other relevant guidelines and
+policies.
+
+II. INTELLECTUAL PROPERTY RIGHTS AND DATA PRIVACY
+
+The Parties recognize that the project involves research activities which may generate intellectual property (IP) in the form of inventions, discoveries, works of authorship,
+and any other products or processes. The Parties agree to share equally the ownership and
+benefits arising from any IP generated during the project, subject to the terms and conditions set
+forth in this MOA.
+
+Furthermore, both parties acknowledge their respective responsibilities under Republic Act
+No. 10173 or the Data Privacy Act of 2012 (the “DPA”) and shall ensure that all data privacy laws
+and policies are observed throughout the project duration. The Parties agree to take all necessary
+measures to

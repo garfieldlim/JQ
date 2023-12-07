@@ -2,14 +2,14 @@ import json
 from pymilvus import (
     connections,
 )
-from jq_admin.lib.newflask.database import (
+from database import (
     populate_results,
     search_collections,
     sort_results,
 )
 
 from embeddings import vectorize_query
-from openai import generate_response
+from openai_api import generate_response
 
 
 def question_answer():

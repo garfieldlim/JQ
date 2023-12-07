@@ -1,0 +1,40 @@
+Maria Jocelyn C. Gimenez, RN
+
+School of Medical & Allied Sciences 4 tke
+
+Introduction
+
+Nursing informatics plays a crucial role in modern healthcare systems by leveraging technology and
+information management to enhance patient care, improve healthcare outcomes, and optimize workflow
+efficiency. As the healthcare industry continues to evolve, it is essential to incorporate digitalization into the
+nursing informatics curriculum to ensure that nursing professionals are equipped with the necessary
+knowledge and skills to navigate the digital landscape effectively. This proposal outlines the integration of
+digitalization in the nursing informatics subject to prepare nursing students for the digital era.
+
+- Objectives
+The primary objectives of incorporating digitalization in the nursing informatics curriculum are as follows:
+
+a) Enhance digital literacy: Develop students’ proficiency in utilizing digital tools, software applications, and |
+electronic health records (EHRs) commonly used in healthcare settings.
+
+b) Foster data management skills: Equip students with the ability to collect, analyze, and interpret
+healthcare data to improve patient care and clinical decision-making.
+
+c) Promote telehealth competence: Prepare students to effectively engage in telehealth practices, including
+virtual patient consultations, remote monitoring, and telemedicine technologies.
+
+d) Encourage cybersecurity awareness: Educate students about the importance of data privacy,
+confidentiality, and security in healthcare, emphasizing ethical practices and compliance with regulations.
+
+e) Foster interprofessional collaboration: Facilitate collaboration between nursing professionals and other
+healthcare stakeholders in the digital environment, emphasizing effective communication and teamwork.
+
+Proposed Course Outline Enhancements
+
+To achieve the objectives mentioned above the following enhancements should be made to the nursing
+informatics curriculum:
+
+a) Introduction to Digital Health: vennsenill a comprehensive module that provides an overview of digital
+health, including its impact on healthcare delivery, emerging technologies, and relevant legal and ethical
+considerations.
+

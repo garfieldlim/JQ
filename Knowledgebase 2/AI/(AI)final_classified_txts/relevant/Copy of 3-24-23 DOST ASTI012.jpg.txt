@@ -1,0 +1,29 @@
+
+2. provide access to the ASTI-ALaM PROJECT and train USJ-R faculty and students on its usage;
+3. provide technical assistance in implementing the developed models for different application domains.
+4. provide necessary resources for the implementation of this Agreement including but not limited to training, travel expenses and other relevant costs related to the project.
+
+B. The USJ-R shall:
+1. design and plan the professional course/s on Abpea deep learning and its related topics;
+2. facilitate the use of the ASTI-ALaM PROJECT for teaching purposes;
+3. provide the necessary facilities to support the training and implementation of the developed models, including but not limited to, classrooms and laboratories.
+4. ensure that all students and faculty members involved in this project abide by the University’s Intellectual Property Policy and Data Privacy Policy.
+
+II. INTELLECTUAL PROPERTY RIGHTS
+All intellectual property rights resulting from this Agreement shall be jointly owned by the Parties. The Parties shall execute such documents as may be necessary to evidence their respective interests in any jointly-owned Intellectual Property Rights arising from this Agreement.
+
+III. DATA PRIVACY
+The Parties agree that all personal data collected, processed, or stored under this Agreement shall be protected by the Data Privacy Act of 2012 and its Implementing Rules and Regulations. The Parties shall ensure compliance with their respective Data Privacy Policies.
+
+IV. TERM AND TERMINATION
+This MOA shall take effect upon signing by both parties and shall remain in force until the completion of the ASTI-ALaM PROJECT unless sooner terminated by either party upon 60 days written notice to the other Party.
+
+V. GOVERNING LAW
+This MOA is governed by and construed in accordance with the laws of the Philippines.
+
+VI. ENTIRE AGREEMENT
+This Memorandum of Agreement contains the entire agreement between the Parties, and supersedes all prior negotiations, understandings or agreements between them. No amendment, modification or waiver shall be valid unless reduced to writing and signed by both Parties.
+
+IN WITNESS WHEREOF, the Parties have executed this Memorandum of Agreement as of the date first above written.
+
+DOST-ASTI                                            

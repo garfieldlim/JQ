@@ -1,0 +1,34 @@
+Date : October 26, 2022
+
+Ms. Netbha Iglesia
+University of San Jose-Recoletos SDPC
+Magallanes Se, Cb City, Cebu, Philppines
+
+Dear Ms Netbha Iglesia,
+Good Day!
+
+| am Lieudwig A. Abella, the group representative for Face It from the School of Computer Studies of the
+University of San Jose-Recoletos. Our capstone project Face It, is a desktop application that aims to aid
+Psychotherapists/guidance counselors as a mitigating tool to help their clients overcome social anxiety as part of
+exposure therapy. This is through the means of controlled simulated scenarios thatthe user will have to undergo.
+With the help of facial recognition, the current emotional state of the user will be captured and will be used to
+adjust the simulated environment accordingly. The data collected would only be facial feature scores and the
+results from a standardized pretest and posttest for assessing social anxiety disorder. Participants will remain
+‘anonymous while using the application as the application does not require the user to provide any personal or
+sensitive information,
+
+{mn line with this, we are hoping for guidance and assistance from your good office in recommending participants
+forthe usability testing of our capstone project that will be conducted during the first semester of AY 2022-2023
+We would like to request to place a computer unit withthe game installed in the SPDC office at Basak Campus
+toallow full anonymity ofthe users, even tothe developers.
+
+We can be contacted through the email, icudwig.abella.20@usjr.edu.ph or 09151634190, We look forward to
+collaborating with your office to promote and improve the well-being of the USI-R students, especially in this
+time of pandemic
+
+Sincerely, Noted By,
+
+Group Advi
+
+Dean, Schoo! df Computer Studies
+
