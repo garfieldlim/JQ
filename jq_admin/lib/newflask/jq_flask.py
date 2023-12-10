@@ -23,7 +23,7 @@ from knowledgebase_crud import (
 from openai_api import generate_response
 import firebase_admin
 from firebase_admin import firestore
-from config import CRED, COOKIES_PATH
+from config import CRED, COOKIES_PATH, POSTS_JSON_PATH
 
 app = Flask(__name__)
 CORS(app)  # This will enable CORS for all routes
@@ -111,6 +111,16 @@ def update_chat_message_like_dislike():
 
 
 update_posts_json()
+
+
+@app.route("/posts", methods=["GET"])
+def read_posts_json():
+    try:
+        with open(POSTS_JSON_PATH, "r") as file:
+            posts = json.load(file)
+        return jsonify(posts)
+    except Exception as e:
+        return jsonify({"error": str(e)}), 404
 
 
 @app.route("/scrape_website", methods=["POST"])

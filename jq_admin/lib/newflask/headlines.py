@@ -37,7 +37,8 @@ def fetch_facebook_posts(page_name, tag, existing_ids, base_url, start_url):
                 start_url=start_url,
                 pages=1,
                 cookies=COOKIES_PATH,  # Assuming COOKIES_PATH is correctly set in your config
-            )
+            ),
+            start=1,
         ):
             if post["post_id"] not in existing_ids:
                 post["text"] = f"{tag}: {post['text']}"
@@ -57,11 +58,17 @@ def save_posts_to_file(posts, file_path):
 
 
 def update_posts_json():
-    """Main function to update posts.json."""
+    """Main function to update or create posts.json."""
     print("Updating posts.json...")
 
-    existing_posts, existing_ids = load_existing_posts(POSTS_JSON_PATH)
+    existing_posts, existing_ids = [], set()
 
+    # Check if the posts.json file exists
+    if os.path.isfile(POSTS_JSON_PATH):
+        # Load existing posts if file exists
+        existing_posts, existing_ids = load_existing_posts(POSTS_JSON_PATH)
+        os.remove(POSTS_JSON_PATH)
+        print(f"Existing posts.json file removed.")
     # Define base_url and start_url for each page
     base_url = "https://mbasic.facebook.com"
     start_url_forward = "https://mbasic.facebook.com/usjrforward?v=timeline"
