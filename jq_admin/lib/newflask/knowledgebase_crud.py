@@ -27,6 +27,8 @@ def process_object(obj):
     obj["text_id"] = obj["uuid"]  # Adding 'text_id' attribute
     # Check if 'embeds' has more than 100 words
     total_words = sum(len(str(value).split()) for value in obj["embeds"])
+    print("text_id:", obj["text_id"])
+    print("uuid:", obj["uuid"])
 
     obj_list = []
     if total_words > 100:
@@ -75,6 +77,8 @@ def process_object(obj):
         date_object = {key: obj.get(key, None) for key in date_collection_keys}
         text_embeds_str = " ".join(map(str, text_object["embeds"]))
         date_embeds_str = " ".join(map(str, date_object["embeds"]))
+        text_embeds_str = text_embeds_str.lower()
+        date_embeds_str = date_embeds_str.lower()
         text_object["embeds"] = vectorize_query(
             text_embeds_str
         )  # Assuming get_embedding function is defined elsewhere

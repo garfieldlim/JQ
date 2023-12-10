@@ -15,18 +15,7 @@ class DateTimeEncoder(json.JSONEncoder):
         return super().default(obj)
 
 
-def load_existing_posts(file_path):
-    """Load existing posts from a JSON file."""
-    try:
-        with open(file_path, "r", encoding="utf-8") as file:
-            posts = json.load(file)
-        return posts, {post["post_id"] for post in posts}
-    except json.JSONDecodeError as error:
-        print(f"Error reading {file_path}: {error}")
-        return [], set()
-
-
-def fetch_facebook_posts(page_name, tag, existing_ids, base_url, start_url):
+def fetch_facebook_posts(page_name, tag, base_url, start_url):
     """Fetch Facebook posts for a given page using specified base URL and start URL."""
     posts = []
     try:
@@ -36,16 +25,13 @@ def fetch_facebook_posts(page_name, tag, existing_ids, base_url, start_url):
                 base_url=base_url,
                 start_url=start_url,
                 pages=1,
-                cookies=COOKIES_PATH,  # Assuming COOKIES_PATH is correctly set in your config
+                cookies=COOKIES_PATH,
             ),
             start=1,
         ):
-            if post["post_id"] not in existing_ids:
-                post["text"] = f"{tag}: {post['text']}"
-                # print(f"Count {i}: {post['text']}")
-                posts.append(post)
-                existing_ids.add(post["post_id"])
-                time.sleep(1)
+            post["text"] = f"{tag}: {post['text']}"
+            posts.append(post)
+            time.sleep(1)
     except Exception as error:
         print(f"Error fetching posts from {page_name}: {error}")
     return posts
@@ -61,30 +47,27 @@ def update_posts_json():
     """Main function to update or create posts.json."""
     print("Updating posts.json...")
 
-    existing_posts, existing_ids = [], set()
-
-    # Check if the posts.json file exists
+    # Remove the existing file if it exists
     if os.path.isfile(POSTS_JSON_PATH):
-        # Load existing posts if file exists
-        existing_posts, existing_ids = load_existing_posts(POSTS_JSON_PATH)
         os.remove(POSTS_JSON_PATH)
         print(f"Existing posts.json file removed.")
+
     # Define base_url and start_url for each page
     base_url = "https://mbasic.facebook.com"
     start_url_forward = "https://mbasic.facebook.com/usjrforward?v=timeline"
     start_url_official = "https://mbasic.facebook.com/usjr.official?v=timeline"
 
     posts_from_forward = fetch_facebook_posts(
-        "usjrforward", "usjrforward", existing_ids, base_url, start_url_forward
+        "usjrforward", "usjrforward", base_url, start_url_forward
     )
     posts_from_official = fetch_facebook_posts(
-        "usjr.official", "usjr.official", existing_ids, base_url, start_url_official
+        "usjr.official", "usjr.official", base_url, start_url_official
     )
 
-    existing_posts.extend(posts_from_forward + posts_from_official)
+    combined_posts = posts_from_forward + posts_from_official
 
-    if existing_posts:
-        save_posts_to_file(existing_posts, POSTS_JSON_PATH)
+    if combined_posts:
+        save_posts_to_file(combined_posts, POSTS_JSON_PATH)
         print("posts.json has been updated with the latest posts.")
     else:
         print("No new posts were fetched.")
