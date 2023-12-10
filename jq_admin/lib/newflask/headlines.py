@@ -42,7 +42,7 @@ def fetch_facebook_posts(page_name, tag, existing_ids, base_url, start_url):
         ):
             if post["post_id"] not in existing_ids:
                 post["text"] = f"{tag}: {post['text']}"
-                print(f"Count {i}: {post['text']}")
+                # print(f"Count {i}: {post['text']}")
                 posts.append(post)
                 existing_ids.add(post["post_id"])
                 time.sleep(1)
