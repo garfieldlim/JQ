@@ -24,16 +24,16 @@ class _UpsertingPageState extends State<UpsertingPage> {
           child: Column(
             children: [
               const SizedBox(height: 50),
-              Stack(
+              const Stack(
                 alignment: Alignment.center,
                 children: [
                   Row(
                     children: [
                       BackButtonWidget(color: Color(0xfff2c87e)),
-                      const SizedBox(width: 50),
+                      SizedBox(width: 50),
                     ],
                   ),
-                  const Text(
+                  Text(
                     "Select a schema to upsert data",
                     style: TextStyle(
                       color: Color(0xff7a8066),
@@ -100,7 +100,7 @@ class _UpsertingPageState extends State<UpsertingPage> {
               height: 500,
               decoration: BoxDecoration(
                 color: isHovered ? const Color(0xfff2c87e) : Colors.transparent,
-                border: Border.all(color: Color(0xff969d7b), width: 5),
+                border: Border.all(color: const Color(0xff969d7b), width: 5),
                 borderRadius: BorderRadius.circular(25.0),
               ),
               child: isHovered

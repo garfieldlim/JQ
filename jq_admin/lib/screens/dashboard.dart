@@ -54,7 +54,7 @@ class Admin_dashboard extends StatelessWidget {
                   onPressed: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => DataTableDemo()),
+                      MaterialPageRoute(builder: (context) => const DataTableDemo()),
                     );
                   },
                   labelText: 'Knowlege base logs',
@@ -69,7 +69,7 @@ class Admin_dashboard extends StatelessWidget {
                           context,
                           MaterialPageRoute(
                               builder: (context) =>
-                                  LoginPage()), 
+                                  const LoginPage()), 
                         );
                       },
                       color: const Color(0xff969d7b),

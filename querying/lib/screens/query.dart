@@ -20,7 +20,7 @@ class _HomePageState extends State<HomePage> {
       messages.add(ChatMessage(text: message, isUserMessage: true));
     });
 
-    final url = Uri.parse('http://192.168.68.110:7999/search');
+    final url = Uri.parse('http://127.0.0.1:7999/search');
     final headers = {'Content-Type': 'application/json'};
     final body = jsonEncode({'question': message});
 

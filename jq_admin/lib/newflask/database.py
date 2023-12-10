@@ -5,6 +5,7 @@ from pymilvus import (
     DataType,
     Collection,
 )
+import json
 
 
 def similarity_search(
@@ -183,7 +184,7 @@ def update_results_with_query_data(results, query_results):
                     result[name].append(query_result.get(name, ""))
                 elif name != "text" and entity_id == query_result.get("uuid", ""):
                     result[name].append(query_result.get(name, ""))
-    print("Updated results with data from query_results")
+    return results
 
 
 def format_final_results(results):
@@ -208,8 +209,16 @@ def format_final_results(results):
         if concatenated_values.strip():
             formatted_result = f"Result {index + 1}: {concatenated_values}"
             final_results.append(formatted_result)
+
     print("Formatted final results")
-    return "\n".join(final_results)
+    json_file_path = "/Users/garfieldgreglim/Desktop/json_test/formatted_results.json"
+    try:
+        with open(json_file_path, "w") as file:
+            json.dump(final_results, file)
+        print(f"Formatted results saved to {json_file_path}")
+    except IOError as e:
+        print(f"Failed to save formatted results: {e}")
+    return final_results
 
 
 def populate_results(json_results_sorted, partition_names):
@@ -217,9 +226,23 @@ def populate_results(json_results_sorted, partition_names):
     entity_ids = extract_entity_ids(json_results_sorted)
     prepare_result_fields(json_results_sorted)
     query_results = query_collections(collections, entity_ids, partition_names)
-    update_results_with_query_data(json_results_sorted, query_results)
+    json_results_sorted = update_results_with_query_data(
+        json_results_sorted, query_results
+    )
+    json_results_sorted_file_path = (
+        "/Users/garfieldgreglim/Desktop/json_test/results.json"
+    )
+
+    # Save 'results' as a JSON file
+    try:
+        with open(json_results_sorted_file_path, "w") as file:
+            json.dump(json_results_sorted, file)
+        print(f"Results saved to {json_results_sorted_file_path}")
+    except IOError as e:
+        print(f"Failed to save results: {e}")
+
     print("Populated results with sorted json results")
-    return format_final_results(json_results_sorted[-10:])
+    return format_final_results(json_results_sorted)
 
 
 def rank_partitions(prompt_embedding):

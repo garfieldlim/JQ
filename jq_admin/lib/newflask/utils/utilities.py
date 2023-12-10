@@ -1,4 +1,4 @@
-import datetime
+from datetime import datetime
 
 
 def refactor_date(input_date):

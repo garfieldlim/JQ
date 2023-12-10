@@ -23,12 +23,12 @@ class _SchemaDetailsPageState extends State<SchemaDetailsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xff969d7b),
+      backgroundColor: const Color(0xff969d7b),
       appBar: AppBar(
         backgroundColor: const Color(0xfffff1e4),
         title: Text(
           widget.schema,
-          style: TextStyle(color: Color(0xfff2c87e)),
+          style: const TextStyle(color: Color(0xfff2c87e)),
         ),
         leading: const BackButton(
           color: Color(0xfff2c87e),
@@ -46,9 +46,9 @@ class _SchemaDetailsPageState extends State<SchemaDetailsPage> {
                     child: Image.asset('web/assets/jq.png'),
                   ),
                   ..._buildSchemaBasedFields(),
-                  SizedBox(height: 20),
+                  const SizedBox(height: 20),
                   // _buildFileNameText(),
-                  SizedBox(height: 20),
+                  const SizedBox(height: 20),
                   _buildContinueButton(),
                 ],
               ),
@@ -60,13 +60,13 @@ class _SchemaDetailsPageState extends State<SchemaDetailsPage> {
     List<Widget> widgets = getFieldsForSelectedSchema(widget.schema);
     if (widget.schema == 'Social Posts') {
       widgets.add(
-        Container(
+        SizedBox(
           width: 900,
           child: TextField(
             controller: _urlController,
             decoration: InputDecoration(
               labelText: 'Enter Facebook URL',
-              labelStyle: TextStyle(color: Colors.white),
+              labelStyle: const TextStyle(color: Colors.white),
               border: _buildInputBorderStyle(),
               enabledBorder: _buildInputBorderStyle(),
               focusedBorder: _buildFocusedInputBorderStyle(),
@@ -105,11 +105,10 @@ class _SchemaDetailsPageState extends State<SchemaDetailsPage> {
     return Center(
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
-          primary: Color(0xffe7d292), // This is the background color
-          onPrimary: Color(0xffffe8a4), // This is the color of the text
+          foregroundColor: const Color(0xffffe8a4), backgroundColor: const Color(0xffe7d292), // This is the color of the text
         ),
-        child: const Text('Continue', style: TextStyle(fontSize: 18)),
         onPressed: _handleContinuePress,
+        child: const Text('Continue', style: TextStyle(fontSize: 18)),
         // You may need to adjust the styling here as per your needs
         // child: const Text('Continue', style: TextStyle(fontSize: 18)),
       ),

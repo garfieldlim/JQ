@@ -6,7 +6,7 @@ def generate_response(prompt, string_json):
     # Format the input as per the desired conversation format
     openai.api_key_path = OPENAI_API_KEY
     print("PROMPT: ", prompt)
-    print("STRING JSON: ", string_json)
+    # print("STRING JSON: ", string_json)
     conversation = [
         {
             "role": "system",

@@ -35,10 +35,10 @@ class _LogsPageState extends State<LogsPage> {
         children: [
           const SizedBox(height: 15),
           Padding(
-            padding: EdgeInsets.all(10.0),
+            padding: const EdgeInsets.all(10.0),
             child: Center(
               child: Padding(
-                padding: EdgeInsets.all(10.0),
+                padding: const EdgeInsets.all(10.0),
                 child: Image.asset(
                   'web/assets/jq.png',
                   height: 150,

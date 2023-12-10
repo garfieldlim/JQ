@@ -10,86 +10,96 @@ from utils.utilities import refactor_date
 from dictionary import desired_fields, partitions, table_fields
 
 
-def initialize_object_attributes(obj):
+def process_object(obj):
+    # Create a 'uuid' attribute
     obj["link"] = obj.pop("url")
     obj.pop("schema")
     obj["partition_name"] = "social_posts_partition"
     obj["uuid"] = str(uuid.uuid4())
-    obj["date"] = refactor_date(obj.pop("time"))
+    obj["date"] = obj.pop("time")
+    obj["date"] = refactor_date(
+        obj["date"]
+    )  # Assuming refactor_date function is defined elsewhere
+    # Create 'embeds' attribute by appending all values in the object
     obj["embeds"] = [
-        value for key, value in obj.items() if key not in ["embeds", "text"]
+        value for key, value in obj.items() if key != "embeds" and key != "text"
     ]
-    obj["text_id"] = obj["uuid"]
-    return obj
-
-
-def split_text_chunks(obj, max_words=100):
+    obj["text_id"] = obj["uuid"]  # Adding 'text_id' attribute
+    # Check if 'embeds' has more than 100 words
     total_words = sum(len(str(value).split()) for value in obj["embeds"])
-    if total_words <= max_words:
-        return [obj]
 
     obj_list = []
-    words = obj["text"].split()
-    for i in range(0, total_words, max_words):
-        chunk_obj = copy.deepcopy(obj)
-        chunk_obj["embeds"] = " ".join(words[i : i + max_words])
-        chunk_obj["uuid"] = str(uuid.uuid4())
-        obj_list.append(chunk_obj)
+    if total_words > 100:
+        # Split into equal objects
+        n_parts = total_words // 100
+        chunk_size = len(obj["text"]) // n_parts
+        # return
 
-    return obj_list
-
-
-def create_collection_objects(obj_list):
-    text_objects, date_objects = [], []
-    for obj in obj_list:
-        text_object = {
-            key: obj.get(key)
-            for key in [
-                "uuid",
-                "text_id",
-                "text",
-                "embeds",
-                "media",
-                "link",
-                "partition_name",
+        for i in range(n_parts):
+            chunk_obj = copy.deepcopy(obj)
+            words_in_chunk = obj["text"][
+                words_processed : words_processed + words_per_part
             ]
-        }
-        date_object = {
-            key: obj.get(key) for key in ["uuid", "date", "embeds", "partition_name"]
-        }
+            chunk_obj["embeds"] = words_in_chunk
+            chunk_obj["uuid"] = str(uuid.uuid4())
+            chunk_obj["text_id"] = obj["uuid"]
+            obj_list.append(chunk_obj)
+            words_processed += len(words_in_chunk.split())
 
-        text_object["embeds"] = vectorize_query(text_object["embeds"])
-        date_object["embeds"] = vectorize_query(date_object["embeds"])
+        # Handle remaining words if they don't evenly divide
+        remaining_words = obj["text"][words_processed:]
+        if remaining_words:
+            chunk_obj = copy.deepcopy(obj)
+            chunk_obj["embeds"] = remaining_words
+            chunk_obj["uuid"] = str(uuid.uuid4())
+            chunk_obj["text_id"] = obj["uuid"]
+            obj_list.append(chunk_obj)
+    else:
+        obj_list.append(obj)
+    text_collection_keys = [
+        "uuid",
+        "text_id",
+        "text",
+        "embeds",
+        "media",
+        "link",
+        "partition_name",
+    ]
+    date_collection_keys = ["uuid", "date", "embeds", "partition_name"]
 
+    text_objects = []
+    date_objects = []
+
+    for count, obj in enumerate(obj_list, 1):
+        text_object = {key: obj.get(key, None) for key in text_collection_keys}
+        date_object = {key: obj.get(key, None) for key in date_collection_keys}
+        text_embeds_str = " ".join(map(str, text_object["embeds"]))
+        date_embeds_str = " ".join(map(str, date_object["embeds"]))
+        text_object["embeds"] = vectorize_query(
+            text_embeds_str
+        )  # Assuming get_embedding function is defined elsewhere
+        date_object["embeds"] = vectorize_query(
+            date_embeds_str
+        )  # Assuming get_embedding function is defined elsewhere
         text_objects.append(text_object)
         date_objects.append(date_object)
-    return text_objects, date_objects
 
-
-def insert_into_collections(text_objects, date_objects):
-    text_collection = Collection("text_collection")
-    date_collection = Collection("date_collection")
-
-    text_collection.insert(text_objects, "social_posts_partition")
-    date_collection.insert(date_objects, "social_posts_partition")
-
-
-def print_objects(objects):
-    for count, obj in enumerate(objects, 1):
         print(f"COUNT {count}-")
-        print(
-            f"OBJ[{count}] text_object:", obj[0]
-        )  # Assuming obj is a tuple (text_object, date_object)
-        print(f"OBJ[{count}] date_object:", obj[1])
+        print(f"OBJ[{count}] text_object:", text_object)
+        print(f"OBJ[{count}] date_object:", date_object)
         print("\n")
-
-
-def process_object(obj):
-    obj = initialize_object_attributes(obj)
-    obj_list = split_text_chunks(obj)
-    text_objects, date_objects = create_collection_objects(obj_list)
-    insert_into_collections(text_objects, date_objects)
-    print_objects(zip(text_objects, date_objects))
+    for obj in text_objects:
+        for attribute in obj:
+            if obj[attribute] is None:
+                obj[attribute] = ""
+    collection = Collection(
+        "text_collection"
+    )  # Assuming Collection is defined elsewhere
+    print(collection.insert(text_objects, "social_posts_partition"))
+    collection = Collection("date_collection")  # Fixed collection name
+    print(
+        collection.insert(date_objects, "social_posts_partition")
+    )  # Fixed variable name
 
     return obj_list
 

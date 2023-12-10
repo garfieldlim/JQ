@@ -13,17 +13,17 @@ class LogDetailsPage extends StatelessWidget {
     return Scaffold(
       backgroundColor: const Color(0xfffff1e4),
       appBar: AppBar(
-        title: Text("Log Details", style: TextStyle(color: Color(0XFFF2C87E))),
-        backgroundColor: Color(0xff969D7B),
+        title: const Text("Log Details", style: TextStyle(color: Color(0XFFF2C87E))),
+        backgroundColor: const Color(0xff969D7B),
       ),
       body: SingleChildScrollView(
         child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 100.0, vertical: 10.0),
+          padding: const EdgeInsets.symmetric(horizontal: 100.0, vertical: 10.0),
           child: Container(
             alignment: Alignment.center,
             child: Table(
               border: TableBorder.all(
-                color: Color(0xff969D7B), // Change border color here
+                color: const Color(0xff969D7B), // Change border color here
                 width: 1.0, // Change border width here
               ),
               columnWidths: const <int, TableColumnWidth>{
@@ -65,7 +65,7 @@ class LogDetailsPage extends StatelessWidget {
                         padding: const EdgeInsets.all(8.0),
                         child: Text(
                           key,
-                          style: TextStyle(
+                          style: const TextStyle(
                             color: Color(0xff797979), // Change text color here
                           ),
                         ),
@@ -93,11 +93,11 @@ class LogDetailsPage extends StatelessWidget {
                                       showDialog(
                                         context: context,
                                         builder: (context) => AlertDialog(
-                                          title: Text('Full Milvus Data'),
+                                          title: const Text('Full Milvus Data'),
                                           content: SingleChildScrollView(
                                             child: Text(
                                               value, // Show the full Milvus data here
-                                              style: TextStyle(
+                                              style: const TextStyle(
                                                 color: Color(
                                                     0xff797979), // Change text color here
                                               ),
@@ -105,7 +105,7 @@ class LogDetailsPage extends StatelessWidget {
                                           ),
                                           actions: [
                                             ElevatedButton(
-                                              child: Text('Close'),
+                                              child: const Text('Close'),
                                               onPressed: () {
                                                 Navigator.of(context).pop();
                                               },
@@ -114,7 +114,7 @@ class LogDetailsPage extends StatelessWidget {
                                         ),
                                       );
                                     },
-                                    child: Text(
+                                    child: const Text(
                                       'See More',
                                       style: TextStyle(
                                         color: Color(
@@ -126,7 +126,7 @@ class LogDetailsPage extends StatelessWidget {
                               )
                             : Text(
                                 value,
-                                style: TextStyle(
+                                style: const TextStyle(
                                   color: Color(
                                       0xff797979), // Change text color here
                                 ),

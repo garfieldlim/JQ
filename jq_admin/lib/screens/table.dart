@@ -6,6 +6,8 @@ import 'dart:convert';
 import '../widgets/expandable.dart';
 
 class DataTableDemo extends StatefulWidget {
+  const DataTableDemo({super.key});
+
   @override
   _DataTableDemoState createState() => _DataTableDemoState();
 }
@@ -69,9 +71,9 @@ class _DataTableDemoState extends State<DataTableDemo> {
 
   Future<void> _showEditDialog(Map<String, dynamic> item) async {
     // Create a map to hold the text controllers for each field
-    Map<String, TextEditingController> _controllers = {};
+    Map<String, TextEditingController> controllers = {};
     for (String field in table_fields[selectedPartition] ?? []) {
-      _controllers[field] =
+      controllers[field] =
           TextEditingController(text: item[field]?.toString() ?? '');
     }
 
@@ -80,14 +82,14 @@ class _DataTableDemoState extends State<DataTableDemo> {
       barrierDismissible: false, // user must tap button to close the dialog
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text('Edit Item'),
+          title: const Text('Edit Item'),
           content: SingleChildScrollView(
             child: ListBody(
               children: <Widget>[
-                Text('Edit the fields and tap update to save changes.'),
-                ..._controllers.keys.map((String field) {
+                const Text('Edit the fields and tap update to save changes.'),
+                ...controllers.keys.map((String field) {
                   return TextField(
-                    controller: _controllers[field],
+                    controller: controllers[field],
                     decoration: InputDecoration(labelText: field.capitalize()),
                     maxLines: field == 'text'
                         ? null
@@ -102,17 +104,17 @@ class _DataTableDemoState extends State<DataTableDemo> {
           ),
           actions: <Widget>[
             TextButton(
-              child: Text('Cancel'),
+              child: const Text('Cancel'),
               onPressed: () {
                 Navigator.of(context).pop();
               },
             ),
             TextButton(
-              child: Text('Update'),
+              child: const Text('Update'),
               onPressed: () {
                 Map<String, dynamic> updatedItem = {};
-                for (String field in _controllers.keys) {
-                  updatedItem[field] = _controllers[field]?.text ?? '';
+                for (String field in controllers.keys) {
+                  updatedItem[field] = controllers[field]?.text ?? '';
                 }
 
                 // Update the item in the data list
@@ -139,15 +141,15 @@ class _DataTableDemoState extends State<DataTableDemo> {
     final shouldDelete = await showDialog<bool>(
       context: context,
       builder: (context) => AlertDialog(
-        title: Text('Delete Item'),
-        content: Text('Are you sure you want to delete this item?'),
+        title: const Text('Delete Item'),
+        content: const Text('Are you sure you want to delete this item?'),
         actions: <Widget>[
           TextButton(
-            child: Text('Cancel'),
+            child: const Text('Cancel'),
             onPressed: () => Navigator.of(context).pop(false), // Return false
           ),
           TextButton(
-            child: Text('Delete'),
+            child: const Text('Delete'),
             onPressed: () => Navigator.of(context).pop(true), // Return true
           ),
         ],
@@ -168,16 +170,16 @@ class _DataTableDemoState extends State<DataTableDemo> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xfffff1e4),
+      backgroundColor: const Color(0xfffff1e4),
       appBar: AppBar(
-        backgroundColor: Color(0xfff2c87e),
+        backgroundColor: const Color(0xfff2c87e),
         leading: IconButton(
-          icon: Icon(Icons.arrow_back),
+          icon: const Icon(Icons.arrow_back),
           onPressed: () {
             Navigator.of(context).pop(); // Go back to previous screen
           },
         ),
-        title: Text(
+        title: const Text(
           'Knowledge Base Logs',
           style: TextStyle(color: Colors.white),
         ),
@@ -202,15 +204,15 @@ class _DataTableDemoState extends State<DataTableDemo> {
                   // Apply the text style within DropdownMenuItem
                   child: Text(
                     value,
-                    style: TextStyle(
+                    style: const TextStyle(
                         color: Colors.white), // Change text color here
                   ),
                 );
               }).toList(),
-              hint: Text('Select a partition'),
-              dropdownColor: Color(0xffe7dba9),
+              hint: const Text('Select a partition'),
+              dropdownColor: const Color(0xffe7dba9),
               iconEnabledColor: Colors.white,
-              style: TextStyle(color: Colors.white),
+              style: const TextStyle(color: Colors.white),
             ),
           ),
           // Headers for the table
@@ -220,8 +222,8 @@ class _DataTableDemoState extends State<DataTableDemo> {
                   .map(
                     (header) => Expanded(
                       child: Container(
-                        padding: EdgeInsets.all(8),
-                        color: Color(0xffe7dba9),
+                        padding: const EdgeInsets.all(8),
+                        color: const Color(0xffe7dba9),
                         child: Text(header.capitalize()),
                       ),
                     ),
@@ -238,7 +240,7 @@ class _DataTableDemoState extends State<DataTableDemo> {
                 final actualIndex = _startIndexOfPage + index;
                 final item = data[actualIndex];
                 return DecoratedBox(
-                  decoration: BoxDecoration(
+                  decoration: const BoxDecoration(
                     border: Border(
                       bottom: BorderSide(
                         color: Colors.grey, // Set your border color here
@@ -254,7 +256,7 @@ class _DataTableDemoState extends State<DataTableDemo> {
                         SlidableAction(
                           onPressed: (BuildContext context) =>
                               _showEditDialog(item),
-                          backgroundColor: Color(0xFFA7C7E7),
+                          backgroundColor: const Color(0xFFA7C7E7),
                           foregroundColor: Colors.white,
                           icon: Icons.edit,
                           label: 'Edit',
@@ -266,7 +268,7 @@ class _DataTableDemoState extends State<DataTableDemo> {
                       children: [
                         SlidableAction(
                           onPressed: (context) => _deleteItem(context, item),
-                          backgroundColor: Color(0xFFFF6B6B),
+                          backgroundColor: const Color(0xFFFF6B6B),
                           foregroundColor: Colors.white,
                           icon: Icons.delete,
                           label: 'Delete',
@@ -278,7 +280,7 @@ class _DataTableDemoState extends State<DataTableDemo> {
                           .map(
                             (field) => Expanded(
                               child: Container(
-                                padding: EdgeInsets.all(8),
+                                padding: const EdgeInsets.all(8),
                                 child: field == 'text'
                                     ? ExpandableText(
                                         text: item[field]?.toString() ?? '')
@@ -297,7 +299,7 @@ class _DataTableDemoState extends State<DataTableDemo> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               IconButton(
-                icon: Icon(Icons.arrow_back),
+                icon: const Icon(Icons.arrow_back),
                 onPressed: currentPage > 1
                     ? () {
                         setState(() {
@@ -309,7 +311,7 @@ class _DataTableDemoState extends State<DataTableDemo> {
               ),
               Text('Page $currentPage'),
               IconButton(
-                icon: Icon(Icons.arrow_forward),
+                icon: const Icon(Icons.arrow_forward),
                 onPressed: () {
                   setState(() {
                     currentPage++;
@@ -327,6 +329,6 @@ class _DataTableDemoState extends State<DataTableDemo> {
 
 extension StringExtension on String {
   String capitalize() {
-    return "${this[0].toUpperCase()}${this.substring(1)}";
+    return "${this[0].toUpperCase()}${substring(1)}";
   }
 }

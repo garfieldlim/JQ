@@ -57,7 +57,7 @@ class _MessageInputState extends State<MessageInput> {
               }
             },
             icon: const Icon(Icons.send),
-            color: Color(0xfff2c87e),
+            color: const Color(0xfff2c87e),
           ),
         ],
       ),

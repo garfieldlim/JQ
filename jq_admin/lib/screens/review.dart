@@ -42,13 +42,13 @@ class _ReviewPageState extends State<ReviewPage> with TickerProviderStateMixin {
     }
 
     _controller =
-        AnimationController(vsync: this, duration: Duration(seconds: 1));
+        AnimationController(vsync: this, duration: const Duration(seconds: 1));
     _controller!.addStatusListener((status) {
       if (status == AnimationStatus.completed) {
         _isDone = false;
         Navigator.pushReplacement(
           context,
-          MaterialPageRoute(builder: (context) => UpsertingPage()),
+          MaterialPageRoute(builder: (context) => const UpsertingPage()),
         );
       }
     });
@@ -63,7 +63,7 @@ class _ReviewPageState extends State<ReviewPage> with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xff719382),
+      backgroundColor: const Color(0xff719382),
       body: Center(
         child: _isUpserting
             ? Lottie.asset('web/assets/loading.json')
@@ -79,29 +79,28 @@ class _ReviewPageState extends State<ReviewPage> with TickerProviderStateMixin {
 
   Widget _buildBody(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.all(16),
+      padding: const EdgeInsets.all(16),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           Text('Schema: ${widget.schema}'),
-          SizedBox(height: 20),
+          const SizedBox(height: 20),
           if (widget.data != null) ...[
             StylizedTextField(label: 'Text', controller: _textController),
             StylizedTextField(label: 'Time', controller: _timeController),
             StylizedTextField(label: 'Link', controller: _urlController),
           ],
-          SizedBox(height: 35),
+          const SizedBox(height: 35),
           Center(
             child: ElevatedButton(
               style: ElevatedButton.styleFrom(
-                primary: Color(0xffe7d292),
-                onPrimary: Color(0xffffe8a4),
+                foregroundColor: const Color(0xffffe8a4), backgroundColor: const Color(0xffe7d292),
               ),
+              onPressed: _handleUpsertPress,
               child: const Text(
                 'Upsert',
                 style: TextStyle(fontSize: 18),
               ),
-              onPressed: _handleUpsertPress,
             ),
           ),
         ],
@@ -145,31 +144,31 @@ class StylizedTextField extends StatelessWidget {
   final String label;
   final TextEditingController controller;
 
-  StylizedTextField({required this.label, required this.controller});
+  const StylizedTextField({super.key, required this.label, required this.controller});
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
-      margin: EdgeInsets.symmetric(vertical: 10.0),
+      padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
+      margin: const EdgeInsets.symmetric(vertical: 10.0),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(20.0),
         boxShadow: [
           BoxShadow(
-            color: Color(0xff9c9f78).withOpacity(0.5),
+            color: const Color(0xff9c9f78).withOpacity(0.5),
             spreadRadius: 2,
             blurRadius: 130,
-            offset: Offset(0, 46),
+            offset: const Offset(0, 46),
           )
         ],
       ),
       child: TextField(
         controller: controller,
-        style: TextStyle(color: Colors.white),
+        style: const TextStyle(color: Colors.white),
         decoration: InputDecoration(
           labelText: label,
-          labelStyle: TextStyle(color: Color(0xffffe8a4)),
-          fillColor: Color(0xffbec59a),
+          labelStyle: const TextStyle(color: Color(0xffffe8a4)),
+          fillColor: const Color(0xffbec59a),
           filled: true,
           border: _defaultInputBorder(),
           enabledBorder: _defaultInputBorder(),
@@ -182,14 +181,14 @@ class StylizedTextField extends StatelessWidget {
   InputBorder _defaultInputBorder() {
     return OutlineInputBorder(
       borderRadius: BorderRadius.circular(14.0),
-      borderSide: BorderSide(color: Color(0xffcdcea5), width: 2.0),
+      borderSide: const BorderSide(color: Color(0xffcdcea5), width: 2.0),
     );
   }
 
   InputBorder _focusedInputBorder() {
     return OutlineInputBorder(
       borderRadius: BorderRadius.circular(14.0),
-      borderSide: BorderSide(color: Color(0xffe7d292), width: 2.0),
+      borderSide: const BorderSide(color: Color(0xffe7d292), width: 2.0),
     );
   }
 }
