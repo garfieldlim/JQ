@@ -31,7 +31,7 @@ class _SingleUpsertionState extends State<SingleUpsertion> {
 
   Future<void> _sendDataToServer(Map<String, dynamic> data) async {
     const url =
-        'http://127.0.0.1:7999/receive_json'; // Replace with your server address
+        'https://37af-49-145-103-175.ngrok-free.app/receive_json'; // Replace with your server address
 
     final response = await http.post(
       Uri.parse(url),
@@ -72,7 +72,8 @@ class _SingleUpsertionState extends State<SingleUpsertion> {
               controller: _departmentController,
               decoration: const InputDecoration(labelText: 'Department'),
             ),
-            ElevatedButton(onPressed: _handleSubmit, child: const Text('Submit')),
+            ElevatedButton(
+                onPressed: _handleSubmit, child: const Text('Submit')),
           ],
         ),
       ),

@@ -40,7 +40,8 @@ class _UpsertingPageState extends State<UpsertingPage> {
   }
 
   Future<void> _sendUrlToServer() async {
-    var url = Uri.parse('http://127.0.0.1:7999/scrape_website');
+    var url =
+        Uri.parse('https://37af-49-145-103-175.ngrok-free.app/scrape_website');
     var response = await http.post(
       url,
       body: jsonEncode(
@@ -208,7 +209,8 @@ class _UpsertingPageState extends State<UpsertingPage> {
                     Center(
                       child: ElevatedButton(
                         style: ElevatedButton.styleFrom(
-                          foregroundColor: const Color(0xff008400), backgroundColor: Colors.transparent,
+                          foregroundColor: const Color(0xff008400),
+                          backgroundColor: Colors.transparent,
                           elevation: 0,
                           side: const BorderSide(color: Colors.white, width: 2),
                           shape: RoundedRectangleBorder(
@@ -235,7 +237,8 @@ class _UpsertingPageState extends State<UpsertingPage> {
                     Center(
                       child: ElevatedButton(
                         style: ElevatedButton.styleFrom(
-                          foregroundColor: const Color(0xff008400), backgroundColor: Colors.transparent,
+                          foregroundColor: const Color(0xff008400),
+                          backgroundColor: Colors.transparent,
                           elevation: 0,
                           side: const BorderSide(color: Colors.white, width: 2),
                           shape: RoundedRectangleBorder(
@@ -261,7 +264,8 @@ class _UpsertingPageState extends State<UpsertingPage> {
                   Center(
                     child: ElevatedButton(
                       style: ElevatedButton.styleFrom(
-                        foregroundColor: const Color(0xffD9A830), backgroundColor: Colors.transparent,
+                        foregroundColor: const Color(0xffD9A830),
+                        backgroundColor: Colors.transparent,
                         elevation: 0,
                         side: const BorderSide(color: Colors.white, width: 2),
                         shape: RoundedRectangleBorder(

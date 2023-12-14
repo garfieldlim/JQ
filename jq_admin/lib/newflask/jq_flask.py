@@ -52,6 +52,11 @@ cred = CRED
 firebase_admin.initialize_app(cred)
 
 
+@app.route("/printsess", methods=["POST"])
+def printsess():
+    print("THISPRINTBITCH")
+
+
 @app.route("/save_chat_message", methods=["POST"])
 def save_chat_message():
     data = request.json

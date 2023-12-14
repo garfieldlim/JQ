@@ -42,7 +42,7 @@ class _HomePageState extends State<HomePage> {
       });
     }
 
-    final url = Uri.parse('http://127.0.0.1:7999 /query');
+    final url = Uri.parse('https://37af-49-145-103-175.ngrok-free.app /query');
     final headers = {'Content-Type': 'application/json'};
 
     // Getting the previous answer from the bot
@@ -260,9 +260,11 @@ class _HomePageState extends State<HomePage> {
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(25),
                                     color: message.isUserMessage
-                                        ? const Color.fromARGB(255, 237, 237, 237)
+                                        ? const Color.fromARGB(
+                                                255, 237, 237, 237)
                                             .withOpacity(0.5)
-                                        : const Color.fromARGB(255, 255, 255, 255)
+                                        : const Color.fromARGB(
+                                                255, 255, 255, 255)
                                             .withOpacity(0.5),
                                     boxShadow: [
                                       BoxShadow(
@@ -285,7 +287,8 @@ class _HomePageState extends State<HomePage> {
                                         text: displayText,
                                         linkStyle:
                                             const TextStyle(color: Colors.blue),
-                                        style: const TextStyle(color: Colors.white),
+                                        style: const TextStyle(
+                                            color: Colors.white),
                                       ),
                                       if (imageUrl.isNotEmpty)
                                         Padding(
@@ -334,7 +337,8 @@ class _HomePageState extends State<HomePage> {
                               ? const CircularProgressIndicator()
                               : ElevatedButton(
                                   style: ElevatedButton.styleFrom(
-                                    foregroundColor: Colors.white, backgroundColor: const Color(0xfff9dea6),
+                                    foregroundColor: Colors.white,
+                                    backgroundColor: const Color(0xfff9dea6),
                                     shape: RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(20),
                                     ),
@@ -352,7 +356,8 @@ class _HomePageState extends State<HomePage> {
               const Divider(height: 1, color: Colors.white),
               Container(
                 color: Colors.transparent,
-                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                 child: Row(
                   children: [
                     Expanded(

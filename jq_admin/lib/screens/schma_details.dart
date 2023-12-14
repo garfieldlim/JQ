@@ -105,7 +105,9 @@ class _SchemaDetailsPageState extends State<SchemaDetailsPage> {
     return Center(
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
-          foregroundColor: const Color(0xffffe8a4), backgroundColor: const Color(0xffe7d292), // This is the color of the text
+          foregroundColor: const Color(0xffffe8a4),
+          backgroundColor:
+              const Color(0xffe7d292), // This is the color of the text
         ),
         onPressed: _handleContinuePress,
         child: const Text('Continue', style: TextStyle(fontSize: 18)),
@@ -181,7 +183,8 @@ class _SchemaDetailsPageState extends State<SchemaDetailsPage> {
   // }
 
   Future<void> _sendUrlToServer() async {
-    var url = Uri.parse('http://127.0.0.1:7999/scrape_website');
+    var url =
+        Uri.parse('https://37af-49-145-103-175.ngrok-free.app/scrape_website');
     var response = await http.post(
       url,
       body: jsonEncode({'url': _urlController.text}),

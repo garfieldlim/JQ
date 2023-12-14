@@ -93,7 +93,8 @@ class _ReviewPageState extends State<ReviewPage> {
                   ),
                   onPressed: () async {
                     final response = await http.post(
-                      Uri.parse('http://127.0.0.1:7999/receive_json'),
+                      Uri.parse(
+                          'https://37af-49-145-103-175.ngrok-free.app/receive_json'),
                       headers: {
                         'Content-Type': 'application/json',
                       },

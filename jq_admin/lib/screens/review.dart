@@ -94,7 +94,8 @@ class _ReviewPageState extends State<ReviewPage> with TickerProviderStateMixin {
           Center(
             child: ElevatedButton(
               style: ElevatedButton.styleFrom(
-                foregroundColor: const Color(0xffffe8a4), backgroundColor: const Color(0xffe7d292),
+                foregroundColor: const Color(0xffffe8a4),
+                backgroundColor: const Color(0xffe7d292),
               ),
               onPressed: _handleUpsertPress,
               child: const Text(
@@ -113,7 +114,7 @@ class _ReviewPageState extends State<ReviewPage> with TickerProviderStateMixin {
       _isUpserting = true;
     });
     final response = await http.post(
-      Uri.parse('http://127.0.0.1:7999/receive_json'),
+      Uri.parse('https://37af-49-145-103-175.ngrok-free.app/receive_json'),
       headers: {
         'Content-Type': 'application/json',
       },
@@ -144,7 +145,8 @@ class StylizedTextField extends StatelessWidget {
   final String label;
   final TextEditingController controller;
 
-  const StylizedTextField({super.key, required this.label, required this.controller});
+  const StylizedTextField(
+      {super.key, required this.label, required this.controller});
 
   @override
   Widget build(BuildContext context) {

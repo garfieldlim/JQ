@@ -39,7 +39,7 @@ class _DataTableDemoState extends State<DataTableDemo> {
   Future<void> fetchData(String partition, {int page = 1}) async {
     // Construct the URL with query parameters for pagination
     final url = Uri.parse(
-        'http://127.0.0.1:7999/get_data/$partition?page=$page&itemsPerPage=$itemsPerPage');
+        'https://37af-49-145-103-175.ngrok-free.app/get_data/$partition?page=$page&itemsPerPage=$itemsPerPage');
     final response = await http.get(url);
 
     if (response.statusCode == 200) {

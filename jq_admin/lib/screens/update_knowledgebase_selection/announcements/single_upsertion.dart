@@ -88,7 +88,8 @@ class _SingleUpsertionPageState extends State<SingleUpsertionPage> {
   }
 
   Future<void> _sendUrlToServer() async {
-    var url = Uri.parse('http://127.0.0.1:7999/scrape_website');
+    var url =
+        Uri.parse('https://37af-49-145-103-175.ngrok-free.app/scrape_website');
     var response = await http.post(
       url,
       body: jsonEncode({'url': _urlController.text}),
