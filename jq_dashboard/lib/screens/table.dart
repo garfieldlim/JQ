@@ -31,7 +31,7 @@ class _DataTableDemoState extends State<DataTableDemo> {
 
   Future<void> fetchData(String partition) async {
     final response = await http.get(Uri.parse(
-        'https://37af-49-145-103-175.ngrok-free.app/get_data/$partition'));
+        'https://777d87bd1aca090c7eb23f7eca5207d3.serveo.net/get_data/$partition'));
     if (response.statusCode == 200) {
       var decodedData = json.decode(response.body);
       if (decodedData is Map<String, dynamic>) {

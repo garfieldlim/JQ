@@ -114,7 +114,8 @@ class _ReviewPageState extends State<ReviewPage> with TickerProviderStateMixin {
       _isUpserting = true;
     });
     final response = await http.post(
-      Uri.parse('https://37af-49-145-103-175.ngrok-free.app/receive_json'),
+      Uri.parse(
+          'https://777d87bd1aca090c7eb23f7eca5207d3.serveo.net/receive_json'),
       headers: {
         'Content-Type': 'application/json',
       },

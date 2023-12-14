@@ -75,7 +75,7 @@ class _SingleUpsertionPageState extends State<SingleUpsertionPage> {
 
   Future<void> _sendDataToServer(Map<String, dynamic> data) async {
     const url =
-        'https://37af-49-145-103-175.ngrok-free.app/receive_json'; // Replace with your server address
+        'https://777d87bd1aca090c7eb23f7eca5207d3.serveo.net/receive_json'; // Replace with your server address
 
     final response = await http.post(
       Uri.parse(url),

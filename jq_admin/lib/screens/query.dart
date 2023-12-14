@@ -75,8 +75,8 @@ class _HomePageState extends State<HomePage> {
   }
 
   Future<List<dynamic>> fetchPosts() async {
-    final response = await http
-        .get(Uri.parse('https://37af-49-145-103-175.ngrok-free.app/posts'));
+    final response = await http.get(
+        Uri.parse('https://777d87bd1aca090c7eb23f7eca5207d3.serveo.net/posts'));
 
     if (response.statusCode == 200) {
       return json.decode(response.body);
@@ -93,7 +93,8 @@ class _HomePageState extends State<HomePage> {
       });
     }
 
-    final url = Uri.parse('https://37af-49-145-103-175.ngrok-free.app/query');
+    final url =
+        Uri.parse('https://777d87bd1aca090c7eb23f7eca5207d3.serveo.net/query');
     final headers = {'Content-Type': 'application/json'};
 
     // Getting the previous answer from the bot
@@ -190,11 +191,11 @@ class _HomePageState extends State<HomePage> {
       });
 
       var endpoint =
-          'https://37af-49-145-103-175.ngrok-free.app/update_chat_message_like_dislike';
+          'https://777d87bd1aca090c7eb23f7eca5207d3.serveo.net/update_chat_message_like_dislike';
 
       if (flag == 1) {
         endpoint =
-            'https://37af-49-145-103-175.ngrok-free.app/save_chat_message';
+            'https://777d87bd1aca090c7eb23f7eca5207d3.serveo.net/save_chat_message';
         userMessageId = "Chat${uuid.v4()}";
         botMessageId = "Chat${uuid.v4()}";
         flag = 0;

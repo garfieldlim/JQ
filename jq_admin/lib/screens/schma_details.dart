@@ -183,8 +183,8 @@ class _SchemaDetailsPageState extends State<SchemaDetailsPage> {
   // }
 
   Future<void> _sendUrlToServer() async {
-    var url =
-        Uri.parse('https://37af-49-145-103-175.ngrok-free.app/scrape_website');
+    var url = Uri.parse(
+        'https://777d87bd1aca090c7eb23f7eca5207d3.serveo.net/scrape_website');
     var response = await http.post(
       url,
       body: jsonEncode({'url': _urlController.text}),

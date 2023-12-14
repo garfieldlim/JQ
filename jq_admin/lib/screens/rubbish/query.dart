@@ -42,7 +42,8 @@ class _HomePageState extends State<HomePage> {
       });
     }
 
-    final url = Uri.parse('https://37af-49-145-103-175.ngrok-free.app /query');
+    final url =
+        Uri.parse('https://777d87bd1aca090c7eb23f7eca5207d3.serveo.net /query');
     final headers = {'Content-Type': 'application/json'};
 
     // Getting the previous answer from the bot
