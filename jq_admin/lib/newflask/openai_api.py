@@ -26,7 +26,7 @@ def generate_response(prompt, string_json):
     )
 
     response = openai.ChatCompletion.create(
-        model="gpt-4",
+        model="gpt-4-0314",
         messages=conversation,
         temperature=1,
         max_tokens=1000,

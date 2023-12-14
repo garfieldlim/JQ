@@ -17,6 +17,7 @@ class DateTimeEncoder(json.JSONEncoder):
 
 def fetch_facebook_posts(page_name, tag, base_url, start_url):
     """Fetch Facebook posts for a given page using specified base URL and start URL."""
+    print(f"Fetching posts from {page_name}...")
     posts = []
     try:
         for i, post in enumerate(
@@ -30,6 +31,7 @@ def fetch_facebook_posts(page_name, tag, base_url, start_url):
             start=1,
         ):
             post["text"] = f"{tag}: {post['text']}"
+            print(f"Count {i}: {post['text']}")
             posts.append(post)
             time.sleep(1)
     except Exception as error:
