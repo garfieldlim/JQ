@@ -8,6 +8,7 @@ import 'package:jq_admin/widgets/chatMessage.dart';
 import 'package:jq_admin/widgets/chat_suggestions.dart';
 import 'package:jq_admin/widgets/customfloatingbutton.dart';
 import 'package:jq_admin/widgets/floatingactionbutton.dart';
+import 'package:jq_admin/widgets/typing.dart';
 import 'package:uuid/uuid.dart';
 import '../widgets/chat_input.dart';
 import '../widgets/headlines.dart';
@@ -160,12 +161,21 @@ class _HomePageState extends State<HomePage> {
           ));
         });
         flag = 1;
+        isLoading = false;
+        isTyping = false; // Stop the typing indicator
       } else {
         print('Error: ${response.statusCode}');
+        setState(() {
+          isLoading = false;
+          isTyping = false; // Stop the typing indicator in case of error
+        });
       }
     } catch (error) {
       print('Error: $error');
-      isTyping = false;
+      setState(() {
+        isLoading = false;
+        isTyping = false; // Ensure to stop typing indicator in case of error
+      });
     }
   }
 
@@ -273,15 +283,20 @@ class _HomePageState extends State<HomePage> {
       child: ListView.builder(
         shrinkWrap: true,
         itemCount: messages.length + (isTyping ? 1 : 0),
-        itemBuilder: (context, index) => MessageItem(
-          index: index,
-          isTyping: isTyping,
-          messages: messages,
-          handleLikeDislike: handleLikeDislike,
-          handleQuote: handleQuote,
-          regenerateMessage: regenerateMessage,
-          isLoading: isLoading,
-        ),
+        itemBuilder: (context, index) {
+          if (index == messages.length && isTyping) {
+            return TypingIndicator(); // Show typing indicator
+          }
+          return MessageItem(
+            index: index,
+            isTyping: isTyping,
+            messages: messages,
+            handleLikeDislike: handleLikeDislike,
+            handleQuote: handleQuote,
+            regenerateMessage: regenerateMessage,
+            isLoading: isLoading,
+          );
+        },
       ),
     );
   }

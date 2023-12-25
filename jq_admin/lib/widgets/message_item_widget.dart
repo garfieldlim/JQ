@@ -49,6 +49,15 @@ class MessageItem extends StatelessWidget {
                 ? MainAxisAlignment.end
                 : MainAxisAlignment.start,
             children: [
+              if (!message.isUserMessage)
+                Padding(
+                  padding: EdgeInsets.only(right: 10.0),
+                  child: CircleAvatar(
+                    backgroundColor:
+                        Color(0xff969d7b), // Make background transparent
+                    child: Image.asset('web/assets/logo2.png'),
+                  ),
+                ),
               Flexible(
                 child: Container(
                   padding: const EdgeInsets.all(16),
