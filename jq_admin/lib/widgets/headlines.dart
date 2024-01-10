@@ -17,7 +17,12 @@ class _FacebookPostsListState extends State<FacebookPostsList> {
   @override
   void initState() {
     super.initState();
-    filteredPosts = widget.posts; // Initially display all posts
+
+    // Print the posts data to console for debugging
+    print("Loaded posts: ${widget.posts}");
+
+    // Initially display all posts
+    filteredPosts = widget.posts;
   }
 
   void filterPosts(String username) {
@@ -67,8 +72,7 @@ class _FacebookPostsListState extends State<FacebookPostsList> {
               'All',
               'FORWARD Publications',
               'University of San Jose- Recoletos',
-            ] 
-                .map<DropdownMenuItem<String>>((String value) {
+            ].map<DropdownMenuItem<String>>((String value) {
               return DropdownMenuItem<String>(
                 value: value,
                 child: Text(value),
@@ -92,12 +96,11 @@ class _FacebookPostsListState extends State<FacebookPostsList> {
                       child: IntrinsicWidth(
                         child: Row(
                           children: [
-                            if (post['image'] != null)
+                            if (post['image_lowquality'] != null)
                               ClipRRect(
-                                borderRadius: BorderRadius.circular(
-                                    15.0), 
+                                borderRadius: BorderRadius.circular(15.0),
                                 child: Image.network(
-                                  post['image'],
+                                  post['image_lowquality'],
                                   fit: BoxFit.cover,
                                   height: 200.0,
                                   width: 200.0,
