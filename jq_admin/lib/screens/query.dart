@@ -32,12 +32,13 @@ class _HomePageState extends State<HomePage> {
   TextEditingController textController = TextEditingController();
   int currentPartition = 0;
   int flag = 0;
-  bool isLoading = false;
+
   bool isTyping = false;
   List<dynamic> posts = [];
   var uuid = const Uuid();
   var userMessageId;
   var botMessageId;
+  var prevMessage;
 
   @override
   void initState() {
@@ -56,28 +57,18 @@ class _HomePageState extends State<HomePage> {
       print('Failed to fetch posts: $e');
     }
   }
-//   Future<void> initPosts() async {
-//   String data = await rootBundle.loadString('web/assets/posts.json');
-//   List<dynamic> fetchedPosts = json.decode(data);
-
-//   setState(() {
-//     posts = fetchedPosts;
-//   });
-// }
 
   void resetChat() {
     setState(() {
       messages = [
         ChatMessage(text: "How may I help you?", isUserMessage: false),
       ];
+      currentPartition = 0;
     });
-
-    // Optionally: Remove chat messages from Cloud Firestore.
   }
 
   Future<List<dynamic>> fetchPosts() async {
-    final response = await http.get(
-        Uri.parse('https://777d87bd1aca090c7eb23f7eca5207d3.serveo.net/posts'));
+    final response = await http.get(Uri.parse('http://127.0.0.1:7999/posts'));
 
     if (response.statusCode == 200) {
       return json.decode(response.body);
@@ -94,8 +85,7 @@ class _HomePageState extends State<HomePage> {
       });
     }
 
-    final url =
-        Uri.parse('https://777d87bd1aca090c7eb23f7eca5207d3.serveo.net/query');
+    final url = Uri.parse('http://127.0.0.1:7999/query');
     final headers = {'Content-Type': 'application/json'};
 
     // Getting the previous answer from the bot
@@ -123,8 +113,8 @@ class _HomePageState extends State<HomePage> {
     });
 
     setState(() {
-      isLoading = true;
       isTyping = true;
+      prevMessage = fullMessage;
     });
 
     try {
@@ -140,7 +130,6 @@ class _HomePageState extends State<HomePage> {
       }
 
       setState(() {
-        isLoading = false;
         isTyping = false;
       });
 
@@ -163,19 +152,20 @@ class _HomePageState extends State<HomePage> {
           ));
         });
         flag = 1;
-        isLoading = false;
+
         isTyping = false; // Stop the typing indicator
+        for (var msg in messages) {
+          msg.quoted = false;
+        }
       } else {
         print('Error: ${response.statusCode}');
         setState(() {
-          isLoading = false;
           isTyping = false; // Stop the typing indicator in case of error
         });
       }
     } catch (error) {
       print('Error: $error');
       setState(() {
-        isLoading = false;
         isTyping = false; // Ensure to stop typing indicator in case of error
       });
     }
@@ -200,12 +190,10 @@ class _HomePageState extends State<HomePage> {
         botMessage.disliked = !isLiked;
       });
 
-      var endpoint =
-          'https://777d87bd1aca090c7eb23f7eca5207d3.serveo.net/update_chat_message_like_dislike';
+      var endpoint = 'http://127.0.0.1:7999/update_chat_message_like_dislike';
 
       if (flag == 1) {
-        endpoint =
-            'https://777d87bd1aca090c7eb23f7eca5207d3.serveo.net/save_chat_message';
+        endpoint = 'http://127.0.0.1:7999/save_chat_message';
         userMessageId = "Chat${uuid.v4()}";
         botMessageId = "Chat${uuid.v4()}";
         flag = 0;
@@ -217,7 +205,7 @@ class _HomePageState extends State<HomePage> {
         body: jsonEncode({
           'userMessageId': userMessageId,
           'botMessageId': botMessageId,
-          'userMessage': userMessage.toJson(),
+          'userMessage': prevMessage,
           'botMessage': botMessage.toJson(),
           'liked': isLiked,
           'disliked': !isLiked,
@@ -231,12 +219,19 @@ class _HomePageState extends State<HomePage> {
   }
 
   Future<void> regenerateMessage(ChatMessage message) async {
+    // setState(() {
+    //   // Remove the last message if it's not a user message
+    //   if (messages.isNotEmpty && !messages.last.isUserMessage) {
+    //     messages.removeLast();
+    //   }
+    //   isTyping = true; // Set isTyping to true to show the typing indicator
+    // });
     if (currentPartition < 2) {
       currentPartition += 1;
-      sendMessage(message.text, partition: currentPartition);
+      sendMessage(prevMessage, partition: currentPartition);
     } else {
       currentPartition = 0;
-      sendMessage(message.text, partition: currentPartition);
+      sendMessage(prevMessage, partition: currentPartition);
     }
   }
 
@@ -298,7 +293,6 @@ class _HomePageState extends State<HomePage> {
             handleLikeDislike: handleLikeDislike,
             handleQuote: handleQuote,
             regenerateMessage: regenerateMessage,
-            isLoading: isLoading,
           );
         },
       ),

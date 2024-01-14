@@ -13,6 +13,8 @@ from database import (
     sort_results,
 )
 
+# nltk.download("punkt")
+
 from embeddings import vectorize_query
 from headlines import update_posts_json
 from knowledgebase_crud import (
@@ -52,9 +54,22 @@ cred = CRED
 firebase_admin.initialize_app(cred)
 
 
-@app.route("/printsess", methods=["POST"])
-def printsess():
-    print("THISPRINTBITCH")
+# Function to delete all documents in the collection
+def delete_all_documents_in_collection(collection_ref):
+    docs = collection_ref.stream()
+    for doc in docs:
+        doc.reference.delete()
+        print(f"Document {doc.id} deleted.")
+
+
+def empty_documents():
+    db = firestore.client()
+    chat_messages_ref = db.collection("chat_messages")
+    # Delete all documents in the "chat_messages" collection
+    delete_all_documents_in_collection(chat_messages_ref)
+
+
+empty_documents()
 
 
 @app.route("/save_chat_message", methods=["POST"])
@@ -65,26 +80,21 @@ def save_chat_message():
     timestamp = datetime.now().isoformat()
 
     # Save user message
-    user_message_data = data["userMessage"]
-    user_message_data["timestamp"] = timestamp
-    user_message_ref = db.collection("chat_messages").document(data["userMessageId"])
-    user_message_data["id"] = user_message_ref.id
-    user_message_data["isUserMessage"] = True
 
-    # Save bot message
-    bot_message_data = data["botMessage"]
-    bot_message_data["timestamp"] = timestamp
-    bot_message_ref = db.collection("chat_messages").document(data["botMessageId"])
-    bot_message_data["id"] = bot_message_ref.id
-    bot_message_data["foreignId"] = user_message_ref.id
-    user_message_data["foreignId"] = bot_message_ref.id
-    bot_message_data["liked"] = data.get("liked", False)
-    bot_message_data["disliked"] = data.get("disliked", False)
-    bot_message_data["isUserMessage"] = False
-    bot_message_data["partitionName"] = data.get("partitionName", "")
-    bot_message_data["milvusData"] = data.get("milvusData", {})
-    bot_message_ref.set(bot_message_data)
-    user_message_ref.set(user_message_data)
+    # with open("exchange.json", "w") as outfile:
+    #     json.dump(data, outfile)
+    # define a dictionary chat_message with data['userMessageId], data["userMessage"]["text"], data["botMessage"]["text"], data["milvusData"],data["partitionName"], liked, disliked, timestamp
+    chat_message = {
+        "id": data["userMessageId"],
+        "prompt": data["userMessage"],
+        "response": data["botMessage"]["text"],
+        "milvusData": data["milvusData"],
+        "partitionName": data["partitionName"],
+        "liked": data.get("liked", False),
+        "timestamp": timestamp,
+    }
+    chat_message_ref = db.collection("chat_messages").document(data["userMessageId"])
+    chat_message_ref.set(chat_message)
 
     return jsonify({"status": "success"})
 
@@ -191,6 +201,7 @@ def question_answer():
 
     # print(final_results)
     generated_text = generate_response(prompt, final_results)
+
     # print(generated_text)
     if generated_text is None:
         return jsonify(

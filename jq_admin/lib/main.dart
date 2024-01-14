@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:jq_admin/screens/dashboard.dart';
 
 import 'package:jq_admin/screens/query.dart';
+import 'package:jq_dashboard/screens/admin_menu.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

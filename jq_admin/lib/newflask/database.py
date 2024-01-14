@@ -187,48 +187,21 @@ def update_results_with_query_data(results, query_results):
     return results
 
 
-# def format_final_results(results):
-#     """
-#     Concatenate values from the results and format them for display.
-#     """
-#     final_results = []
-#     for index, result in enumerate(results):
-#         # Filter out control fields and empty lists
-#         filtered_result = {
-#             k: v
-#             for k, v in result.items()
-#             if k not in ["entity_id", "distance", "collection"] and v
-#         }
-
-#         # Concatenate non-empty values, taking the first element if a list
-#         concatenated_values = " ".join(
-#             str(next(iter(v), v)) if isinstance(v, list) else str(v)
-#             for v in filtered_result.values()
-#         )
-
-#         if concatenated_values.strip():
-#             formatted_result = f"Result {index + 1}: {concatenated_values}"
-#             final_results.append(formatted_result)
-
-#     print("Formatted final results")
-#     json_file_path = "/Users/garfieldgreglim/Desktop/json_test/formatted_results.json"
-#     try:
-#         with open(json_file_path, "w") as file:
-#             json.dump(final_results, file)
-#         print(f"Formatted results saved to {json_file_path}")
-#     except IOError as e:
-#         print(f"Failed to save formatted results: {e}")
-#     return final_results
-
-
 def format_final_results(results):
     """
     Concatenate values from the results, sort by distance, and format them for display.
     """
+    # save results to /Users/garfieldgreglim/Desktop/json_test/initial_results
+    json_file_path = "/Users/garfieldgreglim/Desktop/json_test/initial_results.json"
+    try:
+        with open(json_file_path, "w") as file:
+            json.dump(results, file)
+        print(f"Initial results saved to {json_file_path}")
+    except IOError as e:
+        print(f"Failed to save initial results: {e}")
     # Sort the results by the 'distance' field
     sorted_results = sorted(results, key=lambda x: x.get("distance", float("inf")))
-    # top 10 of sorted_results
-    sorted_results = sorted_results[:10]
+
     final_results = []
     for index, result in enumerate(sorted_results):
         # Filter out control fields and empty lists
@@ -248,14 +221,20 @@ def format_final_results(results):
             formatted_result = f"Result {index + 1}: {concatenated_values}"
             final_results.append(formatted_result)
 
-    print("Formatted final results")
-    json_file_path = "/Users/garfieldgreglim/Desktop/json_test/formatted_results.json"
-    try:
-        with open(json_file_path, "w") as file:
-            json.dump(final_results, file)
-        print(f"Formatted results saved to {json_file_path}")
-    except IOError as e:
-        print(f"Failed to save formatted results: {e}")
+    # Ensure there's at least one result before saving to JSON
+    if final_results:
+        print("Formatted final results")
+        json_file_path = (
+            "/Users/garfieldgreglim/Desktop/json_test/formatted_results.json"
+        )
+        try:
+            with open(json_file_path, "w") as file:
+                json.dump(final_results, file)
+            print(f"Formatted results saved to {json_file_path}")
+        except IOError as e:
+            print(f"Failed to save formatted results: {e}")
+    # final results takes the first 10 results
+    final_results = final_results[:10]
     return final_results
 
 

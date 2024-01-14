@@ -39,7 +39,7 @@ class _DataTableDemoState extends State<DataTableDemo> {
   Future<void> fetchData(String partition, {int page = 1}) async {
     // Construct the URL with query parameters for pagination
     final url = Uri.parse(
-        'https://777d87bd1aca090c7eb23f7eca5207d3.serveo.net/get_data/$partition?page=$page&itemsPerPage=$itemsPerPage');
+        'http://127.0.0.1:7999/get_data/$partition?page=$page&itemsPerPage=$itemsPerPage');
     final response = await http.get(url);
 
     if (response.statusCode == 200) {

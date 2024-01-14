@@ -93,8 +93,7 @@ class _ReviewPageState extends State<ReviewPage> {
                   ),
                   onPressed: () async {
                     final response = await http.post(
-                      Uri.parse(
-                          'https://777d87bd1aca090c7eb23f7eca5207d3.serveo.net/receive_json'),
+                      Uri.parse('http://127.0.0.1:7999/receive_json'),
                       headers: {
                         'Content-Type': 'application/json',
                       },

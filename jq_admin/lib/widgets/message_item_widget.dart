@@ -11,7 +11,6 @@ class MessageItem extends StatelessWidget {
   final Function handleLikeDislike;
   final Function handleQuote;
   final Function regenerateMessage;
-  final bool isLoading;
 
   const MessageItem({
     super.key,
@@ -21,7 +20,6 @@ class MessageItem extends StatelessWidget {
     required this.handleLikeDislike,
     required this.handleQuote,
     required this.regenerateMessage,
-    required this.isLoading,
   });
 
   Widget buildMessageItem(BuildContext context) {
@@ -138,9 +136,13 @@ class MessageItem extends StatelessWidget {
             ],
           ),
         ),
+        // show regenerate button is not isTyping
         if (isLastMessage && !message.isUserMessage && index != 0)
-          isLoading
-              ? const CircularProgressIndicator()
+          isTyping
+              ? const Padding(
+                  padding: EdgeInsets.all(20.0),
+                  child: TypingIndicator(),
+                )
               : ElevatedButton(
                   style: ElevatedButton.styleFrom(
                     foregroundColor: Colors.white,

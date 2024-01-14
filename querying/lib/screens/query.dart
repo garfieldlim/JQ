@@ -20,8 +20,7 @@ class _HomePageState extends State<HomePage> {
       messages.add(ChatMessage(text: message, isUserMessage: true));
     });
 
-    final url =
-        Uri.parse('https://777d87bd1aca090c7eb23f7eca5207d3.serveo.net/search');
+    final url = Uri.parse('http://127.0.0.1:7999/search');
     final headers = {'Content-Type': 'application/json'};
     final body = jsonEncode({'question': message});
 

@@ -42,8 +42,7 @@ class _HomePageState extends State<HomePage> {
       });
     }
 
-    final url =
-        Uri.parse('https://777d87bd1aca090c7eb23f7eca5207d3.serveo.net /query');
+    final url = Uri.parse('http://127.0.0.1:7999 /query');
     final headers = {'Content-Type': 'application/json'};
 
     // Getting the previous answer from the bot
