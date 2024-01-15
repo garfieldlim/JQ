@@ -3,12 +3,13 @@ import 'package:flutter/material.dart';
 class MessageInput extends StatefulWidget {
   final TextEditingController textController;
   final Function(String) sendMessage;
+  final bool isTyping; // Add this line
 
   const MessageInput({
     super.key,
     required this.textController,
     required this.sendMessage,
-    required currentPartition,
+    required this.isTyping, // Add this line
   });
 
   @override
@@ -45,20 +46,21 @@ class _MessageInputState extends State<MessageInput> {
               ),
             ),
           ),
-          IconButton(
-            onPressed: () {
-              final message = widget.textController.text;
-              if (message.isNotEmpty) {
-                setState(() {
-                  currentPartition = 0;
-                });
-                widget.sendMessage(message);
-                widget.textController.clear();
-              }
-            },
-            icon: const Icon(Icons.send),
-            color: const Color(0xfff2c87e),
-          ),
+          if (!widget.isTyping) // Check if isTyping is false
+            IconButton(
+              onPressed: () {
+                final message = widget.textController.text;
+                if (message.isNotEmpty) {
+                  setState(() {
+                    currentPartition = 0;
+                  });
+                  widget.sendMessage(message);
+                  widget.textController.clear();
+                }
+              },
+              icon: const Icon(Icons.send),
+              color: const Color(0xfff2c87e),
+            ),
         ],
       ),
     );

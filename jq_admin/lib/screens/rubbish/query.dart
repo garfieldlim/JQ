@@ -378,18 +378,19 @@ class _HomePageState extends State<HomePage> {
                         ),
                       ),
                     ),
-                    IconButton(
-                      onPressed: () {
-                        final message = textController.text;
-                        if (message.isNotEmpty) {
-                          textController.clear();
-                          currentPartition = 0;
-                          sendMessage(message);
-                        }
-                      },
-                      icon: const Icon(Icons.send),
-                      color: Colors.white,
-                    ),
+                    if (!isTyping) // <-- Check both isLoading and isTyping
+                      IconButton(
+                        onPressed: () {
+                          final message = textController.text;
+                          if (message.isNotEmpty) {
+                            textController.clear();
+                            currentPartition = 0;
+                            sendMessage(message);
+                          }
+                        },
+                        icon: const Icon(Icons.e_mobiledata),
+                        color: Colors.white,
+                      ),
                   ],
                 ),
               ),

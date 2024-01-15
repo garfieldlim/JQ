@@ -246,7 +246,8 @@ class _HomePageState extends State<HomePage> {
     return SafeArea(
       child: Scaffold(
         backgroundColor: const Color(0xfffff1e4),
-        floatingActionButton: buildFloatingActionButton(resetChat: resetChat),
+        floatingActionButton:
+            isTyping ? null : buildFloatingActionButton(resetChat: resetChat),
         floatingActionButtonLocation: CustomFloatingActionButtonLocation(80, 0),
         extendBodyBehindAppBar: true,
         body: _buildBody(),
@@ -270,7 +271,7 @@ class _HomePageState extends State<HomePage> {
           MessageInput(
             textController: textController,
             sendMessage: sendMessage,
-            currentPartition: currentPartition,
+            isTyping: isTyping,
           ),
         ],
       ),

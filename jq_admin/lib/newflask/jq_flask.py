@@ -125,7 +125,7 @@ def update_chat_message_like_dislike():
     return jsonify({"status": "error"})
 
 
-# update_posts_json()
+update_posts_json()
 
 
 @app.route("/posts", methods=["GET"])

@@ -1,24 +1,11 @@
 import openai
 from config import OPENAI_API_KEY
-from nltk.tokenize import word_tokenize
-import nltk
 
 
 def generate_response(prompt, string_json):
     # Format the input as per the desired conversation format
     openai.api_key_path = OPENAI_API_KEY
-    string_json = (
-        " ".join(string_json) if isinstance(string_json, list) else string_json
-    )
-    tokens = word_tokenize(string_json)
 
-    # Limit to 10,000 tokens
-    print("TOKENS: ", len(tokens))
-    if len(tokens) > 10000:
-        tokens = tokens[:9000]
-    print("TOKENS: ", len(tokens))
-    # Join the tokens back into a string
-    string_json = " ".join(tokens)
     print("PROMPT: ", prompt)
     # print("STRING JSON: ", string_json)
     conversation = [
