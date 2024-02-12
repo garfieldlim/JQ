@@ -16,6 +16,7 @@ fields_list = [
     "name",
     "position",
     "department",
+    "date",
 ]
 collections_dict = {
     "text_collection": [
@@ -41,8 +42,9 @@ partitions = {
         "text_collection",
         "author_collection",
         "title_collection",
+        "date_collection",
     ],
-    "social_posts_partition": ["text_collection"],
+    "social_posts_partition": ["text_collection", "date_collection"],
     "contacts_partition": [
         "name_collection",
         "text_collection",

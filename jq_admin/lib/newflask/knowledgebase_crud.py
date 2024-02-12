@@ -104,7 +104,8 @@ def process_object(obj):
     print(
         collection.insert(date_objects, "social_posts_partition")
     )  # Fixed variable name
-
+    # print Upserted: partition_name, uuid, text_id
+    print(f"Upserted: {obj['partition_name']}, {obj['uuid']}, {obj['text_id']}")
     return obj_list
 
 

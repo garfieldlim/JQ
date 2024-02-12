@@ -16,7 +16,6 @@ class SchemaDetailsPage extends StatefulWidget {
 
 class _SchemaDetailsPageState extends State<SchemaDetailsPage> {
   final _urlController = TextEditingController();
-  // String _fileName = 'No file uploaded';
   String? _fileContent, _scrapedData;
   bool _isLoading = false;
 
@@ -47,7 +46,6 @@ class _SchemaDetailsPageState extends State<SchemaDetailsPage> {
                   ),
                   ..._buildSchemaBasedFields(),
                   const SizedBox(height: 20),
-                  // _buildFileNameText(),
                   const SizedBox(height: 20),
                   _buildContinueButton(),
                 ],
@@ -91,15 +89,6 @@ class _SchemaDetailsPageState extends State<SchemaDetailsPage> {
       borderSide: const BorderSide(color: Color(0xfff2c87e), width: 2.0),
     );
   }
-
-  // Widget _buildFileNameText() {
-  //   return Center(
-  //     child: Text(
-  //       _fileName,
-  //       style: TextStyle(color: Colors.white),
-  //     ),
-  //   );
-  // }
 
   Widget _buildContinueButton() {
     return Center(
@@ -166,21 +155,6 @@ class _SchemaDetailsPageState extends State<SchemaDetailsPage> {
 
     return jsonEncode(dataMap); // Convert the map to a JSON string
   }
-
-  // Future<void> _pickFile() async {
-  //   FilePickerResult? result = await FilePicker.platform.pickFiles(
-  //       type: FileType.custom, allowedExtensions: ['pdf', 'jpg', 'png']);
-
-  //   if (result != null) {
-  //     PlatformFile file = result.files.single;
-  //     _fileContent = base64Encode(file.bytes!);
-  //     setState(() {
-  //       _fileName = file.name;
-  //     });
-  //   } else {
-  //     print('No file picked');
-  //   }
-  // }
 
   Future<void> _sendUrlToServer() async {
     var url = Uri.parse('http://127.0.0.1:7999/scrape_website');
