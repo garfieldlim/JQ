@@ -219,13 +219,6 @@ class _HomePageState extends State<HomePage> {
   }
 
   Future<void> regenerateMessage(ChatMessage message) async {
-    // setState(() {
-    //   // Remove the last message if it's not a user message
-    //   if (messages.isNotEmpty && !messages.last.isUserMessage) {
-    //     messages.removeLast();
-    //   }
-    //   isTyping = true; // Set isTyping to true to show the typing indicator
-    // });
     if (currentPartition < 2) {
       currentPartition += 1;
       sendMessage(prevMessage, partition: currentPartition);

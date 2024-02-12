@@ -11,7 +11,7 @@ def generate_response(prompt, string_json):
     conversation = [
         {
             "role": "system",
-            "content": """You are Josenian Quiri. University of San Jose- Recoletos' general knowledge base assistant. Refer to yourself as JQ. If there are links, give the link as well.""",
+            "content": """You are Josenian Quiri. University of San Jose- Recoletos' general knowledge base assistant. Refer to yourself as JQ. If there are links, provide them in your response. Otherwise, official website: https://usjr.edu.ph, official Facebook page: https://www.facebook.com/usjr.official/ """,
         },
         {"role": "user", "content": prompt},
         {

@@ -169,6 +169,15 @@ def query_collections(collections, entity_ids, partition_names):
         except Exception as e:
             print(f"Error with collection {name}: {str(e)}")
     print("Queried all collections for specified entity_ids")
+    # save query_results.json to /Users/garfieldgreglim/Desktop/json_test/query_results.json
+    json_file_path = "/Users/garfieldgreglim/Desktop/json_test/query_results.json"
+    try:
+        with open(json_file_path, "w") as file:
+            json.dump(query_results, file)
+        print(f"Query results saved to {json_file_path}")
+    except IOError as e:
+        print(f"Failed to save query results: {e}")
+
     return query_results
 
 
@@ -176,6 +185,49 @@ def update_results_with_query_data(results, query_results):
     """
     Update the results with data from the query results.
     """
+    # save results to /Users/garfieldgreglim/Desktop/json_test/initial_results_update and query_results to /Users/garfieldgreglim/Desktop/json_test/query_results_update
+    json_file_path = (
+        "/Users/garfieldgreglim/Desktop/json_test/query_results_update.json"
+    )
+    try:
+        with open(json_file_path, "w") as file:
+            json.dump(query_results, file)
+        print(f"Query results saved to {json_file_path}")
+    except IOError as e:
+        print(f"Failed to save query results: {e}")
+
+    json_file_path = (
+        "/Users/garfieldgreglim/Desktop/json_test/initial_results_update.json"
+    )
+    try:
+        with open(json_file_path, "w") as file:
+            json.dump(results, file)
+        print(f"Initial results saved to {json_file_path}")
+    except IOError as e:
+        print(f"Failed to save initial results: {e}")
+
+    # Assuming query_results is the provided dictionary
+    for text_item in query_results["text"]:
+        # Initialize a list to hold media and link strings if they are not empty
+        additional_info = []
+
+        # Check if 'media' is present and not just whitespace
+        if text_item["media"].strip():
+            additional_info.append(f"Media: {text_item['media']}")
+
+        # Check if 'link' is present and not just whitespace
+        if text_item["link"].strip():
+            additional_info.append(f"Link: {text_item['link']}")
+
+        # Join the additional_info list into a single string with new line separators
+        additional_text = "\n".join(additional_info)
+
+        # Append this additional text to the 'text' field, if additional_text is not empty
+        if additional_text:
+            text_item["text"] += f"\n\n{additional_text}"
+
+    # query_results now has 'text' fields updated with 'media' and 'link' information where applicable.
+
     for name, collection_results in query_results.items():
         for query_result in collection_results:
             for result in results:
@@ -184,6 +236,15 @@ def update_results_with_query_data(results, query_results):
                     result[name].append(query_result.get(name, ""))
                 elif name != "text" and entity_id == query_result.get("uuid", ""):
                     result[name].append(query_result.get(name, ""))
+    #  save results_updated json from results to /Users/garfieldgreglim/Desktop/json_test/results_updated.json
+    json_file_path = "/Users/garfieldgreglim/Desktop/json_test/results_updated.json"
+    try:
+        with open(json_file_path, "w") as file:
+            json.dump(results, file)
+        print(f"Results updated saved to {json_file_path}")
+    except IOError as e:
+        print(f"Failed to save results: {e}")
+
     return results
 
 

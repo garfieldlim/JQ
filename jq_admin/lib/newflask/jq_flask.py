@@ -69,9 +69,6 @@ def empty_documents():
     delete_all_documents_in_collection(chat_messages_ref)
 
 
-empty_documents()
-
-
 @app.route("/save_chat_message", methods=["POST"])
 def save_chat_message():
     data = request.json
@@ -123,9 +120,6 @@ def update_chat_message_like_dislike():
         return jsonify({"status": "failure", "message": "Missing botMessageId"})
 
     return jsonify({"status": "error"})
-
-
-update_posts_json()
 
 
 @app.route("/posts", methods=["GET"])
@@ -215,6 +209,10 @@ def question_answer():
             "partitionName": partition_name,
         }
     )
+
+
+# update_posts_json()
+# empty_documents()
 
 
 @app.route("/get_data/<partition_name>", methods=["GET"])

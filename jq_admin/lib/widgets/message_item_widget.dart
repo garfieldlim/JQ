@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:jq_admin/screens/loading.dart';
-import 'package:jq_admin/widgets/chatMessage.dart';
+import 'package:jq_admin/screens/loading.dart'; // Ensure this exists or replace with actual loading widget
+import 'package:jq_admin/widgets/chatMessage.dart'; // Ensure this exists or replace with actual message model
 import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter_linkify/flutter_linkify.dart';
 
 class MessageItem extends StatelessWidget {
   final int index;
   final bool isTyping;
-  final List<ChatMessage> messages; // Use ChatMessage here
+  final List<ChatMessage>
+      messages; // Assume ChatMessage is a model class you have
   final Function handleLikeDislike;
   final Function handleQuote;
   final Function regenerateMessage;
@@ -26,18 +27,20 @@ class MessageItem extends StatelessWidget {
     if (isTyping && index == messages.length) {
       return const Padding(
         padding: EdgeInsets.all(20.0),
-        child: TypingIndicator(),
+        child:
+            TypingIndicator(), // Ensure this exists or replace with actual typing indicator widget
       );
     }
 
     final message = messages[index];
-    bool isLastMessage = index == messages.length - 1;
+    final bool isLastMessage = index == messages.length - 1;
 
-    final imageUrlRegex = RegExp(r'\((http.*?\.jpg|http.*?\.png)\)');
+    final imageUrlRegex =
+        RegExp(r'\bhttps?:\/\/.*\.(?:png|jpg|jpeg)\b', caseSensitive: false);
     final imageUrlMatch = imageUrlRegex.firstMatch(message.text);
-    final imageUrl = imageUrlMatch?.group(1) ?? '';
-    final imageUrlWithCors = 'https://cors-anywhere.herokuapp.com/$imageUrl';
+    final imageUrl = imageUrlMatch?.group(0) ?? '';
     final displayText = message.text.replaceAll(RegExp(r'\[.*?\]\(.*?\)'), '');
+
     return Column(
       children: [
         Container(
@@ -49,11 +52,11 @@ class MessageItem extends StatelessWidget {
             children: [
               if (!message.isUserMessage)
                 Padding(
-                  padding: EdgeInsets.only(right: 10.0),
+                  padding: const EdgeInsets.only(right: 10.0),
                   child: CircleAvatar(
-                    backgroundColor:
-                        Color(0xff969d7b), // Make background transparent
-                    child: Image.asset('web/assets/logo2.png'),
+                    backgroundColor: const Color(0xff969d7b),
+                    child: Image.asset(
+                        'web/assets/logo2.png'), // Make sure this asset exists
                   ),
                 ),
               Flexible(
@@ -76,12 +79,12 @@ class MessageItem extends StatelessWidget {
                     ],
                   ),
                   child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Linkify(
                         onOpen: (link) async {
-                          if (await canLaunch(link.url)) {
-                            await launch(link.url);
+                          if (await canLaunchUrl(Uri.parse(link.url))) {
+                            await launchUrl(Uri.parse(link.url));
                           }
                         },
                         text: displayText,
@@ -91,13 +94,21 @@ class MessageItem extends StatelessWidget {
                       if (imageUrl.isNotEmpty)
                         Padding(
                           padding: const EdgeInsets.only(top: 8.0),
-                          child: Image.network(
-                            imageUrlWithCors,
-                            width: 150,
-                            height: 150,
-                            errorBuilder: (context, error, stackTrace) {
-                              return Text('Failed to load image: $error');
-                            },
+                          child: Center(
+                            child: Image.network(
+                              imageUrl,
+                              width: 150,
+                              height: 150,
+                              loadingBuilder:
+                                  (context, child, loadingProgress) {
+                                if (loadingProgress == null) return child;
+                                return const Center(
+                                    child: CircularProgressIndicator());
+                              },
+                              errorBuilder: (context, error, stackTrace) {
+                                return const Text('Failed to load image');
+                              },
+                            ),
                           ),
                         ),
                     ],
@@ -122,13 +133,10 @@ class MessageItem extends StatelessWidget {
                   ),
                 ),
                 Tooltip(
-                  message:
-                      'Reply', // Text that will be shown on hover/long-press
+                  message: 'Reply',
                   child: IconButton(
-                    icon: Icon(
-                      Icons.reply,
-                      color: message.quoted ? Colors.blue : Colors.grey,
-                    ),
+                    icon: Icon(Icons.reply,
+                        color: message.quoted ? Colors.blue : Colors.grey),
                     onPressed: () => handleQuote(index),
                   ),
                 ),
@@ -136,7 +144,6 @@ class MessageItem extends StatelessWidget {
             ],
           ),
         ),
-        // show regenerate button is not isTyping
         if (isLastMessage && !message.isUserMessage && index != 0)
           isTyping
               ? const Padding(
@@ -151,9 +158,7 @@ class MessageItem extends StatelessWidget {
                       borderRadius: BorderRadius.circular(20),
                     ),
                   ),
-                  onPressed: () {
-                    regenerateMessage(message);
-                  },
+                  onPressed: () => regenerateMessage(message),
                   child: const Text('Regenerate'),
                 ),
       ],
