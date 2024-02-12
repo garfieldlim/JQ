@@ -16,10 +16,9 @@ def similarity_search(
     """
     results = None
     try:
-        collection = Collection(f"{name}")
+        collection = Collection(f"{name}_collection")
         collection.load()
-        # remove "_collection" in name
-        name = name.replace("_collection", "")
+
         print(f"this is name: {name}")
         output_fields = ["uuid", "text_id"] if name == "text" else ["uuid"]
         results = collection.search(
@@ -140,7 +139,9 @@ def initialize_collections(partition_name):
     Load all collections and return a dictionary mapping field names to collections.
     """
     print("Initialized all collections")
-    return {name: Collection(f"{name}") for name in partitions[partition_name]}
+    return {
+        name: Collection(f"{name}_collection") for name in partitions[partition_name]
+    }
 
 
 def extract_entity_ids(results):
@@ -169,7 +170,6 @@ def prepare_result_fields(results):
     #     for name, collection in collections.items():
     #         print(f"name {name}")
     #         print(f"collection {collection}")
-    #         name = name.replace("_collection", "")
     #         query_field = "text_id" if name == "text" else "uuid"
     #         output_fields = [name, "text_id", "media", "link"] if name == "text" else [name]
     #         query = f"{query_field} in {entity_ids}"
@@ -210,7 +210,7 @@ def query_collections(collections, entity_ids, partition_names):
     for name, collection in collections.items():
         # Debugging prints for collection details
         print(f"Processing collection: {name}")
-        name = name.replace("_collection", "")
+
         query_field = "text_id" if name == "text" else "uuid"
         output_fields = [name, "text_id", "media", "link"] if name == "text" else [name]
         query = f"{query_field} in {entity_ids}"

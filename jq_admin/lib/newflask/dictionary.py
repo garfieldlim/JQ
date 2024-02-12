@@ -38,29 +38,29 @@ collections_dict = {
 
 partitions = {
     "documents_partition": [
-        "text_collection",
-        "author_collection",
-        "title_collection",
+        "text",
+        "author",
+        "title",
     ],
-    "social_posts_partition": ["text_collection"],
+    "social_posts_partition": ["text"],
     "contacts_partition": [
-        "name_collection",
-        "text_collection",
-        "contact_collection",
-        "department_collection",
+        "name",
+        "text",
+        "contact",
+        "department",
     ],
     "people_partition": [
-        "text_collection",
-        "name_collection",
-        "position_collection",
-        "department_collection",
+        "text",
+        "name",
+        "position",
+        "department",
     ],
-    "usjr_documents_partition": ["text_collection", "title_collection"],
-    "scs_documents_partition": ["text_collection"],
+    "usjr_documents_partition": ["test", "title"],
+    "scs_documents_partition": ["text"],
     "religious_admin_people_partition": [
-        "text_collection",
-        "name_collection",
-        "position_collection",
+        "text",
+        "name",
+        "position",
     ],
 }
 
