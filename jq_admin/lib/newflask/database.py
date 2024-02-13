@@ -19,7 +19,6 @@ def similarity_search(
         collection = Collection(f"{name}_collection")
         collection.load()
 
-        print(f"this is name: {name}")
         output_fields = ["uuid", "text_id"] if name == "text" else ["uuid"]
         results = collection.search(
             data=[vectors],
@@ -203,9 +202,6 @@ def query_collections(collections, entity_ids, partition_names):
     Query each collection for the specified entity IDs and return the query results.
     """
     query_results = {}
-    print(f"Partition names: {partition_names}")
-    print(f"Entity IDs: {entity_ids}")
-    print(f"Starting to query collections: {list(collections.keys())}")
 
     for name, collection in collections.items():
         # Debugging prints for collection details
@@ -214,8 +210,6 @@ def query_collections(collections, entity_ids, partition_names):
         query_field = "text_id" if name == "text" else "uuid"
         output_fields = [name, "text_id", "media", "link"] if name == "text" else [name]
         query = f"{query_field} in {entity_ids}"
-        print(f"Query for {name}: {query}")
-        print(f"Output fields: {output_fields}")
 
         try:
             # Perform the query

@@ -211,8 +211,8 @@ def question_answer():
     )
 
 
-# update_posts_json()
-# empty_documents()
+update_posts_json()
+empty_documents()
 
 
 @app.route("/get_data/<partition_name>", methods=["GET"])

@@ -3,6 +3,7 @@ import 'package:jq_admin/screens/loading.dart'; // Ensure this exists or replace
 import 'package:jq_admin/widgets/chatMessage.dart'; // Ensure this exists or replace with actual message model
 import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter_linkify/flutter_linkify.dart';
+import 'package:flutter_markdown/flutter_markdown.dart';
 
 class MessageItem extends StatelessWidget {
   final int index;
@@ -34,12 +35,13 @@ class MessageItem extends StatelessWidget {
 
     final message = messages[index];
     final bool isLastMessage = index == messages.length - 1;
+    final displayText = message.text;
 
-    final imageUrlRegex =
-        RegExp(r'\bhttps?:\/\/.*\.(?:png|jpg|jpeg)\b', caseSensitive: false);
-    final imageUrlMatch = imageUrlRegex.firstMatch(message.text);
-    final imageUrl = imageUrlMatch?.group(0) ?? '';
-    final displayText = message.text.replaceAll(RegExp(r'\[.*?\]\(.*?\)'), '');
+    // Regex to identify media URLs (e.g., images or videos)
+    final mediaUrlRegex = RegExp(r'\bhttps?:\/\/.*\.(png|jpg|jpeg|gif|mp4)\b',
+        caseSensitive: false);
+    final mediaUrlMatch = mediaUrlRegex.firstMatch(message.text);
+    String? mediaURL = mediaUrlMatch?.group(0);
 
     return Column(
       children: [
@@ -79,37 +81,30 @@ class MessageItem extends StatelessWidget {
                     ],
                   ),
                   child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisSize: MainAxisSize.min,
                     children: [
-                      Linkify(
-                        onOpen: (link) async {
-                          if (await canLaunchUrl(Uri.parse(link.url))) {
-                            await launchUrl(Uri.parse(link.url));
+                      MarkdownBody(
+                        data: displayText,
+                        onTapLink: (text, href, title) {
+                          if (href != null) {
+                            launchUrl(Uri.parse(href));
                           }
                         },
-                        text: displayText,
-                        linkStyle: const TextStyle(color: Colors.blue),
-                        style: const TextStyle(color: Colors.white),
+                        styleSheet:
+                            MarkdownStyleSheet.fromTheme(Theme.of(context))
+                                .copyWith(
+                          p: const TextStyle(
+                              color: Colors
+                                  .white), // Adjust the text color as needed
+                          a: const TextStyle(
+                              color: Colors.blue), // Style for links
+                        ),
                       ),
-                      if (imageUrl.isNotEmpty)
+                      // Check if mediaURL is not null or empty to display the image
+                      if (mediaURL != null && mediaURL.isNotEmpty)
                         Padding(
                           padding: const EdgeInsets.only(top: 8.0),
-                          child: Center(
-                            child: Image.network(
-                              imageUrl,
-                              width: 150,
-                              height: 150,
-                              loadingBuilder:
-                                  (context, child, loadingProgress) {
-                                if (loadingProgress == null) return child;
-                                return const Center(
-                                    child: CircularProgressIndicator());
-                              },
-                              errorBuilder: (context, error, stackTrace) {
-                                return const Text('Failed to load image');
-                              },
-                            ),
-                          ),
+                          child: Image.network(mediaURL, fit: BoxFit.cover),
                         ),
                     ],
                   ),

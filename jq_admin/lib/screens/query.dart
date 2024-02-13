@@ -173,10 +173,17 @@ class _HomePageState extends State<HomePage> {
 
   void handleQuote(int index) {
     setState(() {
-      for (var msg in messages) {
-        msg.quoted = false; // Reset other quoted messages
+      // Check if the selected message is already quoted
+      if (messages[index].quoted) {
+        // If so, unquote it and do not quote anything else
+        messages[index].quoted = false;
+      } else {
+        // Otherwise, reset all to unquoted and quote the selected message
+        for (var msg in messages) {
+          msg.quoted = false; // Reset other quoted messages
+        }
+        messages[index].quoted = true;
       }
-      messages[index].quoted = true;
     });
   }
 
