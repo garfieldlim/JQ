@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:jq_admin/screens/loading.dart'; // Ensure this exists or replace with actual loading widget
 import 'package:jq_admin/widgets/chatMessage.dart'; // Ensure this exists or replace with actual message model
 import 'package:url_launcher/url_launcher.dart';
-import 'package:flutter_linkify/flutter_linkify.dart';
+import 'package:youtube_player_iframe/youtube_player_iframe.dart';
+
 import 'package:flutter_markdown/flutter_markdown.dart';
 
 class MessageItem extends StatelessWidget {
@@ -42,6 +43,14 @@ class MessageItem extends StatelessWidget {
         caseSensitive: false);
     final mediaUrlMatch = mediaUrlRegex.firstMatch(message.text);
     String? mediaURL = mediaUrlMatch?.group(0);
+
+    // Regex to identify YouTube video URLs
+    final youtubeUrlRegex = RegExp(
+        r'\bhttps?:\/\/(www\.)?youtu\.be\/([a-zA-Z0-9_-]{11})\b',
+        caseSensitive: false);
+    final youtubeUrlMatch = youtubeUrlRegex.firstMatch(message.text);
+    String? youtubeVideoId = youtubeUrlMatch?.group(2);
+    print('YouTube video ID: $youtubeVideoId');
 
     return Column(
       children: [
@@ -100,6 +109,8 @@ class MessageItem extends StatelessWidget {
                               color: Colors.blue), // Style for links
                         ),
                       ),
+                      if (youtubeVideoId != null)
+                        _buildYouTubePlayer(youtubeVideoId),
                       // Check if mediaURL is not null or empty to display the image
                       if (mediaURL != null && mediaURL.isNotEmpty)
                         Padding(
@@ -157,6 +168,21 @@ class MessageItem extends StatelessWidget {
                   child: const Text('Regenerate'),
                 ),
       ],
+    );
+  }
+
+  Widget _buildYouTubePlayer(String videoId) {
+    // Initialize controller here for simplicity, but consider extracting to a stateful widget for efficiency
+    final YoutubePlayerController controller =
+        YoutubePlayerController.fromVideoId(
+      videoId: videoId,
+      autoPlay: false,
+      params: const YoutubePlayerParams(showFullscreenButton: true),
+    );
+
+    return YoutubePlayer(
+      controller: controller,
+      aspectRatio: 16 / 9,
     );
   }
 

@@ -55,6 +55,8 @@ dependencies:
   pedantic: 1.11.1
   flutter_slidable: ^3.0.1
   flutter_markdown: ^0.6.18+3
+  youtube_player_flutter: ^8.1.2
+  youtube_player_iframe: ^4.0.4
   
 
 dev_dependencies:
