@@ -7,7 +7,7 @@ from embeddings import vectorize_query
 
 from utils.utilities import refactor_date
 
-from dictionary import desired_fields, table_fields
+from dictionary import desired_fields, table_fields, collections_dict
 
 
 def process_object(obj):
@@ -95,38 +95,71 @@ def query_collection_by_partition(collection_name, partition_name):
     return res
 
 
-# Define a function to combine results by uuid (or text_id for text_collection)
-def combine_results_by_uuid(partition_name):
+def combine_results_by_uuid(partition_name, search_query=None):
+    all_items = []
+
+    # Phase 1: Collect all items across collections
+    for collection_name, fields in collections_dict.items():
+        results = query_collection_by_partition(collection_name, partition_name)
+        for item in results:
+            item["_source_collection"] = (
+                collection_name  # Track the source collection for reference
+            )
+            all_items.append(item)
+
     combined_results = {}
 
-    # Loop through each collection in the given partition
-    for collection_name in table_fields[partition_name]:
-        collection_name = collection_name + "_collection"
-        results = query_collection_by_partition(collection_name, partition_name)
+    # Phase 2: Combine items based on unique IDs without applying search criteria
+    for item in all_items:
+        collection_name = item["_source_collection"]
+        id_key = "text_id" if collection_name == "text_collection" else "uuid"
+        unique_id = item[id_key]
 
-        # Loop through each result and store/combine in the combined_results dictionary
-        for item in results:
-            # Use text_id for text_collection and uuid for other collections
-            id_key = "text_id" if collection_name == "text_collection" else "uuid"
-            unique_id = item[id_key]
-            field_name = desired_fields[collection_name]
+        if unique_id not in combined_results:
+            combined_results[unique_id] = {
+                field: []  # Initialize fields as lists to accumulate values
+                for collection in collections_dict.values()
+                for field in collection
+            }
 
-            # Initialize the unique_id entry with all desired fields set to empty strings
-            if unique_id not in combined_results:
-                combined_results[unique_id] = {
-                    field: "" for field in table_fields[partition_name]
-                }
+        for field in collections_dict[collection_name]:
+            item_value = item.get(field, "").strip()
+            if item_value:
+                if item_value not in combined_results[unique_id][field]:
+                    combined_results[unique_id][field].append(item_value)
 
-            # Append the value if it already exists for the unique_id
-            if (
-                field_name in combined_results[unique_id]
-                and combined_results[unique_id][field_name]
+    # Phase 3: Apply search criteria after combining and prepare final results
+    final_results = {}
+    for unique_id, fields in combined_results.items():
+        combined_item = {field: ", ".join(values) for field, values in fields.items()}
+
+        # Check if the combined item matches the search criteria
+        if search_query:
+            if not matches_search_criteria(
+                combined_item, search_query, sum(collections_dict.values(), [])
             ):
-                combined_results[unique_id][field_name] += ", " + item[field_name]
-            else:
-                combined_results[unique_id][field_name] = item[field_name]
+                continue  # Skip items that do not match the search criteria
 
-    return combined_results
+        final_results[unique_id] = combined_item
+
+    return final_results
+
+
+def matches_search_criteria(item, search_query, fields_list):
+    search_query = search_query.lower()
+    for field in fields_list:
+        field_value = item.get(field, "")
+        if search_query in field_value.lower():
+            return True
+    return False
+
+
+def matches_search_criteria(item, search_query, fields_list):
+    search_query = search_query.lower()
+    for field in fields_list:
+        if field in item and search_query in item[field].lower():
+            return True
+    return False
 
 
 def create_table(combined_data, partition_name):
@@ -138,3 +171,65 @@ def create_table(combined_data, partition_name):
                 fieldname, ""
             )  # Use get() to handle missing fields
     return table
+
+
+def get_uuids_from_text_id(collection_name, text_id):
+    # Load the collection
+    collection = Collection(collection_name)
+    collection.load()
+
+    # Assuming 'text_id' is a searchable field in your schema
+    # Construct a search parameter or a query to find matching items
+    search_params = {"metric_type": "L2", "params": {"nprobe": 16}}
+    # Replace the below query with an appropriate query mechanism to find items by text_id
+    # This is a placeholder and will need to be replaced with actual search or query logic
+    query = f"text_id == '{text_id}'"
+    results = collection.search(query, search_params)
+
+    # Extract UUIDs from the search results
+    uuids = [
+        result.id for result in results
+    ]  # Adjust based on how your results are structured
+
+    return uuids
+
+
+def delete_by_text_id(text_id, partition_name="social_posts_partition"):
+    # Initialize Milvus collection for the text collection
+    text_collection = Collection("text_collection")
+    text_collection.load()
+
+    # Query to find items by text_id in the text collection
+    query = f"text_id == '{text_id}'"
+    try:
+        query_results = text_collection.query(
+            expr=query,
+            partition_names=[partition_name],
+            output_fields=["uuid"],  # Assuming 'uuid' is the field you want to retrieve
+            consistency_level="Strong",
+        )
+        # Extract UUIDs from query results
+        uuids = [item["uuid"] for item in query_results]
+        print(f"UUIDs found for text_id {text_id}: {uuids}")
+    except Exception as e:
+        print(f"Error querying text_collection for text_id {text_id}: {e}")
+        return
+
+    # Proceed to delete items based on UUIDs in all relevant collections
+    for collection_name in collections_dict.keys():
+        collection = Collection(collection_name)
+        collection.load()
+        for uuid in uuids:
+            expr = f"uuid in ['{uuid}']"  # Deletion query based on UUID
+            try:
+                result = collection.delete(
+                    expr=expr,
+                    partition_name=partition_name,  # Specify if partitioning is used
+                )
+                print(
+                    f"Deleted items with UUID {uuid} from {collection_name}, delete count: {result.delete_count}"
+                )
+            except Exception as e:
+                print(
+                    f"Error deleting UUID {uuid} from collection {collection_name}: {e}"
+                )

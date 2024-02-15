@@ -9,6 +9,8 @@ collections_list = [
     "date_collection",
 ]
 fields_list = [
+    "text_id",
+    "date",
     "text",
     "author",
     "title",

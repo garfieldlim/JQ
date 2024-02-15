@@ -21,6 +21,7 @@ class _DataTableDemoState extends State<DataTableDemo> {
   int itemsPerPage = 10;
   int get _startIndexOfPage => (currentPage - 1) * itemsPerPage;
   int get _endIndexOfPage => _startIndexOfPage + itemsPerPage;
+  final TextEditingController searchController = TextEditingController();
 
   final List<String> partitions = [
     "documents_partition",
@@ -30,16 +31,26 @@ class _DataTableDemoState extends State<DataTableDemo> {
   ];
 
   final Map<String, List<String>> table_fields = {
-    "documents_partition": ["text", "author", "title", "date"],
-    "social_posts_partition": ["text", "date"],
-    "contacts_partition": ["name", "text", "contact", "department"],
-    "people_partition": ["text", "name", "position", "department"],
+    "documents_partition": ["uuid", "text", "author", "title", "date"],
+    "social_posts_partition": ["uuid", "text", "date"],
+    "contacts_partition": ["uuid", "name", "text", "contact", "department"],
+    "people_partition": ["uuid", "text", "name", "position", "department"],
   };
 
-  Future<void> fetchData(String partition, {int page = 1}) async {
-    // Construct the URL with query parameters for pagination
-    final url = Uri.parse(
-        'http://127.0.0.1:7999/get_data/$partition?page=$page&itemsPerPage=$itemsPerPage');
+  Future<void> fetchData(String partition,
+      {int page = 1, String? searchQuery}) async {
+    var queryParameters = {
+      'page': page.toString(),
+      'itemsPerPage': itemsPerPage.toString(),
+    };
+
+    if (searchQuery != null && searchQuery.isNotEmpty) {
+      print("Search Query: $searchQuery"); // Debugging line
+      queryParameters['search'] = searchQuery;
+    }
+    final url =
+        Uri.http('127.0.0.1:7999', '/get_data/$partition', queryParameters);
+
     final response = await http.get(url);
 
     if (response.statusCode == 200) {
@@ -111,22 +122,14 @@ class _DataTableDemoState extends State<DataTableDemo> {
             ),
             TextButton(
               child: const Text('Update'),
-              onPressed: () {
+              onPressed: () async {
                 Map<String, dynamic> updatedItem = {};
                 for (String field in controllers.keys) {
                   updatedItem[field] = controllers[field]?.text ?? '';
                 }
 
-                // Update the item in the data list
-                int indexToUpdate = data
-                    .indexWhere((element) => element['uuid'] == item['uuid']);
-                if (indexToUpdate != -1) {
-                  setState(() {
-                    data[indexToUpdate] = updatedItem;
-                  });
-                }
-
-                // Optionally, send updated data to server...
+                // Send updated data to server
+                await _editItem(item['uuid'], updatedItem);
 
                 Navigator.of(context).pop(); // Close the dialog
               },
@@ -135,6 +138,28 @@ class _DataTableDemoState extends State<DataTableDemo> {
         );
       },
     );
+  }
+
+  Future<void> _editItem(String uuid, Map<String, dynamic> updatedItem) async {
+    final url = Uri.http(
+        '127.0.0.1:7999', '/edit/$uuid', {'partition': selectedPartition});
+    final response = await http.put(url,
+        body: json.encode(updatedItem),
+        headers: {"Content-Type": "application/json"});
+
+    if (response.statusCode == 200) {
+      print('Item updated: $uuid');
+      setState(() {
+        int indexToUpdate =
+            data.indexWhere((element) => element['uuid'] == uuid);
+        if (indexToUpdate != -1) {
+          data[indexToUpdate] = json.decode(response.body);
+        }
+      });
+    } else {
+      print('Error updating item: ${response.body}');
+      // Optionally, show an error message to the user
+    }
   }
 
   void _deleteItem(BuildContext context, Map<String, dynamic> item) async {
@@ -158,12 +183,23 @@ class _DataTableDemoState extends State<DataTableDemo> {
 
     // If deletion is confirmed
     if (shouldDelete ?? false) {
-      // Implement your delete logic here, e.g., send a DELETE request to the server
-      print('Delete item: ${item['uuid']}');
-      // For now, just remove the item from the local list and update the state
-      setState(() {
-        data.removeWhere((element) => element['uuid'] == item['uuid']);
-      });
+      final url = Uri.http('127.0.0.1:7999', '/delete/${item['uuid']}',
+          {'partition': selectedPartition});
+
+      // Send a DELETE request to the server
+      final response = await http.delete(url);
+
+      if (response.statusCode == 200) {
+        // Successfully deleted on the server, now remove from local list
+        print('Delete item: ${item['uuid']}');
+        setState(() {
+          data.removeWhere((element) => element['uuid'] == item['uuid']);
+        });
+      } else {
+        // Handle server error or unsuccessful deletion
+        print('Error deleting item: ${response.body}');
+        // Optionally, show an error message to the user
+      }
     }
   }
 
@@ -186,6 +222,28 @@ class _DataTableDemoState extends State<DataTableDemo> {
       ),
       body: Column(
         children: [
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: TextField(
+              controller: searchController,
+              decoration: InputDecoration(
+                labelText: 'Search',
+                suffixIcon: IconButton(
+                  icon: Icon(Icons.clear),
+                  onPressed: () {
+                    searchController.clear();
+                    fetchData(
+                        selectedPartition!); // Clear search and fetch data
+                  },
+                ),
+              ),
+              onSubmitted: (value) {
+                fetchData(selectedPartition!, searchQuery: value);
+              },
+              // Optional: Set the keyboard action button to "search"
+              textInputAction: TextInputAction.search,
+            ),
+          ),
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: DropdownButton<String>(

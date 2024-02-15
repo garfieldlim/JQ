@@ -49,6 +49,7 @@ Widget buildHorizontalLogList({
           final bool liked = logData['liked'] ?? false;
           final String milvusData = logData['milvusData'] ?? '';
           final String partitionName = logData['partitionName'] ?? '';
+
           final String prompt = logData['prompt'] ?? '';
           final String response = logData['response'] ?? '';
           final String timestampString = logData['timestamp'] as String;

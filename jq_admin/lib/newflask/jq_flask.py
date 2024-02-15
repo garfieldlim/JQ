@@ -21,6 +21,7 @@ from knowledgebase_crud import (
     combine_results_by_uuid,
     create_table,
     process_object,
+    delete_by_text_id,
 )
 from openai_api import generate_response
 import firebase_admin
@@ -211,16 +212,43 @@ def question_answer():
     )
 
 
-update_posts_json()
-empty_documents()
+# update_posts_json()
+# empty_documents()
 
 
 @app.route("/get_data/<partition_name>", methods=["GET"])
 def get_data(partition_name):
-    combined_data = combine_results_by_uuid(partition_name)
+    search_query = request.args.get("search", None)  # Get the search query parameter
+    combined_data = combine_results_by_uuid(partition_name, search_query=search_query)
     table_data = create_table(combined_data, partition_name)
-    print(table_data)
+
     return jsonify(table_data)
+
+
+@app.route("/delete/<text_id>", methods=["DELETE", "OPTIONS"])
+def delete(text_id):
+    # Check for the OPTIONS method and return an appropriate response
+    if request.method == "OPTIONS":
+        # This is a preflight request, send an appropriate response
+        response = jsonify({"status": "CORS Preflight OK"})
+        # You can modify the headers as needed for your CORS policy here
+        response.headers.add("Access-Control-Allow-Origin", "*")
+        response.headers.add("Access-Control-Allow-Methods", "DELETE, OPTIONS")
+        response.headers.add(
+            "Access-Control-Allow-Headers", "Content-Type, Authorization"
+        )
+        return response
+
+    # Retrieve the partition name from query parameters for the actual DELETE request
+    partition_name = request.args.get("partition", default="default_partition")
+
+    # Your existing logic to delete by text_id
+    delete_by_text_id(text_id, partition_name)
+    return jsonify({"status": "success"})
+
+
+# Ensure CORS is set up for your delete route if applying selectively
+CORS(app, resources={r"/delete/*": {"origins": "*"}})
 
 
 if __name__ == "__main__":
