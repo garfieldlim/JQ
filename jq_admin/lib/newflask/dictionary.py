@@ -41,9 +41,8 @@ partitions = {
         "text",
         "author",
         "title",
-        "date",
     ],
-    "social_posts_partition": ["text", "date"],
+    "social_posts_partition": ["text"],
     "contacts_partition": [
         "name",
         "text",

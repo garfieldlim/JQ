@@ -7,7 +7,7 @@ from embeddings import vectorize_query
 
 from utils.utilities import refactor_date
 
-from dictionary import desired_fields, partitions, table_fields
+from dictionary import desired_fields, table_fields
 
 
 def process_object(obj):
@@ -100,7 +100,7 @@ def combine_results_by_uuid(partition_name):
     combined_results = {}
 
     # Loop through each collection in the given partition
-    for collection_name in partitions[partition_name]:
+    for collection_name in table_fields[partition_name]:
         collection_name = collection_name + "_collection"
         results = query_collection_by_partition(collection_name, partition_name)
 
