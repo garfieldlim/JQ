@@ -194,7 +194,7 @@ def get_uuids_from_text_id(collection_name, text_id):
     return uuids
 
 
-def delete_by_text_id(text_id, partition_name="social_posts_partition"):
+def delete_by_text_id(text_id, partition_name):
     # Initialize Milvus collection for the text collection
     text_collection = Collection("text_collection")
     text_collection.load()
