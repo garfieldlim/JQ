@@ -12,9 +12,11 @@ void main() async {
   await Firebase.initializeApp(
       options: const FirebaseOptions(
           apiKey: "AIzaSyBc9BWhNOnGlNOXDgUF-AzrGk3aeb6goq8",
-          appId: "1:311772432590:web:1bc805e7ab29b8daf5e89f",
+          authDomain: "josenianquiri-c3c63.firebaseapp.com",
+          projectId: "josenianquiri-c3c63",
+          storageBucket: "josenianquiri-c3c63.appspot.com",
           messagingSenderId: "311772432590",
-          projectId: "josenianquiri-c3c63"));
+          appId: "1:311772432590:web:1bc805e7ab29b8daf5e89f"));
 
   runApp(const MyApp());
 }
