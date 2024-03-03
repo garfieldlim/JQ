@@ -4,7 +4,10 @@ import '../widgets/log_list_widget.dart';
 import 'Logsdetail.dart';
 
 class LogsPage extends StatefulWidget {
-  const LogsPage({super.key});
+  final String searchQuery;
+  final String searchField;
+  const LogsPage(
+      {super.key, this.searchQuery = "", this.searchField = "prompt"});
 
   @override
   _LogsPageState createState() => _LogsPageState();
@@ -19,6 +22,30 @@ class _LogsPageState extends State<LogsPage> {
     super.initState();
     logsCollection = FirebaseFirestore.instance.collection('chat_messages');
     logsStream = logsCollection.snapshots();
+    // updateLogsStream();
+  }
+
+  @override
+  void didUpdateWidget(covariant LogsPage oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.searchQuery != widget.searchQuery) {
+      updateLogsStream();
+    }
+  }
+
+  void updateLogsStream() {
+    if (widget.searchQuery.isEmpty) {
+      // If the search query is empty, fetch all logs without filtering
+      logsStream = logsCollection.snapshots();
+    } else {
+      // If there is a search query, filter logs based on the 'response' field
+      logsStream = logsCollection
+          .where(widget.searchField, isGreaterThanOrEqualTo: widget.searchQuery)
+          .where(widget.searchField,
+              isLessThanOrEqualTo: '${widget.searchQuery}\uf8ff')
+          .snapshots();
+    }
+    setState(() {});
   }
 
   void navigateToLogDetails(DocumentSnapshot logSnapshot) {
