@@ -51,8 +51,14 @@ class _Admin_dashboardState extends State<Admin_dashboard> {
                       selectedField = newValue!;
                     });
                   },
-                  items: <String>['prompt', 'response', 'timestamp']
-                      .map<DropdownMenuItem<String>>((String value) {
+                  items: <String>[
+                    'id',
+                    'milvusData',
+                    'partitionName',
+                    'prompt',
+                    'response',
+                    'timestamp'
+                  ].map<DropdownMenuItem<String>>((String value) {
                     return DropdownMenuItem<String>(
                       value: value,
                       child: Text(value),
