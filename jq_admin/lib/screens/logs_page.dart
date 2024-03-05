@@ -2,12 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import '../widgets/log_list_widget.dart';
 import 'Logsdetail.dart';
+import 'logsDetailList.dart';
+import '../widgets/buildSearch.dart';
 
 class LogsPage extends StatefulWidget {
   final String searchQuery;
   final String searchField;
-  const LogsPage(
-      {super.key, this.searchQuery = "", this.searchField = "prompt"});
+  const LogsPage({
+    super.key,
+    this.searchQuery = "",
+    this.searchField = "id",
+  });
 
   @override
   _LogsPageState createState() => _LogsPageState();
@@ -16,41 +21,60 @@ class LogsPage extends StatefulWidget {
 class _LogsPageState extends State<LogsPage> {
   late CollectionReference logsCollection;
   late Stream<QuerySnapshot> logsStream;
+  List<Map<String, dynamic>> allLogs = [];
+  List<Map<String, dynamic>> filteredLogs = [];
 
   @override
   void initState() {
     super.initState();
     logsCollection = FirebaseFirestore.instance.collection('chat_messages');
     logsStream = logsCollection.snapshots();
-    // updateLogsStream();
+    fetchAllLogs();
   }
 
   @override
   void didUpdateWidget(covariant LogsPage oldWidget) {
     super.didUpdateWidget(oldWidget);
-    if (oldWidget.searchQuery != widget.searchQuery) {
-      updateLogsStream();
+    if (oldWidget.searchQuery != widget.searchQuery ||
+        oldWidget.searchField != widget.searchField) {
+      filterLogs(widget.searchField, widget.searchQuery);
     }
   }
 
-  void updateLogsStream() {
-    if (widget.searchQuery.isEmpty) {
-      // If the search query is empty, fetch all logs without filtering
-      logsStream = logsCollection.snapshots();
-    } else {
-      // If there is a search query, filter logs based on the 'response' field
-      logsStream = logsCollection
-          .where(widget.searchField, isGreaterThanOrEqualTo: widget.searchQuery)
-          .where(widget.searchField,
-              isLessThanOrEqualTo: '${widget.searchQuery}\uf8ff')
-          .snapshots();
-    }
-    setState(() {});
+  void fetchAllLogs() async {
+    QuerySnapshot snapshot =
+        await FirebaseFirestore.instance.collection('chat_messages').get();
+    setState(() {
+      allLogs = snapshot.docs
+          .map((doc) => doc.data() as Map<String, dynamic>)
+          .toList();
+      filteredLogs =
+          List.from(allLogs); // Initially, filteredLogs shows all logs
+    });
+  }
+
+  void filterLogs(String searchField, String searchQuery) {
+    setState(() {
+      if (searchQuery.isEmpty) {
+        filteredLogs = List.from(allLogs);
+      } else {
+        filteredLogs = allLogs.where((log) {
+          var fieldValue = (log[searchField] ?? '').toString().toLowerCase();
+          return fieldValue.contains(searchQuery.toLowerCase());
+        }).toList();
+      }
+    });
   }
 
   void navigateToLogDetails(DocumentSnapshot logSnapshot) {
     Navigator.of(context).push(MaterialPageRoute(
       builder: (context) => LogDetailsPage(logSnapshot: logSnapshot),
+    ));
+  }
+
+  void navigateToLogDetailsList(Map<String, dynamic> logData) {
+    Navigator.of(context).push(MaterialPageRoute(
+      builder: (context) => LogDetailsPageList(logData: logData),
     ));
   }
 
@@ -73,8 +97,37 @@ class _LogsPageState extends State<LogsPage> {
               ),
             ),
           ),
-          // Recently Added Section
           const SizedBox(height: 15),
+          const Padding(
+            padding: EdgeInsets.all(10.0),
+            child: Text(
+              "Search Results",
+              style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                  color: Color(0xff7a8066)),
+            ),
+          ),
+          SizedBox(
+            height: 300,
+            child: ListView.builder(
+              scrollDirection: Axis.horizontal,
+              itemCount: filteredLogs.length, // Use filteredLogs list
+              itemBuilder: (context, index) {
+                final log = filteredLogs[index];
+                return GestureDetector(
+                  onTap: () =>
+                      navigateToLogDetailsList(log), // Adjust this as needed
+                  child: SizedBox(
+                    width: 300,
+                    child: LogItemWidget(log: log),
+                  ),
+                );
+              },
+            ),
+          ),
+          // Recently Added Section
+          const SizedBox(height: 25),
           const Padding(
             padding: EdgeInsets.all(10.0),
             child: Text(

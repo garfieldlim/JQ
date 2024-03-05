@@ -16,7 +16,7 @@ class Admin_dashboard extends StatefulWidget {
 class _Admin_dashboardState extends State<Admin_dashboard> {
   final TextEditingController _searchController = TextEditingController();
   String searchQuery = "";
-  String selectedField = 'prompt';
+  String selectedField = 'id';
 
   @override
   Widget build(BuildContext context) {
