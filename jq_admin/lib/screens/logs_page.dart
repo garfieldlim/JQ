@@ -6,12 +6,8 @@ import 'logsDetailList.dart';
 import '../widgets/buildSearch.dart';
 
 class LogsPage extends StatefulWidget {
-  final String searchQuery;
-  final String searchField;
   const LogsPage({
     super.key,
-    this.searchQuery = "",
-    this.searchField = "id",
   });
 
   @override
@@ -23,6 +19,9 @@ class _LogsPageState extends State<LogsPage> {
   late Stream<QuerySnapshot> logsStream;
   List<Map<String, dynamic>> allLogs = [];
   List<Map<String, dynamic>> filteredLogs = [];
+  final TextEditingController _searchController = TextEditingController();
+  String searchQuery = "";
+  String selectedField = 'id';
 
   @override
   void initState() {
@@ -30,15 +29,6 @@ class _LogsPageState extends State<LogsPage> {
     logsCollection = FirebaseFirestore.instance.collection('chat_messages');
     logsStream = logsCollection.snapshots();
     fetchAllLogs();
-  }
-
-  @override
-  void didUpdateWidget(covariant LogsPage oldWidget) {
-    super.didUpdateWidget(oldWidget);
-    if (oldWidget.searchQuery != widget.searchQuery ||
-        oldWidget.searchField != widget.searchField) {
-      filterLogs(widget.searchField, widget.searchQuery);
-    }
   }
 
   void fetchAllLogs() async {
@@ -108,24 +98,69 @@ class _LogsPageState extends State<LogsPage> {
                   color: Color(0xff7a8066)),
             ),
           ),
-          SizedBox(
-            height: 300,
-            child: ListView.builder(
-              scrollDirection: Axis.horizontal,
-              itemCount: filteredLogs.length, // Use filteredLogs list
-              itemBuilder: (context, index) {
-                final log = filteredLogs[index];
-                return GestureDetector(
-                  onTap: () =>
-                      navigateToLogDetailsList(log), // Adjust this as needed
-                  child: SizedBox(
-                    width: 300,
-                    child: LogItemWidget(log: log),
-                  ),
-                );
+          TextField(
+            controller: _searchController,
+            decoration: InputDecoration(
+              hintText: 'Search logs',
+              suffixIcon: IconButton(
+                icon: Icon(Icons.search),
+                onPressed: () {
+                  setState(() {
+                    searchQuery = _searchController.text;
+                    filterLogs(selectedField, searchQuery);
+                  });
+                },
+              ),
+            ),
+            textAlign: TextAlign.center,
+          ),
+          Center(
+            child: DropdownButton<String>(
+              value: selectedField,
+              onChanged: (String? newValue) {
+                setState(() {
+                  selectedField = newValue!;
+                });
               },
+              items: <String>[
+                'id',
+                'milvusData',
+                'partitionName',
+                'prompt',
+                'response',
+                'timestamp'
+              ].map<DropdownMenuItem<String>>((String value) {
+                return DropdownMenuItem<String>(
+                  value: value,
+                  child: Text(value),
+                );
+              }).toList(),
             ),
           ),
+          if (_searchController.text.isEmpty)
+            Center(child: Text('Enter search.')) // When search bar is empty
+          else if (filteredLogs.isEmpty)
+            Center(
+                child: Text('Data not found.')) // When search yields no results
+          else
+            SizedBox(
+              height: 300,
+              child: ListView.builder(
+                scrollDirection: Axis.horizontal,
+                itemCount: filteredLogs.length, // Use filteredLogs list
+                itemBuilder: (context, index) {
+                  final log = filteredLogs[index];
+                  return GestureDetector(
+                    onTap: () =>
+                        navigateToLogDetailsList(log), // Adjust this as needed
+                    child: SizedBox(
+                      width: 300,
+                      child: LogItemWidget(log: log),
+                    ),
+                  );
+                },
+              ),
+            ),
           // Recently Added Section
           const SizedBox(height: 25),
           const Padding(
