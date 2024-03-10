@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:jq_admin/screens/constants.dart';
 
 class ReviewPage extends StatefulWidget {
   final String partition_name;
@@ -93,7 +94,7 @@ class _ReviewPageState extends State<ReviewPage> {
                   ),
                   onPressed: () async {
                     final response = await http.post(
-                      Uri.parse('http://127.0.0.1:7999/receive_json'),
+                      Uri.parse(receiveJsonURL),
                       headers: {
                         'Content-Type': 'application/json',
                       },

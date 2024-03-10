@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:jq_admin/screens/constants.dart';
 import 'review.dart';
 import 'field_widgets.dart';
 import 'package:uuid/uuid.dart';
@@ -157,7 +158,7 @@ class _SchemaDetailsPageState extends State<SchemaDetailsPage> {
   }
 
   Future<void> _sendUrlToServer() async {
-    var url = Uri.parse('http://127.0.0.1:7999/scrape_website');
+    var url = Uri.parse(scrapeWebsiteURL);
     var response = await http.post(
       url,
       body: jsonEncode({'url': _urlController.text}),

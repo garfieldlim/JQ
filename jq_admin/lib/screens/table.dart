@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:http/http.dart' as http;
+import 'package:jq_admin/screens/constants.dart';
 import 'dart:convert';
 
 import '../widgets/expandable.dart';
@@ -39,6 +40,9 @@ class _DataTableDemoState extends State<DataTableDemo> {
 
   Future<void> fetchData(String partition,
       {int page = 1, String? searchQuery}) async {
+    // Assuming itemsPerPage is defined somewhere
+    int itemsPerPage = 10; // Example value
+
     var queryParameters = {
       'page': page.toString(),
       'itemsPerPage': itemsPerPage.toString(),
@@ -48,21 +52,25 @@ class _DataTableDemoState extends State<DataTableDemo> {
       print("Search Query: $searchQuery"); // Debugging line
       queryParameters['search'] = searchQuery;
     }
-    final url =
-        Uri.http('127.0.0.1:7999', '/get_data/$partition', queryParameters);
 
-    final response = await http.get(url);
+    // Use Uri.https to construct the URL with query parameters
+    var uri = Uri.https(baseURL.replaceFirst('https://', ''),
+        '/get_data/$partition', queryParameters);
+
+    final response = await http.get(uri);
 
     if (response.statusCode == 200) {
       var decodedData = json.decode(response.body);
       if (decodedData is Map<String, dynamic>) {
         setState(() {
-          data = List<Map<String, dynamic>>.from(decodedData.values);
+          data = List<Map<String, dynamic>>.from(decodedData['data'] ??
+              []); // Adjusted to use 'data' key if needed
           _sortData(sortColumn, sortAscending); // Sort data after fetching
         });
       }
     } else {
       // Handle error or unsuccessful status code
+      print('Error fetching data: ${response.statusCode}');
     }
   }
 
@@ -141,8 +149,9 @@ class _DataTableDemoState extends State<DataTableDemo> {
   }
 
   Future<void> _editItem(String uuid, Map<String, dynamic> updatedItem) async {
-    final url = Uri.http(
-        '127.0.0.1:7999', '/edit/$uuid', {'partition': selectedPartition});
+    final url =
+        Uri.https(baseURL, '/edit/$uuid', {'partition': selectedPartition});
+
     final response = await http.put(url,
         body: json.encode(updatedItem),
         headers: {"Content-Type": "application/json"});
@@ -183,8 +192,8 @@ class _DataTableDemoState extends State<DataTableDemo> {
 
     // If deletion is confirmed
     if (shouldDelete ?? false) {
-      final url = Uri.http('127.0.0.1:7999', '/delete/${item['uuid']}',
-          {'partition': selectedPartition});
+      final url = Uri.https(
+          baseURL, '/delete/${item['uuid']}', {'partition': selectedPartition});
 
       // Send a DELETE request to the server
       final response = await http.delete(url);

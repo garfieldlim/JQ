@@ -5,7 +5,7 @@ import 'package:jq_admin/screens/dashboard.dart';
 import 'package:jq_admin/screens/query.dart';
 import 'package:jq_dashboard/screens/admin_menu.dart';
 
-// flutter run -d web-server --web-port 8080 --web-hostname 0.0.0.0 --web-renderer html
+// `flutter run -d web-server --web-port 8080 --web-hostname 0.0.0.0 --web-renderer html`
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -36,7 +36,7 @@ class MyApp extends StatelessWidget {
             seedColor: const Color.fromARGB(255, 255, 223, 107)),
         useMaterial3: true,
       ),
-      home: const Admin_dashboard(),
+      home: Admin_dashboard(),
       debugShowCheckedModeBanner: false,
     );
   }

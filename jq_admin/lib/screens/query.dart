@@ -4,6 +4,7 @@ import 'dart:convert';
 // Third-party package imports
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:jq_admin/screens/constants.dart';
 import 'package:jq_admin/widgets/chatMessage.dart';
 import 'package:jq_admin/widgets/chat_suggestions.dart';
 import 'package:jq_admin/widgets/customfloatingbutton.dart';
@@ -68,7 +69,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   Future<List<dynamic>> fetchPosts() async {
-    final response = await http.get(Uri.parse('http://127.0.0.1:7999/posts'));
+    final response = await http.get(Uri.parse(postsUrl));
 
     if (response.statusCode == 200) {
       return json.decode(response.body);
@@ -85,9 +86,9 @@ class _HomePageState extends State<HomePage> {
       });
     }
 
-    final url = Uri.parse('http://127.0.0.1:7999/query');
+    final url = Uri.parse(queryURL);
     final headers = {'Content-Type': 'application/json'};
-
+    print(postsUrl);
     // Getting the previous answer from the bot
     String? previousAnswer;
     for (var item in messages.reversed) {
@@ -197,10 +198,10 @@ class _HomePageState extends State<HomePage> {
         botMessage.disliked = !isLiked;
       });
 
-      var endpoint = 'http://127.0.0.1:7999/update_chat_message_like_dislike';
+      var endpoint = updateChatDislikeURL;
 
       if (flag == 1) {
-        endpoint = 'http://127.0.0.1:7999/save_chat_message';
+        endpoint = saveChatURL;
         userMessageId = "Chat${uuid.v4()}";
         botMessageId = "Chat${uuid.v4()}";
         flag = 0;
