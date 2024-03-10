@@ -1,9 +1,12 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:http/http.dart' as http;
 import 'package:jq_admin/screens/constants.dart';
 import 'dart:convert';
 
+import '../widgets/data_table_utils.dart';
 import '../widgets/expandable.dart';
 
 class DataTableDemo extends StatefulWidget {
@@ -25,6 +28,7 @@ class _DataTableDemoState extends State<DataTableDemo> {
   final TextEditingController searchController = TextEditingController();
 
   final List<String> partitions = [
+    "Select a partition",
     "documents_partition",
     "social_posts_partition",
     "contacts_partition",
@@ -214,6 +218,7 @@ class _DataTableDemoState extends State<DataTableDemo> {
 
   @override
   Widget build(BuildContext context) {
+    var screenSize = MediaQuery.of(context).size;
     return Scaffold(
       backgroundColor: const Color(0xfffff1e4),
       appBar: AppBar(
@@ -228,76 +233,129 @@ class _DataTableDemoState extends State<DataTableDemo> {
           'Knowledge Base Logs',
           style: TextStyle(color: Colors.white),
         ),
+        actions: <Widget>[
+          // You can use any widget here. For a logo, typically an Image widget is used.
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 12.0),
+            child: Image.asset(
+                'web/assets/jq.png'), // Replace with your logo asset path
+          ),
+        ],
       ),
       body: Column(
         children: [
           Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: TextField(
-              controller: searchController,
-              decoration: InputDecoration(
-                labelText: 'Search',
-                suffixIcon: IconButton(
-                  icon: Icon(Icons.clear),
-                  onPressed: () {
-                    searchController.clear();
-                    fetchData(
-                        selectedPartition!); // Clear search and fetch data
-                  },
-                ),
+            padding: const EdgeInsets.all(24.0),
+            child: Container(
+              width: screenSize.width * 0.99,
+              height: screenSize.height * 0.10,
+              decoration: BoxDecoration(
+                color: const Color(0xffe7dba9),
+                borderRadius: BorderRadius.circular(30),
               ),
-              onSubmitted: (value) {
-                fetchData(selectedPartition!, searchQuery: value);
-              },
-              // Optional: Set the keyboard action button to "search"
-              textInputAction: TextInputAction.search,
+              child: Row(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(24.0),
+                    child: Container(
+                      width: screenSize.width * 0.80,
+                      height: screenSize.height * 0.20,
+                      child: TextField(
+                        controller: searchController,
+                        decoration: InputDecoration(
+                          labelText: 'Search a log',
+                          suffixIcon: IconButton(
+                            icon: Icon(Icons.clear),
+                            onPressed: () {
+                              searchController.clear();
+                              fetchData(selectedPartition!);
+                            },
+                          ),
+                        ),
+                        onSubmitted: (value) {
+                          fetchData(selectedPartition!, searchQuery: value);
+                        },
+                        textInputAction: TextInputAction.search,
+                      ),
+                    ),
+                  ),
+                  ElevatedButton.icon(
+                    icon: const Icon(Icons.search,
+                        color: Colors.white), // The search icon
+                    label: Text(
+                      'Search', // The text label
+                      style: TextStyle(color: Colors.white),
+                    ),
+                    onPressed: () {
+                      fetchData(selectedPartition!,
+                          searchQuery: searchController.text);
+                    },
+                    style: ElevatedButton.styleFrom(
+                      foregroundColor:
+                          Colors.blue, // Background color of the button
+                      shape: RoundedRectangleBorder(
+                        borderRadius:
+                            BorderRadius.circular(30.0), // Rounded corners
+                      ),
+                      padding: EdgeInsets.symmetric(
+                          horizontal: 60.0, vertical: 15.0),
+                    ),
+                  )
+                ],
+              ),
             ),
           ),
           Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: DropdownButton<String>(
-              isExpanded: true,
-              value: selectedPartition,
-              onChanged: (newValue) {
-                setState(() {
-                  selectedPartition = newValue;
-                  data.clear();
-                  fetchData(selectedPartition!);
-                });
-              },
-              items: partitions.map((String value) {
-                return DropdownMenuItem<String>(
-                  value: value,
-                  // Apply the text style within DropdownMenuItem
-                  child: Text(
-                    value,
-                    style: const TextStyle(
-                        color: Colors.white), // Change text color here
+            padding: const EdgeInsets.all(24.0),
+            child: Container(
+              width: screenSize.width * 0.99,
+              height: screenSize.height * 0.10,
+              decoration: BoxDecoration(
+                color: const Color(0xffe7dba9),
+                borderRadius: BorderRadius.circular(30),
+              ),
+              child: Padding(
+                padding: const EdgeInsets.all(24.0),
+                child: Align(
+                  alignment: Alignment
+                      .topLeft, // Change this to control horizontal alignment
+                  child: Container(
+                    width: 200, // Adjust the width to your preference
+                    decoration: BoxDecoration(
+                      // If you want to style the container, for example with a border or a different color
+                      border: Border.all(color: Colors.grey),
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: DropdownButton<String>(
+                      isExpanded: true,
+                      value: selectedPartition,
+                      onChanged: (newValue) {
+                        setState(() {
+                          selectedPartition = newValue;
+                          data.clear();
+                          fetchData(selectedPartition!);
+                        });
+                      },
+                      items: partitions.map((String value) {
+                        return DropdownMenuItem<String>(
+                          value: value,
+                          child: Text(
+                            value,
+                            style: const TextStyle(
+                                color: Colors.white), // Text color
+                          ),
+                        );
+                      }).toList(),
+                      hint: const Text('Select a partition'),
+                      dropdownColor: const Color(0xffe7dba9),
+                      iconEnabledColor: Colors.white,
+                      style: const TextStyle(color: Colors.white),
+                    ),
                   ),
-                );
-              }).toList(),
-              hint: const Text('Select a partition'),
-              dropdownColor: const Color(0xffe7dba9),
-              iconEnabledColor: Colors.white,
-              style: const TextStyle(color: Colors.white),
+                ),
+              ),
             ),
           ),
-          // Headers for the table
-          if (selectedPartition != null)
-            Row(
-              children: table_fields[selectedPartition]!
-                  .map(
-                    (header) => Expanded(
-                      child: Container(
-                        padding: const EdgeInsets.all(8),
-                        color: const Color(0xffe7dba9),
-                        child: Text(header.capitalize()),
-                      ),
-                    ),
-                  )
-                  .toList(),
-            ),
-
           Expanded(
             child: ListView.builder(
               itemCount: _endIndexOfPage <= data.length
@@ -320,22 +378,51 @@ class _DataTableDemoState extends State<DataTableDemo> {
                     startActionPane: ActionPane(
                       motion: const ScrollMotion(),
                       children: [
+                        // Edit action
                         SlidableAction(
-                          onPressed: (BuildContext context) =>
-                              _showEditDialog(item),
+                          onPressed: (BuildContext context) {
+                            showEditDialog(
+                              context: context,
+                              item: data[actualIndex],
+                              selectedPartition: selectedPartition!,
+                              fields: table_fields[selectedPartition]!,
+                            ).then((_) {
+                              // Consider refetching data here or updating the specific item in the list
+                              fetchData(
+                                  selectedPartition!); // Refetch data to refresh the UI
+                            });
+                          },
                           backgroundColor: const Color(0xFFA7C7E7),
                           foregroundColor: Colors.white,
                           icon: Icons.edit,
                           label: 'Edit',
                         ),
-                      ],
-                    ),
-                    endActionPane: ActionPane(
-                      motion: const ScrollMotion(),
-                      children: [
+                        // Delete action
                         SlidableAction(
-                          onPressed: (context) => _deleteItem(context, item),
-                          backgroundColor: const Color(0xFFFF6B6B),
+                          onPressed: (BuildContext context) async {
+                            // Call the deleteItem function
+                            bool success = await deleteItem(
+                                context, item['uuid'], selectedPartition!);
+                            if (success) {
+                              // If the delete was successful, remove the item from your list and update the UI
+                              setState(() {
+                                data.removeAt(actualIndex);
+                              });
+                              // Optionally, show a success message
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                    content: Text('Item successfully deleted')),
+                              );
+                            } else {
+                              // Handle failure, e.g., show an error message
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                    content:
+                                        Text('Failed to delete the item.')),
+                              );
+                            }
+                          },
+                          backgroundColor: Colors.red,
                           foregroundColor: Colors.white,
                           icon: Icons.delete,
                           label: 'Delete',
@@ -361,32 +448,6 @@ class _DataTableDemoState extends State<DataTableDemo> {
                 );
               },
             ),
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              IconButton(
-                icon: const Icon(Icons.arrow_back),
-                onPressed: currentPage > 1
-                    ? () {
-                        setState(() {
-                          currentPage--;
-                          fetchData(selectedPartition!, page: currentPage);
-                        });
-                      }
-                    : null,
-              ),
-              Text('Page $currentPage'),
-              IconButton(
-                icon: const Icon(Icons.arrow_forward),
-                onPressed: () {
-                  setState(() {
-                    currentPage++;
-                    fetchData(selectedPartition!, page: currentPage);
-                  });
-                },
-              ),
-            ],
           ),
         ],
       ),
