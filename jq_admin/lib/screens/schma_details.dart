@@ -140,7 +140,7 @@ class _SchemaDetailsPageState extends State<SchemaDetailsPage> {
     }
 
     setState(() {
-      _isLoading = false; // End loading once done
+      _isLoading = false;
     });
   }
 
