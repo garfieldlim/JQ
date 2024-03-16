@@ -121,6 +121,30 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.10.6"
+  cloud_functions:
+    dependency: "direct main"
+    description:
+      name: cloud_functions
+      sha256: "44a88d02b1b1291bb291b8de756ff3f02d3a0c5c68dfc1c42c83c1529ba0416b"
+      url: "https://pub.dev"
+    source: hosted
+    version: "4.6.6"
+  cloud_functions_platform_interface:
+    dependency: transitive
+    description:
+      name: cloud_functions_platform_interface
+      sha256: "9b02f827013f37824de5ec02bd2a1838e47c899edd39df642d1437c68b6f1c3c"
+      url: "https://pub.dev"
+    source: hosted
+    version: "5.5.17"
+  cloud_functions_web:
+    dependency: transitive
+    description:
+      name: cloud_functions_web
+      sha256: "9ccd76057f2f5e20b8c2dc19e785993dd83edef1a9f49472cf0e12268da6781b"
+      url: "https://pub.dev"
+    source: hosted
+    version: "4.7.0"
   collection:
     dependency: transitive
     description:
@@ -226,7 +250,7 @@ packages:
     source: hosted
     version: "5.9.6"
   firebase_core:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: firebase_core
       sha256: "797379ea206eaeeb62499775de812761493d0692890fdc7f90b6183a3369176d"
@@ -360,13 +384,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.19.0"
-  jq_dashboard:
-    dependency: "direct main"
-    description:
-      path: "../jq_dashboard"
-      relative: true
-    source: path
-    version: "1.0.0+1"
   js:
     dependency: transitive
     description:

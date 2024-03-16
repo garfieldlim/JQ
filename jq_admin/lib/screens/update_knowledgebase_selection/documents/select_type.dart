@@ -2,8 +2,8 @@
 
 import 'package:flutter/material.dart';
 import 'package:glassmorphism/glassmorphism.dart';
-import 'package:jq_dashboard/screens/update_knowledgebase_selection/documents/group_upsertion.dart';
-import 'package:jq_dashboard/screens/update_knowledgebase_selection/documents/single_upsertion.dart';
+import 'package:jq_admin/screens/update_knowledgebase_selection/announcements/group_upsertion.dart';
+import 'package:jq_admin/screens/update_knowledgebase_selection/announcements/single_upsertion.dart';
 
 class SelectTypePage extends StatefulWidget {
   const SelectTypePage({super.key});
@@ -95,7 +95,8 @@ class _SelectTypePageState extends State<SelectTypePage> {
 
   Widget _buildOptionButton(String title) {
     return ElevatedButton(
-      style: _buildElevatedButtonStyle(Colors.transparent, const Color(0xffD9A830)),
+      style: _buildElevatedButtonStyle(
+          Colors.transparent, const Color(0xffD9A830)),
       child: Text(title, style: const TextStyle(fontSize: 18)),
       onPressed: () {
         if (title == 'Group Upsertion (JSON)') {
@@ -105,7 +106,8 @@ class _SelectTypePageState extends State<SelectTypePage> {
         } else if (title == 'Single Upsertion') {
           // Navigate to the SingleUpsertionPage once you've created it
           Navigator.of(context).push(
-            MaterialPageRoute(builder: (context) => const SingleUpsertionPage()),
+            MaterialPageRoute(
+                builder: (context) => const SingleUpsertionPage()),
           );
         }
         print('Selected option: $title');
@@ -115,7 +117,8 @@ class _SelectTypePageState extends State<SelectTypePage> {
 
   ButtonStyle _buildElevatedButtonStyle(Color primary, Color onPrimary) {
     return ElevatedButton.styleFrom(
-      foregroundColor: onPrimary, backgroundColor: primary,
+      foregroundColor: onPrimary,
+      backgroundColor: primary,
       elevation: 0,
       side: const BorderSide(color: Colors.white, width: 2),
       shape: RoundedRectangleBorder(

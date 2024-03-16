@@ -1,3 +1,4 @@
+# sudo ssh -R 80:localhost:7999 serveo.net
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 from facebook_scraper import get_posts
@@ -128,6 +129,7 @@ def read_posts_json():
     try:
         with open(POSTS_JSON_PATH, "r") as file:
             posts = json.load(file)
+            # print(posts)
         return jsonify(posts)
     except Exception as e:
         return jsonify({"error": str(e)}), 404
@@ -212,10 +214,6 @@ def question_answer():
     )
 
 
-# update_posts_json()
-# empty_documents()
-
-
 @app.route("/get_data/<partition_name>", methods=["GET"])
 def get_data(partition_name):
     search_query = request.args.get("search", None)  # Get the search query parameter
@@ -246,6 +244,9 @@ def delete(text_id):
     delete_by_text_id(text_id, partition_name)
     return jsonify({"status": "success"})
 
+
+# update_posts_json()
+# empty_documents()
 
 # Ensure CORS is set up for your delete route if applying selectively
 CORS(app, resources={r"/delete/*": {"origins": "*"}})

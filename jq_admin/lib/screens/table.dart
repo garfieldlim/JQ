@@ -1,9 +1,10 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:http/http.dart' as http;
+
 import 'package:jq_admin/widgets/palette.dart';
+
+import 'package:jq_admin/screens/constants.dart';
 import 'dart:convert';
 
 import '../widgets/data_table_utils.dart';
@@ -45,6 +46,9 @@ class _DataTableDemoState extends State<DataTableDemo> {
 
   Future<void> fetchData(String partition,
       {int page = 1, String? searchQuery}) async {
+    // Assuming itemsPerPage is defined somewhere
+    int itemsPerPage = 10; // Example value
+
     var queryParameters = {
       'page': page.toString(),
       'itemsPerPage': itemsPerPage.toString(),
@@ -54,21 +58,25 @@ class _DataTableDemoState extends State<DataTableDemo> {
       print("Search Query: $searchQuery"); // Debugging line
       queryParameters['search'] = searchQuery;
     }
-    final url =
-        Uri.http('127.0.0.1:7999', '/get_data/$partition', queryParameters);
 
-    final response = await http.get(url);
+    // Use Uri.https to construct the URL with query parameters
+    var uri = Uri.https(baseURL.replaceFirst('https://', ''),
+        '/get_data/$partition', queryParameters);
+
+    final response = await http.get(uri);
 
     if (response.statusCode == 200) {
       var decodedData = json.decode(response.body);
       if (decodedData is Map<String, dynamic>) {
         setState(() {
-          data = List<Map<String, dynamic>>.from(decodedData.values);
+          data = List<Map<String, dynamic>>.from(decodedData['data'] ??
+              []); // Adjusted to use 'data' key if needed
           _sortData(sortColumn, sortAscending); // Sort data after fetching
         });
       }
     } else {
       // Handle error or unsuccessful status code
+      print('Error fetching data: ${response.statusCode}');
     }
   }
 
@@ -83,6 +91,130 @@ class _DataTableDemoState extends State<DataTableDemo> {
         sortColumn = column;
         sortAscending = ascending;
       });
+    }
+  }
+
+  Future<void> _showEditDialog(Map<String, dynamic> item) async {
+    // Create a map to hold the text controllers for each field
+    Map<String, TextEditingController> controllers = {};
+    for (String field in table_fields[selectedPartition] ?? []) {
+      controllers[field] =
+          TextEditingController(text: item[field]?.toString() ?? '');
+    }
+
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false, // user must tap button to close the dialog
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Edit Item'),
+          content: SingleChildScrollView(
+            child: ListBody(
+              children: <Widget>[
+                const Text('Edit the fields and tap update to save changes.'),
+                ...controllers.keys.map((String field) {
+                  return TextField(
+                    controller: controllers[field],
+                    decoration: InputDecoration(labelText: field.capitalize()),
+                    maxLines: field == 'text'
+                        ? null
+                        : 1, // Unlimited lines for 'text' field
+                    keyboardType: field == 'text'
+                        ? TextInputType.multiline
+                        : TextInputType.text,
+                  );
+                }),
+              ],
+            ),
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: const Text('Cancel'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+            TextButton(
+              child: const Text('Update'),
+              onPressed: () async {
+                Map<String, dynamic> updatedItem = {};
+                for (String field in controllers.keys) {
+                  updatedItem[field] = controllers[field]?.text ?? '';
+                }
+
+                // Send updated data to server
+                await _editItem(item['uuid'], updatedItem);
+
+                Navigator.of(context).pop(); // Close the dialog
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  Future<void> _editItem(String uuid, Map<String, dynamic> updatedItem) async {
+    final url =
+        Uri.https(baseURL, '/edit/$uuid', {'partition': selectedPartition});
+
+    final response = await http.put(url,
+        body: json.encode(updatedItem),
+        headers: {"Content-Type": "application/json"});
+
+    if (response.statusCode == 200) {
+      print('Item updated: $uuid');
+      setState(() {
+        int indexToUpdate =
+            data.indexWhere((element) => element['uuid'] == uuid);
+        if (indexToUpdate != -1) {
+          data[indexToUpdate] = json.decode(response.body);
+        }
+      });
+    } else {
+      print('Error updating item: ${response.body}');
+      // Optionally, show an error message to the user
+    }
+  }
+
+  void _deleteItem(BuildContext context, Map<String, dynamic> item) async {
+    final shouldDelete = await showDialog<bool>(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text('Delete Item'),
+        content: const Text('Are you sure you want to delete this item?'),
+        actions: <Widget>[
+          TextButton(
+            child: const Text('Cancel'),
+            onPressed: () => Navigator.of(context).pop(false), // Return false
+          ),
+          TextButton(
+            child: const Text('Delete'),
+            onPressed: () => Navigator.of(context).pop(true), // Return true
+          ),
+        ],
+      ),
+    );
+
+    // If deletion is confirmed
+    if (shouldDelete ?? false) {
+      final url = Uri.https(
+          baseURL, '/delete/${item['uuid']}', {'partition': selectedPartition});
+
+      // Send a DELETE request to the server
+      final response = await http.delete(url);
+
+      if (response.statusCode == 200) {
+        // Successfully deleted on the server, now remove from local list
+        print('Delete item: ${item['uuid']}');
+        setState(() {
+          data.removeWhere((element) => element['uuid'] == item['uuid']);
+        });
+      } else {
+        // Handle server error or unsuccessful deletion
+        print('Error deleting item: ${response.body}');
+        // Optionally, show an error message to the user
+      }
     }
   }
 
@@ -127,7 +259,7 @@ class _DataTableDemoState extends State<DataTableDemo> {
                 children: [
                   Padding(
                     padding: const EdgeInsets.all(24.0),
-                    child: Container(
+                    child: SizedBox(
                       width: screenSize.width * 0.80,
                       height: screenSize.height * 0.15,
                       child: TextField(
@@ -138,7 +270,7 @@ class _DataTableDemoState extends State<DataTableDemo> {
                             color: Colors.white,
                           ),
                           suffixIcon: IconButton(
-                            icon: Icon(Icons.clear),
+                            icon: const Icon(Icons.clear),
                             onPressed: () {
                               searchController.clear();
                               fetchData(selectedPartition!);
@@ -155,7 +287,7 @@ class _DataTableDemoState extends State<DataTableDemo> {
                   ElevatedButton.icon(
                     icon: const Icon(Icons.search,
                         color: Colors.white), // The search icon
-                    label: Text(
+                    label: const Text(
                       'Search', // The text label
                       style: TextStyle(color: Colors.white),
                     ),
@@ -171,7 +303,7 @@ class _DataTableDemoState extends State<DataTableDemo> {
                         borderRadius:
                             BorderRadius.circular(30.0), // Rounded corners
                       ),
-                      padding: EdgeInsets.symmetric(
+                      padding: const EdgeInsets.symmetric(
                           horizontal: 60.0, vertical: 15.0),
                     ),
                   )
@@ -291,6 +423,7 @@ class _DataTableDemoState extends State<DataTableDemo> {
                             width: 2.0, // Set your border width here
                           ),
                         ),
+
                       ),
                       child: Slidable(
                         key: ValueKey(item['uuid']),
@@ -316,6 +449,37 @@ class _DataTableDemoState extends State<DataTableDemo> {
                               label: 'Edit',
                             ),
                           ],
+
+                        // Delete action
+                        SlidableAction(
+                          onPressed: (BuildContext context) async {
+                            // Call the deleteItem function
+                            bool success = await deleteItem(
+                                context, item['uuid'], selectedPartition!);
+                            if (success) {
+                              // If the delete was successful, remove the item from your list and update the UI
+                              setState(() {
+                                data.removeAt(actualIndex);
+                              });
+                              // Optionally, show a success message
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                    content: Text('Item successfully deleted')),
+                              );
+                            } else {
+                              // Handle failure, e.g., show an error message
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                    content:
+                                        Text('Failed to delete the item.')),
+                              );
+                            }
+                          },
+                          backgroundColor: Colors.red,
+                          foregroundColor: Colors.white,
+                          icon: Icons.delete,
+                          label: 'Delete',
+
                         ),
                         // End action pane (swipe from right to left)
                         endActionPane: ActionPane(

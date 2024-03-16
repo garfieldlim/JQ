@@ -4,6 +4,7 @@ import 'package:glassmorphism/glassmorphism.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:flutter_linkify/flutter_linkify.dart';
+import 'package:jq_admin/screens/constants.dart';
 
 import 'package:jq_admin/screens/loading.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -42,7 +43,7 @@ class _HomePageState extends State<HomePage> {
       });
     }
 
-    final url = Uri.parse('http://127.0.0.1:7999 /query');
+    final url = Uri.parse(queryURL);
     final headers = {'Content-Type': 'application/json'};
 
     // Getting the previous answer from the bot

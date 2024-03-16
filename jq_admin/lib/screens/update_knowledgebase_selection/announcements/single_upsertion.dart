@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:glassmorphism/glassmorphism.dart';
 import 'package:http/http.dart' as http;
+import 'package:jq_admin/screens/constants.dart';
 import 'dart:convert';
 
-import 'package:jq_dashboard/screens/update_knowledgebase_selection/announcements/single_review.dart';
+import 'package:jq_admin/screens/update_knowledgebase_selection/announcements/single_review.dart';
 
 class SingleUpsertionPage extends StatefulWidget {
   const SingleUpsertionPage({super.key});
@@ -88,7 +89,7 @@ class _SingleUpsertionPageState extends State<SingleUpsertionPage> {
   }
 
   Future<void> _sendUrlToServer() async {
-    var url = Uri.parse('http://127.0.0.1:7999/scrape_website');
+    var url = Uri.parse(scrapeWebsiteURL);
     var response = await http.post(
       url,
       body: jsonEncode({'url': _urlController.text}),

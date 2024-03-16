@@ -93,7 +93,7 @@ Future<void> showEditDialog({
                       ? TextInputType.multiline
                       : TextInputType.text,
                 );
-              }).toList(),
+              }),
             ],
           ),
         ),
@@ -123,7 +123,7 @@ Future<void> showEditDialog({
                 // For example, you could use a callback or event to inform the parent widget of the update
               } else {
                 // Handle failure, e.g., show an error message within the dialog
-                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
                     content:
                         Text('Failed to update the item. Please try again.')));
               }
@@ -137,7 +137,7 @@ Future<void> showEditDialog({
 
 extension on String {
   String capitalize() {
-    if (this.isEmpty) {
+    if (isEmpty) {
       return this;
     }
     return "${this[0].toUpperCase()}${substring(1).toLowerCase()}";

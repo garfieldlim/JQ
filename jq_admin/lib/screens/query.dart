@@ -4,6 +4,7 @@ import 'dart:convert';
 // Third-party package imports
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:jq_admin/screens/constants.dart';
 import 'package:jq_admin/widgets/chatMessage.dart';
 import 'package:jq_admin/widgets/chat_suggestions.dart';
 import 'package:jq_admin/widgets/customfloatingbutton.dart';
@@ -68,8 +69,8 @@ class _HomePageState extends State<HomePage> {
   }
 
   Future<List<dynamic>> fetchPosts() async {
-    final response = await http.get(Uri.parse('http://127.0.0.1:7999/posts'));
-
+    final response = await http.get(Uri.parse(postsUrl));
+    print(postsUrl);
     if (response.statusCode == 200) {
       return json.decode(response.body);
     } else {
@@ -77,7 +78,22 @@ class _HomePageState extends State<HomePage> {
     }
   }
 
-  Future<void> sendMessage(String message, {int? partition}) async {
+  Future<void> regenerateMessage(ChatMessage message) async {
+    if (currentPartition < 2) {
+      currentPartition += 1;
+      sendMessage(true, prevMessage, partition: currentPartition);
+    } else {
+      currentPartition = 0;
+      sendMessage(true, prevMessage, partition: currentPartition);
+    }
+  }
+
+  Future<void> sendMessage(bool isRegen, String message,
+      {int? partition}) async {
+    if (isRegen == false) {
+      currentPartition = 0;
+    }
+
     // Add the user message to the messages list if partition is null
     if (partition == null) {
       setState(() {
@@ -85,9 +101,9 @@ class _HomePageState extends State<HomePage> {
       });
     }
 
-    final url = Uri.parse('http://127.0.0.1:7999/query');
+    final url = Uri.parse(queryURL);
     final headers = {'Content-Type': 'application/json'};
-
+    print(postsUrl);
     // Getting the previous answer from the bot
     String? previousAnswer;
     for (var item in messages.reversed) {
@@ -197,10 +213,10 @@ class _HomePageState extends State<HomePage> {
         botMessage.disliked = !isLiked;
       });
 
-      var endpoint = 'http://127.0.0.1:7999/update_chat_message_like_dislike';
+      var endpoint = updateChatDislikeURL;
 
       if (flag == 1) {
-        endpoint = 'http://127.0.0.1:7999/save_chat_message';
+        endpoint = saveChatURL;
         userMessageId = "Chat${uuid.v4()}";
         botMessageId = "Chat${uuid.v4()}";
         flag = 0;
@@ -222,16 +238,6 @@ class _HomePageState extends State<HomePage> {
       );
     } else {
       print('Error: Index out of bounds or Document ID is null.');
-    }
-  }
-
-  Future<void> regenerateMessage(ChatMessage message) async {
-    if (currentPartition < 2) {
-      currentPartition += 1;
-      sendMessage(prevMessage, partition: currentPartition);
-    } else {
-      currentPartition = 0;
-      sendMessage(prevMessage, partition: currentPartition);
     }
   }
 
@@ -259,18 +265,21 @@ class _HomePageState extends State<HomePage> {
     return Center(
       child: Column(
         children: [
-          FacebookPostsList(posts: posts),
+          FacebookPostsList(key: UniqueKey(), posts: posts),
           _buildMessagesList(),
           ChatSuggestions(
             textController: textController,
             onSuggestionSelected: (suggestion) {
-              sendMessage(suggestion);
+              sendMessage(false, suggestion);
             },
           ),
           const Divider(height: 1, color: Color(0xff969d7b)),
           MessageInput(
             textController: textController,
-            sendMessage: sendMessage,
+            sendMessage: (String message) {
+              sendMessage(false,
+                  message); // Assuming false as the isRegen default value
+            },
             isTyping: isTyping,
           ),
         ],
@@ -285,7 +294,7 @@ class _HomePageState extends State<HomePage> {
         itemCount: messages.length + (isTyping ? 1 : 0),
         itemBuilder: (context, index) {
           if (index == messages.length && isTyping) {
-            return TypingIndicator(); // Show typing indicator
+            return const TypingIndicator(); // Show typing indicator
           }
           return MessageItem(
             index: index,
