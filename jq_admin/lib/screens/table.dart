@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:http/http.dart' as http;
+
+import 'package:jq_admin/widgets/palette.dart';
+
 import 'package:jq_admin/screens/constants.dart';
 import 'dart:convert';
 
@@ -20,9 +23,10 @@ class _DataTableDemoState extends State<DataTableDemo> {
   String? sortColumn;
   bool sortAscending = true;
   int currentPage = 1;
-  int itemsPerPage = 10;
+  int itemsPerPage = 4;
   int get _startIndexOfPage => (currentPage - 1) * itemsPerPage;
   int get _endIndexOfPage => _startIndexOfPage + itemsPerPage;
+
   final TextEditingController searchController = TextEditingController();
 
   final List<String> partitions = [
@@ -246,7 +250,7 @@ class _DataTableDemoState extends State<DataTableDemo> {
             padding: const EdgeInsets.all(24.0),
             child: Container(
               width: screenSize.width * 0.99,
-              height: screenSize.height * 0.10,
+              height: screenSize.height * 0.13,
               decoration: BoxDecoration(
                 color: const Color(0xffe7dba9),
                 borderRadius: BorderRadius.circular(30),
@@ -257,11 +261,14 @@ class _DataTableDemoState extends State<DataTableDemo> {
                     padding: const EdgeInsets.all(24.0),
                     child: SizedBox(
                       width: screenSize.width * 0.80,
-                      height: screenSize.height * 0.20,
+                      height: screenSize.height * 0.15,
                       child: TextField(
                         controller: searchController,
                         decoration: InputDecoration(
                           labelText: 'Search a log',
+                          labelStyle: TextStyle(
+                            color: Colors.white,
+                          ),
                           suffixIcon: IconButton(
                             icon: const Icon(Icons.clear),
                             onPressed: () {
@@ -289,8 +296,9 @@ class _DataTableDemoState extends State<DataTableDemo> {
                           searchQuery: searchController.text);
                     },
                     style: ElevatedButton.styleFrom(
-                      foregroundColor:
-                          Colors.blue, // Background color of the button
+                      foregroundColor: Palette.beige,
+                      backgroundColor: const Color(
+                          0xfff2c87e), // Background color of the button
                       shape: RoundedRectangleBorder(
                         borderRadius:
                             BorderRadius.circular(30.0), // Rounded corners
@@ -313,88 +321,135 @@ class _DataTableDemoState extends State<DataTableDemo> {
                 borderRadius: BorderRadius.circular(30),
               ),
               child: Padding(
-                padding: const EdgeInsets.all(24.0),
-                child: Align(
-                  alignment: Alignment
-                      .topLeft, // Change this to control horizontal alignment
-                  child: Container(
-                    width: 200, // Adjust the width to your preference
-                    decoration: BoxDecoration(
-                      // If you want to style the container, for example with a border or a different color
-                      border: Border.all(color: Colors.grey),
-                      borderRadius: BorderRadius.circular(10),
+                padding: const EdgeInsets.symmetric(horizontal: 24.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment
+                      .spaceBetween, // Space between dropdown and pagination controls
+                  children: [
+                    Expanded(
+                      child: Container(
+                        decoration: BoxDecoration(
+                          border: Border.all(color: Color(0xfff2c87e)),
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: DropdownButton<String>(
+                          underline: Container(),
+                          isExpanded: true,
+                          value: selectedPartition,
+                          onChanged: (newValue) {
+                            setState(() {
+                              selectedPartition = newValue;
+                              data.clear();
+                              fetchData(selectedPartition!);
+                            });
+                          },
+                          items: partitions.map((String value) {
+                            return DropdownMenuItem<String>(
+                              value: value,
+                              child: Text(
+                                value,
+                                style: const TextStyle(
+                                    color: Colors.white), // Text color
+                              ),
+                            );
+                          }).toList(),
+                          hint: const Text('Select a partition'),
+                          dropdownColor: const Color(0xffe7dba9),
+                          iconEnabledColor: Colors.white,
+                          style: const TextStyle(color: Colors.white),
+                        ),
+                      ),
                     ),
-                    child: DropdownButton<String>(
-                      isExpanded: true,
-                      value: selectedPartition,
-                      onChanged: (newValue) {
-                        setState(() {
-                          selectedPartition = newValue;
-                          data.clear();
-                          fetchData(selectedPartition!);
-                        });
-                      },
-                      items: partitions.map((String value) {
-                        return DropdownMenuItem<String>(
-                          value: value,
-                          child: Text(
-                            value,
-                            style: const TextStyle(
-                                color: Colors.white), // Text color
-                          ),
-                        );
-                      }).toList(),
-                      hint: const Text('Select a partition'),
-                      dropdownColor: const Color(0xffe7dba9),
-                      iconEnabledColor: Colors.white,
-                      style: const TextStyle(color: Colors.white),
+                    // Pagination Controls
+                    Row(
+                      children: [
+                        IconButton(
+                          icon: Icon(Icons.arrow_back_ios,
+                              size: 20, color: Colors.white),
+                          onPressed: currentPage > 1
+                              ? () {
+                                  setState(() {
+                                    currentPage--;
+                                    fetchData(selectedPartition!,
+                                        page: currentPage);
+                                  });
+                                }
+                              : null, // Disable if on the first page
+                        ),
+                        Text('Page $currentPage',
+                            style: TextStyle(color: Colors.white)),
+                        IconButton(
+                          icon: Icon(Icons.arrow_forward_ios,
+                              size: 20, color: Colors.white),
+                          onPressed: _endIndexOfPage < data.length
+                              ? () {
+                                  setState(() {
+                                    currentPage++;
+                                    fetchData(selectedPartition!,
+                                        page: currentPage);
+                                  });
+                                }
+                              : null, // Disable if on the last page
+                        ),
+                      ],
                     ),
-                  ),
+                  ],
                 ),
               ),
             ),
           ),
           Expanded(
-            child: ListView.builder(
-              itemCount: _endIndexOfPage <= data.length
-                  ? itemsPerPage
-                  : data.length - _startIndexOfPage,
-              itemBuilder: (context, index) {
-                final actualIndex = _startIndexOfPage + index;
-                final item = data[actualIndex];
-                return DecoratedBox(
-                  decoration: const BoxDecoration(
-                    border: Border(
-                      bottom: BorderSide(
-                        color: Colors.grey, // Set your border color here
-                        width: 2.0, // Set your border width here
-                      ),
-                    ),
-                  ),
-                  child: Slidable(
-                    key: ValueKey(item['uuid']),
-                    startActionPane: ActionPane(
-                      motion: const ScrollMotion(),
-                      children: [
-                        // Edit action
-                        SlidableAction(
-                          onPressed: (BuildContext context) {
-                            showEditDialog(
-                              context: context,
-                              item: data[actualIndex],
-                              selectedPartition: selectedPartition!,
-                              fields: table_fields[selectedPartition]!,
-                            ).then((_) {
-                              // Consider refetching data here or updating the specific item in the list
-                              fetchData(
-                                  selectedPartition!); // Refetch data to refresh the UI
-                            });
-                          },
-                          backgroundColor: const Color(0xFFA7C7E7),
-                          foregroundColor: Colors.white,
-                          icon: Icons.edit,
-                          label: 'Edit',
+            child: Align(
+              alignment: Alignment.center,
+              child: SizedBox(
+                width: screenSize.width * 0.95,
+                height: screenSize.height * 0.5,
+                child: ListView.builder(
+                  itemCount: _endIndexOfPage <= data.length
+                      ? itemsPerPage
+                      : data.length - _startIndexOfPage,
+                  itemBuilder: (context, index) {
+                    final actualIndex = _startIndexOfPage + index;
+                    final item = data[actualIndex];
+                    return DecoratedBox(
+                      decoration: const BoxDecoration(
+                        border: Border(
+                          bottom: BorderSide(
+                            color: Colors.grey,
+                            width: 2.0, // Set your border width here
+                          ),
+                          top: BorderSide(
+                            color: Colors.grey,
+                            width: 2.0, // Set your border width here
+                          ),
                         ),
+
+                      ),
+                      child: Slidable(
+                        key: ValueKey(item['uuid']),
+                        // Start action pane (swipe from left to right)
+                        startActionPane: ActionPane(
+                          motion: const DrawerMotion(),
+                          children: [
+                            SlidableAction(
+                              onPressed: (BuildContext context) {
+                                showEditDialog(
+                                  context: context,
+                                  item: data[actualIndex],
+                                  selectedPartition: selectedPartition!,
+                                  fields: table_fields[selectedPartition]!,
+                                ).then((_) {
+                                  fetchData(
+                                      selectedPartition!); // Refetch data to refresh the UI
+                                });
+                              },
+                              backgroundColor: Color(0xFFA7C7E7),
+                              foregroundColor: Colors.white,
+                              icon: Icons.edit,
+                              label: 'Edit',
+                            ),
+                          ],
+
                         // Delete action
                         SlidableAction(
                           onPressed: (BuildContext context) async {
@@ -424,27 +479,60 @@ class _DataTableDemoState extends State<DataTableDemo> {
                           foregroundColor: Colors.white,
                           icon: Icons.delete,
                           label: 'Delete',
+
                         ),
-                      ],
-                    ),
-                    child: Row(
-                      children: table_fields[selectedPartition]!
-                          .map(
-                            (field) => Expanded(
-                              child: Container(
-                                padding: const EdgeInsets.all(8),
-                                child: field == 'text'
-                                    ? ExpandableText(
-                                        text: item[field]?.toString() ?? '')
-                                    : Text(item[field]?.toString() ?? ''),
-                              ),
+                        // End action pane (swipe from right to left)
+                        endActionPane: ActionPane(
+                          motion: const DrawerMotion(),
+                          children: [
+                            SlidableAction(
+                              onPressed: (BuildContext context) async {
+                                bool success = await deleteItem(
+                                    context, item['uuid'], selectedPartition!);
+                                if (success) {
+                                  setState(() {
+                                    data.removeAt(actualIndex);
+                                  });
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(
+                                        content:
+                                            Text('Item successfully deleted')),
+                                  );
+                                } else {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(
+                                        content:
+                                            Text('Failed to delete the item.')),
+                                  );
+                                }
+                              },
+                              backgroundColor: Colors.red,
+                              foregroundColor: Colors.white,
+                              icon: Icons.delete,
+                              label: 'Delete',
                             ),
-                          )
-                          .toList(),
-                    ),
-                  ),
-                );
-              },
+                          ],
+                        ),
+                        child: Row(
+                          children: table_fields[selectedPartition]!
+                              .map(
+                                (field) => Expanded(
+                                  child: Container(
+                                    padding: const EdgeInsets.all(8),
+                                    child: field == 'text'
+                                        ? ExpandableText(
+                                            text: item[field]?.toString() ?? '')
+                                        : Text(item[field]?.toString() ?? ''),
+                                  ),
+                                ),
+                              )
+                              .toList(),
+                        ),
+                      ),
+                    );
+                  },
+                ),
+              ),
             ),
           ),
         ],

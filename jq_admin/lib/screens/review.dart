@@ -83,7 +83,13 @@ class _ReviewPageState extends State<ReviewPage> with TickerProviderStateMixin {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          Text('Schema: ${widget.schema}'),
+          Text(
+            'Schema: ${widget.schema}',
+            style: TextStyle(
+              color: Colors.blue, // Change the color to blue
+              fontSize: 24, // Change the font size to 24
+            ),
+          ),
           const SizedBox(height: 20),
           if (widget.data != null) ...[
             StylizedTextField(label: 'Text', controller: _textController),
