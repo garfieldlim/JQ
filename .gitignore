@@ -7,3 +7,7 @@ jq_admin/lib/newflask/config.py
 jq_admin/lib/newflask/utils/api_key.txt
 
 jq_admin/lib/newflask/tempCodeRunnerFile.py
+
+
+constants.dart
+config.py
