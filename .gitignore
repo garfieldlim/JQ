@@ -3,9 +3,6 @@ jq_admin/lib/main.dart
 
 jq_admin/lib/newflask/config.py
 
-jq_admin/posts.json
-
-posts.json
 
 jq_admin/lib/newflask/utils/api_key.txt
 

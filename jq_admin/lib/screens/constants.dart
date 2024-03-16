@@ -1,15 +1,8 @@
-const String postsUrl =
-    'https://07ceb185bdaeb3ee18c215a6c601ed6f.serveo.net/posts';
-const String queryURL =
-    'https://07ceb185bdaeb3ee18c215a6c601ed6f.serveo.net/query';
-const String updateChatDislikeURL =
-    "https://07ceb185bdaeb3ee18c215a6c601ed6f.serveo.net/update_chat_message_like_dislike";
-const String saveChatURL =
-    "https://07ceb185bdaeb3ee18c215a6c601ed6f.serveo.net/save_chat_message";
-const receiveJsonURL =
-    "https://07ceb185bdaeb3ee18c215a6c601ed6f.serveo.net/receive_json";
-const String scrapeWebsiteURL =
-    "https://07ceb185bdaeb3ee18c215a6c601ed6f.serveo.net/scrape_website";
-const String getDataURL =
-    "https://07ceb185bdaeb3ee18c215a6c601ed6f.serveo.net/get_data/";
-const String baseURL = "https://07ceb185bdaeb3ee18c215a6c601ed6f.serveo.net/";
+const String baseURL = "https://864c4c00fd1b1b48b5c732c20f5d4147.serveo.net";
+const String postsUrl = '$baseURL/posts';
+const String queryURL = '$baseURL/query';
+const String updateChatDislikeURL = '$baseURL/update_chat_message_like_dislike';
+const String saveChatURL = '$baseURL/save_chat_message';
+const String receiveJsonURL = '$baseURL/receive_json';
+const String scrapeWebsiteURL = '$baseURL/scrape_website';
+const String getDataURL = '$baseURL/get_data';

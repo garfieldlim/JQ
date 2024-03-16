@@ -17,24 +17,30 @@ class _FacebookPostsListState extends State<FacebookPostsList> {
   @override
   void initState() {
     super.initState();
-
-    // Print the posts data to console for debugging
-    print("Loaded posts: ${widget.posts}");
-
-    // Initially display all posts
-    filteredPosts = widget.posts;
+    // Since we're in initState, just assign the filtered list directly.
+    // No need for setState here as the widget is being initialized and hasn't been built yet.
+    filteredPosts = widget.posts; // Initialize with all posts
+    filterPosts(selectedUsername,
+        shouldSetState:
+            false); // Pass an additional flag to control the use of setState
   }
 
-  void filterPosts(String username) {
+  void filterPosts(String username, {bool shouldSetState = true}) {
+    List<dynamic> newFilteredPosts;
     if (username == 'All') {
+      newFilteredPosts = widget.posts;
+    } else {
+      newFilteredPosts =
+          widget.posts.where((post) => post['username'] == username).toList();
+    }
+
+    if (shouldSetState) {
       setState(() {
-        filteredPosts = widget.posts;
+        filteredPosts = newFilteredPosts;
       });
     } else {
-      setState(() {
-        filteredPosts =
-            widget.posts.where((post) => post['username'] == username).toList();
-      });
+      // Direct assignment without triggering a rebuild, used for initial setup.
+      filteredPosts = newFilteredPosts;
     }
   }
 
@@ -63,10 +69,13 @@ class _FacebookPostsListState extends State<FacebookPostsList> {
           DropdownButton<String>(
             value: selectedUsername,
             onChanged: (String? newValue) {
-              setState(() {
-                selectedUsername = newValue!;
-              });
-              filterPosts(selectedUsername); // Filter posts on selection
+              if (newValue != null) {
+                setState(() {
+                  selectedUsername = newValue;
+                  filterPosts(
+                      selectedUsername); // Immediately filter posts on selection change
+                });
+              }
             },
             items: <String>[
               'All',

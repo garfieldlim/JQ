@@ -15,7 +15,7 @@ from helper_functions import (
 import json
 import datetime
 import time
-from flask import Flask, send_from_directory
+from flask import Flask
 
 app = Flask(__name__)
 CORS(app)  # This will enable CORS for all routes
@@ -23,6 +23,7 @@ CORS(app)  # This will enable CORS for all routes
 
 class DateTimeEncoder(json.JSONEncoder):
     """Custom encoder for datetime objects."""
+
     def default(self, obj):
         if isinstance(obj, datetime.datetime):
             return obj.isoformat()
@@ -69,12 +70,13 @@ def get_facebook_posts():
     except Exception as e:
         print(f"Error: {e}")
 
-#     # Append new posts to existing posts
-#     existing_posts.extend(posts)
+    #     # Append new posts to existing posts
+    #     existing_posts.extend(posts)
 
     # Save the combined list of posts into the JSON file
     with open("posts.json", "w", encoding="utf-8") as f:
         json.dump(existing_posts, f, cls=DateTimeEncoder, indent=4)
+
 
 #     return jsonify(existing_posts)
 

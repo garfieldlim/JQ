@@ -70,7 +70,7 @@ class _HomePageState extends State<HomePage> {
 
   Future<List<dynamic>> fetchPosts() async {
     final response = await http.get(Uri.parse(postsUrl));
-
+    print(postsUrl);
     if (response.statusCode == 200) {
       return json.decode(response.body);
     } else {

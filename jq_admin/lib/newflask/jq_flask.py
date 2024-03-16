@@ -129,6 +129,7 @@ def read_posts_json():
     try:
         with open(POSTS_JSON_PATH, "r") as file:
             posts = json.load(file)
+            # print(posts)
         return jsonify(posts)
     except Exception as e:
         return jsonify({"error": str(e)}), 404
@@ -245,7 +246,7 @@ def delete(text_id):
 
 
 # update_posts_json()
-empty_documents()
+# empty_documents()
 
 # Ensure CORS is set up for your delete route if applying selectively
 CORS(app, resources={r"/delete/*": {"origins": "*"}})
