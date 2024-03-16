@@ -10,9 +10,8 @@ class ReviewPage extends StatefulWidget {
   const ReviewPage(
       {required this.partition_name,
       this.data,
-      Key? key,
-      required String filePath})
-      : super(key: key);
+      super.key,
+      required String filePath});
 
   @override
   _ReviewPageState createState() => _ReviewPageState();

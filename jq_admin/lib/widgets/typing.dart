@@ -2,27 +2,29 @@ import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 
 class TypingIndicator extends StatelessWidget {
+  const TypingIndicator({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.end,
       children: [
-        SizedBox(
+        const SizedBox(
           width: 25,
         ),
         Padding(
-          padding: EdgeInsets.only(right: 10.0),
+          padding: const EdgeInsets.only(right: 10.0),
           child: CircleAvatar(
-            backgroundColor: Color(
+            backgroundColor: const Color(
                 0xff969d7b), 
             child: Image.asset('web/assets/logo2.png'), 
           ),
         ),
         Container(
-          padding: EdgeInsets.all(16),
+          padding: const EdgeInsets.all(16),
           decoration: BoxDecoration(
-            color: Color(
+            color: const Color(
                 0xff969d7b),
             borderRadius: BorderRadius.circular(25),
           ),

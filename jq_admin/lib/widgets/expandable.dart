@@ -5,10 +5,10 @@ class ExpandableText extends StatefulWidget {
   final int maxLength;
 
   const ExpandableText({
-    Key? key,
+    super.key,
     required this.text,
     this.maxLength = 50,
-  }) : super(key: key);
+  });
 
   @override
   _ExpandableTextState createState() => _ExpandableTextState();

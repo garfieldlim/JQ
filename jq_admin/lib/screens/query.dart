@@ -260,7 +260,7 @@ class _HomePageState extends State<HomePage> {
     return Center(
       child: Column(
         children: [
-          FacebookPostsList(posts: posts),
+          FacebookPostsList(key: UniqueKey(), posts: posts),
           _buildMessagesList(),
           ChatSuggestions(
             textController: textController,
@@ -286,7 +286,7 @@ class _HomePageState extends State<HomePage> {
         itemCount: messages.length + (isTyping ? 1 : 0),
         itemBuilder: (context, index) {
           if (index == messages.length && isTyping) {
-            return TypingIndicator(); // Show typing indicator
+            return const TypingIndicator(); // Show typing indicator
           }
           return MessageItem(
             index: index,

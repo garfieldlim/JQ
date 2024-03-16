@@ -4,7 +4,7 @@ import 'package:url_launcher/url_launcher.dart';
 class FacebookPostsList extends StatefulWidget {
   final List<dynamic> posts;
 
-  const FacebookPostsList({Key? key, required this.posts}) : super(key: key);
+  const FacebookPostsList({super.key, required this.posts});
 
   @override
   _FacebookPostsListState createState() => _FacebookPostsListState();

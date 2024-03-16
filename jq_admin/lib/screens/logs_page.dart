@@ -103,7 +103,7 @@ class _LogsPageState extends State<LogsPage> {
             decoration: InputDecoration(
               hintText: 'Search logs',
               suffixIcon: IconButton(
-                icon: Icon(Icons.search),
+                icon: const Icon(Icons.search),
                 onPressed: () {
                   setState(() {
                     searchQuery = _searchController.text;
@@ -138,9 +138,9 @@ class _LogsPageState extends State<LogsPage> {
             ),
           ),
           if (_searchController.text.isEmpty)
-            Center(child: Text('Enter search.')) // When search bar is empty
+            const Center(child: Text('Enter search.')) // When search bar is empty
           else if (filteredLogs.isEmpty)
-            Center(
+            const Center(
                 child: Text('Data not found.')) // When search yields no results
           else
             SizedBox(

@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class LogDetailsPageList extends StatelessWidget {
   final Map<String, dynamic> logData;
 
-  const LogDetailsPageList({Key? key, required this.logData}) : super(key: key);
+  const LogDetailsPageList({super.key, required this.logData});
 
   @override
   Widget build(BuildContext context) {
@@ -85,7 +85,7 @@ class LogDetailsPageList extends StatelessWidget {
                       ),
                     ],
                   );
-                }).toList(), // Ensure to call toList() to convert the map entries iterable to a list
+                }), // Ensure to call toList() to convert the map entries iterable to a list
               ],
             ),
           ),

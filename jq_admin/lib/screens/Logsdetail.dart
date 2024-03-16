@@ -4,7 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 class LogDetailsPage extends StatelessWidget {
   final DocumentSnapshot logSnapshot;
 
-  const LogDetailsPage({Key? key, required this.logSnapshot}) : super(key: key);
+  const LogDetailsPage({super.key, required this.logSnapshot});
 
   @override
   Widget build(BuildContext context) {

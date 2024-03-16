@@ -54,8 +54,7 @@ Widget buildHorizontalLogList({
           final String timestampString = logData['timestamp'] as String;
           final DateTime dateTime = DateTime.parse(timestampString);
           final String formattedTimestamp =
-              "${dateTime.year}-${dateTime.month.toString().padLeft(2, '0')}-${dateTime.day.toString().padLeft(2, '0')} " +
-                  "${dateTime.hour.toString().padLeft(2, '0')}:${dateTime.minute.toString().padLeft(2, '0')}:${dateTime.second.toString().padLeft(2, '0')}";
+              "${dateTime.year}-${dateTime.month.toString().padLeft(2, '0')}-${dateTime.day.toString().padLeft(2, '0')} " "${dateTime.hour.toString().padLeft(2, '0')}:${dateTime.minute.toString().padLeft(2, '0')}:${dateTime.second.toString().padLeft(2, '0')}";
 
           return GestureDetector(
             onTap: () => showLogDetails(logSnapshot),

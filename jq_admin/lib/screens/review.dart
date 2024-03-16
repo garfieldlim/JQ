@@ -10,8 +10,7 @@ class ReviewPage extends StatefulWidget {
   final String? data;
 
   const ReviewPage(
-      {required this.schema, this.data, Key? key, required String filePath})
-      : super(key: key);
+      {required this.schema, this.data, super.key, required String filePath});
 
   @override
   _ReviewPageState createState() => _ReviewPageState();

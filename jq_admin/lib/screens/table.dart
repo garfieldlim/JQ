@@ -1,6 +1,4 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:http/http.dart' as http;
 import 'package:jq_admin/screens/constants.dart';
@@ -121,7 +119,7 @@ class _DataTableDemoState extends State<DataTableDemo> {
                         ? TextInputType.multiline
                         : TextInputType.text,
                   );
-                }).toList(),
+                }),
               ],
             ),
           ),
@@ -257,7 +255,7 @@ class _DataTableDemoState extends State<DataTableDemo> {
                 children: [
                   Padding(
                     padding: const EdgeInsets.all(24.0),
-                    child: Container(
+                    child: SizedBox(
                       width: screenSize.width * 0.80,
                       height: screenSize.height * 0.20,
                       child: TextField(
@@ -265,7 +263,7 @@ class _DataTableDemoState extends State<DataTableDemo> {
                         decoration: InputDecoration(
                           labelText: 'Search a log',
                           suffixIcon: IconButton(
-                            icon: Icon(Icons.clear),
+                            icon: const Icon(Icons.clear),
                             onPressed: () {
                               searchController.clear();
                               fetchData(selectedPartition!);
@@ -282,7 +280,7 @@ class _DataTableDemoState extends State<DataTableDemo> {
                   ElevatedButton.icon(
                     icon: const Icon(Icons.search,
                         color: Colors.white), // The search icon
-                    label: Text(
+                    label: const Text(
                       'Search', // The text label
                       style: TextStyle(color: Colors.white),
                     ),
@@ -297,7 +295,7 @@ class _DataTableDemoState extends State<DataTableDemo> {
                         borderRadius:
                             BorderRadius.circular(30.0), // Rounded corners
                       ),
-                      padding: EdgeInsets.symmetric(
+                      padding: const EdgeInsets.symmetric(
                           horizontal: 60.0, vertical: 15.0),
                     ),
                   )
@@ -410,13 +408,13 @@ class _DataTableDemoState extends State<DataTableDemo> {
                               });
                               // Optionally, show a success message
                               ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(
+                                const SnackBar(
                                     content: Text('Item successfully deleted')),
                               );
                             } else {
                               // Handle failure, e.g., show an error message
                               ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(
+                                const SnackBar(
                                     content:
                                         Text('Failed to delete the item.')),
                               );

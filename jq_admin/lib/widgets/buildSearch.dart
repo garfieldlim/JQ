@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class LogItemWidget extends StatelessWidget {
   final Map<String, dynamic> log;
 
-  const LogItemWidget({Key? key, required this.log}) : super(key: key);
+  const LogItemWidget({super.key, required this.log});
 
   @override
   Widget build(BuildContext context) {

@@ -72,7 +72,7 @@ class _Admin_dashboardState extends State<Admin_dashboard> {
             ),
           ),
           // Main content
-          Expanded(
+          const Expanded(
             flex: 5, // Adjust flex to give more space to the main content
             child: Center(
               child: LogsPage(),
