@@ -1,0 +1,126 @@
+{
+   "checksum": "11c28a74daec1e1a88c0ce6e19454184",
+   "roots": {
+      "bookmark_bar": {
+         "children": [ {
+            "date_added": "13333995666691547",
+            "date_last_used": "0",
+            "guid": "dcff60db-f577-47c6-8ae9-471d4c14682e",
+            "id": "15",
+            "name": "Lenovo Support",
+            "show_icon": false,
+            "source": "sync",
+            "type": "url",
+            "url": "https://support.lenovo.com/"
+         }, {
+            "date_added": "13333995666691432",
+            "date_last_used": "0",
+            "guid": "211ada9e-08b9-4c3c-a32f-8d3588627813",
+            "id": "16",
+            "name": "Lenovo",
+            "show_icon": false,
+            "source": "sync",
+            "type": "url",
+            "url": "https://www.lenovo.com/"
+         }, {
+            "date_added": "13333995666690741",
+            "date_last_used": "0",
+            "guid": "7c7b27b8-3beb-4db8-a0aa-bdf7928e5843",
+            "id": "17",
+            "name": "McAfee",
+            "show_icon": false,
+            "source": "sync",
+            "type": "url",
+            "url": "https://www.mcafee.com/consumer/v/browserfav/lenovo.html"
+         }, {
+            "date_added": "13340311303304572",
+            "date_last_used": "0",
+            "guid": "567caea1-2d00-44b2-ae15-b1e0655e00be",
+            "id": "18",
+            "meta_info": {
+               "power_bookmark_meta": ""
+            },
+            "name": "cors-anywhere.herokuapp.com/corsdemo",
+            "show_icon": false,
+            "source": "sync",
+            "type": "url",
+            "url": "https://cors-anywhere.herokuapp.com/corsdemo"
+         }, {
+            "date_added": "13341396400347603",
+            "date_last_used": "0",
+            "guid": "ff017f61-d030-4459-bd49-5569ff5c664f",
+            "id": "9",
+            "name": "Lenovo Support",
+            "show_icon": false,
+            "source": "oem_preload",
+            "type": "url",
+            "url": "https://support.lenovo.com/"
+         }, {
+            "date_added": "13341396400347492",
+            "date_last_used": "0",
+            "guid": "baa1700c-8e29-423d-b997-269091670a8c",
+            "id": "8",
+            "name": "Lenovo",
+            "show_icon": false,
+            "source": "oem_preload",
+            "type": "url",
+            "url": "https://www.lenovo.com/"
+         }, {
+            "date_added": "13341396400346943",
+            "date_last_used": "0",
+            "guid": "f0851420-bb59-418f-a2cf-b473d304542b",
+            "id": "7",
+            "name": "McAfee",
+            "show_icon": false,
+            "source": "oem_preload",
+            "type": "url",
+            "url": "https://www.mcafee.com/consumer/v/browserfav/lenovo.html"
+         }, {
+            "date_added": "13341722652679361",
+            "date_last_used": "0",
+            "guid": "57d923b8-9e4b-41b2-a08d-66f8bcc8d943",
+            "id": "24",
+            "meta_info": {
+               "power_bookmark_meta": ""
+            },
+            "name": "Adding Validation to the Model (C#) | Microsoft Learn",
+            "show_icon": false,
+            "source": "sync",
+            "type": "url",
+            "url": "https://learn.microsoft.com/en-us/aspnet/mvc/overview/older-versions/getting-started-with-aspnet-mvc3/cs/adding-validation-to-the-model"
+         } ],
+         "date_added": "13341396400057133",
+         "date_last_used": "0",
+         "date_modified": "13345782098130014",
+         "guid": "0bc5d13f-2cba-5d74-951f-3f233fe6c908",
+         "id": "1",
+         "name": "Favorites bar",
+         "source": "unknown",
+         "type": "folder"
+      },
+      "other": {
+         "children": [  ],
+         "date_added": "13341396400057135",
+         "date_last_used": "0",
+         "date_modified": "0",
+         "guid": "82b081ec-3dd3-529c-8475-ab6c344590dd",
+         "id": "2",
+         "name": "Other favorites",
+         "source": "unknown",
+         "type": "folder"
+      },
+      "synced": {
+         "children": [  ],
+         "date_added": "13341396400057141",
+         "date_last_used": "0",
+         "date_modified": "0",
+         "guid": "4cf2e351-0e85-532b-bb37-df045d8f8d0f",
+         "id": "3",
+         "name": "Mobile favorites",
+         "source": "unknown",
+         "type": "folder"
+      }
+   },
+   "sync_metadata": "CkEKHgiIgQISCGvr2mKLAQAAKg4QABgBIAIoADAAOABAABIAIAEqGDBBMEEwRzVxZVZWR1pRL21hSk4vYVE9PaAGDBKoAQgSEqMBChxBeTlRSGFFS1ZGT3R6UTBDOFVvbVVZTjI5UkE9EiQ1NjdjYWVhMS0yZDAwLTQ0YjItYWUxNS1iMWUwNjU1ZTAwYmUYACAAKAAwzbO3vq0xOK+0t76tMUCvtLe+rTFKHG11TDFsaTBpS1ZwUWV5NitQaU1Pbmh0T1Iwbz1aHyId7mRJcU9wWHFLaVV2V21Ba0loUmoyUGc0L2xpST1lAAAAABKoAQgREqMBChw0cWswdXo0NlJxb2Y5ZkhVNVYyMGJHVzY4VEk9EiQ3YzdiMjdiOC0zYmViLTRkYjgtYTBhYS1iZGY3OTI4ZTU4NDMYACAAKAAw9NvdtpYxOLve3baWMUC73t22ljFKHDhyWnZzZThiSUpUYk05ZTFtNVFSWXdmMzRUST1aHyId3VowNUozVGovTEkyZGwxTTU2Z3laNzhLbHZNOD1lAAAAABKoAQgYEqMBChxETm1tWkRSTThHb0xnM3NvMVdWeGVDVi9pUk09EiQ1N2Q5MjNiOC05ZTRiLTQxYjItYTA4ZC02NmY4YmNjOGQ5NDMYACACKAIw59brlrYxONSltd+yMUDYyuuWtjFKHExjeEdGdkU0NEx5V21WY01PY2NmRW9IYlYyVT1aHyId9zNwRmplWTcxOFVsZ1ZCc3hCUlNVUnJDTEp5dz1lpxzSGRKJAQgDEoQBChxuamdEdTg4ZUNydlhwODZwRDdmSEdjcUZwODg9EiQzNGNhN2MyYS0yM2I1LTU4NTYtYTViZS0wODAyMTliMTg5YzEYACAAKAAwsM+1+9swONrStfvbMEDa0rX72zBKHHl6TkIwMWNuNTRBN2NSVTB1VCsvUGdtVHRVbz1aAGUAAAAAEqcBCA8SogEKHDFxMU1VN1dQRGgrWG82WDVnOXNqMU40bzhBND0SJGRjZmY2MGRiLWY1NzctNDdjNi04YWU5LTQ3MWQ0YzE0NjgyZRgAIAAoADDz2922ljE4nt7dtpYxQJ7e3baWMUocV3dOcXZNWTZPL1YvcWdpZEtRTTlxcGozWEVnPVoeIhx2czNXeFVaV1hOa01CejJuWUVIMy8vd3BUSTg9ZQAAAAASqAEIEBKjAQocVks0SXVoaGYzcGxJY2VuL29uVnl3a0pmVVBVPRIkMjExYWRhOWUtMDhiOS00YzNjLWEzMmYtOGQzNTg4NjI3ODEzGAAgACgAMPLb3baWMTjz3d22ljFA893dtpYxShxuS0dSQnVUMGJIVXg2UWtKbjdmdzJIUVo2UzA9Wh8iHbs2dWVGWHM0V2lObWJhNVNyOUttZzN0aHJseGM9ZQAAAAASiQEIARKEAQoceXhKLzZmdmtlY3I3a3A1RVF6QjR0V0xwZGJFPRIkNjJkODgwMTAtYTU4NS01NmYzLWI5YmQtNTdlOTc0ZmU0ZDFkGAAgACgAMKrPtfvbMDi+0bX72zBAvtG1+9swShxhUkNXTGdoRjliNUlucUtJRHZ1Si9qdlFrRmM9WgBlAAAAABKJAQgCEoQBChxZY1NUb252RVNQd3FDczRMMmNyVmh2NjhMOTg9EiRmYzc3YTg2YS1kMWY4LTU4MzUtOWJiZC00ZGY1NDI1MWEzY2EYACAAKAAwq8+1+9swOM3RtfvbMEDN0bX72zBKHG9QVmtod0JSYlY2NUtDV1IyK0lPTkhXb091OD1aAGUAAAAAMAA4AA==",
+   "version": 1
+}
