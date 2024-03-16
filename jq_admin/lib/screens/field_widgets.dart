@@ -1,4 +1,7 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 Map<String, TextEditingController> controllers = {};
 
@@ -65,14 +68,16 @@ Widget _buildTextField(String label) {
       ),
       decoration: InputDecoration(
         labelText: label,
-        labelStyle: const TextStyle(color: Color(0xffffe8a4)), // Initial label color
-        // Color of label when focused
+        labelStyle:
+            const TextStyle(color: Color(0xffffe8a4)), // Initial label color
         fillColor: const Color(0xffbec59a), // Background color of input field
         filled: true,
         border: _defaultInputBorder(),
         enabledBorder: _defaultInputBorder(),
         focusedBorder: _focusedInputBorder(),
       ),
+      // Here we apply the 1500 character limit
+      inputFormatters: [LengthLimitingTextInputFormatter(2500)],
     ),
   );
 }
@@ -89,4 +94,33 @@ InputBorder _focusedInputBorder() {
     borderRadius: BorderRadius.circular(14.0),
     borderSide: const BorderSide(color: Color(0xffe7d292), width: 2.0),
   );
+}
+
+Future<void> sendData(Map<String, dynamic> data, String selectedSchema) async {
+  final url = Uri.parse('http://<your-flask-server-ip>:<port>/<endpoint>');
+  var http;
+  await http.post(
+    url,
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: json.encode(data),
+  );
+}
+
+// Assume this function is triggered when a button is pressed
+void onSendButtonPressed(String selectedSchema) {
+  Map<String, dynamic> dataToSend = {
+    'text': controllers['Text']?.text ?? '',
+    'author': controllers['Author']?.text ?? '',
+    'title': controllers['Title']?.text ?? '',
+    'date': controllers['Date']?.text ?? '',
+    'links': controllers['Links']?.text ?? '',
+    'partition_name': '${selectedSchema}_partition',
+  };
+
+  // Adjust the dataToSend map according to the selectedSchema
+  // For example, if selectedSchema is 'People', populate the map with relevant keys and values
+
+  sendData(dataToSend, selectedSchema);
 }
