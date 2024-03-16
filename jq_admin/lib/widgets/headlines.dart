@@ -102,7 +102,6 @@ class _FacebookPostsListState extends State<FacebookPostsList> {
                     margin: const EdgeInsets.all(8.0),
                     child: Padding(
                       padding: const EdgeInsets.all(35.0),
-                      child: IntrinsicWidth(
                         child: Row(
                           children: [
                             if (post['image_lowquality'] != null)
@@ -129,7 +128,7 @@ class _FacebookPostsListState extends State<FacebookPostsList> {
                             ),
                           ],
                         ),
-                      ),
+                      
                     ),
                   ),
                 );

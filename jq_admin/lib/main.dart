@@ -1,6 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:jq_admin/screens/dashboard.dart';
+import 'package:jq_admin/screens/query.dart';
 
 
 // `flutter run -d web-server --web-port 8080 --web-hostname 0.0.0.0 --web-renderer html`
@@ -34,7 +35,7 @@ class MyApp extends StatelessWidget {
             seedColor: const Color.fromARGB(255, 255, 223, 107)),
         useMaterial3: true,
       ),
-      home: const Admin_dashboard(),
+      home: HomePage(),
       debugShowCheckedModeBanner: false,
     );
   }

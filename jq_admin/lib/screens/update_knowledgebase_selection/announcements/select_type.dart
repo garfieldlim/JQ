@@ -2,8 +2,6 @@
 
 import 'package:flutter/material.dart';
 import 'package:glassmorphism/glassmorphism.dart';
-import 'package:jq_dashboard/screens/update_knowledgebase_selection/announcements/group_upsertion.dart';
-import 'package:jq_dashboard/screens/update_knowledgebase_selection/announcements/single_upsertion.dart';
 
 class SelectTypePage extends StatefulWidget {
   const SelectTypePage({super.key});
