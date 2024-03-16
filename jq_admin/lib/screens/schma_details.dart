@@ -17,6 +17,15 @@ class SchemaDetailsPage extends StatefulWidget {
 
 class _SchemaDetailsPageState extends State<SchemaDetailsPage> {
   final _urlController = TextEditingController();
+  final _authorController = TextEditingController();
+  final _titleController = TextEditingController();
+  final _dateController = TextEditingController();
+  final _linksController = TextEditingController();
+  final _nameController = TextEditingController();
+  final _mediaController = TextEditingController();
+  final _positionController = TextEditingController();
+  final _departmentController = TextEditingController();
+  final _textController = TextEditingController();
   String? _fileContent, _scrapedData;
   bool _isLoading = false;
 
@@ -56,7 +65,7 @@ class _SchemaDetailsPageState extends State<SchemaDetailsPage> {
   }
 
   List<Widget> _buildSchemaBasedFields() {
-    List<Widget> widgets = getFieldsForSelectedSchema(widget.schema);
+    List<Widget> widgets = [];
     if (widget.schema == 'Social Posts') {
       widgets.add(
         SizedBox(
@@ -65,7 +74,7 @@ class _SchemaDetailsPageState extends State<SchemaDetailsPage> {
             controller: _urlController,
             decoration: InputDecoration(
               labelText: 'Enter Facebook URL',
-              labelStyle: const TextStyle(color: Colors.white),
+              labelStyle: TextStyle(color: Colors.white),
               border: _buildInputBorderStyle(),
               enabledBorder: _buildInputBorderStyle(),
               focusedBorder: _buildFocusedInputBorderStyle(),
@@ -73,8 +82,178 @@ class _SchemaDetailsPageState extends State<SchemaDetailsPage> {
           ),
         ),
       );
+    } else if (widget.schema == "Documents") {
+      // Assuming you have controllers for author, title, date, and links
+      widgets.addAll([
+        TextField(
+          controller: _authorController,
+          decoration: InputDecoration(
+            labelText: 'Author',
+            border: _buildInputBorderStyle(),
+            enabledBorder: _buildInputBorderStyle(),
+            focusedBorder: _buildFocusedInputBorderStyle(),
+          ),
+        ),
+        // textfield for text
+        TextField(
+          controller: _textController,
+          decoration: InputDecoration(
+            labelText: 'Text',
+            border: _buildInputBorderStyle(),
+            enabledBorder: _buildInputBorderStyle(),
+            focusedBorder: _buildFocusedInputBorderStyle(),
+          ),
+        ),
+        TextField(
+          controller: _titleController,
+          decoration: InputDecoration(
+            labelText: 'Title',
+            border: _buildInputBorderStyle(),
+            enabledBorder: _buildInputBorderStyle(),
+            focusedBorder: _buildFocusedInputBorderStyle(),
+          ),
+        ),
+        TextField(
+          controller: _dateController,
+          decoration: InputDecoration(
+            labelText: 'Date',
+            border: _buildInputBorderStyle(),
+            enabledBorder: _buildInputBorderStyle(),
+            focusedBorder: _buildFocusedInputBorderStyle(),
+          ),
+        ),
+        TextField(
+          controller: _linksController,
+          decoration: InputDecoration(
+            labelText: 'Links',
+            border: _buildInputBorderStyle(),
+            enabledBorder: _buildInputBorderStyle(),
+            focusedBorder: _buildFocusedInputBorderStyle(),
+          ),
+        ),
+      ]);
+    } else if (widget.schema == "People") {
+      // Assuming you have controllers for name, media, links, position, and department
+      widgets.addAll([
+        TextField(
+          controller: _nameController,
+          decoration: InputDecoration(
+            labelText: 'Name',
+            border: _buildInputBorderStyle(),
+            enabledBorder: _buildInputBorderStyle(),
+            focusedBorder: _buildFocusedInputBorderStyle(),
+          ),
+        ),
+        TextField(
+          controller: _textController,
+          decoration: InputDecoration(
+            labelText: 'Text',
+            border: _buildInputBorderStyle(),
+            enabledBorder: _buildInputBorderStyle(),
+            focusedBorder: _buildFocusedInputBorderStyle(),
+          ),
+        ),
+        TextField(
+          controller: _mediaController,
+          decoration: InputDecoration(
+            labelText: 'Media',
+            border: _buildInputBorderStyle(),
+            enabledBorder: _buildInputBorderStyle(),
+            focusedBorder: _buildFocusedInputBorderStyle(),
+          ),
+        ),
+        TextField(
+          controller: _linksController,
+          decoration: InputDecoration(
+            labelText: 'Links',
+            border: _buildInputBorderStyle(),
+            enabledBorder: _buildInputBorderStyle(),
+            focusedBorder: _buildFocusedInputBorderStyle(),
+          ),
+        ),
+        TextField(
+          controller: _positionController,
+          decoration: InputDecoration(
+            labelText: 'Position',
+            border: _buildInputBorderStyle(),
+            enabledBorder: _buildInputBorderStyle(),
+            focusedBorder: _buildFocusedInputBorderStyle(),
+          ),
+        ),
+        TextField(
+          controller: _departmentController,
+          decoration: InputDecoration(
+            labelText: 'Department',
+            border: _buildInputBorderStyle(),
+            enabledBorder: _buildInputBorderStyle(),
+            focusedBorder: _buildFocusedInputBorderStyle(),
+          ),
+        ),
+      ]);
     }
     return widgets;
+  }
+
+  Future<void> _handleContinuePress() async {
+    setState(() => _isLoading = true);
+
+    if (widget.schema == 'Social Posts' && _urlController.text.isNotEmpty) {
+      await _sendUrlToServer();
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => ReviewPage(
+            schema: widget.schema,
+            data: _scrapedData!, // Data from server
+            filePath:
+                '', // Assuming you might have file paths in other use cases
+          ),
+        ),
+      );
+    } else if (widget.schema == 'Documents') {
+      // Prepare data for "Documents"
+      final Map<String, dynamic> data = {
+        'author': _authorController.text,
+        'text': _textController.text,
+        'title': _titleController.text,
+        'date': _dateController.text,
+        'links': _linksController.text,
+      };
+      await _sendDataToServer(data);
+    } else if (widget.schema == 'People') {
+      // Prepare data for "People"
+      final Map<String, dynamic> data = {
+        'name': _nameController.text,
+        'text': _textController.text,
+        'media': _mediaController.text,
+        'links': _linksController.text,
+        'position': _positionController.text,
+        'department': _departmentController.text,
+      };
+      await _sendDataToServer(data);
+    }
+
+    setState(() => _isLoading = false);
+  }
+
+  Future<void> _sendDataToServer(Map<String, dynamic> data) async {
+    final String jsonData = json.encode(data);
+    // Assuming you have an endpoint URL defined in your constants as upsertURL
+    final Uri endpoint = Uri.parse(upsertURL);
+    try {
+      final response = await http.post(endpoint,
+          body: jsonData, headers: {"Content-Type": "application/json"});
+      if (response.statusCode == 200) {
+        // Handle success
+        print("Data sent successfully");
+      } else {
+        // Handle failure
+        print("Failed to send data");
+      }
+    } catch (e) {
+      // Handle error
+      print("Error sending data: $e");
+    }
   }
 
   OutlineInputBorder _buildInputBorderStyle() {
@@ -105,44 +284,6 @@ class _SchemaDetailsPageState extends State<SchemaDetailsPage> {
         // child: const Text('Continue', style: TextStyle(fontSize: 18)),
       ),
     );
-  }
-
-  Future<void> _handleContinuePress() async {
-    setState(() {
-      _isLoading = true;
-    });
-
-    print('Selected Schema: ${widget.schema}');
-    print('File Content: $_fileContent');
-    print('URL Text: ${_urlController.text}');
-
-    if ((_fileContent != null || _urlController.text.isNotEmpty)) {
-      if (widget.schema == 'Social Posts') {
-        if (_urlController.text.isNotEmpty) await _sendUrlToServer();
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => ReviewPage(
-              schema: widget.schema,
-              data: _urlController.text.isNotEmpty
-                  ? _scrapedData!
-                  : _fileContent!,
-              filePath: '',
-            ),
-          ),
-        );
-      } else {
-        // If the schema is either 'Documents' or 'People'
-        var jsonData = _generateJsonData();
-        print(jsonData);
-      }
-    } else {
-      print('Please provide the data');
-    }
-
-    setState(() {
-      _isLoading = false;
-    });
   }
 
   String _generateJsonData() {

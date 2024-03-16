@@ -245,6 +245,16 @@ def delete(text_id):
     return jsonify({"status": "success"})
 
 
+@app.route("/upsert", methods=["POST"])
+def submit_data():
+    data = request.json
+    print("Received data:")
+    for key, value in data.items():
+        print(f"{key}: {value}")
+
+    return jsonify({"status": "success", "message": "Data received successfully."}), 200
+
+
 # update_posts_json()
 # empty_documents()
 
