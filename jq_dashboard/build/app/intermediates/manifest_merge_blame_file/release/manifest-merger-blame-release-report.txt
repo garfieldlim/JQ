@@ -1,0 +1,357 @@
+1<?xml version="1.0" encoding="utf-8"?>
+2<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+3    package="com.example.jq_dashboard"
+4    android:versionCode="1"
+5    android:versionName="1.0.0" >
+6
+7    <uses-sdk
+8        android:minSdkVersion="19"
+8-->C:\Users\Jillian\Documents\JQ\jq_dashboard\android\app\src\main\AndroidManifest.xml
+9        android:targetSdkVersion="33" />
+9-->C:\Users\Jillian\Documents\JQ\jq_dashboard\android\app\src\main\AndroidManifest.xml
+10
+11    <queries>
+11-->[:flutter_inappwebview] C:\Users\Jillian\Documents\JQ\jq_dashboard\build\flutter_inappwebview\intermediates\merged_manifest\release\AndroidManifest.xml:9:5-13:15
+12        <intent>
+12-->[:flutter_inappwebview] C:\Users\Jillian\Documents\JQ\jq_dashboard\build\flutter_inappwebview\intermediates\merged_manifest\release\AndroidManifest.xml:10:9-12:18
+13            <action android:name="android.support.customtabs.action.CustomTabsService" />
+13-->[:flutter_inappwebview] C:\Users\Jillian\Documents\JQ\jq_dashboard\build\flutter_inappwebview\intermediates\merged_manifest\release\AndroidManifest.xml:11:13-90
+13-->[:flutter_inappwebview] C:\Users\Jillian\Documents\JQ\jq_dashboard\build\flutter_inappwebview\intermediates\merged_manifest\release\AndroidManifest.xml:11:21-87
+14        </intent>
+15        <intent>
+15-->[:file_picker] C:\Users\Jillian\Documents\JQ\jq_dashboard\build\file_picker\intermediates\merged_manifest\release\AndroidManifest.xml:12:9-16:18
+16            <action android:name="android.intent.action.GET_CONTENT" />
+16-->[:file_picker] C:\Users\Jillian\Documents\JQ\jq_dashboard\build\file_picker\intermediates\merged_manifest\release\AndroidManifest.xml:13:13-72
+16-->[:file_picker] C:\Users\Jillian\Documents\JQ\jq_dashboard\build\file_picker\intermediates\merged_manifest\release\AndroidManifest.xml:13:21-69
+17
+18            <data android:mimeType="*/*" />
+18-->[:file_picker] C:\Users\Jillian\Documents\JQ\jq_dashboard\build\file_picker\intermediates\merged_manifest\release\AndroidManifest.xml:15:13-44
+18-->[:file_picker] C:\Users\Jillian\Documents\JQ\jq_dashboard\build\file_picker\intermediates\merged_manifest\release\AndroidManifest.xml:15:19-41
+19        </intent>
+20    </queries>
+21
+22    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+22-->[:file_picker] C:\Users\Jillian\Documents\JQ\jq_dashboard\build\file_picker\intermediates\merged_manifest\release\AndroidManifest.xml:9:5-80
+22-->[:file_picker] C:\Users\Jillian\Documents\JQ\jq_dashboard\build\file_picker\intermediates\merged_manifest\release\AndroidManifest.xml:9:22-77
+23    <uses-permission android:name="android.permission.INTERNET" />
+23-->[com.google.firebase:firebase-auth:22.1.0] C:\Users\Jillian\.gradle\caches\transforms-3\9355011f648959c54073cecf6cfea6b1\transformed\jetified-firebase-auth-22.1.0\AndroidManifest.xml:25:5-67
+23-->[com.google.firebase:firebase-auth:22.1.0] C:\Users\Jillian\.gradle\caches\transforms-3\9355011f648959c54073cecf6cfea6b1\transformed\jetified-firebase-auth-22.1.0\AndroidManifest.xml:25:22-64
+24    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+24-->[com.google.firebase:firebase-auth:22.1.0] C:\Users\Jillian\.gradle\caches\transforms-3\9355011f648959c54073cecf6cfea6b1\transformed\jetified-firebase-auth-22.1.0\AndroidManifest.xml:26:5-79
+24-->[com.google.firebase:firebase-auth:22.1.0] C:\Users\Jillian\.gradle\caches\transforms-3\9355011f648959c54073cecf6cfea6b1\transformed\jetified-firebase-auth-22.1.0\AndroidManifest.xml:26:22-76
+25
+26    <permission
+26-->[androidx.core:core:1.10.1] C:\Users\Jillian\.gradle\caches\transforms-3\c4988ff80110f75080a936fc6f044848\transformed\core-1.10.1\AndroidManifest.xml:22:5-24:47
+27        android:name="com.example.jq_dashboard.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION"
+27-->[androidx.core:core:1.10.1] C:\Users\Jillian\.gradle\caches\transforms-3\c4988ff80110f75080a936fc6f044848\transformed\core-1.10.1\AndroidManifest.xml:23:9-81
+28        android:protectionLevel="signature" />
+28-->[androidx.core:core:1.10.1] C:\Users\Jillian\.gradle\caches\transforms-3\c4988ff80110f75080a936fc6f044848\transformed\core-1.10.1\AndroidManifest.xml:24:9-44
+29
+30    <uses-permission android:name="com.example.jq_dashboard.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION" />
+30-->[androidx.core:core:1.10.1] C:\Users\Jillian\.gradle\caches\transforms-3\c4988ff80110f75080a936fc6f044848\transformed\core-1.10.1\AndroidManifest.xml:26:5-97
+30-->[androidx.core:core:1.10.1] C:\Users\Jillian\.gradle\caches\transforms-3\c4988ff80110f75080a936fc6f044848\transformed\core-1.10.1\AndroidManifest.xml:26:22-94
+31
+32    <application
+33        android:name="android.app.Application"
+33-->C:\Users\Jillian\Documents\JQ\jq_dashboard\android\app\src\main\AndroidManifest.xml:4:9-42
+34        android:appComponentFactory="androidx.core.app.CoreComponentFactory"
+34-->[androidx.core:core:1.10.1] C:\Users\Jillian\.gradle\caches\transforms-3\c4988ff80110f75080a936fc6f044848\transformed\core-1.10.1\AndroidManifest.xml:28:18-86
+35        android:icon="@mipmap/ic_launcher"
+35-->C:\Users\Jillian\Documents\JQ\jq_dashboard\android\app\src\main\AndroidManifest.xml:5:9-43
+36        android:label="jq_dashboard" >
+36-->C:\Users\Jillian\Documents\JQ\jq_dashboard\android\app\src\main\AndroidManifest.xml:3:9-37
+37        <activity
+37-->C:\Users\Jillian\Documents\JQ\jq_dashboard\android\app\src\main\AndroidManifest.xml:6:9-26:20
+38            android:name="com.example.jq_dashboard.MainActivity"
+38-->C:\Users\Jillian\Documents\JQ\jq_dashboard\android\app\src\main\AndroidManifest.xml:7:13-41
+39            android:configChanges="orientation|keyboardHidden|keyboard|screenSize|smallestScreenSize|locale|layoutDirection|fontScale|screenLayout|density|uiMode"
+39-->C:\Users\Jillian\Documents\JQ\jq_dashboard\android\app\src\main\AndroidManifest.xml:11:13-163
+40            android:exported="true"
+40-->C:\Users\Jillian\Documents\JQ\jq_dashboard\android\app\src\main\AndroidManifest.xml:8:13-36
+41            android:hardwareAccelerated="true"
+41-->C:\Users\Jillian\Documents\JQ\jq_dashboard\android\app\src\main\AndroidManifest.xml:12:13-47
+42            android:launchMode="singleTop"
+42-->C:\Users\Jillian\Documents\JQ\jq_dashboard\android\app\src\main\AndroidManifest.xml:9:13-43
+43            android:theme="@style/LaunchTheme"
+43-->C:\Users\Jillian\Documents\JQ\jq_dashboard\android\app\src\main\AndroidManifest.xml:10:13-47
+44            android:windowSoftInputMode="adjustResize" >
+44-->C:\Users\Jillian\Documents\JQ\jq_dashboard\android\app\src\main\AndroidManifest.xml:13:13-55
+45
+46            <!--
+47                 Specifies an Android theme to apply to this Activity as soon as
+48                 the Android process has started. This theme is visible to the user
+49                 while the Flutter UI initializes. After that, this theme continues
+50                 to determine the Window background behind the Flutter UI.
+51            -->
+52            <meta-data
+52-->C:\Users\Jillian\Documents\JQ\jq_dashboard\android\app\src\main\AndroidManifest.xml:18:13-21:17
+53                android:name="io.flutter.embedding.android.NormalTheme"
+53-->C:\Users\Jillian\Documents\JQ\jq_dashboard\android\app\src\main\AndroidManifest.xml:19:15-70
+54                android:resource="@style/NormalTheme" />
+54-->C:\Users\Jillian\Documents\JQ\jq_dashboard\android\app\src\main\AndroidManifest.xml:20:15-52
+55
+56            <intent-filter>
+56-->C:\Users\Jillian\Documents\JQ\jq_dashboard\android\app\src\main\AndroidManifest.xml:22:13-25:29
+57                <action android:name="android.intent.action.MAIN" />
+57-->C:\Users\Jillian\Documents\JQ\jq_dashboard\android\app\src\main\AndroidManifest.xml:23:17-68
+57-->C:\Users\Jillian\Documents\JQ\jq_dashboard\android\app\src\main\AndroidManifest.xml:23:25-66
+58
+59                <category android:name="android.intent.category.LAUNCHER" />
+59-->C:\Users\Jillian\Documents\JQ\jq_dashboard\android\app\src\main\AndroidManifest.xml:24:17-76
+59-->C:\Users\Jillian\Documents\JQ\jq_dashboard\android\app\src\main\AndroidManifest.xml:24:27-74
+60            </intent-filter>
+61        </activity>
+62        <!--
+63             Don't delete the meta-data below.
+64             This is used by the Flutter tool to generate GeneratedPluginRegistrant.java
+65        -->
+66        <meta-data
+66-->C:\Users\Jillian\Documents\JQ\jq_dashboard\android\app\src\main\AndroidManifest.xml:29:9-31:33
+67            android:name="flutterEmbedding"
+67-->C:\Users\Jillian\Documents\JQ\jq_dashboard\android\app\src\main\AndroidManifest.xml:30:13-44
+68            android:value="2" />
+68-->C:\Users\Jillian\Documents\JQ\jq_dashboard\android\app\src\main\AndroidManifest.xml:31:13-30
+69
+70        <service
+70-->[:firebase_auth] C:\Users\Jillian\Documents\JQ\jq_dashboard\build\firebase_auth\intermediates\merged_manifest\release\AndroidManifest.xml:10:9-14:19
+71            android:name="com.google.firebase.components.ComponentDiscoveryService"
+71-->[:firebase_auth] C:\Users\Jillian\Documents\JQ\jq_dashboard\build\firebase_auth\intermediates\merged_manifest\release\AndroidManifest.xml:10:18-89
+72            android:directBootAware="true"
+72-->[com.google.firebase:firebase-common:20.3.3] C:\Users\Jillian\.gradle\caches\transforms-3\6f9fa5902813f78de2aefcdfcdb180f7\transformed\jetified-firebase-common-20.3.3\AndroidManifest.xml:34:13-43
+73            android:exported="false" >
+73-->[com.google.firebase:firebase-auth:22.1.0] C:\Users\Jillian\.gradle\caches\transforms-3\9355011f648959c54073cecf6cfea6b1\transformed\jetified-firebase-auth-22.1.0\AndroidManifest.xml:68:13-37
+74            <meta-data
+74-->[:firebase_auth] C:\Users\Jillian\Documents\JQ\jq_dashboard\build\firebase_auth\intermediates\merged_manifest\release\AndroidManifest.xml:11:13-13:85
+75                android:name="com.google.firebase.components:io.flutter.plugins.firebase.auth.FlutterFirebaseAuthRegistrar"
+75-->[:firebase_auth] C:\Users\Jillian\Documents\JQ\jq_dashboard\build\firebase_auth\intermediates\merged_manifest\release\AndroidManifest.xml:12:17-124
+76                android:value="com.google.firebase.components.ComponentRegistrar" />
+76-->[:firebase_auth] C:\Users\Jillian\Documents\JQ\jq_dashboard\build\firebase_auth\intermediates\merged_manifest\release\AndroidManifest.xml:13:17-82
+77            <meta-data
+77-->[:cloud_firestore] C:\Users\Jillian\Documents\JQ\jq_dashboard\build\cloud_firestore\intermediates\merged_manifest\release\AndroidManifest.xml:11:13-13:85
+78                android:name="com.google.firebase.components:io.flutter.plugins.firebase.firestore.FlutterFirebaseFirestoreRegistrar"
+78-->[:cloud_firestore] C:\Users\Jillian\Documents\JQ\jq_dashboard\build\cloud_firestore\intermediates\merged_manifest\release\AndroidManifest.xml:12:17-134
+79                android:value="com.google.firebase.components.ComponentRegistrar" />
+79-->[:cloud_firestore] C:\Users\Jillian\Documents\JQ\jq_dashboard\build\cloud_firestore\intermediates\merged_manifest\release\AndroidManifest.xml:13:17-82
+80            <meta-data
+80-->[:firebase_core] C:\Users\Jillian\Documents\JQ\jq_dashboard\build\firebase_core\intermediates\merged_manifest\release\AndroidManifest.xml:11:13-13:85
+81                android:name="com.google.firebase.components:io.flutter.plugins.firebase.core.FlutterFirebaseCoreRegistrar"
+81-->[:firebase_core] C:\Users\Jillian\Documents\JQ\jq_dashboard\build\firebase_core\intermediates\merged_manifest\release\AndroidManifest.xml:12:17-124
+82                android:value="com.google.firebase.components.ComponentRegistrar" />
+82-->[:firebase_core] C:\Users\Jillian\Documents\JQ\jq_dashboard\build\firebase_core\intermediates\merged_manifest\release\AndroidManifest.xml:13:17-82
+83            <meta-data
+83-->[com.google.firebase:firebase-auth:22.1.0] C:\Users\Jillian\.gradle\caches\transforms-3\9355011f648959c54073cecf6cfea6b1\transformed\jetified-firebase-auth-22.1.0\AndroidManifest.xml:69:13-71:85
+84                android:name="com.google.firebase.components:com.google.firebase.auth.FirebaseAuthRegistrar"
+84-->[com.google.firebase:firebase-auth:22.1.0] C:\Users\Jillian\.gradle\caches\transforms-3\9355011f648959c54073cecf6cfea6b1\transformed\jetified-firebase-auth-22.1.0\AndroidManifest.xml:70:17-109
+85                android:value="com.google.firebase.components.ComponentRegistrar" />
+85-->[com.google.firebase:firebase-auth:22.1.0] C:\Users\Jillian\.gradle\caches\transforms-3\9355011f648959c54073cecf6cfea6b1\transformed\jetified-firebase-auth-22.1.0\AndroidManifest.xml:71:17-82
+86            <meta-data
+86-->[com.google.firebase:firebase-firestore:24.7.0] C:\Users\Jillian\.gradle\caches\transforms-3\49b686e1b0be08befcf75f35a671ca7f\transformed\jetified-firebase-firestore-24.7.0\AndroidManifest.xml:19:13-21:85
+87                android:name="com.google.firebase.components:com.google.firebase.firestore.FirestoreRegistrar"
+87-->[com.google.firebase:firebase-firestore:24.7.0] C:\Users\Jillian\.gradle\caches\transforms-3\49b686e1b0be08befcf75f35a671ca7f\transformed\jetified-firebase-firestore-24.7.0\AndroidManifest.xml:20:17-111
+88                android:value="com.google.firebase.components.ComponentRegistrar" />
+88-->[com.google.firebase:firebase-firestore:24.7.0] C:\Users\Jillian\.gradle\caches\transforms-3\49b686e1b0be08befcf75f35a671ca7f\transformed\jetified-firebase-firestore-24.7.0\AndroidManifest.xml:21:17-82
+89        </service>
+90
+91        <activity
+91-->[:flutter_inappwebview] C:\Users\Jillian\Documents\JQ\jq_dashboard\build\flutter_inappwebview\intermediates\merged_manifest\release\AndroidManifest.xml:16:9-20:47
+92            android:name="com.pichillilorenzo.flutter_inappwebview.in_app_browser.InAppBrowserActivity"
+92-->[:flutter_inappwebview] C:\Users\Jillian\Documents\JQ\jq_dashboard\build\flutter_inappwebview\intermediates\merged_manifest\release\AndroidManifest.xml:17:13-104
+93            android:configChanges="orientation|keyboardHidden|keyboard|screenSize|locale|layoutDirection|fontScale|screenLayout|density"
+93-->[:flutter_inappwebview] C:\Users\Jillian\Documents\JQ\jq_dashboard\build\flutter_inappwebview\intermediates\merged_manifest\release\AndroidManifest.xml:18:13-137
+94            android:exported="false"
+94-->[:flutter_inappwebview] C:\Users\Jillian\Documents\JQ\jq_dashboard\build\flutter_inappwebview\intermediates\merged_manifest\release\AndroidManifest.xml:19:13-37
+95            android:theme="@style/AppTheme" />
+95-->[:flutter_inappwebview] C:\Users\Jillian\Documents\JQ\jq_dashboard\build\flutter_inappwebview\intermediates\merged_manifest\release\AndroidManifest.xml:20:13-44
+96        <activity
+96-->[:flutter_inappwebview] C:\Users\Jillian\Documents\JQ\jq_dashboard\build\flutter_inappwebview\intermediates\merged_manifest\release\AndroidManifest.xml:21:9-24:55
+97            android:name="com.pichillilorenzo.flutter_inappwebview.chrome_custom_tabs.ChromeCustomTabsActivity"
+97-->[:flutter_inappwebview] C:\Users\Jillian\Documents\JQ\jq_dashboard\build\flutter_inappwebview\intermediates\merged_manifest\release\AndroidManifest.xml:22:13-112
+98            android:exported="false"
+98-->[:flutter_inappwebview] C:\Users\Jillian\Documents\JQ\jq_dashboard\build\flutter_inappwebview\intermediates\merged_manifest\release\AndroidManifest.xml:23:13-37
+99            android:theme="@style/ThemeTransparent" />
+99-->[:flutter_inappwebview] C:\Users\Jillian\Documents\JQ\jq_dashboard\build\flutter_inappwebview\intermediates\merged_manifest\release\AndroidManifest.xml:24:13-52
+100        <activity
+100-->[:flutter_inappwebview] C:\Users\Jillian\Documents\JQ\jq_dashboard\build\flutter_inappwebview\intermediates\merged_manifest\release\AndroidManifest.xml:25:9-28:55
+101            android:name="com.pichillilorenzo.flutter_inappwebview.chrome_custom_tabs.TrustedWebActivity"
+101-->[:flutter_inappwebview] C:\Users\Jillian\Documents\JQ\jq_dashboard\build\flutter_inappwebview\intermediates\merged_manifest\release\AndroidManifest.xml:26:13-106
+102            android:exported="false"
+102-->[:flutter_inappwebview] C:\Users\Jillian\Documents\JQ\jq_dashboard\build\flutter_inappwebview\intermediates\merged_manifest\release\AndroidManifest.xml:27:13-37
+103            android:theme="@style/ThemeTransparent" />
+103-->[:flutter_inappwebview] C:\Users\Jillian\Documents\JQ\jq_dashboard\build\flutter_inappwebview\intermediates\merged_manifest\release\AndroidManifest.xml:28:13-52
+104        <activity
+104-->[:flutter_inappwebview] C:\Users\Jillian\Documents\JQ\jq_dashboard\build\flutter_inappwebview\intermediates\merged_manifest\release\AndroidManifest.xml:29:9-33:55
+105            android:name="com.pichillilorenzo.flutter_inappwebview.chrome_custom_tabs.ChromeCustomTabsActivitySingleInstance"
+105-->[:flutter_inappwebview] C:\Users\Jillian\Documents\JQ\jq_dashboard\build\flutter_inappwebview\intermediates\merged_manifest\release\AndroidManifest.xml:30:13-126
+106            android:exported="false"
+106-->[:flutter_inappwebview] C:\Users\Jillian\Documents\JQ\jq_dashboard\build\flutter_inappwebview\intermediates\merged_manifest\release\AndroidManifest.xml:31:13-37
+107            android:launchMode="singleInstance"
+107-->[:flutter_inappwebview] C:\Users\Jillian\Documents\JQ\jq_dashboard\build\flutter_inappwebview\intermediates\merged_manifest\release\AndroidManifest.xml:32:13-48
+108            android:theme="@style/ThemeTransparent" />
+108-->[:flutter_inappwebview] C:\Users\Jillian\Documents\JQ\jq_dashboard\build\flutter_inappwebview\intermediates\merged_manifest\release\AndroidManifest.xml:33:13-52
+109        <activity
+109-->[:flutter_inappwebview] C:\Users\Jillian\Documents\JQ\jq_dashboard\build\flutter_inappwebview\intermediates\merged_manifest\release\AndroidManifest.xml:34:9-38:55
+110            android:name="com.pichillilorenzo.flutter_inappwebview.chrome_custom_tabs.TrustedWebActivitySingleInstance"
+110-->[:flutter_inappwebview] C:\Users\Jillian\Documents\JQ\jq_dashboard\build\flutter_inappwebview\intermediates\merged_manifest\release\AndroidManifest.xml:35:13-120
+111            android:exported="false"
+111-->[:flutter_inappwebview] C:\Users\Jillian\Documents\JQ\jq_dashboard\build\flutter_inappwebview\intermediates\merged_manifest\release\AndroidManifest.xml:36:13-37
+112            android:launchMode="singleInstance"
+112-->[:flutter_inappwebview] C:\Users\Jillian\Documents\JQ\jq_dashboard\build\flutter_inappwebview\intermediates\merged_manifest\release\AndroidManifest.xml:37:13-48
+113            android:theme="@style/ThemeTransparent" />
+113-->[:flutter_inappwebview] C:\Users\Jillian\Documents\JQ\jq_dashboard\build\flutter_inappwebview\intermediates\merged_manifest\release\AndroidManifest.xml:38:13-52
+114
+115        <receiver
+115-->[:flutter_inappwebview] C:\Users\Jillian\Documents\JQ\jq_dashboard\build\flutter_inappwebview\intermediates\merged_manifest\release\AndroidManifest.xml:40:9-43:40
+116            android:name="com.pichillilorenzo.flutter_inappwebview.chrome_custom_tabs.ActionBroadcastReceiver"
+116-->[:flutter_inappwebview] C:\Users\Jillian\Documents\JQ\jq_dashboard\build\flutter_inappwebview\intermediates\merged_manifest\release\AndroidManifest.xml:41:13-111
+117            android:enabled="true"
+117-->[:flutter_inappwebview] C:\Users\Jillian\Documents\JQ\jq_dashboard\build\flutter_inappwebview\intermediates\merged_manifest\release\AndroidManifest.xml:42:13-35
+118            android:exported="false" />
+118-->[:flutter_inappwebview] C:\Users\Jillian\Documents\JQ\jq_dashboard\build\flutter_inappwebview\intermediates\merged_manifest\release\AndroidManifest.xml:43:13-37
+119
+120        <meta-data
+120-->[:flutter_inappwebview] C:\Users\Jillian\Documents\JQ\jq_dashboard\build\flutter_inappwebview\intermediates\merged_manifest\release\AndroidManifest.xml:45:9-47:36
+121            android:name="io.flutter.embedded_views_preview"
+121-->[:flutter_inappwebview] C:\Users\Jillian\Documents\JQ\jq_dashboard\build\flutter_inappwebview\intermediates\merged_manifest\release\AndroidManifest.xml:46:13-61
+122            android:value="true" />
+122-->[:flutter_inappwebview] C:\Users\Jillian\Documents\JQ\jq_dashboard\build\flutter_inappwebview\intermediates\merged_manifest\release\AndroidManifest.xml:47:13-33
+123
+124        <activity
+124-->[:url_launcher_android] C:\Users\Jillian\Documents\JQ\jq_dashboard\build\url_launcher_android\intermediates\merged_manifest\release\AndroidManifest.xml:10:9-13:74
+125            android:name="io.flutter.plugins.urllauncher.WebViewActivity"
+125-->[:url_launcher_android] C:\Users\Jillian\Documents\JQ\jq_dashboard\build\url_launcher_android\intermediates\merged_manifest\release\AndroidManifest.xml:11:13-74
+126            android:exported="false"
+126-->[:url_launcher_android] C:\Users\Jillian\Documents\JQ\jq_dashboard\build\url_launcher_android\intermediates\merged_manifest\release\AndroidManifest.xml:12:13-37
+127            android:theme="@android:style/Theme.NoTitleBar.Fullscreen" />
+127-->[:url_launcher_android] C:\Users\Jillian\Documents\JQ\jq_dashboard\build\url_launcher_android\intermediates\merged_manifest\release\AndroidManifest.xml:13:13-71
+128
+129        <uses-library
+129-->[androidx.window:window:1.0.0-beta04] C:\Users\Jillian\.gradle\caches\transforms-3\25cee5f028ac2a6b79fd6278ff5b59e2\transformed\jetified-window-1.0.0-beta04\AndroidManifest.xml:25:9-27:40
+130            android:name="androidx.window.extensions"
+130-->[androidx.window:window:1.0.0-beta04] C:\Users\Jillian\.gradle\caches\transforms-3\25cee5f028ac2a6b79fd6278ff5b59e2\transformed\jetified-window-1.0.0-beta04\AndroidManifest.xml:26:13-54
+131            android:required="false" />
+131-->[androidx.window:window:1.0.0-beta04] C:\Users\Jillian\.gradle\caches\transforms-3\25cee5f028ac2a6b79fd6278ff5b59e2\transformed\jetified-window-1.0.0-beta04\AndroidManifest.xml:27:13-37
+132        <uses-library
+132-->[androidx.window:window:1.0.0-beta04] C:\Users\Jillian\.gradle\caches\transforms-3\25cee5f028ac2a6b79fd6278ff5b59e2\transformed\jetified-window-1.0.0-beta04\AndroidManifest.xml:28:9-30:40
+133            android:name="androidx.window.sidecar"
+133-->[androidx.window:window:1.0.0-beta04] C:\Users\Jillian\.gradle\caches\transforms-3\25cee5f028ac2a6b79fd6278ff5b59e2\transformed\jetified-window-1.0.0-beta04\AndroidManifest.xml:29:13-51
+134            android:required="false" />
+134-->[androidx.window:window:1.0.0-beta04] C:\Users\Jillian\.gradle\caches\transforms-3\25cee5f028ac2a6b79fd6278ff5b59e2\transformed\jetified-window-1.0.0-beta04\AndroidManifest.xml:30:13-37
+135
+136        <activity
+136-->[com.google.firebase:firebase-auth:22.1.0] C:\Users\Jillian\.gradle\caches\transforms-3\9355011f648959c54073cecf6cfea6b1\transformed\jetified-firebase-auth-22.1.0\AndroidManifest.xml:29:9-46:20
+137            android:name="com.google.firebase.auth.internal.GenericIdpActivity"
+137-->[com.google.firebase:firebase-auth:22.1.0] C:\Users\Jillian\.gradle\caches\transforms-3\9355011f648959c54073cecf6cfea6b1\transformed\jetified-firebase-auth-22.1.0\AndroidManifest.xml:30:13-80
+138            android:excludeFromRecents="true"
+138-->[com.google.firebase:firebase-auth:22.1.0] C:\Users\Jillian\.gradle\caches\transforms-3\9355011f648959c54073cecf6cfea6b1\transformed\jetified-firebase-auth-22.1.0\AndroidManifest.xml:31:13-46
+139            android:exported="true"
+139-->[com.google.firebase:firebase-auth:22.1.0] C:\Users\Jillian\.gradle\caches\transforms-3\9355011f648959c54073cecf6cfea6b1\transformed\jetified-firebase-auth-22.1.0\AndroidManifest.xml:32:13-36
+140            android:launchMode="singleTask"
+140-->[com.google.firebase:firebase-auth:22.1.0] C:\Users\Jillian\.gradle\caches\transforms-3\9355011f648959c54073cecf6cfea6b1\transformed\jetified-firebase-auth-22.1.0\AndroidManifest.xml:33:13-44
+141            android:theme="@android:style/Theme.Translucent.NoTitleBar" >
+141-->[com.google.firebase:firebase-auth:22.1.0] C:\Users\Jillian\.gradle\caches\transforms-3\9355011f648959c54073cecf6cfea6b1\transformed\jetified-firebase-auth-22.1.0\AndroidManifest.xml:34:13-72
+142            <intent-filter>
+142-->[com.google.firebase:firebase-auth:22.1.0] C:\Users\Jillian\.gradle\caches\transforms-3\9355011f648959c54073cecf6cfea6b1\transformed\jetified-firebase-auth-22.1.0\AndroidManifest.xml:35:13-45:29
+143                <action android:name="android.intent.action.VIEW" />
+143-->[com.google.firebase:firebase-auth:22.1.0] C:\Users\Jillian\.gradle\caches\transforms-3\9355011f648959c54073cecf6cfea6b1\transformed\jetified-firebase-auth-22.1.0\AndroidManifest.xml:36:17-69
+143-->[com.google.firebase:firebase-auth:22.1.0] C:\Users\Jillian\.gradle\caches\transforms-3\9355011f648959c54073cecf6cfea6b1\transformed\jetified-firebase-auth-22.1.0\AndroidManifest.xml:36:25-66
+144
+145                <category android:name="android.intent.category.DEFAULT" />
+145-->[com.google.firebase:firebase-auth:22.1.0] C:\Users\Jillian\.gradle\caches\transforms-3\9355011f648959c54073cecf6cfea6b1\transformed\jetified-firebase-auth-22.1.0\AndroidManifest.xml:38:17-76
+145-->[com.google.firebase:firebase-auth:22.1.0] C:\Users\Jillian\.gradle\caches\transforms-3\9355011f648959c54073cecf6cfea6b1\transformed\jetified-firebase-auth-22.1.0\AndroidManifest.xml:38:27-73
+146                <category android:name="android.intent.category.BROWSABLE" />
+146-->[com.google.firebase:firebase-auth:22.1.0] C:\Users\Jillian\.gradle\caches\transforms-3\9355011f648959c54073cecf6cfea6b1\transformed\jetified-firebase-auth-22.1.0\AndroidManifest.xml:39:17-78
+146-->[com.google.firebase:firebase-auth:22.1.0] C:\Users\Jillian\.gradle\caches\transforms-3\9355011f648959c54073cecf6cfea6b1\transformed\jetified-firebase-auth-22.1.0\AndroidManifest.xml:39:27-75
+147
+148                <data
+148-->[:file_picker] C:\Users\Jillian\Documents\JQ\jq_dashboard\build\file_picker\intermediates\merged_manifest\release\AndroidManifest.xml:15:13-44
+149                    android:host="firebase.auth"
+150                    android:path="/"
+151                    android:scheme="genericidp" />
+152            </intent-filter>
+153        </activity>
+154        <activity
+154-->[com.google.firebase:firebase-auth:22.1.0] C:\Users\Jillian\.gradle\caches\transforms-3\9355011f648959c54073cecf6cfea6b1\transformed\jetified-firebase-auth-22.1.0\AndroidManifest.xml:47:9-64:20
+155            android:name="com.google.firebase.auth.internal.RecaptchaActivity"
+155-->[com.google.firebase:firebase-auth:22.1.0] C:\Users\Jillian\.gradle\caches\transforms-3\9355011f648959c54073cecf6cfea6b1\transformed\jetified-firebase-auth-22.1.0\AndroidManifest.xml:48:13-79
+156            android:excludeFromRecents="true"
+156-->[com.google.firebase:firebase-auth:22.1.0] C:\Users\Jillian\.gradle\caches\transforms-3\9355011f648959c54073cecf6cfea6b1\transformed\jetified-firebase-auth-22.1.0\AndroidManifest.xml:49:13-46
+157            android:exported="true"
+157-->[com.google.firebase:firebase-auth:22.1.0] C:\Users\Jillian\.gradle\caches\transforms-3\9355011f648959c54073cecf6cfea6b1\transformed\jetified-firebase-auth-22.1.0\AndroidManifest.xml:50:13-36
+158            android:launchMode="singleTask"
+158-->[com.google.firebase:firebase-auth:22.1.0] C:\Users\Jillian\.gradle\caches\transforms-3\9355011f648959c54073cecf6cfea6b1\transformed\jetified-firebase-auth-22.1.0\AndroidManifest.xml:51:13-44
+159            android:theme="@android:style/Theme.Translucent.NoTitleBar" >
+159-->[com.google.firebase:firebase-auth:22.1.0] C:\Users\Jillian\.gradle\caches\transforms-3\9355011f648959c54073cecf6cfea6b1\transformed\jetified-firebase-auth-22.1.0\AndroidManifest.xml:52:13-72
+160            <intent-filter>
+160-->[com.google.firebase:firebase-auth:22.1.0] C:\Users\Jillian\.gradle\caches\transforms-3\9355011f648959c54073cecf6cfea6b1\transformed\jetified-firebase-auth-22.1.0\AndroidManifest.xml:53:13-63:29
+161                <action android:name="android.intent.action.VIEW" />
+161-->[com.google.firebase:firebase-auth:22.1.0] C:\Users\Jillian\.gradle\caches\transforms-3\9355011f648959c54073cecf6cfea6b1\transformed\jetified-firebase-auth-22.1.0\AndroidManifest.xml:36:17-69
+161-->[com.google.firebase:firebase-auth:22.1.0] C:\Users\Jillian\.gradle\caches\transforms-3\9355011f648959c54073cecf6cfea6b1\transformed\jetified-firebase-auth-22.1.0\AndroidManifest.xml:36:25-66
+162
+163                <category android:name="android.intent.category.DEFAULT" />
+163-->[com.google.firebase:firebase-auth:22.1.0] C:\Users\Jillian\.gradle\caches\transforms-3\9355011f648959c54073cecf6cfea6b1\transformed\jetified-firebase-auth-22.1.0\AndroidManifest.xml:38:17-76
+163-->[com.google.firebase:firebase-auth:22.1.0] C:\Users\Jillian\.gradle\caches\transforms-3\9355011f648959c54073cecf6cfea6b1\transformed\jetified-firebase-auth-22.1.0\AndroidManifest.xml:38:27-73
+164                <category android:name="android.intent.category.BROWSABLE" />
+164-->[com.google.firebase:firebase-auth:22.1.0] C:\Users\Jillian\.gradle\caches\transforms-3\9355011f648959c54073cecf6cfea6b1\transformed\jetified-firebase-auth-22.1.0\AndroidManifest.xml:39:17-78
+164-->[com.google.firebase:firebase-auth:22.1.0] C:\Users\Jillian\.gradle\caches\transforms-3\9355011f648959c54073cecf6cfea6b1\transformed\jetified-firebase-auth-22.1.0\AndroidManifest.xml:39:27-75
+165
+166                <data
+166-->[:file_picker] C:\Users\Jillian\Documents\JQ\jq_dashboard\build\file_picker\intermediates\merged_manifest\release\AndroidManifest.xml:15:13-44
+167                    android:host="firebase.auth"
+168                    android:path="/"
+169                    android:scheme="recaptcha" />
+170            </intent-filter>
+171        </activity>
+172
+173        <provider
+173-->[com.google.firebase:firebase-common:20.3.3] C:\Users\Jillian\.gradle\caches\transforms-3\6f9fa5902813f78de2aefcdfcdb180f7\transformed\jetified-firebase-common-20.3.3\AndroidManifest.xml:25:9-30:39
+174            android:name="com.google.firebase.provider.FirebaseInitProvider"
+174-->[com.google.firebase:firebase-common:20.3.3] C:\Users\Jillian\.gradle\caches\transforms-3\6f9fa5902813f78de2aefcdfcdb180f7\transformed\jetified-firebase-common-20.3.3\AndroidManifest.xml:26:13-77
+175            android:authorities="com.example.jq_dashboard.firebaseinitprovider"
+175-->[com.google.firebase:firebase-common:20.3.3] C:\Users\Jillian\.gradle\caches\transforms-3\6f9fa5902813f78de2aefcdfcdb180f7\transformed\jetified-firebase-common-20.3.3\AndroidManifest.xml:27:13-72
+176            android:directBootAware="true"
+176-->[com.google.firebase:firebase-common:20.3.3] C:\Users\Jillian\.gradle\caches\transforms-3\6f9fa5902813f78de2aefcdfcdb180f7\transformed\jetified-firebase-common-20.3.3\AndroidManifest.xml:28:13-43
+177            android:exported="false"
+177-->[com.google.firebase:firebase-common:20.3.3] C:\Users\Jillian\.gradle\caches\transforms-3\6f9fa5902813f78de2aefcdfcdb180f7\transformed\jetified-firebase-common-20.3.3\AndroidManifest.xml:29:13-37
+178            android:initOrder="100" />
+178-->[com.google.firebase:firebase-common:20.3.3] C:\Users\Jillian\.gradle\caches\transforms-3\6f9fa5902813f78de2aefcdfcdb180f7\transformed\jetified-firebase-common-20.3.3\AndroidManifest.xml:30:13-36
+179
+180        <activity
+180-->[com.google.android.gms:play-services-base:18.0.1] C:\Users\Jillian\.gradle\caches\transforms-3\aba8f806953ea3dd8f794da3aeb78a12\transformed\jetified-play-services-base-18.0.1\AndroidManifest.xml:20:9-22:45
+181            android:name="com.google.android.gms.common.api.GoogleApiActivity"
+181-->[com.google.android.gms:play-services-base:18.0.1] C:\Users\Jillian\.gradle\caches\transforms-3\aba8f806953ea3dd8f794da3aeb78a12\transformed\jetified-play-services-base-18.0.1\AndroidManifest.xml:20:19-85
+182            android:exported="false"
+182-->[com.google.android.gms:play-services-base:18.0.1] C:\Users\Jillian\.gradle\caches\transforms-3\aba8f806953ea3dd8f794da3aeb78a12\transformed\jetified-play-services-base-18.0.1\AndroidManifest.xml:22:19-43
+183            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+183-->[com.google.android.gms:play-services-base:18.0.1] C:\Users\Jillian\.gradle\caches\transforms-3\aba8f806953ea3dd8f794da3aeb78a12\transformed\jetified-play-services-base-18.0.1\AndroidManifest.xml:21:19-78
+184
+185        <meta-data
+185-->[com.google.android.gms:play-services-basement:18.1.0] C:\Users\Jillian\.gradle\caches\transforms-3\58aa1384bde170d075503b845cfcf44c\transformed\jetified-play-services-basement-18.1.0\AndroidManifest.xml:21:9-23:69
+186            android:name="com.google.android.gms.version"
+186-->[com.google.android.gms:play-services-basement:18.1.0] C:\Users\Jillian\.gradle\caches\transforms-3\58aa1384bde170d075503b845cfcf44c\transformed\jetified-play-services-basement-18.1.0\AndroidManifest.xml:22:13-58
+187            android:value="@integer/google_play_services_version" />
+187-->[com.google.android.gms:play-services-basement:18.1.0] C:\Users\Jillian\.gradle\caches\transforms-3\58aa1384bde170d075503b845cfcf44c\transformed\jetified-play-services-basement-18.1.0\AndroidManifest.xml:23:13-66
+188
+189        <provider
+189-->[androidx.emoji2:emoji2:1.2.0] C:\Users\Jillian\.gradle\caches\transforms-3\e04bc3769bedd8dd6f8ca688986b0355\transformed\jetified-emoji2-1.2.0\AndroidManifest.xml:24:9-32:20
+190            android:name="androidx.startup.InitializationProvider"
+190-->[androidx.emoji2:emoji2:1.2.0] C:\Users\Jillian\.gradle\caches\transforms-3\e04bc3769bedd8dd6f8ca688986b0355\transformed\jetified-emoji2-1.2.0\AndroidManifest.xml:25:13-67
+191            android:authorities="com.example.jq_dashboard.androidx-startup"
+191-->[androidx.emoji2:emoji2:1.2.0] C:\Users\Jillian\.gradle\caches\transforms-3\e04bc3769bedd8dd6f8ca688986b0355\transformed\jetified-emoji2-1.2.0\AndroidManifest.xml:26:13-68
+192            android:exported="false" >
+192-->[androidx.emoji2:emoji2:1.2.0] C:\Users\Jillian\.gradle\caches\transforms-3\e04bc3769bedd8dd6f8ca688986b0355\transformed\jetified-emoji2-1.2.0\AndroidManifest.xml:27:13-37
+193            <meta-data
+193-->[androidx.emoji2:emoji2:1.2.0] C:\Users\Jillian\.gradle\caches\transforms-3\e04bc3769bedd8dd6f8ca688986b0355\transformed\jetified-emoji2-1.2.0\AndroidManifest.xml:29:13-31:52
+194                android:name="androidx.emoji2.text.EmojiCompatInitializer"
+194-->[androidx.emoji2:emoji2:1.2.0] C:\Users\Jillian\.gradle\caches\transforms-3\e04bc3769bedd8dd6f8ca688986b0355\transformed\jetified-emoji2-1.2.0\AndroidManifest.xml:30:17-75
+195                android:value="androidx.startup" />
+195-->[androidx.emoji2:emoji2:1.2.0] C:\Users\Jillian\.gradle\caches\transforms-3\e04bc3769bedd8dd6f8ca688986b0355\transformed\jetified-emoji2-1.2.0\AndroidManifest.xml:31:17-49
+196            <meta-data
+196-->[androidx.lifecycle:lifecycle-process:2.4.1] C:\Users\Jillian\.gradle\caches\transforms-3\8c1e738388b632b23acecc5b0cf3e292\transformed\jetified-lifecycle-process-2.4.1\AndroidManifest.xml:31:13-33:52
+197                android:name="androidx.lifecycle.ProcessLifecycleInitializer"
+197-->[androidx.lifecycle:lifecycle-process:2.4.1] C:\Users\Jillian\.gradle\caches\transforms-3\8c1e738388b632b23acecc5b0cf3e292\transformed\jetified-lifecycle-process-2.4.1\AndroidManifest.xml:32:17-78
+198                android:value="androidx.startup" />
+198-->[androidx.lifecycle:lifecycle-process:2.4.1] C:\Users\Jillian\.gradle\caches\transforms-3\8c1e738388b632b23acecc5b0cf3e292\transformed\jetified-lifecycle-process-2.4.1\AndroidManifest.xml:33:17-49
+199        </provider>
+200    </application>
+201
+202</manifest>

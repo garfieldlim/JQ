@@ -1,11 +1,13 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:http/http.dart' as http;
-import 'package:jq_admin/screens/constants.dart';
 import 'dart:convert';
 
 import '../widgets/data_table_utils.dart';
 import '../widgets/expandable.dart';
+import '../widgets/palette.dart';
 
 class DataTableDemo extends StatefulWidget {
   const DataTableDemo({super.key});
@@ -42,9 +44,6 @@ class _DataTableDemoState extends State<DataTableDemo> {
 
   Future<void> fetchData(String partition,
       {int page = 1, String? searchQuery}) async {
-    // Assuming itemsPerPage is defined somewhere
-    int itemsPerPage = 10; // Example value
-
     var queryParameters = {
       'page': page.toString(),
       'itemsPerPage': itemsPerPage.toString(),
@@ -54,25 +53,21 @@ class _DataTableDemoState extends State<DataTableDemo> {
       print("Search Query: $searchQuery"); // Debugging line
       queryParameters['search'] = searchQuery;
     }
+    final url =
+        Uri.http('127.0.0.1:7999', '/get_data/$partition', queryParameters);
 
-    // Use Uri.https to construct the URL with query parameters
-    var uri = Uri.https(baseURL.replaceFirst('https://', ''),
-        '/get_data/$partition', queryParameters);
-
-    final response = await http.get(uri);
+    final response = await http.get(url);
 
     if (response.statusCode == 200) {
       var decodedData = json.decode(response.body);
       if (decodedData is Map<String, dynamic>) {
         setState(() {
-          data = List<Map<String, dynamic>>.from(decodedData['data'] ??
-              []); // Adjusted to use 'data' key if needed
+          data = List<Map<String, dynamic>>.from(decodedData.values);
           _sortData(sortColumn, sortAscending); // Sort data after fetching
         });
       }
     } else {
       // Handle error or unsuccessful status code
-      print('Error fetching data: ${response.statusCode}');
     }
   }
 
@@ -87,130 +82,6 @@ class _DataTableDemoState extends State<DataTableDemo> {
         sortColumn = column;
         sortAscending = ascending;
       });
-    }
-  }
-
-  Future<void> _showEditDialog(Map<String, dynamic> item) async {
-    // Create a map to hold the text controllers for each field
-    Map<String, TextEditingController> controllers = {};
-    for (String field in table_fields[selectedPartition] ?? []) {
-      controllers[field] =
-          TextEditingController(text: item[field]?.toString() ?? '');
-    }
-
-    return showDialog<void>(
-      context: context,
-      barrierDismissible: false, // user must tap button to close the dialog
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: const Text('Edit Item'),
-          content: SingleChildScrollView(
-            child: ListBody(
-              children: <Widget>[
-                const Text('Edit the fields and tap update to save changes.'),
-                ...controllers.keys.map((String field) {
-                  return TextField(
-                    controller: controllers[field],
-                    decoration: InputDecoration(labelText: field.capitalize()),
-                    maxLines: field == 'text'
-                        ? null
-                        : 1, // Unlimited lines for 'text' field
-                    keyboardType: field == 'text'
-                        ? TextInputType.multiline
-                        : TextInputType.text,
-                  );
-                }),
-              ],
-            ),
-          ),
-          actions: <Widget>[
-            TextButton(
-              child: const Text('Cancel'),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
-            TextButton(
-              child: const Text('Update'),
-              onPressed: () async {
-                Map<String, dynamic> updatedItem = {};
-                for (String field in controllers.keys) {
-                  updatedItem[field] = controllers[field]?.text ?? '';
-                }
-
-                // Send updated data to server
-                await _editItem(item['uuid'], updatedItem);
-
-                Navigator.of(context).pop(); // Close the dialog
-              },
-            ),
-          ],
-        );
-      },
-    );
-  }
-
-  Future<void> _editItem(String uuid, Map<String, dynamic> updatedItem) async {
-    final url =
-        Uri.https(baseURL, '/edit/$uuid', {'partition': selectedPartition});
-
-    final response = await http.put(url,
-        body: json.encode(updatedItem),
-        headers: {"Content-Type": "application/json"});
-
-    if (response.statusCode == 200) {
-      print('Item updated: $uuid');
-      setState(() {
-        int indexToUpdate =
-            data.indexWhere((element) => element['uuid'] == uuid);
-        if (indexToUpdate != -1) {
-          data[indexToUpdate] = json.decode(response.body);
-        }
-      });
-    } else {
-      print('Error updating item: ${response.body}');
-      // Optionally, show an error message to the user
-    }
-  }
-
-  void _deleteItem(BuildContext context, Map<String, dynamic> item) async {
-    final shouldDelete = await showDialog<bool>(
-      context: context,
-      builder: (context) => AlertDialog(
-        title: const Text('Delete Item'),
-        content: const Text('Are you sure you want to delete this item?'),
-        actions: <Widget>[
-          TextButton(
-            child: const Text('Cancel'),
-            onPressed: () => Navigator.of(context).pop(false), // Return false
-          ),
-          TextButton(
-            child: const Text('Delete'),
-            onPressed: () => Navigator.of(context).pop(true), // Return true
-          ),
-        ],
-      ),
-    );
-
-    // If deletion is confirmed
-    if (shouldDelete ?? false) {
-      final url = Uri.https(
-          baseURL, '/delete/${item['uuid']}', {'partition': selectedPartition});
-
-      // Send a DELETE request to the server
-      final response = await http.delete(url);
-
-      if (response.statusCode == 200) {
-        // Successfully deleted on the server, now remove from local list
-        print('Delete item: ${item['uuid']}');
-        setState(() {
-          data.removeWhere((element) => element['uuid'] == item['uuid']);
-        });
-      } else {
-        // Handle server error or unsuccessful deletion
-        print('Error deleting item: ${response.body}');
-        // Optionally, show an error message to the user
-      }
     }
   }
 
@@ -246,7 +117,7 @@ class _DataTableDemoState extends State<DataTableDemo> {
             padding: const EdgeInsets.all(24.0),
             child: Container(
               width: screenSize.width * 0.99,
-              height: screenSize.height * 0.10,
+              height: screenSize.height * 0.13,
               decoration: BoxDecoration(
                 color: const Color(0xffe7dba9),
                 borderRadius: BorderRadius.circular(30),
@@ -257,11 +128,14 @@ class _DataTableDemoState extends State<DataTableDemo> {
                     padding: const EdgeInsets.all(24.0),
                     child: SizedBox(
                       width: screenSize.width * 0.80,
-                      height: screenSize.height * 0.20,
+                      height: screenSize.height * 0.15,
                       child: TextField(
                         controller: searchController,
                         decoration: InputDecoration(
                           labelText: 'Search a log',
+                          labelStyle: TextStyle(
+                            color: Colors.white,
+                          ),
                           suffixIcon: IconButton(
                             icon: const Icon(Icons.clear),
                             onPressed: () {
@@ -289,8 +163,9 @@ class _DataTableDemoState extends State<DataTableDemo> {
                           searchQuery: searchController.text);
                     },
                     style: ElevatedButton.styleFrom(
-                      foregroundColor:
-                          Colors.blue, // Background color of the button
+                      foregroundColor: Palette.beige,
+                      backgroundColor: const Color(
+                          0xfff2c87e), // Background color of the button
                       shape: RoundedRectangleBorder(
                         borderRadius:
                             BorderRadius.circular(30.0), // Rounded corners
@@ -313,43 +188,79 @@ class _DataTableDemoState extends State<DataTableDemo> {
                 borderRadius: BorderRadius.circular(30),
               ),
               child: Padding(
-                padding: const EdgeInsets.all(24.0),
-                child: Align(
-                  alignment: Alignment
-                      .topLeft, // Change this to control horizontal alignment
-                  child: Container(
-                    width: 200, // Adjust the width to your preference
-                    decoration: BoxDecoration(
-                      // If you want to style the container, for example with a border or a different color
-                      border: Border.all(color: Colors.grey),
-                      borderRadius: BorderRadius.circular(10),
+                padding: const EdgeInsets.symmetric(horizontal: 24.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment
+                      .spaceBetween, // Space between dropdown and pagination controls
+                  children: [
+                    Expanded(
+                      child: Container(
+                        decoration: BoxDecoration(
+                          border: Border.all(color: Color(0xfff2c87e)),
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: DropdownButton<String>(
+                          underline: Container(),
+                          isExpanded: true,
+                          value: selectedPartition,
+                          onChanged: (newValue) {
+                            setState(() {
+                              selectedPartition = newValue;
+                              data.clear();
+                              fetchData(selectedPartition!);
+                            });
+                          },
+                          items: partitions.map((String value) {
+                            return DropdownMenuItem<String>(
+                              value: value,
+                              child: Text(
+                                value,
+                                style: const TextStyle(
+                                    color: Colors.white), // Text color
+                              ),
+                            );
+                          }).toList(),
+                          hint: const Text('Select a partition'),
+                          dropdownColor: const Color(0xffe7dba9),
+                          iconEnabledColor: Colors.white,
+                          style: const TextStyle(color: Colors.white),
+                        ),
+                      ),
                     ),
-                    child: DropdownButton<String>(
-                      isExpanded: true,
-                      value: selectedPartition,
-                      onChanged: (newValue) {
-                        setState(() {
-                          selectedPartition = newValue;
-                          data.clear();
-                          fetchData(selectedPartition!);
-                        });
-                      },
-                      items: partitions.map((String value) {
-                        return DropdownMenuItem<String>(
-                          value: value,
-                          child: Text(
-                            value,
-                            style: const TextStyle(
-                                color: Colors.white), // Text color
-                          ),
-                        );
-                      }).toList(),
-                      hint: const Text('Select a partition'),
-                      dropdownColor: const Color(0xffe7dba9),
-                      iconEnabledColor: Colors.white,
-                      style: const TextStyle(color: Colors.white),
+                    // Pagination Controls
+                    Row(
+                      children: [
+                        IconButton(
+                          icon: Icon(Icons.arrow_back_ios,
+                              size: 20, color: Colors.white),
+                          onPressed: currentPage > 1
+                              ? () {
+                                  setState(() {
+                                    currentPage--;
+                                    fetchData(selectedPartition!,
+                                        page: currentPage);
+                                  });
+                                }
+                              : null, // Disable if on the first page
+                        ),
+                        Text('Page $currentPage',
+                            style: TextStyle(color: Colors.white)),
+                        IconButton(
+                          icon: Icon(Icons.arrow_forward_ios,
+                              size: 20, color: Colors.white),
+                          onPressed: _endIndexOfPage < data.length
+                              ? () {
+                                  setState(() {
+                                    currentPage++;
+                                    fetchData(selectedPartition!,
+                                        page: currentPage);
+                                  });
+                                }
+                              : null, // Disable if on the last page
+                        ),
+                      ],
                     ),
-                  ),
+                  ],
                 ),
               ),
             ),
@@ -395,6 +306,11 @@ class _DataTableDemoState extends State<DataTableDemo> {
                           icon: Icons.edit,
                           label: 'Edit',
                         ),
+                      ],
+                    ),
+                    endActionPane: ActionPane(
+                      motion: const ScrollMotion(),
+                      children: [
                         // Delete action
                         SlidableAction(
                           onPressed: (BuildContext context) async {
@@ -408,13 +324,13 @@ class _DataTableDemoState extends State<DataTableDemo> {
                               });
                               // Optionally, show a success message
                               ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(
+                                SnackBar(
                                     content: Text('Item successfully deleted')),
                               );
                             } else {
                               // Handle failure, e.g., show an error message
                               ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(
+                                SnackBar(
                                     content:
                                         Text('Failed to delete the item.')),
                               );
