@@ -11,6 +11,7 @@ from dictionary import desired_fields, table_fields, collections_dict
 
 
 def process_object(obj):
+
     # Rename 'url' attribute to 'link' if it exists
     obj["link"] = obj.pop(
         "url", None
@@ -78,6 +79,94 @@ def process_object(obj):
         )
     )
 
+    # Print upsert confirmation
+    print(f"Upserted: {obj['partition_name']}, {obj['uuid']}, {obj['text_id']}")
+
+
+def process_object_documents(obj):
+
+    # Rename 'url' attribute to 'link' if it exists
+    obj["link"] = obj.pop(
+        "links", None
+    )  # Use pop with a default of None to avoid KeyError
+
+    # Generate a new UUID for 'uuid' and 'text_id'
+    new_uuid = str(uuid.uuid4())
+    obj["uuid"] = new_uuid
+    obj.setdefault(
+        "media", ""
+    )  # Using an empty string instead of None based on the error suggestion
+
+    obj["text_id"] = new_uuid
+
+    # Refactor 'time' attribute to 'date', if it exists
+
+    # Prepare objects for text and date collections
+    text_collection_obj = {
+        key: obj.get(key)
+        for key in [
+            "uuid",
+            "text_id",
+            "text",
+            "embeds",
+            "media",
+            "link",
+            "partition_name",
+        ]
+    }
+    date_collection_obj = {
+        key: obj.get(key) for key in ["uuid", "date", "embeds", "partition_name"]
+    }
+
+    author_collection_obj = {
+        key: obj.get(key) for key in ["uuid", "author", "embeds", "partition_name"]
+    }
+    title_collection_obj = {
+        key: obj.get(key) for key in ["uuid", "title", "embeds", "partition_name"]
+    }
+
+    # Vectorize 'embeds' if necessary
+    text_collection_obj["embeds"] = vectorize_query(
+        text_collection_obj.get("text", "").lower()
+    )
+    print(text_collection_obj["embeds"])
+    date_collection_obj["embeds"] = vectorize_query(
+        date_collection_obj.get("date", "").lower()
+    )
+    author_collection_obj["embeds"] = vectorize_query(
+        author_collection_obj.get("author", "").lower()
+    )
+    title_collection_obj["embeds"] = vectorize_query(
+        title_collection_obj.get("title", "").lower()
+    )
+
+    # Assuming Collection is correctly defined and initialized elsewhere
+    text_collection = Collection("text_collection")
+    date_collection = Collection("date_collection")
+    author_collection = Collection("author_collection")
+    title_collection = Collection("title_collection")
+
+    # Perform insertions into collections
+    print(
+        text_collection.insert(
+            [text_collection_obj], partition_name="documents_partition"
+        )
+    )
+    print(
+        date_collection.insert(
+            [date_collection_obj], partition_name="documents_partition"
+        )
+    )
+    print(
+        author_collection.insert(
+            [author_collection_obj], partition_name="documents_partition"
+        )
+    )
+    print(
+        title_collection.insert(
+            [title_collection_obj], partition_name="documents_partition"
+        )
+    )
     # Print upsert confirmation
     print(f"Upserted: {obj['partition_name']}, {obj['uuid']}, {obj['text_id']}")
 

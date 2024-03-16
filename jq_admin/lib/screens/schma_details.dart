@@ -131,6 +131,15 @@ class _SchemaDetailsPageState extends State<SchemaDetailsPage> {
             focusedBorder: _buildFocusedInputBorderStyle(),
           ),
         ),
+        TextField(
+          controller: _mediaController,
+          decoration: InputDecoration(
+            labelText: 'Media',
+            border: _buildInputBorderStyle(),
+            enabledBorder: _buildInputBorderStyle(),
+            focusedBorder: _buildFocusedInputBorderStyle(),
+          ),
+        ),
       ]);
     } else if (widget.schema == "People") {
       // Assuming you have controllers for name, media, links, position, and department
@@ -217,7 +226,9 @@ class _SchemaDetailsPageState extends State<SchemaDetailsPage> {
         'text': _textController.text,
         'title': _titleController.text,
         'date': _dateController.text,
+        'media': _mediaController.text,
         'links': _linksController.text,
+        'partition_name': 'documents_partition',
       };
       await _sendDataToServer(data);
     } else if (widget.schema == 'People') {
@@ -229,6 +240,7 @@ class _SchemaDetailsPageState extends State<SchemaDetailsPage> {
         'links': _linksController.text,
         'position': _positionController.text,
         'department': _departmentController.text,
+        'partition_name': 'people_partition',
       };
       await _sendDataToServer(data);
     }

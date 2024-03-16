@@ -23,6 +23,7 @@ from knowledgebase_crud import (
     create_table,
     process_object,
     delete_by_text_id,
+    process_object_documents,
 )
 from openai_api import generate_response
 import firebase_admin
@@ -251,6 +252,11 @@ def submit_data():
     print("Received data:")
     for key, value in data.items():
         print(f"{key}: {value}")
+    if data["partition_name"] == "documents_partition":
+        process_object_documents(data)
+        return jsonify({"status": "success"})
+    else:
+        print("not yet")
 
     return jsonify({"status": "success", "message": "Data received successfully."}), 200
 
