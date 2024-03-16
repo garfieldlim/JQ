@@ -78,7 +78,22 @@ class _HomePageState extends State<HomePage> {
     }
   }
 
-  Future<void> sendMessage(String message, {int? partition}) async {
+  Future<void> regenerateMessage(ChatMessage message) async {
+    if (currentPartition < 2) {
+      currentPartition += 1;
+      sendMessage(true, prevMessage, partition: currentPartition);
+    } else {
+      currentPartition = 0;
+      sendMessage(true, prevMessage, partition: currentPartition);
+    }
+  }
+
+  Future<void> sendMessage(bool isRegen, String message,
+      {int? partition}) async {
+    if (isRegen == false) {
+      currentPartition = 0;
+    }
+
     // Add the user message to the messages list if partition is null
     if (partition == null) {
       setState(() {
@@ -226,16 +241,6 @@ class _HomePageState extends State<HomePage> {
     }
   }
 
-  Future<void> regenerateMessage(ChatMessage message) async {
-    if (currentPartition < 2) {
-      currentPartition += 1;
-      sendMessage(prevMessage, partition: currentPartition);
-    } else {
-      currentPartition = 0;
-      sendMessage(prevMessage, partition: currentPartition);
-    }
-  }
-
   @override
   void dispose() {
     textController.dispose();
@@ -265,13 +270,16 @@ class _HomePageState extends State<HomePage> {
           ChatSuggestions(
             textController: textController,
             onSuggestionSelected: (suggestion) {
-              sendMessage(suggestion);
+              sendMessage(false, suggestion);
             },
           ),
           const Divider(height: 1, color: Color(0xff969d7b)),
           MessageInput(
             textController: textController,
-            sendMessage: sendMessage,
+            sendMessage: (String message) {
+              sendMessage(false,
+                  message); // Assuming false as the isRegen default value
+            },
             isTyping: isTyping,
           ),
         ],

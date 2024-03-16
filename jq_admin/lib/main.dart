@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:jq_admin/screens/dashboard.dart';
 import 'package:jq_admin/screens/query.dart';
 
-
 // `flutter run -d web-server --web-port 8080 --web-hostname 0.0.0.0 --web-renderer html`
 
 void main() async {
