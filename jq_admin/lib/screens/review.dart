@@ -66,12 +66,13 @@ class _ReviewPageState extends State<ReviewPage> with TickerProviderStateMixin {
       backgroundColor: const Color(0xff719382),
       body: Center(
         child: _isUpserting
-            ? Lottie.asset('web/assets/loading.json')
+            ? Icon(Icons.hourglass_empty,
+                size: 150,
+                color: Colors.white) // Replace with your desired icon
             : (_isDone
-                ? Lottie.asset(
-                    'web/assets/done.json',
-                    controller: _controller!..forward(),
-                  )
+                ? Icon(Icons.check_circle_outline,
+                    size: 150,
+                    color: Colors.white) // Replace with your desired icon
                 : _buildBody(context)),
       ),
     );
