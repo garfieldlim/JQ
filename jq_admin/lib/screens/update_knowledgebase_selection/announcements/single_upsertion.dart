@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:glassmorphism/glassmorphism.dart';
 import 'package:http/http.dart' as http;
+import 'package:jq_admin/screens/constants.dart';
 import 'dart:convert';
 
 import 'package:jq_dashboard/screens/update_knowledgebase_selection/announcements/single_review.dart';
@@ -88,8 +89,7 @@ class _SingleUpsertionPageState extends State<SingleUpsertionPage> {
   }
 
   Future<void> _sendUrlToServer() async {
-    var url = Uri.parse(
-        'https://777d87bd1aca090c7eb23f7eca5207d3.serveo.net/scrape_website');
+    var url = Uri.parse(scrapeWebsiteURL);
     var response = await http.post(
       url,
       body: jsonEncode({'url': _urlController.text}),

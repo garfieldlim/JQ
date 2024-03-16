@@ -9,8 +9,6 @@ collections_list = [
     "date_collection",
 ]
 fields_list = [
-    "text_id",
-    "date",
     "text",
     "author",
     "title",
@@ -18,6 +16,7 @@ fields_list = [
     "name",
     "position",
     "department",
+    "date",
 ]
 collections_dict = {
     "text_collection": [
@@ -40,29 +39,30 @@ collections_dict = {
 
 partitions = {
     "documents_partition": [
-        "text",
-        "author",
-        "title",
+        "text_collection",
+        "author_collection",
+        "title_collection",
+        "date_collection",
     ],
-    "social_posts_partition": ["text"],
+    "social_posts_partition": ["text_collection", "date_collection"],
     "contacts_partition": [
-        "name",
-        "text",
-        "contact",
-        "department",
+        "name_collection",
+        "text_collection",
+        "contact_collection",
+        "department_collection",
     ],
     "people_partition": [
-        "text",
-        "name",
-        "position",
-        "department",
+        "text_collection",
+        "name_collection",
+        "position_collection",
+        "department_collection",
     ],
-    "usjr_documents_partition": ["test", "title"],
-    "scs_documents_partition": ["text"],
+    "usjr_documents_partition": ["text_collection", "title_collection"],
+    "scs_documents_partition": ["text_collection"],
     "religious_admin_people_partition": [
-        "text",
-        "name",
-        "position",
+        "text_collection",
+        "name_collection",
+        "position_collection",
     ],
 }
 

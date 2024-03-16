@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
+import 'package:jq_admin/screens/constants.dart';
+
 class SingleUpsertion extends StatefulWidget {
   const SingleUpsertion({super.key});
 
@@ -30,8 +32,7 @@ class _SingleUpsertionState extends State<SingleUpsertion> {
   }
 
   Future<void> _sendDataToServer(Map<String, dynamic> data) async {
-    const url =
-        'https://777d87bd1aca090c7eb23f7eca5207d3.serveo.net/receive_json'; // Replace with your server address
+    const url = receiveJsonURL; // Replace with your server address
 
     final response = await http.post(
       Uri.parse(url),

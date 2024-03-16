@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:jq_admin/screens/constants.dart';
 import 'package:lottie/lottie.dart';
 import 'upserting.dart';
 
@@ -9,8 +10,7 @@ class ReviewPage extends StatefulWidget {
   final String? data;
 
   const ReviewPage(
-      {required this.schema, this.data, Key? key, required String filePath})
-      : super(key: key);
+      {required this.schema, this.data, super.key, required String filePath});
 
   @override
   _ReviewPageState createState() => _ReviewPageState();
@@ -114,8 +114,7 @@ class _ReviewPageState extends State<ReviewPage> with TickerProviderStateMixin {
       _isUpserting = true;
     });
     final response = await http.post(
-      Uri.parse(
-          'https://777d87bd1aca090c7eb23f7eca5207d3.serveo.net/receive_json'),
+      Uri.parse(receiveJsonURL),
       headers: {
         'Content-Type': 'application/json',
       },

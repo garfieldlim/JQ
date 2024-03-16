@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:jq_admin/screens/constants.dart';
 
 class ReviewPage extends StatefulWidget {
   final String partition_name;
@@ -9,9 +10,8 @@ class ReviewPage extends StatefulWidget {
   const ReviewPage(
       {required this.partition_name,
       this.data,
-      Key? key,
-      required String filePath})
-      : super(key: key);
+      super.key,
+      required String filePath});
 
   @override
   _ReviewPageState createState() => _ReviewPageState();
@@ -93,8 +93,7 @@ class _ReviewPageState extends State<ReviewPage> {
                   ),
                   onPressed: () async {
                     final response = await http.post(
-                      Uri.parse(
-                          'https://777d87bd1aca090c7eb23f7eca5207d3.serveo.net/receive_json'),
+                      Uri.parse(receiveJsonURL),
                       headers: {
                         'Content-Type': 'application/json',
                       },

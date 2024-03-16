@@ -2,13 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:jq_admin/screens/upserting.dart';
 
 import '../widgets/nav.dart';
-import 'login.dart';
 import 'logs_page.dart';
 import 'table.dart';
 
-class Admin_dashboard extends StatelessWidget {
+class Admin_dashboard extends StatefulWidget {
   const Admin_dashboard({super.key});
 
+  @override
+  State<Admin_dashboard> createState() => _Admin_dashboardState();
+}
+
+class _Admin_dashboardState extends State<Admin_dashboard> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -16,65 +20,52 @@ class Admin_dashboard extends StatelessWidget {
       body: Row(
         children: [
           Container(
-            width: 70,
-            margin: const EdgeInsets.only(right: 34),
-            decoration: BoxDecoration(
-              color: const Color(0xfff2c873),
-              borderRadius: BorderRadius.circular(15), // Rounded corners
-            ),
+            width:
+                70, // Adjust this width to fit your nav items and search field
+            padding: const EdgeInsets.all(8.0),
             child: Column(
               children: [
-                NavItem(
-                  iconData: Icons.home,
-                  color: const Color(0xff969d7b),
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const Admin_dashboard()),
-                    );
-                  },
-                  labelText: 'Logs',
-                ),
-                NavItem(
-                  iconData: Icons.upload_file,
-                  color: const Color(0xff969d7b),
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const UpsertingPage()),
-                    );
-                  },
-                  labelText: 'Upserting',
-                ),
-                NavItem(
-                  iconData: Icons.menu_book,
-                  color: const Color(0xff969d7b),
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => const DataTableDemo()),
-                    );
-                  },
-                  labelText: 'Knowlege base logs',
-                ),
                 Expanded(
-                  child: Container(
-                    alignment: Alignment.bottomCenter,
-                    child: NavItem(
-                      iconData: Icons.logout,
-                      onPressed: () {
-                        Navigator.pushReplacement(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) =>
-                                  const LoginPage()), 
-                        );
-                      },
-                      color: const Color(0xff969d7b),
-                      labelText: 'Logout',
-                    ),
+                  child: ListView(
+                    children: [
+                      // Your NavItems go here...
+                      NavItem(
+                        iconData: Icons.home,
+                        color: const Color(0xff969d7b),
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const Admin_dashboard()),
+                          );
+                        },
+                        labelText: 'Logs',
+                      ),
+                      NavItem(
+                        iconData: Icons.upload_file,
+                        color: const Color(0xff969d7b),
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const UpsertingPage()),
+                          );
+                        },
+                        labelText: 'Upserting',
+                      ),
+                      NavItem(
+                        iconData: Icons.menu_book,
+                        color: const Color(0xff969d7b),
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const DataTableDemo()),
+                          );
+                        },
+                        labelText: 'Knowlege base logs',
+                      ),
+                    ],
                   ),
                 ),
               ],
@@ -82,6 +73,7 @@ class Admin_dashboard extends StatelessWidget {
           ),
           // Main content
           const Expanded(
+            flex: 5, // Adjust flex to give more space to the main content
             child: Center(
               child: LogsPage(),
             ),

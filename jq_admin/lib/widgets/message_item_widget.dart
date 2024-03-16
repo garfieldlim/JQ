@@ -1,17 +1,19 @@
 import 'package:flutter/material.dart';
-import 'package:jq_admin/screens/loading.dart';
-import 'package:jq_admin/widgets/chatMessage.dart';
+import 'package:jq_admin/screens/loading.dart'; // Ensure this exists or replace with actual loading widget
+import 'package:jq_admin/widgets/chatMessage.dart'; // Ensure this exists or replace with actual message model
 import 'package:url_launcher/url_launcher.dart';
-import 'package:flutter_linkify/flutter_linkify.dart';
+import 'package:youtube_player_iframe/youtube_player_iframe.dart';
+
+import 'package:flutter_markdown/flutter_markdown.dart';
 
 class MessageItem extends StatelessWidget {
   final int index;
   final bool isTyping;
-  final List<ChatMessage> messages; // Use ChatMessage here
+  final List<ChatMessage>
+      messages; // Assume ChatMessage is a model class you have
   final Function handleLikeDislike;
   final Function handleQuote;
   final Function regenerateMessage;
-  final bool isLoading;
 
   const MessageItem({
     super.key,
@@ -21,25 +23,35 @@ class MessageItem extends StatelessWidget {
     required this.handleLikeDislike,
     required this.handleQuote,
     required this.regenerateMessage,
-    required this.isLoading,
   });
 
   Widget buildMessageItem(BuildContext context) {
     if (isTyping && index == messages.length) {
       return const Padding(
         padding: EdgeInsets.all(20.0),
-        child: TypingIndicator(),
+        child:
+            TypingIndicator(), // Ensure this exists or replace with actual typing indicator widget
       );
     }
 
     final message = messages[index];
-    bool isLastMessage = index == messages.length - 1;
+    final bool isLastMessage = index == messages.length - 1;
+    final displayText = message.text;
 
-    final imageUrlRegex = RegExp(r'\((http.*?\.jpg|http.*?\.png)\)');
-    final imageUrlMatch = imageUrlRegex.firstMatch(message.text);
-    final imageUrl = imageUrlMatch?.group(1) ?? '';
-    final imageUrlWithCors = 'https://cors-anywhere.herokuapp.com/$imageUrl';
-    final displayText = message.text.replaceAll(RegExp(r'\[.*?\]\(.*?\)'), '');
+    // Regex to identify media URLs (e.g., images or videos)
+    final mediaUrlRegex = RegExp(r'\bhttps?:\/\/.*\.(png|jpg|jpeg|gif|mp4)\b',
+        caseSensitive: false);
+    final mediaUrlMatch = mediaUrlRegex.firstMatch(message.text);
+    String? mediaURL = mediaUrlMatch?.group(0);
+
+    // Regex to identify YouTube video URLs
+    final youtubeUrlRegex = RegExp(
+        r'\bhttps?:\/\/(www\.)?youtu\.be\/([a-zA-Z0-9_-]{11})\b',
+        caseSensitive: false);
+    final youtubeUrlMatch = youtubeUrlRegex.firstMatch(message.text);
+    String? youtubeVideoId = youtubeUrlMatch?.group(2);
+    print('YouTube video ID: $youtubeVideoId');
+
     return Column(
       children: [
         Container(
@@ -51,11 +63,11 @@ class MessageItem extends StatelessWidget {
             children: [
               if (!message.isUserMessage)
                 Padding(
-                  padding: EdgeInsets.only(right: 10.0),
+                  padding: const EdgeInsets.only(right: 10.0),
                   child: CircleAvatar(
-                    backgroundColor:
-                        Color(0xff969d7b), // Make background transparent
-                    child: Image.asset('web/assets/logo2.png'),
+                    backgroundColor: const Color(0xff969d7b),
+                    child: Image.asset(
+                        'web/assets/logo2.png'), // Make sure this asset exists
                   ),
                 ),
               Flexible(
@@ -78,29 +90,32 @@ class MessageItem extends StatelessWidget {
                     ],
                   ),
                   child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisSize: MainAxisSize.min,
                     children: [
-                      Linkify(
-                        onOpen: (link) async {
-                          if (await canLaunch(link.url)) {
-                            await launch(link.url);
+                      MarkdownBody(
+                        data: displayText,
+                        onTapLink: (text, href, title) {
+                          if (href != null) {
+                            launchUrl(Uri.parse(href));
                           }
                         },
-                        text: displayText,
-                        linkStyle: const TextStyle(color: Colors.blue),
-                        style: const TextStyle(color: Colors.white),
+                        styleSheet:
+                            MarkdownStyleSheet.fromTheme(Theme.of(context))
+                                .copyWith(
+                          p: const TextStyle(
+                              color: Colors
+                                  .white), // Adjust the text color as needed
+                          a: const TextStyle(
+                              color: Colors.blue), // Style for links
+                        ),
                       ),
-                      if (imageUrl.isNotEmpty)
+                      if (youtubeVideoId != null)
+                        _buildYouTubePlayer(youtubeVideoId),
+                      // Check if mediaURL is not null or empty to display the image
+                      if (mediaURL != null && mediaURL.isNotEmpty)
                         Padding(
                           padding: const EdgeInsets.only(top: 8.0),
-                          child: Image.network(
-                            imageUrlWithCors,
-                            width: 150,
-                            height: 150,
-                            errorBuilder: (context, error, stackTrace) {
-                              return Text('Failed to load image: $error');
-                            },
-                          ),
+                          child: Image.network(mediaURL, fit: BoxFit.cover),
                         ),
                     ],
                   ),
@@ -124,13 +139,10 @@ class MessageItem extends StatelessWidget {
                   ),
                 ),
                 Tooltip(
-                  message:
-                      'Reply', // Text that will be shown on hover/long-press
+                  message: 'Reply',
                   child: IconButton(
-                    icon: Icon(
-                      Icons.reply,
-                      color: message.quoted ? Colors.blue : Colors.grey,
-                    ),
+                    icon: Icon(Icons.reply,
+                        color: message.quoted ? Colors.blue : Colors.grey),
                     onPressed: () => handleQuote(index),
                   ),
                 ),
@@ -139,8 +151,11 @@ class MessageItem extends StatelessWidget {
           ),
         ),
         if (isLastMessage && !message.isUserMessage && index != 0)
-          isLoading
-              ? const CircularProgressIndicator()
+          isTyping
+              ? const Padding(
+                  padding: EdgeInsets.all(20.0),
+                  child: TypingIndicator(),
+                )
               : ElevatedButton(
                   style: ElevatedButton.styleFrom(
                     foregroundColor: Colors.white,
@@ -149,12 +164,25 @@ class MessageItem extends StatelessWidget {
                       borderRadius: BorderRadius.circular(20),
                     ),
                   ),
-                  onPressed: () {
-                    regenerateMessage(message);
-                  },
+                  onPressed: () => regenerateMessage(message),
                   child: const Text('Regenerate'),
                 ),
       ],
+    );
+  }
+
+  Widget _buildYouTubePlayer(String videoId) {
+    // Initialize controller here for simplicity, but consider extracting to a stateful widget for efficiency
+    final YoutubePlayerController controller =
+        YoutubePlayerController.fromVideoId(
+      videoId: videoId,
+      autoPlay: false,
+      params: const YoutubePlayerParams(showFullscreenButton: true),
+    );
+
+    return YoutubePlayer(
+      controller: controller,
+      aspectRatio: 16 / 9,
     );
   }
 

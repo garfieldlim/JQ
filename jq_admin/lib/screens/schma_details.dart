@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:jq_admin/screens/constants.dart';
 import 'review.dart';
 import 'field_widgets.dart';
 import 'package:uuid/uuid.dart';
@@ -16,7 +17,6 @@ class SchemaDetailsPage extends StatefulWidget {
 
 class _SchemaDetailsPageState extends State<SchemaDetailsPage> {
   final _urlController = TextEditingController();
-  // String _fileName = 'No file uploaded';
   String? _fileContent, _scrapedData;
   bool _isLoading = false;
 
@@ -47,7 +47,6 @@ class _SchemaDetailsPageState extends State<SchemaDetailsPage> {
                   ),
                   ..._buildSchemaBasedFields(),
                   const SizedBox(height: 20),
-                  // _buildFileNameText(),
                   const SizedBox(height: 20),
                   _buildContinueButton(),
                 ],
@@ -91,15 +90,6 @@ class _SchemaDetailsPageState extends State<SchemaDetailsPage> {
       borderSide: const BorderSide(color: Color(0xfff2c87e), width: 2.0),
     );
   }
-
-  // Widget _buildFileNameText() {
-  //   return Center(
-  //     child: Text(
-  //       _fileName,
-  //       style: TextStyle(color: Colors.white),
-  //     ),
-  //   );
-  // }
 
   Widget _buildContinueButton() {
     return Center(
@@ -167,24 +157,8 @@ class _SchemaDetailsPageState extends State<SchemaDetailsPage> {
     return jsonEncode(dataMap); // Convert the map to a JSON string
   }
 
-  // Future<void> _pickFile() async {
-  //   FilePickerResult? result = await FilePicker.platform.pickFiles(
-  //       type: FileType.custom, allowedExtensions: ['pdf', 'jpg', 'png']);
-
-  //   if (result != null) {
-  //     PlatformFile file = result.files.single;
-  //     _fileContent = base64Encode(file.bytes!);
-  //     setState(() {
-  //       _fileName = file.name;
-  //     });
-  //   } else {
-  //     print('No file picked');
-  //   }
-  // }
-
   Future<void> _sendUrlToServer() async {
-    var url = Uri.parse(
-        'https://777d87bd1aca090c7eb23f7eca5207d3.serveo.net/scrape_website');
+    var url = Uri.parse(scrapeWebsiteURL);
     var response = await http.post(
       url,
       body: jsonEncode({'url': _urlController.text}),

@@ -4,6 +4,7 @@ import 'package:glassmorphism/glassmorphism.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:flutter_linkify/flutter_linkify.dart';
+import 'package:jq_admin/screens/constants.dart';
 
 import 'package:jq_admin/screens/loading.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -42,8 +43,7 @@ class _HomePageState extends State<HomePage> {
       });
     }
 
-    final url =
-        Uri.parse('https://777d87bd1aca090c7eb23f7eca5207d3.serveo.net /query');
+    final url = Uri.parse(queryURL);
     final headers = {'Content-Type': 'application/json'};
 
     // Getting the previous answer from the bot
@@ -379,18 +379,19 @@ class _HomePageState extends State<HomePage> {
                         ),
                       ),
                     ),
-                    IconButton(
-                      onPressed: () {
-                        final message = textController.text;
-                        if (message.isNotEmpty) {
-                          textController.clear();
-                          currentPartition = 0;
-                          sendMessage(message);
-                        }
-                      },
-                      icon: const Icon(Icons.send),
-                      color: Colors.white,
-                    ),
+                    if (!isTyping) // <-- Check both isLoading and isTyping
+                      IconButton(
+                        onPressed: () {
+                          final message = textController.text;
+                          if (message.isNotEmpty) {
+                            textController.clear();
+                            currentPartition = 0;
+                            sendMessage(message);
+                          }
+                        },
+                        icon: const Icon(Icons.e_mobiledata),
+                        color: Colors.white,
+                      ),
                   ],
                 ),
               ),

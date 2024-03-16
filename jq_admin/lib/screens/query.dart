@@ -4,6 +4,7 @@ import 'dart:convert';
 // Third-party package imports
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:jq_admin/screens/constants.dart';
 import 'package:jq_admin/widgets/chatMessage.dart';
 import 'package:jq_admin/widgets/chat_suggestions.dart';
 import 'package:jq_admin/widgets/customfloatingbutton.dart';
@@ -32,12 +33,13 @@ class _HomePageState extends State<HomePage> {
   TextEditingController textController = TextEditingController();
   int currentPartition = 0;
   int flag = 0;
-  bool isLoading = false;
+
   bool isTyping = false;
   List<dynamic> posts = [];
   var uuid = const Uuid();
   var userMessageId;
   var botMessageId;
+  var prevMessage;
 
   @override
   void initState() {
@@ -56,29 +58,19 @@ class _HomePageState extends State<HomePage> {
       print('Failed to fetch posts: $e');
     }
   }
-//   Future<void> initPosts() async {
-//   String data = await rootBundle.loadString('web/assets/posts.json');
-//   List<dynamic> fetchedPosts = json.decode(data);
-
-//   setState(() {
-//     posts = fetchedPosts;
-//   });
-// }
 
   void resetChat() {
     setState(() {
       messages = [
         ChatMessage(text: "How may I help you?", isUserMessage: false),
       ];
+      currentPartition = 0;
     });
-
-    // Optionally: Remove chat messages from Cloud Firestore.
   }
 
   Future<List<dynamic>> fetchPosts() async {
-    final response = await http.get(
-        Uri.parse('https://777d87bd1aca090c7eb23f7eca5207d3.serveo.net/posts'));
-
+    final response = await http.get(Uri.parse(postsUrl));
+    print(postsUrl);
     if (response.statusCode == 200) {
       return json.decode(response.body);
     } else {
@@ -94,10 +86,9 @@ class _HomePageState extends State<HomePage> {
       });
     }
 
-    final url =
-        Uri.parse('https://777d87bd1aca090c7eb23f7eca5207d3.serveo.net/query');
+    final url = Uri.parse(queryURL);
     final headers = {'Content-Type': 'application/json'};
-
+    print(postsUrl);
     // Getting the previous answer from the bot
     String? previousAnswer;
     for (var item in messages.reversed) {
@@ -123,8 +114,8 @@ class _HomePageState extends State<HomePage> {
     });
 
     setState(() {
-      isLoading = true;
       isTyping = true;
+      prevMessage = fullMessage;
     });
 
     try {
@@ -140,7 +131,6 @@ class _HomePageState extends State<HomePage> {
       }
 
       setState(() {
-        isLoading = false;
         isTyping = false;
       });
 
@@ -163,19 +153,20 @@ class _HomePageState extends State<HomePage> {
           ));
         });
         flag = 1;
-        isLoading = false;
+
         isTyping = false; // Stop the typing indicator
+        for (var msg in messages) {
+          msg.quoted = false;
+        }
       } else {
         print('Error: ${response.statusCode}');
         setState(() {
-          isLoading = false;
           isTyping = false; // Stop the typing indicator in case of error
         });
       }
     } catch (error) {
       print('Error: $error');
       setState(() {
-        isLoading = false;
         isTyping = false; // Ensure to stop typing indicator in case of error
       });
     }
@@ -183,10 +174,17 @@ class _HomePageState extends State<HomePage> {
 
   void handleQuote(int index) {
     setState(() {
-      for (var msg in messages) {
-        msg.quoted = false; // Reset other quoted messages
+      // Check if the selected message is already quoted
+      if (messages[index].quoted) {
+        // If so, unquote it and do not quote anything else
+        messages[index].quoted = false;
+      } else {
+        // Otherwise, reset all to unquoted and quote the selected message
+        for (var msg in messages) {
+          msg.quoted = false; // Reset other quoted messages
+        }
+        messages[index].quoted = true;
       }
-      messages[index].quoted = true;
     });
   }
 
@@ -200,12 +198,10 @@ class _HomePageState extends State<HomePage> {
         botMessage.disliked = !isLiked;
       });
 
-      var endpoint =
-          'https://777d87bd1aca090c7eb23f7eca5207d3.serveo.net/update_chat_message_like_dislike';
+      var endpoint = updateChatDislikeURL;
 
       if (flag == 1) {
-        endpoint =
-            'https://777d87bd1aca090c7eb23f7eca5207d3.serveo.net/save_chat_message';
+        endpoint = saveChatURL;
         userMessageId = "Chat${uuid.v4()}";
         botMessageId = "Chat${uuid.v4()}";
         flag = 0;
@@ -217,7 +213,7 @@ class _HomePageState extends State<HomePage> {
         body: jsonEncode({
           'userMessageId': userMessageId,
           'botMessageId': botMessageId,
-          'userMessage': userMessage.toJson(),
+          'userMessage': prevMessage,
           'botMessage': botMessage.toJson(),
           'liked': isLiked,
           'disliked': !isLiked,
@@ -233,10 +229,10 @@ class _HomePageState extends State<HomePage> {
   Future<void> regenerateMessage(ChatMessage message) async {
     if (currentPartition < 2) {
       currentPartition += 1;
-      sendMessage(message.text, partition: currentPartition);
+      sendMessage(prevMessage, partition: currentPartition);
     } else {
       currentPartition = 0;
-      sendMessage(message.text, partition: currentPartition);
+      sendMessage(prevMessage, partition: currentPartition);
     }
   }
 
@@ -251,7 +247,8 @@ class _HomePageState extends State<HomePage> {
     return SafeArea(
       child: Scaffold(
         backgroundColor: const Color(0xfffff1e4),
-        floatingActionButton: buildFloatingActionButton(resetChat: resetChat),
+        floatingActionButton:
+            isTyping ? null : buildFloatingActionButton(resetChat: resetChat),
         floatingActionButtonLocation: CustomFloatingActionButtonLocation(80, 0),
         extendBodyBehindAppBar: true,
         body: _buildBody(),
@@ -263,7 +260,7 @@ class _HomePageState extends State<HomePage> {
     return Center(
       child: Column(
         children: [
-          FacebookPostsList(posts: posts),
+          FacebookPostsList(key: UniqueKey(), posts: posts),
           _buildMessagesList(),
           ChatSuggestions(
             textController: textController,
@@ -275,7 +272,7 @@ class _HomePageState extends State<HomePage> {
           MessageInput(
             textController: textController,
             sendMessage: sendMessage,
-            currentPartition: currentPartition,
+            isTyping: isTyping,
           ),
         ],
       ),
@@ -289,7 +286,7 @@ class _HomePageState extends State<HomePage> {
         itemCount: messages.length + (isTyping ? 1 : 0),
         itemBuilder: (context, index) {
           if (index == messages.length && isTyping) {
-            return TypingIndicator(); // Show typing indicator
+            return const TypingIndicator(); // Show typing indicator
           }
           return MessageItem(
             index: index,
@@ -298,7 +295,6 @@ class _HomePageState extends State<HomePage> {
             handleLikeDislike: handleLikeDislike,
             handleQuote: handleQuote,
             regenerateMessage: regenerateMessage,
-            isLoading: isLoading,
           );
         },
       ),

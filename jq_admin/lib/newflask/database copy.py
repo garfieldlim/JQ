@@ -1,5 +1,5 @@
 from config import LABEL_ENCODER, SVM_MODEL
-from dictionary import fields_list, partitions
+from dictionary import fields_list
 from pymilvus import (
     MilvusException,
     DataType,
@@ -9,7 +9,7 @@ import json
 
 
 def similarity_search(
-    name, vectors, search_params, partition_name, limit, consistency_level
+    name, vectors, search_params, partition_names, limit, consistency_level
 ):
     """
     Searches a collection in Milvus based on the given parameters.
@@ -18,21 +18,20 @@ def similarity_search(
     try:
         collection = Collection(f"{name}_collection")
         collection.load()
-
         output_fields = ["uuid", "text_id"] if name == "text" else ["uuid"]
         results = collection.search(
             data=[vectors],
             anns_field="embeds",
             param=search_params,
             limit=limit,
-            partition_names=[partition_name],
+            partition_names=partition_names,
             output_fields=output_fields,
             consistency_level=consistency_level,
         )
     except MilvusException as e:
         if "partition name" in str(e) and "not found" in str(e):
             print(
-                f"Partition '{partition_name}' not found in collection '{name}', skipping..."
+                f"Partition '{partition_names}' not found in collection '{name}', skipping..."
             )
         else:
             raise
@@ -40,7 +39,7 @@ def similarity_search(
     return results
 
 
-def search_collections(vectors, partition_name):
+def search_collections(vectors, partition_names):
     results_dict = {}
     search_params = {
         "metric_type": "L2",  # Distance metric, L2, IP, etc.
@@ -48,15 +47,14 @@ def search_collections(vectors, partition_name):
     }
     limit = 10
     consistency_level = "Strong"
-    partition_name = partition_name[0]
-    if partition_name in partitions:
-        for name in partitions[partition_name]:
-            result = similarity_search(
-                name, vectors, search_params, partition_name, limit, consistency_level
-            )
-            if result is not None:
-                results_dict[name] = result
-    print("search_collections done")
+
+    for name in fields_list:
+        result = similarity_search(
+            name, vectors, search_params, partition_names, limit, consistency_level
+        )
+        if result is not None:
+            results_dict[name] = result
+    print("search_collecrions done")
     return results_dict
 
 
@@ -109,7 +107,6 @@ def sort_results(results_dict):
     json_results = {}
 
     for collection_name, result in results_dict.items():
-        collection_name = collection_name.replace("_collection", "")
         for query_hits in result:
             for hit in query_hits:
                 result_dict = process_hit(hit, collection_name)
@@ -121,26 +118,15 @@ def sort_results(results_dict):
         json_results_list, key=lambda x: x["distance"], reverse=True
     )
     print("sort_results done")
-    # save json_results_sorted to json_results_sorted.json
-    json_file_path = "/Users/garfieldgreglim/Desktop/json_test/json_results_sorted.json"
-    try:
-        with open(json_file_path, "w") as file:
-            json.dump(json_results_sorted, file)
-        print(f"Query results saved to {json_file_path}")
-    except IOError as e:
-        print(f"Failed to save query results: {e}")
-
     return json_results_sorted
 
 
-def initialize_collections(partition_name):
+def initialize_collections():
     """
     Load all collections and return a dictionary mapping field names to collections.
     """
     print("Initialized all collections")
-    return {
-        name: Collection(f"{name}_collection") for name in partitions[partition_name]
-    }
+    return {name: Collection(f"{name}_collection") for name in fields_list}
 
 
 def extract_entity_ids(results):
@@ -160,60 +146,19 @@ def prepare_result_fields(results):
             result[name] = []
     print("Prepared result fields for each result entry")
 
-    # def query_collections(collections, entity_ids, partition_names):
-    #     """
-    #     Query each collection for the specified entity IDs and return the query results.
-    #     """
-    #     query_results = {}
-    #     print(partition_names)
-    #     for name, collection in collections.items():
-    #         print(f"name {name}")
-    #         print(f"collection {collection}")
-    #         query_field = "text_id" if name == "text" else "uuid"
-    #         output_fields = [name, "text_id", "media", "link"] if name == "text" else [name]
-    #         query = f"{query_field} in {entity_ids}"
-    #         try:
-    #             query_results[name] = collection.query(
-    #                 expr=query,
-    #                 offset=0,
-    #                 limit=len(entity_ids),
-    #                 partition_names=[partition_names],
-    #                 output_fields=output_fields,
-    #                 consistency_level="Strong",
-    #             )
-    #         except Exception as e:
-    #             print(f"Error with collection {name}: {str(e)}")
-    #     print("Queried all collections for specified entity_ids")
-    #     # save query_results.json to /Users/garfieldgreglim/Desktop/json_test/query_results.json
-    #     json_file_path = "/Users/garfieldgreglim/Desktop/json_test/query_results.json"
-    #     try:
-    #         with open(json_file_path, "w") as file:
-    #             json.dump(query_results, file)
-    #         print(f"Query results saved to {json_file_path}")
-    #     except IOError as e:
-    #         print(f"Failed to save query results: {e}")
-
-    #     return query_results
-    # import json
-
 
 def query_collections(collections, entity_ids, partition_names):
     """
     Query each collection for the specified entity IDs and return the query results.
     """
     query_results = {}
-
     for name, collection in collections.items():
-        # Debugging prints for collection details
-        print(f"Processing collection: {name}")
-
         query_field = "text_id" if name == "text" else "uuid"
         output_fields = [name, "text_id", "media", "link"] if name == "text" else [name]
         query = f"{query_field} in {entity_ids}"
 
         try:
-            # Perform the query
-            result = collection.query(
+            query_results[name] = collection.query(
                 expr=query,
                 offset=0,
                 limit=len(entity_ids),
@@ -221,18 +166,14 @@ def query_collections(collections, entity_ids, partition_names):
                 output_fields=output_fields,
                 consistency_level="Strong",
             )
-            query_results[name] = result
-            print(f"Query successful for {name}, results count: {len(result)}")
         except Exception as e:
-            print(f"Error querying collection {name}: {e}")
-
-    print("Queried all collections for specified entity_ids.")
-
-    # Save query results to a JSON file
+            print(f"Error with collection {name}: {str(e)}")
+    print("Queried all collections for specified entity_ids")
+    # save query_results.json to /Users/garfieldgreglim/Desktop/json_test/query_results.json
     json_file_path = "/Users/garfieldgreglim/Desktop/json_test/query_results.json"
     try:
         with open(json_file_path, "w") as file:
-            json.dump(query_results, file, indent=4)
+            json.dump(query_results, file)
         print(f"Query results saved to {json_file_path}")
     except IOError as e:
         print(f"Failed to save query results: {e}")
@@ -359,7 +300,7 @@ def format_final_results(results):
 
 
 def populate_results(json_results_sorted, partition_names):
-    collections = initialize_collections(partition_names)
+    collections = initialize_collections()
     entity_ids = extract_entity_ids(json_results_sorted)
     prepare_result_fields(json_results_sorted)
     query_results = query_collections(collections, entity_ids, partition_names)
@@ -369,6 +310,8 @@ def populate_results(json_results_sorted, partition_names):
     json_results_sorted_file_path = (
         "/Users/garfieldgreglim/Desktop/json_test/results.json"
     )
+
+    # Save 'results' as a JSON file
     try:
         with open(json_results_sorted_file_path, "w") as file:
             json.dump(json_results_sorted, file)
@@ -382,6 +325,8 @@ def populate_results(json_results_sorted, partition_names):
 
 
 def rank_partitions(prompt_embedding):
+    # Convert the prompt to an embedding
+
     # Predict the class probabilities
     probabilities = SVM_MODEL.predict_proba([prompt_embedding])
 

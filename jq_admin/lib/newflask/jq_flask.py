@@ -1,3 +1,4 @@
+# sudo ssh -R 80:localhost:7999 serveo.net
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 from facebook_scraper import get_posts
@@ -13,12 +14,15 @@ from database import (
     sort_results,
 )
 
+# nltk.download("punkt")
+
 from embeddings import vectorize_query
 from headlines import update_posts_json
 from knowledgebase_crud import (
     combine_results_by_uuid,
     create_table,
     process_object,
+    delete_by_text_id,
 )
 from openai_api import generate_response
 import firebase_admin
@@ -52,9 +56,19 @@ cred = CRED
 firebase_admin.initialize_app(cred)
 
 
-@app.route("/printsess", methods=["POST"])
-def printsess():
-    print("THISPRINTBITCH")
+# Function to delete all documents in the collection
+def delete_all_documents_in_collection(collection_ref):
+    docs = collection_ref.stream()
+    for doc in docs:
+        doc.reference.delete()
+        print(f"Document {doc.id} deleted.")
+
+
+def empty_documents():
+    db = firestore.client()
+    chat_messages_ref = db.collection("chat_messages")
+    # Delete all documents in the "chat_messages" collection
+    delete_all_documents_in_collection(chat_messages_ref)
 
 
 @app.route("/save_chat_message", methods=["POST"])
@@ -65,26 +79,21 @@ def save_chat_message():
     timestamp = datetime.now().isoformat()
 
     # Save user message
-    user_message_data = data["userMessage"]
-    user_message_data["timestamp"] = timestamp
-    user_message_ref = db.collection("chat_messages").document(data["userMessageId"])
-    user_message_data["id"] = user_message_ref.id
-    user_message_data["isUserMessage"] = True
 
-    # Save bot message
-    bot_message_data = data["botMessage"]
-    bot_message_data["timestamp"] = timestamp
-    bot_message_ref = db.collection("chat_messages").document(data["botMessageId"])
-    bot_message_data["id"] = bot_message_ref.id
-    bot_message_data["foreignId"] = user_message_ref.id
-    user_message_data["foreignId"] = bot_message_ref.id
-    bot_message_data["liked"] = data.get("liked", False)
-    bot_message_data["disliked"] = data.get("disliked", False)
-    bot_message_data["isUserMessage"] = False
-    bot_message_data["partitionName"] = data.get("partitionName", "")
-    bot_message_data["milvusData"] = data.get("milvusData", {})
-    bot_message_ref.set(bot_message_data)
-    user_message_ref.set(user_message_data)
+    # with open("exchange.json", "w") as outfile:
+    #     json.dump(data, outfile)
+    # define a dictionary chat_message with data['userMessageId], data["userMessage"]["text"], data["botMessage"]["text"], data["milvusData"],data["partitionName"], liked, disliked, timestamp
+    chat_message = {
+        "id": data["userMessageId"],
+        "prompt": data["userMessage"],
+        "response": data["botMessage"]["text"],
+        "milvusData": data["milvusData"],
+        "partitionName": data["partitionName"],
+        "liked": data.get("liked", False),
+        "timestamp": timestamp,
+    }
+    chat_message_ref = db.collection("chat_messages").document(data["userMessageId"])
+    chat_message_ref.set(chat_message)
 
     return jsonify({"status": "success"})
 
@@ -115,14 +124,12 @@ def update_chat_message_like_dislike():
     return jsonify({"status": "error"})
 
 
-# update_posts_json()
-
-
 @app.route("/posts", methods=["GET"])
 def read_posts_json():
     try:
         with open(POSTS_JSON_PATH, "r") as file:
             posts = json.load(file)
+            # print(posts)
         return jsonify(posts)
     except Exception as e:
         return jsonify({"error": str(e)}), 404
@@ -191,6 +198,7 @@ def question_answer():
 
     # print(final_results)
     generated_text = generate_response(prompt, final_results)
+
     # print(generated_text)
     if generated_text is None:
         return jsonify(
@@ -208,10 +216,40 @@ def question_answer():
 
 @app.route("/get_data/<partition_name>", methods=["GET"])
 def get_data(partition_name):
-    combined_data = combine_results_by_uuid(partition_name)
+    search_query = request.args.get("search", None)  # Get the search query parameter
+    combined_data = combine_results_by_uuid(partition_name, search_query=search_query)
     table_data = create_table(combined_data, partition_name)
-    print(table_data)
+
     return jsonify(table_data)
+
+
+@app.route("/delete/<text_id>", methods=["DELETE", "OPTIONS"])
+def delete(text_id):
+    # Check for the OPTIONS method and return an appropriate response
+    if request.method == "OPTIONS":
+        # This is a preflight request, send an appropriate response
+        response = jsonify({"status": "CORS Preflight OK"})
+        # You can modify the headers as needed for your CORS policy here
+        response.headers.add("Access-Control-Allow-Origin", "*")
+        response.headers.add("Access-Control-Allow-Methods", "DELETE, OPTIONS")
+        response.headers.add(
+            "Access-Control-Allow-Headers", "Content-Type, Authorization"
+        )
+        return response
+
+    # Retrieve the partition name from query parameters for the actual DELETE request
+    partition_name = request.args.get("partition", default="default_partition")
+
+    # Your existing logic to delete by text_id
+    delete_by_text_id(text_id, partition_name)
+    return jsonify({"status": "success"})
+
+
+# update_posts_json()
+# empty_documents()
+
+# Ensure CORS is set up for your delete route if applying selectively
+CORS(app, resources={r"/delete/*": {"origins": "*"}})
 
 
 if __name__ == "__main__":

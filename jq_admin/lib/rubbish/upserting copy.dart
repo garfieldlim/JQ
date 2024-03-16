@@ -40,8 +40,7 @@ class _UpsertingPageState extends State<UpsertingPage> {
   }
 
   Future<void> _sendUrlToServer() async {
-    var url = Uri.parse(
-        'https://777d87bd1aca090c7eb23f7eca5207d3.serveo.net/scrape_website');
+    var url = Uri.parse('http://127.0.0.1:7999/scrape_website');
     var response = await http.post(
       url,
       body: jsonEncode(
