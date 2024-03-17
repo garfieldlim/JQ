@@ -171,6 +171,89 @@ def process_object_documents(obj):
     print(f"Upserted: {obj['partition_name']}, {obj['uuid']}, {obj['text_id']}")
 
 
+def process_object_people(obj):
+
+    # Rename 'url' attribute to 'link' if it exists
+    obj["link"] = obj.pop(
+        "links", None
+    )  # Use pop with a default of None to avoid KeyError
+
+    # Generate a new UUID for 'uuid' and 'text_id'
+    new_uuid = str(uuid.uuid4())
+    obj["uuid"] = new_uuid
+    obj.setdefault(
+        "media", ""
+    )  # Using an empty string instead of None based on the error suggestion
+
+    obj["text_id"] = new_uuid
+
+    # Refactor 'time' attribute to 'date', if it exists
+
+    # Prepare objects for text and date collections
+    text_collection_obj = {
+        key: obj.get(key)
+        for key in [
+            "uuid",
+            "text_id",
+            "text",
+            "embeds",
+            "media",
+            "link",
+            "partition_name",
+        ]
+    }
+    department_collection_obj = {
+        key: obj.get(key) for key in ["uuid", "department", "embeds", "partition_name"]
+    }
+    name_collection_obj = {
+        key: obj.get(key) for key in ["uuid", "name", "embeds", "partition_name"]
+    }
+    position_collection_obj = {
+        key: obj.get(key) for key in ["uuid", "position", "embeds", "partition_name"]
+    }
+
+    # Vectorize 'embeds' if necessary
+    text_collection_obj["embeds"] = vectorize_query(
+        text_collection_obj.get("text", "").lower()
+    )
+    print(text_collection_obj["embeds"])
+    department_collection_obj["embeds"] = vectorize_query(
+        department_collection_obj.get("department", "").lower()
+    )
+    name_collection_obj["embeds"] = vectorize_query(
+        name_collection_obj.get("name", "").lower()
+    )
+    position_collection_obj["embeds"] = vectorize_query(
+        position_collection_obj.get("position", "").lower()
+    )
+
+    # Assuming Collection is correctly defined and initialized elsewhere
+    text_collection = Collection("text_collection")
+    name_collection = Collection("name_collection")
+    department_collection = Collection("department_collection")
+    position_collection = Collection("position_collection")
+
+    # Perform insertions into collections
+    print(
+        text_collection.insert([text_collection_obj], partition_name="people_partition")
+    )
+    print(
+        name_collection.insert([name_collection_obj], partition_name="people_partition")
+    )
+    print(
+        department_collection.insert(
+            [department_collection_obj], partition_name="people_partition"
+        )
+    )
+    print(
+        position_collection.insert(
+            [position_collection_obj], partition_name="people_partition"
+        )
+    )
+    # Print upsert confirmation
+    print(f"Upserted: {obj['partition_name']}, {obj['uuid']}, {obj['text_id']}")
+
+
 # Define a function to query all items in a collection based on partition_name
 def query_collection_by_partition(collection_name, partition_name):
     collection = Collection(collection_name)

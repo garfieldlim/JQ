@@ -24,6 +24,7 @@ from knowledgebase_crud import (
     process_object,
     delete_by_text_id,
     process_object_documents,
+    process_object_people,
 )
 from openai_api import generate_response
 import firebase_admin
@@ -256,9 +257,8 @@ def submit_data():
         process_object_documents(data)
         return jsonify({"status": "success"})
     else:
-        print("not yet")
-
-    return jsonify({"status": "success", "message": "Data received successfully."}), 200
+        process_object_people(data)
+        return jsonify({"status": "success"})
 
 
 # update_posts_json()
