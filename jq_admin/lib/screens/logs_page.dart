@@ -1,5 +1,7 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/widgets.dart';
 import '../widgets/log_list_widget.dart';
 import 'Logsdetail.dart';
 import 'logsDetailList.dart';
@@ -88,57 +90,64 @@ class _LogsPageState extends State<LogsPage> {
             ),
           ),
           const SizedBox(height: 15),
-          const Padding(
-            padding: EdgeInsets.all(10.0),
-            child: Text(
-              "Search Results",
-              style: TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                  color: Color(0xff7a8066)),
-            ),
-          ),
-          TextField(
-            controller: _searchController,
-            decoration: InputDecoration(
-              hintText: 'Search logs',
-              suffixIcon: IconButton(
-                icon: const Icon(Icons.search),
-                onPressed: () {
-                  setState(() {
-                    searchQuery = _searchController.text;
-                    filterLogs(selectedField, searchQuery);
-                  });
-                },
+// Search Bar
+          Padding(
+            padding: const EdgeInsets.all(24.0),
+            child: Row(children: [
+              Expanded(
+                child: TextField(
+                  controller: _searchController,
+                  decoration: InputDecoration(
+                    hintText: 'Search logs',
+                    suffixIcon: IconButton(
+                      icon: const Icon(
+                        Icons.search,
+                        color: Color(0xff7a8066),
+                      ),
+                      onPressed: () {
+                        setState(() {
+                          searchQuery = _searchController.text;
+                          filterLogs(selectedField, searchQuery);
+                        });
+                      },
+                    ),
+                  ),
+                  textAlign: TextAlign.center,
+                ),
               ),
-            ),
-            textAlign: TextAlign.center,
-          ),
-          Center(
-            child: DropdownButton<String>(
-              value: selectedField,
-              onChanged: (String? newValue) {
-                setState(() {
-                  selectedField = newValue!;
-                });
-              },
-              items: <String>[
-                'id',
-                'milvusData',
-                'partitionName',
-                'prompt',
-                'response',
-                'timestamp'
-              ].map<DropdownMenuItem<String>>((String value) {
-                return DropdownMenuItem<String>(
-                  value: value,
-                  child: Text(value),
-                );
-              }).toList(),
-            ),
+              SizedBox(width: 20),
+              // Dropdown for selecting search field
+              SizedBox(
+                width: 130,
+                height: 60,
+                child: DropdownButton<String>(
+                  value: selectedField,
+                  onChanged: (String? newValue) {
+                    setState(() {
+                      selectedField = newValue!;
+                    });
+                  },
+                  items: <String>[
+                    'id',
+                    'milvusData',
+                    'partitionName',
+                    'prompt',
+                    'response',
+                    'timestamp'
+                  ].map<DropdownMenuItem<String>>((String value) {
+                    return DropdownMenuItem<String>(
+                      value: value,
+                      child: Text(value,
+                          style: TextStyle(color: Color(0xff7a8066))),
+                    );
+                  }).toList(),
+                  dropdownColor: Color(0XFFF2C87E),
+                ),
+              ),
+            ]),
           ),
           if (_searchController.text.isEmpty)
-            const Center(child: Text('Enter search.')) // When search bar is empty
+            const Center(child: Text('')) // When search bar is empty
           else if (filteredLogs.isEmpty)
             const Center(
                 child: Text('Data not found.')) // When search yields no results
@@ -164,7 +173,7 @@ class _LogsPageState extends State<LogsPage> {
           // Recently Added Section
           const SizedBox(height: 25),
           const Padding(
-            padding: EdgeInsets.all(10.0),
+            padding: EdgeInsets.all(24.0),
             child: Text(
               "Recently Added",
               style: TextStyle(
@@ -185,7 +194,7 @@ class _LogsPageState extends State<LogsPage> {
           const SizedBox(height: 25),
           // Most Liked Section
           const Padding(
-            padding: EdgeInsets.all(10.0),
+            padding: EdgeInsets.all(24.0),
             child: Text(
               "Most Liked",
               style: TextStyle(
@@ -205,7 +214,7 @@ class _LogsPageState extends State<LogsPage> {
                 showLogDetails: navigateToLogDetails),
           ),
           const Padding(
-            padding: EdgeInsets.all(10.0),
+            padding: EdgeInsets.all(24.0),
             child: Text(
               "Most Disliked",
               style: TextStyle(
