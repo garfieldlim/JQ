@@ -4,10 +4,10 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
-
 import '../widgets/data_table_utils.dart';
 import '../widgets/expandable.dart';
-import '../widgets/palette.dart';
+import '../widgets/table_widgets.dart/pagination.dart';
+import '../widgets/table_widgets.dart/searchbar.dart';
 
 class DataTableDemo extends StatefulWidget {
   const DataTableDemo({super.key});
@@ -113,71 +113,18 @@ class _DataTableDemoState extends State<DataTableDemo> {
       ),
       body: Column(
         children: [
+          //search log
           Padding(
             padding: const EdgeInsets.all(24.0),
-            child: Container(
-              width: screenSize.width * 0.99,
-              height: screenSize.height * 0.13,
-              decoration: BoxDecoration(
-                color: const Color(0xffe7dba9),
-                borderRadius: BorderRadius.circular(30),
-              ),
-              child: Row(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.all(24.0),
-                    child: SizedBox(
-                      width: screenSize.width * 0.80,
-                      height: screenSize.height * 0.15,
-                      child: TextField(
-                        controller: searchController,
-                        decoration: InputDecoration(
-                          labelText: 'Search a log',
-                          labelStyle: TextStyle(
-                            color: Colors.white,
-                          ),
-                          suffixIcon: IconButton(
-                            icon: const Icon(Icons.clear),
-                            onPressed: () {
-                              searchController.clear();
-                              fetchData(selectedPartition!);
-                            },
-                          ),
-                        ),
-                        onSubmitted: (value) {
-                          fetchData(selectedPartition!, searchQuery: value);
-                        },
-                        textInputAction: TextInputAction.search,
-                      ),
-                    ),
-                  ),
-                  ElevatedButton.icon(
-                    icon: const Icon(Icons.search,
-                        color: Colors.white), // The search icon
-                    label: const Text(
-                      'Search', // The text label
-                      style: TextStyle(color: Colors.white),
-                    ),
-                    onPressed: () {
-                      fetchData(selectedPartition!,
-                          searchQuery: searchController.text);
-                    },
-                    style: ElevatedButton.styleFrom(
-                      foregroundColor: Palette.beige,
-                      backgroundColor: const Color(
-                          0xfff2c87e), // Background color of the button
-                      shape: RoundedRectangleBorder(
-                        borderRadius:
-                            BorderRadius.circular(30.0), // Rounded corners
-                      ),
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 60.0, vertical: 15.0),
-                    ),
-                  )
-                ],
-              ),
+            child: SearchWidget(
+              searchController: searchController,
+              onSearch: () {
+                fetchData(selectedPartition!,
+                    searchQuery: searchController.text);
+              },
             ),
           ),
+          //dropdown and pagination
           Padding(
             padding: const EdgeInsets.all(24.0),
             child: Container(
@@ -230,33 +177,23 @@ class _DataTableDemoState extends State<DataTableDemo> {
                     // Pagination Controls
                     Row(
                       children: [
-                        IconButton(
-                          icon: Icon(Icons.arrow_back_ios,
-                              size: 20, color: Colors.white),
-                          onPressed: currentPage > 1
-                              ? () {
-                                  setState(() {
-                                    currentPage--;
-                                    fetchData(selectedPartition!,
-                                        page: currentPage);
-                                  });
-                                }
-                              : null, // Disable if on the first page
-                        ),
-                        Text('Page $currentPage',
-                            style: TextStyle(color: Colors.white)),
-                        IconButton(
-                          icon: Icon(Icons.arrow_forward_ios,
-                              size: 20, color: Colors.white),
-                          onPressed: _endIndexOfPage < data.length
-                              ? () {
-                                  setState(() {
-                                    currentPage++;
-                                    fetchData(selectedPartition!,
-                                        page: currentPage);
-                                  });
-                                }
-                              : null, // Disable if on the last page
+                        PaginationControls(
+                          currentPage: currentPage,
+                          canGoBack: currentPage > 1,
+                          canGoForward:
+                              true, // Assume there's always a next page for simplicity
+                          onPrevious: () {
+                            setState(() {
+                              currentPage--;
+                              fetchData(selectedPartition!, page: currentPage);
+                            });
+                          },
+                          onNext: () {
+                            setState(() {
+                              currentPage++;
+                              fetchData(selectedPartition!, page: currentPage);
+                            });
+                          },
                         ),
                       ],
                     ),
@@ -265,102 +202,107 @@ class _DataTableDemoState extends State<DataTableDemo> {
               ),
             ),
           ),
-          Expanded(
-            child: ListView.builder(
-              itemCount: _endIndexOfPage <= data.length
-                  ? itemsPerPage
-                  : data.length - _startIndexOfPage,
-              itemBuilder: (context, index) {
-                final actualIndex = _startIndexOfPage + index;
-                final item = data[actualIndex];
-                return DecoratedBox(
-                  decoration: const BoxDecoration(
-                    border: Border(
-                      bottom: BorderSide(
-                        color: Colors.grey, // Set your border color here
-                        width: 2.0, // Set your border width here
+          //table
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Expanded(
+              child: ListView.builder(
+                itemCount: _endIndexOfPage <= data.length
+                    ? itemsPerPage
+                    : data.length - _startIndexOfPage,
+                itemBuilder: (context, index) {
+                  final actualIndex = _startIndexOfPage + index;
+                  final item = data[actualIndex];
+                  return DecoratedBox(
+                    decoration: const BoxDecoration(
+                      border: Border(
+                        bottom: BorderSide(
+                          color: Colors.grey, // Set your border color here
+                          width: 2.0, // Set your border width here
+                        ),
                       ),
                     ),
-                  ),
-                  child: Slidable(
-                    key: ValueKey(item['uuid']),
-                    startActionPane: ActionPane(
-                      motion: const ScrollMotion(),
-                      children: [
-                        // Edit action
-                        SlidableAction(
-                          onPressed: (BuildContext context) {
-                            showEditDialog(
-                              context: context,
-                              item: data[actualIndex],
-                              selectedPartition: selectedPartition!,
-                              fields: table_fields[selectedPartition]!,
-                            ).then((_) {
-                              // Consider refetching data here or updating the specific item in the list
-                              fetchData(
-                                  selectedPartition!); // Refetch data to refresh the UI
-                            });
-                          },
-                          backgroundColor: const Color(0xFFA7C7E7),
-                          foregroundColor: Colors.white,
-                          icon: Icons.edit,
-                          label: 'Edit',
-                        ),
-                      ],
-                    ),
-                    endActionPane: ActionPane(
-                      motion: const ScrollMotion(),
-                      children: [
-                        // Delete action
-                        SlidableAction(
-                          onPressed: (BuildContext context) async {
-                            // Call the deleteItem function
-                            bool success = await deleteItem(
-                                context, item['uuid'], selectedPartition!);
-                            if (success) {
-                              // If the delete was successful, remove the item from your list and update the UI
-                              setState(() {
-                                data.removeAt(actualIndex);
+                    child: Slidable(
+                      key: ValueKey(item['uuid']),
+                      startActionPane: ActionPane(
+                        motion: const ScrollMotion(),
+                        children: [
+                          // Edit action
+                          SlidableAction(
+                            onPressed: (BuildContext context) {
+                              showEditDialog(
+                                context: context,
+                                item: data[actualIndex],
+                                selectedPartition: selectedPartition!,
+                                fields: table_fields[selectedPartition]!,
+                              ).then((_) {
+                                // Consider refetching data here or updating the specific item in the list
+                                fetchData(
+                                    selectedPartition!); // Refetch data to refresh the UI
                               });
-                              // Optionally, show a success message
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(
-                                    content: Text('Item successfully deleted')),
-                              );
-                            } else {
-                              // Handle failure, e.g., show an error message
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(
-                                    content:
-                                        Text('Failed to delete the item.')),
-                              );
-                            }
-                          },
-                          backgroundColor: Colors.red,
-                          foregroundColor: Colors.white,
-                          icon: Icons.delete,
-                          label: 'Delete',
-                        ),
-                      ],
-                    ),
-                    child: Row(
-                      children: table_fields[selectedPartition]!
-                          .map(
-                            (field) => Expanded(
-                              child: Container(
-                                padding: const EdgeInsets.all(8),
-                                child: field == 'text'
-                                    ? ExpandableText(
-                                        text: item[field]?.toString() ?? '')
-                                    : Text(item[field]?.toString() ?? ''),
+                            },
+                            backgroundColor: const Color(0xFFA7C7E7),
+                            foregroundColor: Colors.white,
+                            icon: Icons.edit,
+                            label: 'Edit',
+                          ),
+                        ],
+                      ),
+                      endActionPane: ActionPane(
+                        motion: const ScrollMotion(),
+                        children: [
+                          // Delete action
+                          SlidableAction(
+                            onPressed: (BuildContext context) async {
+                              // Call the deleteItem function
+                              bool success = await deleteItem(
+                                  context, item['uuid'], selectedPartition!);
+                              if (success) {
+                                // If the delete was successful, remove the item from your list and update the UI
+                                setState(() {
+                                  data.removeAt(actualIndex);
+                                });
+                                // Optionally, show a success message
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                      content:
+                                          Text('Item successfully deleted')),
+                                );
+                              } else {
+                                // Handle failure, e.g., show an error message
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                      content:
+                                          Text('Failed to delete the item.')),
+                                );
+                              }
+                            },
+                            backgroundColor: Colors.red,
+                            foregroundColor: Colors.white,
+                            icon: Icons.delete,
+                            label: 'Delete',
+                          ),
+                        ],
+                      ),
+                      child: Row(
+                        children: table_fields[selectedPartition]!
+                            .map(
+                              (field) => Expanded(
+                                child: Container(
+                                  padding: const EdgeInsets.all(8),
+                                  child: field == 'text'
+                                      ? ExpandableText(
+                                          text: item[field]?.toString() ?? '')
+                                      : Text(item[field]?.toString() ?? ''),
+                                ),
                               ),
-                            ),
-                          )
-                          .toList(),
+                            )
+                            .toList(),
+                      ),
                     ),
-                  ),
-                );
-              },
+                  );
+                },
+              ),
             ),
           ),
         ],
