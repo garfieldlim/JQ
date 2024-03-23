@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:jq_admin/screens/schma_details.dart';
 import '../widgets/backbutton.dart';
+import 'upsertion_logs.dart';
 
 class UpsertingPage extends StatefulWidget {
   const UpsertingPage({super.key});
@@ -54,6 +55,13 @@ class _UpsertingPageState extends State<UpsertingPage> {
                   ),
                 ],
               ),
+            ),
+            ElevatedButton(
+              onPressed: () => Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const UpsertionLogsPage())),
+              child: Text('View Upsertion Logs'),
             ),
           ],
         ),
