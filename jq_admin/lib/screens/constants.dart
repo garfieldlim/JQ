@@ -1,4 +1,4 @@
-const String baseURL = "http://192.168.0.101:7999";
+const String baseURL = "http://192.168.0.106:7999";
 const String postsUrl = '$baseURL/posts';
 const String queryURL = '$baseURL/query';
 const String updateChatDislikeURL = '$baseURL/update_chat_message_like_dislike';
