@@ -50,7 +50,7 @@ class _DataTableDemoState extends State<DataTableDemo> {
     };
 
     if (searchQuery != null && searchQuery.isNotEmpty) {
-      print("Search Query: $searchQuery"); // Debugging line
+      // Debugging line
       queryParameters['search'] = searchQuery;
     }
     final url =

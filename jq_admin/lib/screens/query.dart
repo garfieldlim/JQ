@@ -54,9 +54,7 @@ class _HomePageState extends State<HomePage> {
       setState(() {
         posts = fetchedPosts;
       });
-    } catch (e) {
-      print('Failed to fetch posts: $e');
-    }
+    } catch (e) {}
   }
 
   void resetChat() {
@@ -70,7 +68,6 @@ class _HomePageState extends State<HomePage> {
 
   Future<List<dynamic>> fetchPosts() async {
     final response = await http.get(Uri.parse(postsUrl));
-    print(postsUrl);
     if (response.statusCode == 200) {
       return json.decode(response.body);
     } else {
@@ -103,7 +100,6 @@ class _HomePageState extends State<HomePage> {
 
     final url = Uri.parse(queryURL);
     final headers = {'Content-Type': 'application/json'};
-    print(postsUrl);
     // Getting the previous answer from the bot
     String? previousAnswer;
     for (var item in messages.reversed) {
@@ -174,13 +170,11 @@ class _HomePageState extends State<HomePage> {
           msg.quoted = false;
         }
       } else {
-        print('Error: ${response.statusCode}');
         setState(() {
           isTyping = false; // Stop the typing indicator in case of error
         });
       }
     } catch (error) {
-      print('Error: $error');
       setState(() {
         isTyping = false; // Ensure to stop typing indicator in case of error
       });
@@ -236,9 +230,7 @@ class _HomePageState extends State<HomePage> {
           'partitionName': botMessage.partitionName ?? '',
         }),
       );
-    } else {
-      print('Error: Index out of bounds or Document ID is null.');
-    }
+    } else {}
   }
 
   @override

@@ -172,13 +172,8 @@ class _LoginPageState extends State<LoginPage> {
                                               builder: (context) =>
                                                   const UpsertingPage()),
                                         );
-                                      } else {
-                                        print(
-                                            'Login failed. User credentials are null.');
-                                      }
-                                    } catch (e) {
-                                      print('Login failed: $e');
-                                    }
+                                      } else {}
+                                    } catch (e) {}
                                   }
                                 },
                               ),

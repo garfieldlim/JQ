@@ -47,9 +47,7 @@ class _FacebookPostsListState extends State<FacebookPostsList> {
   void _launchURL(String url) async {
     if (await canLaunch(url)) {
       await launch(url);
-    } else {
-      print('Could not launch $url');
-    }
+    } else {}
   }
 
   @override
@@ -102,33 +100,32 @@ class _FacebookPostsListState extends State<FacebookPostsList> {
                     margin: const EdgeInsets.all(8.0),
                     child: Padding(
                       padding: const EdgeInsets.all(35.0),
-                        child: Row(
-                          children: [
-                            if (post['image_lowquality'] != null)
-                              ClipRRect(
-                                borderRadius: BorderRadius.circular(15.0),
-                                child: Image.network(
-                                  post['image_lowquality'],
-                                  fit: BoxFit.cover,
-                                  height: 200.0,
-                                  width: 200.0,
-                                ),
-                              ),
-                            Container(
-                              width: 400.0,
-                              padding: const EdgeInsets.all(35.0),
-                              child: Text(
-                                post['text'] ?? 'No text available',
-                                textAlign: TextAlign.justify,
-                                style: const TextStyle(
-                                  fontSize: 18.0,
-                                  color: Color(0xfffff1e4),
-                                ),
+                      child: Row(
+                        children: [
+                          if (post['image_lowquality'] != null)
+                            ClipRRect(
+                              borderRadius: BorderRadius.circular(15.0),
+                              child: Image.network(
+                                post['image_lowquality'],
+                                fit: BoxFit.cover,
+                                height: 200.0,
+                                width: 200.0,
                               ),
                             ),
-                          ],
-                        ),
-                      
+                          Container(
+                            width: 400.0,
+                            padding: const EdgeInsets.all(35.0),
+                            child: Text(
+                              post['text'] ?? 'No text available',
+                              textAlign: TextAlign.justify,
+                              style: const TextStyle(
+                                fontSize: 18.0,
+                                color: Color(0xfffff1e4),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 );

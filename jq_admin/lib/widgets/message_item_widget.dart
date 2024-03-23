@@ -50,7 +50,6 @@ class MessageItem extends StatelessWidget {
         caseSensitive: false);
     final youtubeUrlMatch = youtubeUrlRegex.firstMatch(message.text);
     String? youtubeVideoId = youtubeUrlMatch?.group(2);
-    print('YouTube video ID: $youtubeVideoId');
 
     return Column(
       children: [

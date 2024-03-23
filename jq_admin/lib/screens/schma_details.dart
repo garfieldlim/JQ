@@ -257,14 +257,11 @@ class _SchemaDetailsPageState extends State<SchemaDetailsPage> {
           body: jsonData, headers: {"Content-Type": "application/json"});
       if (response.statusCode == 200) {
         // Handle success
-        print("Data sent successfully");
       } else {
         // Handle failure
-        print("Failed to send data");
       }
     } catch (e) {
       // Handle error
-      print("Error sending data: $e");
     }
   }
 
@@ -320,8 +317,6 @@ class _SchemaDetailsPageState extends State<SchemaDetailsPage> {
 
     if (response.statusCode == 200) {
       _scrapedData = response.body;
-    } else {
-      print('Failed to make server call. Status: ${response.statusCode}.');
-    }
+    } else {}
   }
 }

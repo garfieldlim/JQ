@@ -1,4 +1,4 @@
-const String baseURL = "https://6a01180fc5c1ecd7a62bcf8961a7f85d.serveo.net";
+const String baseURL = "http://192.168.0.101:7999";
 const String postsUrl = '$baseURL/posts';
 const String queryURL = '$baseURL/query';
 const String updateChatDislikeURL = '$baseURL/update_chat_message_like_dislike';

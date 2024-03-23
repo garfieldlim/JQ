@@ -261,8 +261,8 @@ def submit_data():
         return jsonify({"status": "success"})
 
 
-# update_posts_json()
-# empty_documents()
+update_posts_json()
+empty_documents()
 
 # Ensure CORS is set up for your delete route if applying selectively
 CORS(app, resources={r"/delete/*": {"origins": "*"}})

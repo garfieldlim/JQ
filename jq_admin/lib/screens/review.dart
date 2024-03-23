@@ -31,7 +31,6 @@ class _ReviewPageState extends State<ReviewPage> with TickerProviderStateMixin {
     super.initState();
 
     if (widget.data != null) {
-      print('Data: ${widget.data!}');
       List<dynamic> jsonData = jsonDecode(widget.data!);
       Map<String, dynamic> firstElement = jsonData[0];
       _textController =
@@ -134,13 +133,11 @@ class _ReviewPageState extends State<ReviewPage> with TickerProviderStateMixin {
     );
 
     if (response.statusCode == 200) {
-      print('Data sent successfully');
       setState(() {
         _isUpserting = false;
         _isDone = true;
       });
     } else {
-      print('Failed to send data');
       setState(() {
         _isUpserting = false;
       });

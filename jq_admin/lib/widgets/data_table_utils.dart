@@ -14,12 +14,8 @@ Future<bool> editItem(String uuid, Map<String, dynamic> updatedItem,
   );
 
   if (response.statusCode == 200) {
-    print('Request URL: $url');
-    print('Request Body: ${json.encode(updatedItem)}');
-
     return true; // Indicate success
   } else {
-    print('Error updating item: ${response.body}');
     return false; // Indicate failure
   }
 }
@@ -53,7 +49,6 @@ Future<bool> deleteItem(
     if (response.statusCode == 200) {
       return true; // Indicate success
     } else {
-      print('Error deleting item: ${response.body}');
       return false; // Indicate failure
     }
   }
