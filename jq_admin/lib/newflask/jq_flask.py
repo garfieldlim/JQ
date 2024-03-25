@@ -1,8 +1,7 @@
 # sudo ssh -R 80:localhost:7999 serveo.net
 from flask import Flask, request, jsonify
-from flask_cors import CORS
+from flask_cors import CORS, cross_origin
 from facebook_scraper import get_posts
-
 import json
 from datetime import datetime
 
@@ -21,10 +20,13 @@ from headlines import update_posts_json
 from knowledgebase_crud import (
     combine_results_by_uuid,
     create_table,
+    edit_by_text_id,
     process_object,
     delete_by_text_id,
     process_object_documents,
     process_object_people,
+    update_item_by_text_id,
+    update_vector_in_milvus,
 )
 from openai_api import generate_response
 import firebase_admin
@@ -131,7 +133,7 @@ def read_posts_json():
     try:
         with open(POSTS_JSON_PATH, "r") as file:
             posts = json.load(file)
-            # print(posts)
+            print(posts)
         return jsonify(posts)
     except Exception as e:
         return jsonify({"error": str(e)}), 404
@@ -225,8 +227,8 @@ def get_data(partition_name):
     return jsonify(table_data)
 
 
-@app.route("/delete/<text_id>", methods=["DELETE", "OPTIONS"])
-def delete(text_id):
+@app.route("/delete/<partition_name>/<text_id>", methods=["DELETE", "OPTIONS"])
+def delete(partition_name,text_id):
     # Check for the OPTIONS method and return an appropriate response
     if request.method == "OPTIONS":
         # This is a preflight request, send an appropriate response
@@ -246,6 +248,39 @@ def delete(text_id):
     delete_by_text_id(text_id, partition_name)
     return jsonify({"status": "success"})
 
+@app.route('/edit/<partition_name>/<text_id>', methods=['PUT', 'OPTIONS'])
+def update_item(partition_name, text_id):
+    if request.method == 'OPTIONS':
+        # Handle CORS preflight request
+        return build_cors_preflight_response()
+    elif request.method == 'PUT':
+        # Parse the incoming update data
+        update_data = request.json
+
+        # Perform the update operation
+        success = perform_update(partition_name, text_id, update_data)
+
+        if success:
+            return jsonify({"status": "success"}), 200
+        else:
+            return jsonify({"status": "error", "message": "Update operation failed."}), 500
+
+def perform_update(partition_name, text_id, update_data):
+    """
+    Update the item identified by text_id within the specified partition using the provided update_data.
+    """
+    # Example update operation
+    if partition_name in data_store and text_id in data_store[partition_name]:
+        data_store[partition_name][text_id].update(update_data)
+        return True
+    return False
+
+def _build_cors_preflight_response():
+    response = jsonify({"message": "CORS preflight OK"})
+    response.headers.add("Access-Control-Allow-Origin", "*")
+    response.headers.add("Access-Control-Allow-Methods", "PUT, OPTIONS")
+    response.headers.add("Access-Control-Allow-Headers", "Content-Type")
+    return response
 
 @app.route("/upsert", methods=["POST"])
 def submit_data():
@@ -260,9 +295,10 @@ def submit_data():
         process_object_people(data)
         return jsonify({"status": "success"})
 
-
+    return response
 # update_posts_json()
 # empty_documents()
+
 
 # Ensure CORS is set up for your delete route if applying selectively
 CORS(app, resources={r"/delete/*": {"origins": "*"}})
