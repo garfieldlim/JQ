@@ -405,3 +405,4 @@ def delete_by_text_id(text_id, partition_name):
                 print(
                     f"Error deleting UUID {uuid} from collection {collection_name}: {e}"
                 )
+

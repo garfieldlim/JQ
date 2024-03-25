@@ -4,10 +4,13 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
-import '../widgets/data_table_utils.dart';
+
 import '../widgets/expandable.dart';
-import '../widgets/table_widgets.dart/pagination.dart';
-import '../widgets/table_widgets.dart/searchbar.dart';
+
+import '../widgets/table_widgets/data_table_utils.dart';
+import '../widgets/table_widgets/pagination.dart';
+import '../widgets/table_widgets/searchbar.dart';
+import 'constants.dart';
 
 class DataTableDemo extends StatefulWidget {
   const DataTableDemo({super.key});
@@ -85,6 +88,67 @@ class _DataTableDemoState extends State<DataTableDemo> {
     }
   }
 
+  Future<bool> deleteItem(
+      BuildContext context, String uuid, String selectedPartition) async {
+    final String url = getDeleteDataUrl(selectedPartition, uuid);
+    try {
+      final response = await http.delete(Uri.parse(url));
+
+      if (response.statusCode == 200) {
+        // Assume deletion was successful
+        return true;
+      } else {
+        // Log the error or handle it as needed
+        print('Error deleting item: ${response.body}');
+        return false;
+      }
+    } catch (e) {
+      print('Exception when calling delete: $e');
+      return false;
+    }
+  }
+
+  Future<void> tryDeleteItem(
+      String uuid, int actualIndex, String selectedPartition) async {
+    bool success = await deleteItem(context, uuid, selectedPartition);
+    if (success) {
+      setState(() {
+        data.removeAt(actualIndex);
+      });
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text('Item successfully deleted')));
+    } else {
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text('Failed to delete the item.')));
+    }
+  }
+
+  Future<bool> updateItem(String uuid, String selectedPartition,
+      Map<String, dynamic> updateData) async {
+    final String url = getUpdateDataUrl(selectedPartition, uuid);
+    try {
+      final response = await http.put(
+        Uri.parse(url),
+        headers: {
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+        body: jsonEncode(updateData),
+      );
+
+      if (response.statusCode == 200) {
+        // Assume update was successful
+        return true;
+      } else {
+        // Log the error or handle it as needed
+        print('Error updating item: ${response.body}');
+        return false;
+      }
+    } catch (e) {
+      print('Exception when calling update: $e');
+      return false;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     var screenSize = MediaQuery.of(context).size;
@@ -115,7 +179,7 @@ class _DataTableDemoState extends State<DataTableDemo> {
         children: [
           //search log
           Padding(
-            padding: const EdgeInsets.all(24.0),
+            padding: const EdgeInsets.all(8.0),
             child: SearchWidget(
               searchController: searchController,
               onSearch: () {
@@ -124,6 +188,7 @@ class _DataTableDemoState extends State<DataTableDemo> {
               },
             ),
           ),
+
           //dropdown and pagination
           Padding(
             padding: const EdgeInsets.all(24.0),
@@ -203,9 +268,9 @@ class _DataTableDemoState extends State<DataTableDemo> {
             ),
           ),
           //table
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Expanded(
+          Expanded(
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
               child: ListView.builder(
                 itemCount: _endIndexOfPage <= data.length
                     ? itemsPerPage
@@ -235,10 +300,22 @@ class _DataTableDemoState extends State<DataTableDemo> {
                                 item: data[actualIndex],
                                 selectedPartition: selectedPartition!,
                                 fields: table_fields[selectedPartition]!,
-                              ).then((_) {
-                                // Consider refetching data here or updating the specific item in the list
-                                fetchData(
-                                    selectedPartition!); // Refetch data to refresh the UI
+                              ).then((success) {
+                                if (success) {
+                                  // If the update was successful, refresh data to reflect the changes.
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                      SnackBar(
+                                          content: Text(
+                                              'Item updated successfully')));
+                                  fetchData(
+                                      selectedPartition!); // Refetch data to refresh the UI
+                                } else {
+                                  // Handle update failure, e.g., by showing an error message.
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                      SnackBar(
+                                          content: Text(
+                                              'Failed to update the item.')));
+                                }
                               });
                             },
                             backgroundColor: const Color(0xFFA7C7E7),
@@ -255,27 +332,8 @@ class _DataTableDemoState extends State<DataTableDemo> {
                           SlidableAction(
                             onPressed: (BuildContext context) async {
                               // Call the deleteItem function
-                              bool success = await deleteItem(
-                                  context, item['uuid'], selectedPartition!);
-                              if (success) {
-                                // If the delete was successful, remove the item from your list and update the UI
-                                setState(() {
-                                  data.removeAt(actualIndex);
-                                });
-                                // Optionally, show a success message
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  SnackBar(
-                                      content:
-                                          Text('Item successfully deleted')),
-                                );
-                              } else {
-                                // Handle failure, e.g., show an error message
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  SnackBar(
-                                      content:
-                                          Text('Failed to delete the item.')),
-                                );
-                              }
+                              await tryDeleteItem(item['uuid'], actualIndex,
+                                  selectedPartition!);
                             },
                             backgroundColor: Colors.red,
                             foregroundColor: Colors.white,

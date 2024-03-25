@@ -51,7 +51,15 @@ class MessageItem extends StatelessWidget {
     final youtubeUrlMatch = youtubeUrlRegex.firstMatch(message.text);
     String? youtubeVideoId = youtubeUrlMatch?.group(2);
     print('YouTube video ID: $youtubeVideoId');
-
+    Widget videoWidget;
+    if (youtubeVideoId != null) {
+      // If a YouTube video ID is available, build the YouTube player
+      videoWidget = _buildYouTubePlayer(youtubeVideoId);
+    } else {
+      // If the YouTube video ID is null, display a placeholder or message instead
+      videoWidget =
+          Text('YouTube video unavailable'); // Example placeholder message
+    }
     return Column(
       children: [
         Container(
@@ -110,7 +118,7 @@ class MessageItem extends StatelessWidget {
                         ),
                       ),
                       if (youtubeVideoId != null)
-                        _buildYouTubePlayer(youtubeVideoId),
+                        videoWidget = _buildYouTubePlayer(youtubeVideoId),
                       // Check if mediaURL is not null or empty to display the image
                       if (mediaURL != null && mediaURL.isNotEmpty)
                         Padding(

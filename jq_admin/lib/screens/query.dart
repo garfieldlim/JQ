@@ -69,12 +69,19 @@ class _HomePageState extends State<HomePage> {
   }
 
   Future<List<dynamic>> fetchPosts() async {
-    final response = await http.get(Uri.parse(postsUrl));
-    print(postsUrl);
-    if (response.statusCode == 200) {
-      return json.decode(response.body);
-    } else {
-      throw Exception('Failed to load posts');
+    try {
+      final response = await http.get(Uri.parse(postsUrl));
+
+      if (response.statusCode == 200) {
+        return json.decode(response.body);
+      } else {
+        // If the server did not return a 200 OK response,
+        // then throw an exception.
+        throw Exception('Failed to load posts: ${response.statusCode}');
+      }
+    } catch (error) {
+      // Handle networking error
+      throw Exception('Failed to load posts: $error');
     }
   }
 
