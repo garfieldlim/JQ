@@ -59,6 +59,7 @@ dependencies:
   firebase_auth: ^4.17.5
   cloud_firestore: ^4.15.5
   youtube_player_iframe: ^5.0.0
+  number_paginator: ^0.4.1
   
 
 dev_dependencies:

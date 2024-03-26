@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:jq_admin/widgets/backbutton.dart';
+import 'package:jq_admin/widgets/palette.dart';
+import 'package:number_paginator/number_paginator.dart';
 
 class UpsertionLogsPage extends StatefulWidget {
   const UpsertionLogsPage({Key? key}) : super(key: key);
@@ -10,12 +13,35 @@ class UpsertionLogsPage extends StatefulWidget {
 
 class _UpsertionLogsPageState extends State<UpsertionLogsPage> {
   late final Stream<QuerySnapshot> _logsStream;
-
+  int _currentPage = 0;
+  final int _logsPerPage = 10;
+  late int _numberOfPages;
+  List<DocumentSnapshot> _allLogs = [];
+  List<DocumentSnapshot> _currentLogs = [];
   @override
   void initState() {
     super.initState();
     _logsStream =
         FirebaseFirestore.instance.collection('upsertionLogs').snapshots();
+    _calculateNumberOfPages();
+  }
+
+  void _calculateNumberOfPages() async {
+    QuerySnapshot querySnapshot =
+        await FirebaseFirestore.instance.collection('upsertionLogs').get();
+    int totalLogs = querySnapshot.docs.length;
+    setState(() {
+      _numberOfPages = (totalLogs / _logsPerPage).ceil();
+    });
+  }
+
+  void _onPageSelected(int index) {
+    setState(() {
+      _currentPage = index; // Update the current page index
+      // You may also need to update the logsToShow based on the new page index
+      // For example, if you're using a paginated query to Firestore
+      // you would adjust your query here.
+    });
   }
 
   void _showEditDialog(DocumentSnapshot documentSnapshot) {
@@ -74,28 +100,110 @@ class _UpsertionLogsPageState extends State<UpsertionLogsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Palette.color5,
       appBar: AppBar(
-        title: const Text('Upsertion Logs'),
+        backgroundColor: Palette.color2,
+        title: const Text(
+          'Upsertion Logs',
+          style: TextStyle(color: Palette.color4),
+        ),
+        leading: BackButtonWidget(color: Palette.color5),
+        actions: [Image.asset("web/assets/jq.png")],
       ),
-      body: StreamBuilder<QuerySnapshot>(
-        stream: _logsStream,
-        builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
-          if (snapshot.hasError) {
-            return const Text('Something went wrong');
-          }
+      body: Center(
+        child: Padding(
+          padding: const EdgeInsets.all(24.0),
+          child: Container(
+            padding: const EdgeInsets.all(24),
+            width: MediaQuery.of(context).size.width * 0.95,
+            height: MediaQuery.of(context).size.height *
+                0.80, // e.g., 80% of the screen height
+            decoration: BoxDecoration(
+              color: Color(0xffccceB0), // Background color of the container
+              borderRadius: BorderRadius.circular(10), // Rounded corners
+              boxShadow: [
+                BoxShadow(
+                  color: Color.fromARGB(255, 112, 148, 117).withOpacity(0.5),
+                  spreadRadius: 1,
+                  blurRadius: 5,
+                  offset: Offset(0, 3), // changes position of shadow
+                ),
+              ],
+            ),
+            child: StreamBuilder<QuerySnapshot>(
+              stream: _logsStream,
+              builder: (BuildContext context,
+                  AsyncSnapshot<QuerySnapshot> snapshot) {
+                if (snapshot.hasError) {
+                  return const Text('Something went wrong');
+                }
 
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Text("Loading");
-          }
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return const Text("Loading");
+                }
+                int startIndex = _currentPage * _logsPerPage;
+                int endIndex = startIndex + _logsPerPage;
+                List<DocumentSnapshot> logsToShow;
+                if (snapshot.data != null &&
+                    snapshot.data!.docs.length > startIndex) {
+                  endIndex = endIndex > snapshot.data!.docs.length
+                      ? snapshot.data!.docs.length
+                      : endIndex;
+                  logsToShow =
+                      snapshot.data!.docs.sublist(startIndex, endIndex);
+                } else {
+                  logsToShow = [];
+                }
 
-          return ListView.builder(
-            itemCount: snapshot.data?.docs.length ?? 0,
-            itemBuilder: (context, index) {
-              DocumentSnapshot documentSnapshot = snapshot.data!.docs[index];
-              return _buildDocumentWidget(documentSnapshot);
-            },
-          );
-        },
+                return ListView.separated(
+                  itemCount: snapshot.data?.docs.length ?? 0,
+                  separatorBuilder: (context, index) => Divider(
+                    color: Colors.grey[300],
+                    thickness: 1,
+                  ),
+                  itemBuilder: (context, index) {
+                    DocumentSnapshot documentSnapshot =
+                        snapshot.data!.docs[index];
+                    return _buildDocumentWidget(documentSnapshot);
+                  },
+                );
+              },
+            ),
+          ),
+        ),
+      ),
+      bottomNavigationBar: Padding(
+        padding: const EdgeInsets.all(15.0),
+        child: NumberPaginator(
+          numberPages: _numberOfPages,
+          onPageChange: _onPageSelected,
+          initialPage: _currentPage,
+          showPrevButton: true,
+          showNextButton: true,
+          nextButtonContent: Icon(Icons.arrow_right_alt),
+          prevButtonBuilder: (context) => TextButton(
+            onPressed: _currentPage > 0
+                ? () => _onPageSelected(_currentPage - 1)
+                : null,
+            child: const Row(
+              children: [
+                Icon(Icons.chevron_left),
+                Text("Previous"),
+              ],
+            ),
+          ),
+          nextButtonBuilder: (context) => TextButton(
+            onPressed: _currentPage < _numberOfPages - 1
+                ? () => _onPageSelected(_currentPage + 1)
+                : null,
+            child: const Row(
+              children: [
+                Text("Next"),
+                Icon(Icons.chevron_right),
+              ],
+            ),
+          ),
+        ),
       ),
     );
   }
@@ -103,21 +211,28 @@ class _UpsertionLogsPageState extends State<UpsertionLogsPage> {
   Widget _buildDocumentWidget(DocumentSnapshot documentSnapshot) {
     Map<String, dynamic> data = documentSnapshot.data() as Map<String, dynamic>;
 
-    return ListTile(
-      title: Text(data.containsKey('title') ? data['title'] : 'No Title'),
-      subtitle: Text(data.containsKey('date') ? data['date'] : 'No Date'),
-      trailing: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          IconButton(
-            icon: Icon(Icons.edit),
-            onPressed: () => _showEditDialog(documentSnapshot),
-          ),
-          IconButton(
-            icon: Icon(Icons.delete),
-            onPressed: () => documentSnapshot.reference.delete(),
-          ),
-        ],
+    return Padding(
+      padding: EdgeInsets.all(15.0),
+      child: ListTile(
+        title: Text(
+          data.containsKey('title') ? data['title'] : 'No Title',
+          style: TextStyle(color: Palette.color3),
+        ),
+        subtitle: Text(data.containsKey('date') ? data['date'] : 'No Date',
+            style: TextStyle(color: Palette.color3)),
+        trailing: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            IconButton(
+              icon: Icon(Icons.edit),
+              onPressed: () => _showEditDialog(documentSnapshot),
+            ),
+            IconButton(
+              icon: Icon(Icons.delete),
+              onPressed: () => documentSnapshot.reference.delete(),
+            ),
+          ],
+        ),
       ),
     );
   }
