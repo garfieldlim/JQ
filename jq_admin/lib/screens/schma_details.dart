@@ -5,6 +5,7 @@ import 'package:jq_admin/screens/constants.dart';
 import 'review.dart';
 import 'field_widgets.dart';
 import 'package:uuid/uuid.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class SchemaDetailsPage extends StatefulWidget {
   final String schema;
@@ -231,6 +232,7 @@ class _SchemaDetailsPageState extends State<SchemaDetailsPage> {
         'partition_name': 'documents_partition',
       };
       await _sendDataToServer(data);
+      await FirebaseFirestore.instance.collection('upsertionLogs').add(data);
     } else if (widget.schema == 'People') {
       // Prepare data for "People"
       final Map<String, dynamic> data = {
@@ -243,9 +245,11 @@ class _SchemaDetailsPageState extends State<SchemaDetailsPage> {
         'partition_name': 'people_partition',
       };
       await _sendDataToServer(data);
+      await FirebaseFirestore.instance.collection('upsertionLogs').add(data);
     }
 
     setState(() => _isLoading = false);
+    Navigator.pop(context);
   }
 
   Future<void> _sendDataToServer(Map<String, dynamic> data) async {

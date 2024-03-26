@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:jq_admin/screens/constants.dart';
@@ -135,6 +136,15 @@ class _ReviewPageState extends State<ReviewPage> with TickerProviderStateMixin {
 
     if (response.statusCode == 200) {
       print('Data sent successfully');
+      // Perform Firestore operation outside of setState
+      final Map<String, dynamic> data = {
+        'schema': widget.schema,
+        'text': _textController.text,
+        'time': _timeController.text,
+        'url': _urlController.text,
+        'partition_name': 'social_posts_partition',
+      };
+      await FirebaseFirestore.instance.collection('upsertionLogs').add(data);
       setState(() {
         _isUpserting = false;
         _isDone = true;
