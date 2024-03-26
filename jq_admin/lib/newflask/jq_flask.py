@@ -20,13 +20,11 @@ from headlines import update_posts_json
 from knowledgebase_crud import (
     combine_results_by_uuid,
     create_table,
-    edit_by_text_id,
     process_object,
     delete_by_text_id,
     process_object_documents,
     process_object_people,
-    update_item_by_text_id,
-    update_vector_in_milvus,
+    
 )
 from openai_api import generate_response
 import firebase_admin
